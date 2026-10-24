@@ -1,0 +1,8 @@
+Field,Value or behavior,Source
+A3,Must be 0,Bt481A
+A2,1 forces internal RS2 high,Bt481A
+A0,1 enables indirect Command Register B with address register = 2,Bt481A
+Command Register B signature,$1E,Bt481A
+Command Register A power-on,0,Bt481A
+Command Register B B1 and pin 2,"ANDed; both 1 gives 8-bit, B1 = 0 gives 6-bit regardless of pin",Bt481A p11
+Board power-on palette,"Pin 2 tied high; B1 powers up 1; starts 8-bit, custom code can clear B1 for 6-bit",netlist; Bt481A p11

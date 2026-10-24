@@ -1,0 +1,3 @@
+Port,Bit 0,Bit 1,Bit 2,Bit 3,Source
+$A4,$2000-$2FFF,$3000-$3FFF,$4000-$4FFF,$5000-$5FFF,"design source, HDn_DRIVE"
+$A5,$6000-$6FFF,$7000-$7FFF,$8000-$8FFF,$9000-$9FFF,"design source, HDn_DRIVE"

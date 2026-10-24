@@ -1,0 +1,757 @@
+refdes,pin_number,schematic_pin_name,datasheet_pin_name,status,source,pdf_page,note
+U2,1,OC,OE,alias_or_notation,sources/74HCT574.pdf,3,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U2,11,CLK,CLK,match,sources/74HCT574.pdf,3,
+U2,2,1D,1D,match,sources/74HCT574.pdf,3,
+U2,3,2D,2D,match,sources/74HCT574.pdf,3,
+U2,4,3D,3D,match,sources/74HCT574.pdf,3,
+U2,5,4D,4D,match,sources/74HCT574.pdf,3,
+U2,6,5D,5D,match,sources/74HCT574.pdf,3,
+U2,7,6D,6D,match,sources/74HCT574.pdf,3,
+U2,8,7D,7D,match,sources/74HCT574.pdf,3,
+U2,9,8D,8D,match,sources/74HCT574.pdf,3,
+U2,19,1Q,1Q,match,sources/74HCT574.pdf,3,
+U2,18,2Q,2Q,match,sources/74HCT574.pdf,3,
+U2,17,3Q,3Q,match,sources/74HCT574.pdf,3,
+U2,16,4Q,4Q,match,sources/74HCT574.pdf,3,
+U2,15,5Q,5Q,match,sources/74HCT574.pdf,3,
+U2,14,6Q,6Q,match,sources/74HCT574.pdf,3,
+U2,13,7Q,7Q,match,sources/74HCT574.pdf,3,
+U2,12,8Q,8Q,match,sources/74HCT574.pdf,3,
+U2,20,,VCC,omitted_symbol,sources/74HCT574.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U2,10,,GND,omitted_symbol,sources/74HCT574.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U3,1,OC,OE,alias_or_notation,sources/74HCT574.pdf,3,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U3,11,CLK,CLK,match,sources/74HCT574.pdf,3,
+U3,2,1D,1D,match,sources/74HCT574.pdf,3,
+U3,3,2D,2D,match,sources/74HCT574.pdf,3,
+U3,4,3D,3D,match,sources/74HCT574.pdf,3,
+U3,5,4D,4D,match,sources/74HCT574.pdf,3,
+U3,6,5D,5D,match,sources/74HCT574.pdf,3,
+U3,7,6D,6D,match,sources/74HCT574.pdf,3,
+U3,8,7D,7D,match,sources/74HCT574.pdf,3,
+U3,9,8D,8D,match,sources/74HCT574.pdf,3,
+U3,19,1Q,1Q,match,sources/74HCT574.pdf,3,
+U3,18,2Q,2Q,match,sources/74HCT574.pdf,3,
+U3,17,3Q,3Q,match,sources/74HCT574.pdf,3,
+U3,16,4Q,4Q,match,sources/74HCT574.pdf,3,
+U3,15,5Q,5Q,match,sources/74HCT574.pdf,3,
+U3,14,6Q,6Q,match,sources/74HCT574.pdf,3,
+U3,13,7Q,7Q,match,sources/74HCT574.pdf,3,
+U3,12,8Q,8Q,match,sources/74HCT574.pdf,3,
+U3,20,,VCC,omitted_symbol,sources/74HCT574.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U3,10,,GND,omitted_symbol,sources/74HCT574.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U5,1,OC,OE,alias_or_notation,sources/74HCT574.pdf,3,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U5,11,CLK,CLK,match,sources/74HCT574.pdf,3,
+U5,2,1D,1D,match,sources/74HCT574.pdf,3,
+U5,3,2D,2D,match,sources/74HCT574.pdf,3,
+U5,4,3D,3D,match,sources/74HCT574.pdf,3,
+U5,5,4D,4D,match,sources/74HCT574.pdf,3,
+U5,6,5D,5D,match,sources/74HCT574.pdf,3,
+U5,7,6D,6D,match,sources/74HCT574.pdf,3,
+U5,8,7D,7D,match,sources/74HCT574.pdf,3,
+U5,9,8D,8D,match,sources/74HCT574.pdf,3,
+U5,19,1Q,1Q,match,sources/74HCT574.pdf,3,
+U5,18,2Q,2Q,match,sources/74HCT574.pdf,3,
+U5,17,3Q,3Q,match,sources/74HCT574.pdf,3,
+U5,16,4Q,4Q,match,sources/74HCT574.pdf,3,
+U5,15,5Q,5Q,match,sources/74HCT574.pdf,3,
+U5,14,6Q,6Q,match,sources/74HCT574.pdf,3,
+U5,13,7Q,7Q,match,sources/74HCT574.pdf,3,
+U5,12,8Q,8Q,match,sources/74HCT574.pdf,3,
+U5,20,,VCC,omitted_symbol,sources/74HCT574.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U5,10,,GND,omitted_symbol,sources/74HCT574.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U6,1,OC,OE,alias_or_notation,sources/74HCT574.pdf,3,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U6,11,CLK,CLK,match,sources/74HCT574.pdf,3,
+U6,2,1D,1D,match,sources/74HCT574.pdf,3,
+U6,3,2D,2D,match,sources/74HCT574.pdf,3,
+U6,4,3D,3D,match,sources/74HCT574.pdf,3,
+U6,5,4D,4D,match,sources/74HCT574.pdf,3,
+U6,6,5D,5D,match,sources/74HCT574.pdf,3,
+U6,7,6D,6D,match,sources/74HCT574.pdf,3,
+U6,8,7D,7D,match,sources/74HCT574.pdf,3,
+U6,9,8D,8D,match,sources/74HCT574.pdf,3,
+U6,19,1Q,1Q,match,sources/74HCT574.pdf,3,
+U6,18,2Q,2Q,match,sources/74HCT574.pdf,3,
+U6,17,3Q,3Q,match,sources/74HCT574.pdf,3,
+U6,16,4Q,4Q,match,sources/74HCT574.pdf,3,
+U6,15,5Q,5Q,match,sources/74HCT574.pdf,3,
+U6,14,6Q,6Q,match,sources/74HCT574.pdf,3,
+U6,13,7Q,7Q,match,sources/74HCT574.pdf,3,
+U6,12,8Q,8Q,match,sources/74HCT574.pdf,3,
+U6,20,,VCC,omitted_symbol,sources/74HCT574.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U6,10,,GND,omitted_symbol,sources/74HCT574.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U7,1,GND,GND,match,../analysis/datasheet.pdf,15,
+U7,2,IN3,IN3,match,../analysis/datasheet.pdf,15,
+U7,11,Y0,Y0,match,../analysis/datasheet.pdf,15,
+U7,12,VCC,VCC,match,../analysis/datasheet.pdf,15,
+U7,13,ISPEN,ispEN,match,../analysis/datasheet.pdf,15,
+U7,14,IN0,SDI/IN0,alias_or_notation,../analysis/datasheet.pdf,15,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U7,23,GND,GND,match,../analysis/datasheet.pdf,15,
+U7,24,IN1,SDO/IN1,alias_or_notation,../analysis/datasheet.pdf,15,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U7,25,IO8,IO8,match,../analysis/datasheet.pdf,15,
+U7,26,IO9,IO9,match,../analysis/datasheet.pdf,15,
+U7,27,IO10,IO10,match,../analysis/datasheet.pdf,15,
+U7,28,IO11,IO11,match,../analysis/datasheet.pdf,15,
+U7,29,IO12,IO12,match,../analysis/datasheet.pdf,15,
+U7,30,IO13,IO13,match,../analysis/datasheet.pdf,15,
+U7,31,IO14,IO14,match,../analysis/datasheet.pdf,15,
+U7,32,IO15,IO15,match,../analysis/datasheet.pdf,15,
+U7,33,Y2,Y2/SCLK,alias_or_notation,../analysis/datasheet.pdf,15,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U7,34,VCC,VCC,match,../analysis/datasheet.pdf,15,
+U7,35,Y1/RESET,Y1/RESET,match,../analysis/datasheet.pdf,15,
+U7,36,IN2,IN2/MODE,alias_or_notation,../analysis/datasheet.pdf,15,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U7,37,IO16,IO16,match,../analysis/datasheet.pdf,15,
+U7,38,IO17,IO17,match,../analysis/datasheet.pdf,15,
+U7,39,IO18,IO18,match,../analysis/datasheet.pdf,15,
+U7,40,IO19,IO19,match,../analysis/datasheet.pdf,15,
+U7,41,IO20,IO20,match,../analysis/datasheet.pdf,15,
+U7,42,IO21,IO21,match,../analysis/datasheet.pdf,15,
+U7,43,IO22,IO22,match,../analysis/datasheet.pdf,15,
+U7,44,IO23,IO23,match,../analysis/datasheet.pdf,15,
+U7,3,IO24,IO24,match,../analysis/datasheet.pdf,15,
+U7,4,IO25,IO25,match,../analysis/datasheet.pdf,15,
+U7,5,IO26,IO26,match,../analysis/datasheet.pdf,15,
+U7,6,IO27,IO27,match,../analysis/datasheet.pdf,15,
+U7,7,IO28,IO28,match,../analysis/datasheet.pdf,15,
+U7,8,IO29,IO29,match,../analysis/datasheet.pdf,15,
+U7,9,IO30,IO30,match,../analysis/datasheet.pdf,15,
+U7,10,IO31,IO31,match,../analysis/datasheet.pdf,15,
+U7,15,IO0,IO0,match,../analysis/datasheet.pdf,15,
+U7,16,IO1,IO1,match,../analysis/datasheet.pdf,15,
+U7,17,IO2,IO2,match,../analysis/datasheet.pdf,15,
+U7,18,IO3,IO3,match,../analysis/datasheet.pdf,15,
+U7,19,IO4,IO4,match,../analysis/datasheet.pdf,15,
+U7,20,IO5,IO5,match,../analysis/datasheet.pdf,15,
+U7,21,IO6,IO6,match,../analysis/datasheet.pdf,15,
+U7,22,IO7,IO7,match,../analysis/datasheet.pdf,15,
+U8,1,,1OE,unnamed_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U8,2,,1A,unnamed_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U8,3,,1Y,unnamed_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U8,4,,2OE,unnamed_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U8,5,,2A,unnamed_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U8,6,,2Y,unnamed_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U8,8,,3Y,omitted_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U8,9,,3A,omitted_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U8,10,,3OE,omitted_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U8,14,,VCC,omitted_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U8,7,,GND,omitted_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U18,14,A0,A0,match,sources/Z8S180.pdf,4,
+U18,15,A1,A1,match,sources/Z8S180.pdf,4,
+U18,16,A2,A2,match,sources/Z8S180.pdf,4,
+U18,17,A3,A3,match,sources/Z8S180.pdf,4,
+U18,19,A4,A4,match,sources/Z8S180.pdf,4,
+U18,20,A5,A5,match,sources/Z8S180.pdf,4,
+U18,21,A6,A6,match,sources/Z8S180.pdf,4,
+U18,22,A7,A7,match,sources/Z8S180.pdf,4,
+U18,23,A8,A8,match,sources/Z8S180.pdf,4,
+U18,24,A9,A9,match,sources/Z8S180.pdf,4,
+U18,25,A10,A10,match,sources/Z8S180.pdf,4,
+U18,26,A11,A11,match,sources/Z8S180.pdf,4,
+U18,27,A12,A12,match,sources/Z8S180.pdf,4,
+U18,28,A13,A13,match,sources/Z8S180.pdf,4,
+U18,29,A14,A14,match,sources/Z8S180.pdf,4,
+U18,30,A15,A15,match,sources/Z8S180.pdf,4,
+U18,31,A16,A16,match,sources/Z8S180.pdf,4,
+U18,32,A17,A17,match,sources/Z8S180.pdf,4,
+U18,33,A18,A18/TOUT,alias_or_notation,sources/Z8S180.pdf,4,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U18,35,A19,A19,match,sources/Z8S180.pdf,4,
+U18,37,D0,D0,match,sources/Z8S180.pdf,4,
+U18,38,D1,D1,match,sources/Z8S180.pdf,4,
+U18,39,D2,D2,match,sources/Z8S180.pdf,4,
+U18,40,D3,D3,match,sources/Z8S180.pdf,4,
+U18,41,D4,D4,match,sources/Z8S180.pdf,4,
+U18,42,D5,D5,match,sources/Z8S180.pdf,4,
+U18,43,D6,D6,match,sources/Z8S180.pdf,4,
+U18,44,D7,D7,match,sources/Z8S180.pdf,4,
+U18,3,XTAL,XTAL,match,sources/Z8S180.pdf,4,
+U18,4,EXTAL,EXTAL,match,sources/Z8S180.pdf,4,
+U18,5,WAIT,WAIT,match,sources/Z8S180.pdf,4,
+U18,6,RESET,RESET,match,sources/Z8S180.pdf,4,
+U18,7,BUSREQ,BUSREQ,match,sources/Z8S180.pdf,4,
+U18,8,BUSACK,BUSACK,match,sources/Z8S180.pdf,4,
+U18,9,NMI,NMI,match,sources/Z8S180.pdf,4,
+U18,10,INT0,INT0,match,sources/Z8S180.pdf,4,
+U18,11,INT1,INT1,match,sources/Z8S180.pdf,4,
+U18,12,INT2,INT2,match,sources/Z8S180.pdf,4,
+U18,13,ST,ST,match,sources/Z8S180.pdf,4,
+U18,45,RTS0,RTS0,match,sources/Z8S180.pdf,4,
+U18,67,RD,RD,match,sources/Z8S180.pdf,4,
+U18,66,WR,WR,match,sources/Z8S180.pdf,4,
+U18,54,TEND0,CKA1/TEND0,alias_or_notation,sources/Z8S180.pdf,4,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U18,58,DREQ1,DREQ1,match,sources/Z8S180.pdf,4,
+U18,59,TEND1,TEND1,match,sources/Z8S180.pdf,4,
+U18,60,HALT,HALT,match,sources/Z8S180.pdf,4,
+U18,61,RFSH,RFSH,match,sources/Z8S180.pdf,4,
+U18,62,IOE,IORQ,alias_or_notation,sources/Z8S180.pdf,4,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U18,63,ME,MREQ,alias_or_notation,sources/Z8S180.pdf,4,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U18,68,PHI,PHI,match,sources/Z8S180.pdf,4,
+U18,65,LIR,M1,legacy_name,sources/Z8S180.pdf,4,Z180 symbol LIR versus Z8S180 M1; pin open in drawing.
+U18,50,DREQ0,CKA0/DREQ0,alias_or_notation,sources/Z8S180.pdf,4,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U18,34,,VDD,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,1,,VSS,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,2,,VSS,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,18,,VSS,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,36,,VSS,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,46,,CTS0,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,47,,DCD0,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,48,,TXA0,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,49,,RXA0,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,51,,TXA1,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,52,,TEST,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,53,,RXA1,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,55,,TXS,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,56,,RXS/CTS1,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,57,,CKS,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U18,64,,E,omitted_symbol,sources/Z8S180.pdf,4,Datasheet supplies function; schematic does not print this pin name.
+U10,12,A0,A0,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,11,A1,A1,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,10,A2,A2,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,9,A3,A3,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,8,A4,A4,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,7,A5,A5,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,6,A6,A6,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,5,A7,A7,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,27,A8,A8,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,26,A9,A9,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,23,A10,A10,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,25,A11,A11,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,4,A12,A12,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,28,A13,A13,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,29,A14,A14,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,3,A15,A15,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,24,A16,A16,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,13,IO0,Q0,alias_or_notation,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U10,14,IO1,Q1,alias_or_notation,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U10,15,IO2,Q2,alias_or_notation,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U10,17,IO3,Q3,alias_or_notation,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U10,18,IO4,Q4,alias_or_notation,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U10,19,IO5,Q5,alias_or_notation,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U10,20,IO6,Q6,alias_or_notation,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U10,21,IO7,Q7,alias_or_notation,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U10,16,,GND,omitted_symbol,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,Datasheet supplies function; schematic does not print this pin name.
+U11,12,A0,A0,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,11,A1,A1,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,10,A2,A2,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,9,A3,A3,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,8,A4,A4,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,7,A5,A5,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,6,A6,A6,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,5,A7,A7,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,27,A8,A8,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,26,A9,A9,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,23,A10,A10,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,25,A11,A11,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,4,A12,A12,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,28,A13,A13,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,3,A14,A14,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,31,A15,A15,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,2,A16,A16,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,13,IO0,IO1,alias_or_notation,sources/Toshiba_SRAM_1992.pdf,160,"Schematic IO0..IO7 versus Toshiba IO1..IO8, same ordered physical pins."
+U11,14,IO1,IO2,alias_or_notation,sources/Toshiba_SRAM_1992.pdf,160,"Schematic IO0..IO7 versus Toshiba IO1..IO8, same ordered physical pins."
+U11,15,IO2,IO3,alias_or_notation,sources/Toshiba_SRAM_1992.pdf,160,"Schematic IO0..IO7 versus Toshiba IO1..IO8, same ordered physical pins."
+U11,17,IO3,IO4,alias_or_notation,sources/Toshiba_SRAM_1992.pdf,160,"Schematic IO0..IO7 versus Toshiba IO1..IO8, same ordered physical pins."
+U11,18,IO4,IO5,alias_or_notation,sources/Toshiba_SRAM_1992.pdf,160,"Schematic IO0..IO7 versus Toshiba IO1..IO8, same ordered physical pins."
+U11,19,IO5,IO6,alias_or_notation,sources/Toshiba_SRAM_1992.pdf,160,"Schematic IO0..IO7 versus Toshiba IO1..IO8, same ordered physical pins."
+U11,20,IO6,IO7,alias_or_notation,sources/Toshiba_SRAM_1992.pdf,160,"Schematic IO0..IO7 versus Toshiba IO1..IO8, same ordered physical pins."
+U11,21,IO7,IO8,alias_or_notation,sources/Toshiba_SRAM_1992.pdf,160,"Schematic IO0..IO7 versus Toshiba IO1..IO8, same ordered physical pins."
+U11,32,,VDD,omitted_symbol,sources/Toshiba_SRAM_1992.pdf,160,Datasheet supplies function; schematic does not print this pin name.
+U11,16,,GND,omitted_symbol,sources/Toshiba_SRAM_1992.pdf,160,Datasheet supplies function; schematic does not print this pin name.
+U10,22,CE,CE,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,2,OE,OE,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,31,PGM,PGM,match,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,
+U10,32,,VCC,omitted_symbol,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,Datasheet supplies function; schematic does not print this pin name.
+U10,1,,VPP,omitted_symbol,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,Datasheet supplies function; schematic does not print this pin name.
+U10,30,,NC,omitted_symbol,https://www.syntax.com.tw/upload/pdf/IC-27C1000-12.pdf,1,Datasheet supplies function; schematic does not print this pin name.
+U11,22,CE1,CE1,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,24,OE,OE,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,29,WE,R/W,alias_or_notation,sources/Toshiba_SRAM_1992.pdf,160,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U11,30,CE2,CE2,match,sources/Toshiba_SRAM_1992.pdf,160,
+U11,1,,NC,omitted_symbol,sources/Toshiba_SRAM_1992.pdf,160,Datasheet supplies function; schematic does not print this pin name.
+U4,1,I0/CK,I/CLK,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,2,I1,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,3,I2,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,4,I3,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,5,I4,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,6,I5,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,7,I6,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,8,I7,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,9,I8,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,11,I9,I/OE,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,12,F0,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,13,F1,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,14,F2,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,15,F3,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,16,F4,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,17,F5,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,18,F6,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,19,F7,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U4,20,,VCC,omitted_symbol,sources/GAL16V8.pdf,1,Datasheet supplies function; schematic does not print this pin name.
+U4,10,,GND,omitted_symbol,sources/GAL16V8.pdf,1,Datasheet supplies function; schematic does not print this pin name.
+U15,1,I0/CK,I/CLK,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,2,I1,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,3,I2,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,4,I3,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,5,I4,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,6,I5,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,7,I6,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,8,I7,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,9,I8,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,11,I9,I/OE,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,12,F0,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,13,F1,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,14,F2,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,15,F3,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,16,F4,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,17,F5,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,18,F6,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,19,F7,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U15,20,,VCC,omitted_symbol,sources/GAL16V8.pdf,1,Datasheet supplies function; schematic does not print this pin name.
+U15,10,,GND,omitted_symbol,sources/GAL16V8.pdf,1,Datasheet supplies function; schematic does not print this pin name.
+U17,1,I0/CK,I/CLK,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,2,I1,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,3,I2,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,4,I3,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,5,I4,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,6,I5,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,7,I6,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,8,I7,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,9,I8,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,11,I9,I/OE,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,12,F0,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,13,F1,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,14,F2,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,15,F3,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,16,F4,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,17,F5,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,18,F6,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,19,F7,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U17,20,,VCC,omitted_symbol,sources/GAL16V8.pdf,1,Datasheet supplies function; schematic does not print this pin name.
+U17,10,,GND,omitted_symbol,sources/GAL16V8.pdf,1,Datasheet supplies function; schematic does not print this pin name.
+U29,1,,1A,unnamed_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U29,2,,1B,unnamed_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U29,3,,1Y,unnamed_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U29,4,,2A,unnamed_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U29,5,,2B,unnamed_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U29,6,,2Y,unnamed_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U29,9,,3A,unnamed_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U29,10,,3B,unnamed_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U29,8,,3Y,unnamed_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U29,12,,4A,unnamed_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U29,13,,4B,unnamed_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U29,11,,4Y,unnamed_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U29,14,,VCC,omitted_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U29,7,,GND,omitted_symbol,sources/74ACT32.pdf,3,Datasheet supplies function; schematic does not print this pin name.
+U20,11,A0,A0,match,sources/Toshiba_MOS_1989.pdf,114,
+U20,12,A1,A1,match,sources/Toshiba_MOS_1989.pdf,114,
+U20,13,A2,A2,match,sources/Toshiba_MOS_1989.pdf,114,
+U20,14,A3,A3,match,sources/Toshiba_MOS_1989.pdf,114,
+U20,16,A4,A4,match,sources/Toshiba_MOS_1989.pdf,114,
+U20,17,A5,A5,match,sources/Toshiba_MOS_1989.pdf,114,
+U20,18,A6,A6,match,sources/Toshiba_MOS_1989.pdf,114,
+U20,19,A7,A7,match,sources/Toshiba_MOS_1989.pdf,114,
+U20,20,A8,A8,match,sources/Toshiba_MOS_1989.pdf,114,
+U20,6,IO0,IO1,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U20,7,IO1,IO2,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U20,3,IO2,IO3,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U20,4,IO3,IO4,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U20,1,OE,OE,match,sources/Toshiba_MOS_1989.pdf,114,
+U20,2,CAS,CAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U20,8,WE,WRITE,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U20,9,RAS,RAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U20,10,,NC/key,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U20,15,,VCC,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U20,5,,VSS,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U21,11,A0,A0,match,sources/Toshiba_MOS_1989.pdf,114,
+U21,12,A1,A1,match,sources/Toshiba_MOS_1989.pdf,114,
+U21,13,A2,A2,match,sources/Toshiba_MOS_1989.pdf,114,
+U21,14,A3,A3,match,sources/Toshiba_MOS_1989.pdf,114,
+U21,16,A4,A4,match,sources/Toshiba_MOS_1989.pdf,114,
+U21,17,A5,A5,match,sources/Toshiba_MOS_1989.pdf,114,
+U21,18,A6,A6,match,sources/Toshiba_MOS_1989.pdf,114,
+U21,19,A7,A7,match,sources/Toshiba_MOS_1989.pdf,114,
+U21,20,A8,A8,match,sources/Toshiba_MOS_1989.pdf,114,
+U21,6,IO0,IO1,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U21,7,IO1,IO2,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U21,3,IO2,IO3,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U21,4,IO3,IO4,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U21,1,OE,OE,match,sources/Toshiba_MOS_1989.pdf,114,
+U21,2,CAS,CAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U21,8,WE,WRITE,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U21,9,RAS,RAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U21,10,,NC/key,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U21,15,,VCC,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U21,5,,VSS,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U22,11,A0,A0,match,sources/Toshiba_MOS_1989.pdf,114,
+U22,12,A1,A1,match,sources/Toshiba_MOS_1989.pdf,114,
+U22,13,A2,A2,match,sources/Toshiba_MOS_1989.pdf,114,
+U22,14,A3,A3,match,sources/Toshiba_MOS_1989.pdf,114,
+U22,16,A4,A4,match,sources/Toshiba_MOS_1989.pdf,114,
+U22,17,A5,A5,match,sources/Toshiba_MOS_1989.pdf,114,
+U22,18,A6,A6,match,sources/Toshiba_MOS_1989.pdf,114,
+U22,19,A7,A7,match,sources/Toshiba_MOS_1989.pdf,114,
+U22,20,A8,A8,match,sources/Toshiba_MOS_1989.pdf,114,
+U22,6,IO0,IO1,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U22,7,IO1,IO2,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U22,3,IO2,IO3,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U22,4,IO3,IO4,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U22,1,OE,OE,match,sources/Toshiba_MOS_1989.pdf,114,
+U22,2,CAS,CAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U22,8,WE,WRITE,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U22,9,RAS,RAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U22,10,,NC/key,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U22,15,,VCC,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U22,5,,VSS,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U23,11,A0,A0,match,sources/Toshiba_MOS_1989.pdf,114,
+U23,12,A1,A1,match,sources/Toshiba_MOS_1989.pdf,114,
+U23,13,A2,A2,match,sources/Toshiba_MOS_1989.pdf,114,
+U23,14,A3,A3,match,sources/Toshiba_MOS_1989.pdf,114,
+U23,16,A4,A4,match,sources/Toshiba_MOS_1989.pdf,114,
+U23,17,A5,A5,match,sources/Toshiba_MOS_1989.pdf,114,
+U23,18,A6,A6,match,sources/Toshiba_MOS_1989.pdf,114,
+U23,19,A7,A7,match,sources/Toshiba_MOS_1989.pdf,114,
+U23,20,A8,A8,match,sources/Toshiba_MOS_1989.pdf,114,
+U23,6,IO0,IO1,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U23,7,IO1,IO2,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U23,3,IO2,IO3,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U23,4,IO3,IO4,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U23,1,OE,OE,match,sources/Toshiba_MOS_1989.pdf,114,
+U23,2,CAS,CAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U23,8,WE,WRITE,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U23,9,RAS,RAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U23,10,,NC/key,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U23,15,,VCC,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U23,5,,VSS,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U24,11,A0,A0,match,sources/Toshiba_MOS_1989.pdf,114,
+U24,12,A1,A1,match,sources/Toshiba_MOS_1989.pdf,114,
+U24,13,A2,A2,match,sources/Toshiba_MOS_1989.pdf,114,
+U24,14,A3,A3,match,sources/Toshiba_MOS_1989.pdf,114,
+U24,16,A4,A4,match,sources/Toshiba_MOS_1989.pdf,114,
+U24,17,A5,A5,match,sources/Toshiba_MOS_1989.pdf,114,
+U24,18,A6,A6,match,sources/Toshiba_MOS_1989.pdf,114,
+U24,19,A7,A7,match,sources/Toshiba_MOS_1989.pdf,114,
+U24,20,A8,A8,match,sources/Toshiba_MOS_1989.pdf,114,
+U24,6,IO0,IO1,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U24,7,IO1,IO2,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U24,3,IO2,IO3,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U24,4,IO3,IO4,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U24,1,OE,OE,match,sources/Toshiba_MOS_1989.pdf,114,
+U24,2,CAS,CAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U24,8,WE,WRITE,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U24,9,RAS,RAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U24,10,,NC/key,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U24,15,,VCC,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U24,5,,VSS,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U25,11,A0,A0,match,sources/Toshiba_MOS_1989.pdf,114,
+U25,12,A1,A1,match,sources/Toshiba_MOS_1989.pdf,114,
+U25,13,A2,A2,match,sources/Toshiba_MOS_1989.pdf,114,
+U25,14,A3,A3,match,sources/Toshiba_MOS_1989.pdf,114,
+U25,16,A4,A4,match,sources/Toshiba_MOS_1989.pdf,114,
+U25,17,A5,A5,match,sources/Toshiba_MOS_1989.pdf,114,
+U25,18,A6,A6,match,sources/Toshiba_MOS_1989.pdf,114,
+U25,19,A7,A7,match,sources/Toshiba_MOS_1989.pdf,114,
+U25,20,A8,A8,match,sources/Toshiba_MOS_1989.pdf,114,
+U25,6,IO0,IO1,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U25,7,IO1,IO2,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U25,3,IO2,IO3,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U25,4,IO3,IO4,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U25,1,OE,OE,match,sources/Toshiba_MOS_1989.pdf,114,
+U25,2,CAS,CAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U25,8,WE,WRITE,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U25,9,RAS,RAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U25,10,,NC/key,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U25,15,,VCC,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U25,5,,VSS,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U26,11,A0,A0,match,sources/Toshiba_MOS_1989.pdf,114,
+U26,12,A1,A1,match,sources/Toshiba_MOS_1989.pdf,114,
+U26,13,A2,A2,match,sources/Toshiba_MOS_1989.pdf,114,
+U26,14,A3,A3,match,sources/Toshiba_MOS_1989.pdf,114,
+U26,16,A4,A4,match,sources/Toshiba_MOS_1989.pdf,114,
+U26,17,A5,A5,match,sources/Toshiba_MOS_1989.pdf,114,
+U26,18,A6,A6,match,sources/Toshiba_MOS_1989.pdf,114,
+U26,19,A7,A7,match,sources/Toshiba_MOS_1989.pdf,114,
+U26,20,A8,A8,match,sources/Toshiba_MOS_1989.pdf,114,
+U26,6,IO0,IO1,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U26,7,IO1,IO2,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U26,3,IO2,IO3,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U26,4,IO3,IO4,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U26,1,OE,OE,match,sources/Toshiba_MOS_1989.pdf,114,
+U26,2,CAS,CAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U26,8,WE,WRITE,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U26,9,RAS,RAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U26,10,,NC/key,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U26,15,,VCC,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U26,5,,VSS,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U27,11,A0,A0,match,sources/Toshiba_MOS_1989.pdf,114,
+U27,12,A1,A1,match,sources/Toshiba_MOS_1989.pdf,114,
+U27,13,A2,A2,match,sources/Toshiba_MOS_1989.pdf,114,
+U27,14,A3,A3,match,sources/Toshiba_MOS_1989.pdf,114,
+U27,16,A4,A4,match,sources/Toshiba_MOS_1989.pdf,114,
+U27,17,A5,A5,match,sources/Toshiba_MOS_1989.pdf,114,
+U27,18,A6,A6,match,sources/Toshiba_MOS_1989.pdf,114,
+U27,19,A7,A7,match,sources/Toshiba_MOS_1989.pdf,114,
+U27,20,A8,A8,match,sources/Toshiba_MOS_1989.pdf,114,
+U27,6,IO0,IO1,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U27,7,IO1,IO2,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U27,3,IO2,IO3,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U27,4,IO3,IO4,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,"Schematic IO0..IO3 versus Toshiba IO1..IO4, same physical pins."
+U27,1,OE,OE,match,sources/Toshiba_MOS_1989.pdf,114,
+U27,2,CAS,CAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U27,8,WE,WRITE,alias_or_notation,sources/Toshiba_MOS_1989.pdf,114,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U27,9,RAS,RAS,match,sources/Toshiba_MOS_1989.pdf,114,
+U27,10,,NC/key,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U27,15,,VCC,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U27,5,,VSS,omitted_symbol,sources/Toshiba_MOS_1989.pdf,114,Datasheet supplies function; schematic does not print this pin name.
+U28,2,MD24,MD24,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,3,MD25,MD25,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,4,MD26,MD26,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,5,MD27,MD27,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,6,MD28,MD28,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,7,MD29,MD29,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,8,MD30,MD30,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,9,MD31,MD31,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,160,MD23,MD23,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,159,MD22,MD22,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,158,MD21,MD21,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,157,MD20,MD20,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,156,MD19,MD19,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,155,MD18,MD18,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,154,MD17,MD17,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,153,MD16,MD16,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,152,MD15,MD15,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,151,MD14,MD14,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,150,MD13,MD13,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,149,MD12,MD12,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,148,MD11,MD11,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,147,MD10,MD10,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,146,MD9,MD9,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,145,MD8,MD8,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,143,MD7,MD7,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,142,MD6,MD6,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,140,MD5,MD5,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,139,MD4,MD4,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,138,MD3,MD3,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,137,MD2,MD2,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,136,MD1,MD1,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,135,MD0,MD0,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,50,SA0,SA0,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,51,SA1,SA1,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,52,SA2,SA2,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,53,SA3,SA3,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,54,SA4,SA4,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,55,SA5,SA5,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,56,SA6,SA6,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,57,SA7,SA7,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,58,SA8,SA8,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,59,SA9,SA9,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,60,SA10,SA10,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,62,SA11,SA11,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,63,SA12,SA12,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,64,SA13,SA13,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,65,SA14,SA14,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,66,SA15,SA15,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,67,SA16,SA16,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,68,SA17,LA17,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Symbol SA17..SA23; ISA pin diagram LA17..LA23 (unlatched high address inputs).
+U28,69,SA18,LA18,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Symbol SA17..SA23; ISA pin diagram LA17..LA23 (unlatched high address inputs).
+U28,70,SA19,LA19,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Symbol SA17..SA23; ISA pin diagram LA17..LA23 (unlatched high address inputs).
+U28,75,SD0,SD0,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,76,SD1,SD1,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,77,SD2,SD2,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,81,SD3,SD3,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,82,SD4,SD4,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,83,SD5,SD5,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,84,SD6,SD6,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,85,SD7,SD7,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,25,P0,P0,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,26,P1,P1,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,27,P2,P2,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,28,P3,P3,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,30,P4,P4,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,31,P5,P5,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,32,P6,P6,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,33,P7,P7,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,1,VSS00,VSSO0,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,10,BD0/-ATOEL,BD0,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,11,BD1/DIR,BD1,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,12,BD2/-SDLOE,BD2,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,13,BD3/-SDHOE,BD3,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,14,BD4/CPUA0,BD4,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,15,BD5/CPUA1,BD5,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,16,BD6/-CPUBHE,BD6,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,17,BD7/CPURESET,BD7,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,18,CSEL3,CSEL3,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,19,SSA(19)/GA20,EPCLK/GA20,symbol_label_difference,sources/OTI-087-sharp.pdf,22-28;31,Symbol contains additional/differently spelled alternate-function text absent from the checked AT/local-bus pin descriptions; retain the original and consult the datasheet function.
+U28,20,SSA(18)/SRDY1,EPDATA/SRDYI,symbol_label_difference,sources/OTI-087-sharp.pdf,22-28;31,Symbol contains additional/differently spelled alternate-function text absent from the checked AT/local-bus pin descriptions; retain the original and consult the datasheet function.
+U28,21,VDD0,VDD0,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,22,VSS0,VSSI0,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,23,SSA(17)/-LBSEL,MXPCLK/LBSEL,symbol_label_difference,sources/OTI-087-sharp.pdf,22-28;31,Symbol contains additional/differently spelled alternate-function text absent from the checked AT/local-bus pin descriptions; retain the original and consult the datasheet function.
+U28,24,SWSENSE,SWSENSE,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,29,VSS01,VSSO1,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,34,VSYNC,VSYNC,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,35,HSYNC,HSYNC,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,36,-BLANK,BLANK,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,37,PCLK,PCLK,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,38,SD8,SD8,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,39,SD9,SD9,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,40,SD10,SD10,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,41,VSS02,VSSO2,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,42,SD11,SD11,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,43,SD12,SD12,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,44,SD13,SD13,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,45,SD14,SD14,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,46,SD15,SD15,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,47,-EEPCS/-ATDEN,EEPCS/ATOEH,symbol_label_difference,sources/OTI-087-sharp.pdf,22-28;31,Symbol contains additional/differently spelled alternate-function text absent from the checked AT/local-bus pin descriptions; retain the original and consult the datasheet function.
+U28,48,-DACRD,DACRD,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,49,-DACWR,DACWR,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,61,VDD1,VDD1,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,71,SA20,LA20,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Symbol SA17..SA23; ISA pin diagram LA17..LA23 (unlatched high address inputs).
+U28,72,SA21,LA21,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Symbol SA17..SA23; ISA pin diagram LA17..LA23 (unlatched high address inputs).
+U28,73,SA22,LA22,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Symbol SA17..SA23; ISA pin diagram LA17..LA23 (unlatched high address inputs).
+U28,74,SA23,LA23,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Symbol SA17..SA23; ISA pin diagram LA17..LA23 (unlatched high address inputs).
+U28,78,-M16/SRDY,M16/SRDY,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,79,IOCHRDY,IOCHRDY,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,80,VSS03,VSSO3,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,86,AEN,AEN,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,87,-RFSH,RFSH,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,88,-MRD,MRD,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,89,-MWR,MWR,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,90,CINT,CINT,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,91,-IO16,IO16,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,92,HLDA,MASTER/HLDA,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,93,ALE/-ADS,ALE/ADS,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,94,VDD2,VDD2,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,95,-ROMEN/PROCLK,ROMENL/PROCLK,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,96,VSS1,VSSI1,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,97,RSET,RSET,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,98,ENVGA/-WR,ENVGA/WR,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,99,-ZEROWS/-DC,ZEROWS/DC,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,100,-BHE,BHE,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,101,-IOR,IOR,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,102,-IOW,IOW,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,103,CSEL2,CSEL2/EEPSK,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,104,CSEL1,CSEL1/EEPWD,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,105,CSEL0,CSEL0/EEPRD,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,106,VCLK,VCLK,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,107,MCLK,MCLK,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,108,MA23(1),MA23(1),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,109,MA23(2),MA23(2),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,110,MA23(3),MA23(3),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,111,MA23(4),MA23(4),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,112,MA23(5),MA23(5),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,113,MA23(6),MA23(6),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,114,MA23(7),MA23(7),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,115,MA23(8),MA23(8),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,116,-WEC,WEC/CAS2,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,117,-WED,WED/CAS3,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,118,-WEA,WEA/CAS0,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,119,-WEB,WEB/CAS1,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,120,-RASL,RASL,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,121,VSS04,VSSO4,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,122,MA23(0),MA23(0),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,123,-CASA,CASA/WE,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,124,MA01(0),MA01(0)/CASB,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,125,-RASH/MA(9),RASH/MA9,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,126,MA01(1),MA01(1),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,127,MA01(2),MA01(2),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,128,MA01(3),MA01(3),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,129,MA01(4),MA01(4),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,130,VSS05,VSSO5,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U28,131,MA01(5),MA01(5),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,132,MA01(6),MA01(6),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,133,MA01(7),MA01(7),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,134,MA01(8),MA01(8),match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,141,VDD3,VDD3,match,sources/OTI-087-sharp.pdf,22-28;31,
+U28,144,VSS06,VSSO6,alias_or_notation,sources/OTI-087-sharp.pdf,22-28;31,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,1,I0/CK,I/CLK,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,2,I1,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,3,I2,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,4,I3,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,5,I4,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,6,I5,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,7,I6,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,8,I7,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,9,I8,I,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,11,I9,I/OE,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,12,F0,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,13,F1,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,14,F2,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,15,F3,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,16,F4,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,17,F5,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,18,F6,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,19,F7,I/O/Q,alias_or_notation,sources/GAL16V8.pdf,1,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U12,20,,VCC,omitted_symbol,sources/GAL16V8.pdf,1,Datasheet supplies function; schematic does not print this pin name.
+U12,10,,GND,omitted_symbol,sources/GAL16V8.pdf,1,Datasheet supplies function; schematic does not print this pin name.
+U8,11,,4Y,unnamed_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U8,12,,4A,unnamed_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U8,13,,4OE,unnamed_symbol,sources/74F125.pdf,1-2,Datasheet supplies function; schematic does not print this pin name.
+U16,1,CS,CS,match,sources/NM93C46.pdf,2,
+U16,2,SK,SK,match,sources/NM93C46.pdf,2,
+U16,3,DI,DI,match,sources/NM93C46.pdf,2,
+U16,4,DO,DO,match,sources/NM93C46.pdf,2,
+U16,8,,VCC,omitted_symbol,sources/NM93C46.pdf,2,Datasheet supplies function; schematic does not print this pin name.
+U16,5,,GND,omitted_symbol,sources/NM93C46.pdf,2,Datasheet supplies function; schematic does not print this pin name.
+U16,6,,NC,omitted_symbol,sources/NM93C46.pdf,2,Datasheet supplies function; schematic does not print this pin name.
+U16,7,,NC,omitted_symbol,sources/NM93C46.pdf,2,Datasheet supplies function; schematic does not print this pin name.
+U30,1,XTAL1,XTAL1,match,sources/OTI-068.pdf,5,
+U30,2,XTAL2,XTAL2,match,sources/OTI-068.pdf,5,
+U30,3,AVSS,VSS,alias_or_notation,sources/OTI-068.pdf,5,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U30,4,FS0,FS0,match,sources/OTI-068.pdf,5,
+U30,5,FS1,FS1,match,sources/OTI-068.pdf,5,
+U30,6,STROBE,NC,disagreement,sources/OTI-068.pdf,5,Schematic STROBE versus April 1993 databook NC. Pin is open in drawing.
+U30,7,FS2,FS2,match,sources/OTI-068.pdf,5,
+U30,8,FS3,FS3,match,sources/OTI-068.pdf,5,
+U30,9,MS0,MS0,match,sources/OTI-068.pdf,5,
+U30,10,DVSS,VSS,alias_or_notation,sources/OTI-068.pdf,5,Different symbol terminology; see NETLIST.md. Number and corresponding function were compared.
+U30,11,MS1,MS1,match,sources/OTI-068.pdf,5,
+U30,12,MCLK,MCLK,match,sources/OTI-068.pdf,5,
+U30,13,DVDD,DVDD,match,sources/OTI-068.pdf,5,
+U30,14,VSS,VSS,match,sources/OTI-068.pdf,5,
+U30,15,AVDD,AVDD,match,sources/OTI-068.pdf,5,
+U30,16,VSS,VSS,match,sources/OTI-068.pdf,5,
+U30,17,VSS,VSS,match,sources/OTI-068.pdf,5,
+U30,18,NC,NC,match,sources/OTI-068.pdf,5,
+U30,19,VCLK,VCLK,match,sources/OTI-068.pdf,5,
+U30,20,DVDD,DVDD,match,sources/OTI-068.pdf,5,
+U31,8,D0,D0,match,sources/Bt478.pdf,10,
+U31,9,D1,D1,match,sources/Bt478.pdf,10,
+U31,10,D2,D2,match,sources/Bt478.pdf,10,
+U31,11,D3,D3,match,sources/Bt478.pdf,10,
+U31,12,D4,D4,match,sources/Bt478.pdf,10,
+U31,13,D5,D5,match,sources/Bt478.pdf,10,
+U31,14,D6,D6,match,sources/Bt478.pdf,10,
+U31,15,D7,D7,match,sources/Bt478.pdf,10,
+U31,32,P0,P0,match,sources/Bt478.pdf,10,
+U31,33,P1,P1,match,sources/Bt478.pdf,10,
+U31,34,P2,P2,match,sources/Bt478.pdf,10,
+U31,35,P3,P3,match,sources/Bt478.pdf,10,
+U31,36,P4,P4,match,sources/Bt478.pdf,10,
+U31,37,P5,P5,match,sources/Bt478.pdf,10,
+U31,38,P6,P6,match,sources/Bt478.pdf,10,
+U31,39,P7,P7,match,sources/Bt478.pdf,10,
+U31,1,,NC,omitted_symbol,sources/Bt478.pdf,10,Datasheet supplies function; schematic does not print this pin name.
+U31,2,8/6,8/6,match,sources/Bt478.pdf,10,
+U31,5,SYNC,SYNC,match,sources/Bt478.pdf,10,
+U31,6,RD,RD,match,sources/Bt478.pdf,10,
+U31,7,BLANK,BLANK,match,sources/Bt478.pdf,10,
+U31,16,WR,WR,match,sources/Bt478.pdf,10,
+U31,17,RS0,RS0,match,sources/Bt478.pdf,10,
+U31,18,RS1,RS1,match,sources/Bt478.pdf,10,
+U31,19,RS2,RS2,match,sources/Bt478.pdf,10,
+U31,23,SETUP,SETUP,match,sources/Bt478.pdf,10,
+U31,25,IOR,IOR,match,sources/Bt478.pdf,10,
+U31,26,IOG,IOG,match,sources/Bt478.pdf,10,
+U31,27,IOB,IOB,match,sources/Bt478.pdf,10,
+U31,28,IREF,IREF,match,sources/Bt478.pdf,10,
+U31,29,COMP,COMP,match,sources/Bt478.pdf,10,
+U31,30,OPA,OPA,match,sources/Bt478.pdf,10,
+U31,31,VREF,VREF,match,sources/Bt478.pdf,10,
+U31,40,CLOCK,CLOCK,match,sources/Bt478.pdf,10,
+U31,41,OL0,OL0,match,sources/Bt478.pdf,10,
+U31,42,OL1,OL1,match,sources/Bt478.pdf,10,
+U31,43,OL2,OL2,match,sources/Bt478.pdf,10,
+U31,44,OL3,OL3,match,sources/Bt478.pdf,10,
+U31,4,,VAA,omitted_symbol,sources/Bt478.pdf,10,Datasheet supplies function; schematic does not print this pin name.
+U31,21,,VAA,omitted_symbol,sources/Bt478.pdf,10,Datasheet supplies function; schematic does not print this pin name.
+U31,22,,VAA,omitted_symbol,sources/Bt478.pdf,10,Datasheet supplies function; schematic does not print this pin name.
+U31,3,,GND,omitted_symbol,sources/Bt478.pdf,10,Datasheet supplies function; schematic does not print this pin name.
+U31,24,,GND,omitted_symbol,sources/Bt478.pdf,10,Datasheet supplies function; schematic does not print this pin name.
+U31,20,,VAA,omitted_symbol,sources/Bt478.pdf,10,Datasheet supplies function; schematic does not print this pin name.

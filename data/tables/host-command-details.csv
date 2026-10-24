@@ -1,0 +1,5 @@
+Value,Meaning
+$01,Ready: the card's DMA is waiting for bytes (or has bytes ready to read)
+$00,Phase finished
+$A5,"Command finished (SetMode, ClearScreen, ScrollScreen)"
+$A6,SetMode failed: no such mode for this monitor

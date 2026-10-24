@@ -1,0 +1,13 @@
+# Store text with Unix line endings; the Windows-run scripts write CRLF in the working tree.
+* text=auto eol=lf
+# Fuse maps and Lattice netlist files keep their exact bytes, CRLF line ends included: the
+# build checks compare them byte for byte, and a JEDEC file's transmission checksum
+# counts every byte. -text keeps them readable in diffs.
+*.jed -text
+*.laf -text
+*.ppn -text
+*.par -text
+*.bin binary
+*.pdf binary
+*.png binary
+*.jpg binary

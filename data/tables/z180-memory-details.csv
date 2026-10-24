@@ -1,0 +1,6 @@
+Physical range,Fact,Source
+$20000-$3FFFF,Boot stack at $300FF (CBR=$21) and the DMA copy target during boot.,"ROM_BEEF.asm:60-70, 100-204"
+$20000-$3FFFF,An unreferenced routine at $0208 would keep a signature byte $A5 at $3FFFF (CBR=$30); nothing calls it.,ROM_BEEF.asm:250-266; ROM bytes searched for references to $0208
+$40000-$4FFFF,The firmware only reads here (value thrown away).,ROM_BEEF.asm access_softswitch0 (line 1667); U15 pin list
+$50000-$5FFFF,Required before using the standard VGA window at $A0000.,"ROM_BEEF.asm access_softswitch1 (line 1650), upload_chunk (1822-1827)"
+$40000-$5FFFF,Read data floats; writes have the same half-selection effect as reads; the manual says do not modify $040000-$05FFFF,netlist; Firmware documentation pp9-10; U15 decode

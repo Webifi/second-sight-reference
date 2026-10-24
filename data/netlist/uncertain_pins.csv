@@ -1,0 +1,208 @@
+sheet,refdes,part,pin_number,pin_name,net,confidence,note
+1,U2,SN74HCT574DW,1,OC,BEN,medium,"Blurred net label read BEN; matches U4.16, subject to original CAD/continuity confirmation."
+1,U2,SN74HCT574DW,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U2,SN74HCT574DW,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U3,SN74HCT574DW,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U3,SN74HCT574DW,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U5,SN74HCT574DW,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U5,SN74HCT574DW,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U6,SN74HCT574DW,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U6,SN74HCT574DW,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U7,PLSI1016,2,IN3,AD6,medium,Blurred label; AD6 reading agrees with supplied C068 bit-6 analysis; continuity unverified.
+1,U7,PLSI1016,35,Y1/RESET,RESET,medium,Net reads RESET; do not silently alias to RESN on U17.12.
+1;4,U8,74125,7,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+1;4,U8,74125,8,,UNRESOLVED_U8_8,low,Not shown or not legible; connection not established. Unused gate C omitted from drawing.
+1;4,U8,74125,9,,UNRESOLVED_U8_9,low,Not shown or not legible; connection not established. Unused gate C omitted from drawing.
+1;4,U8,74125,10,,UNRESOLVED_U8_10,low,Not shown or not legible; connection not established. Unused gate C omitted from drawing.
+1;4,U8,74125,14,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,C1,22pF,1,,EXTAL,medium,Pad numbers not printed; transcription convention: first endpoint.
+2,C1,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+2,C2,22pF,1,,N_U18_3,medium,Pad numbers not printed; transcription convention: first endpoint.
+2,C2,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+2,R1,22ohm,1,,HCLK,medium,Pad numbers not printed; transcription convention: first endpoint.
+2,R1,22ohm,2,,N_U18_68,medium,Pad numbers not printed; transcription convention: second endpoint.
+2,R15,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+2,R15,10K,2,,NMI,medium,Pad numbers not printed; transcription convention: second endpoint.
+2,R16,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+2,R16,10K,2,,RES,medium,Pad numbers not printed; transcription convention: second endpoint.
+2,U10,27C1000,1,,UNRESOLVED_U10_1,low,Not shown or not legible; connection not established. VPP not drawn; datasheet identifies pin 1; termination unverified.
+2,U10,27C1000,16,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U10,27C1000,30,,NC_U10_30,medium,Datasheet NC; pin omitted from symbol.
+2,U11,431000,1,,NC_U11_1,medium,TC551001 datasheet NC; pin omitted from symbol.
+2,U11,431000,16,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U11,431000,32,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U15,GAL16V8A,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U15,GAL16V8A,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U17,GAL16V8A,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U17,GAL16V8A,12,F0,RESN,medium,Net appears RESN. Relation to RESET is not established by this scan.
+2,U17,GAL16V8A,15,F3,HA19,medium,Blurred label read HA19; supplied handover also marks HA19 uncertain.
+2,U17,GAL16V8A,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U18,Z180PLCC,1,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U18,Z180PLCC,2,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U18,Z180PLCC,18,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U18,Z180PLCC,34,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U18,Z180PLCC,36,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U18,Z180PLCC,46,,UNRESOLVED_U18_46,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,47,,UNRESOLVED_U18_47,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,48,,UNRESOLVED_U18_48,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,49,,UNRESOLVED_U18_49,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,51,,UNRESOLVED_U18_51,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,52,,UNRESOLVED_U18_52,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,53,,UNRESOLVED_U18_53,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,55,,UNRESOLVED_U18_55,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,56,,UNRESOLVED_U18_56,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,57,,UNRESOLVED_U18_57,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,64,,UNRESOLVED_U18_64,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U29,7432,7,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U29,7432,14,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U4,GAL16V8A,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U4,GAL16V8A,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,X1,20MHz,1,,N_U18_3,medium,Pad numbers not printed; transcription convention: first endpoint.
+2,X1,20MHz,2,,EXTAL,medium,Pad numbers not printed; transcription convention: second endpoint.
+3,R26,10K,1,,MD9,medium,Pad numbers not printed; transcription convention: first endpoint.
+3,R26,10K,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+3,R27,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+3,R27,10K,2,,MD8,medium,Pad numbers not printed; transcription convention: second endpoint.
+3,U20,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U20,44256Z,10,,NC_U20_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U20,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U21,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U21,44256Z,10,,NC_U21_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U21,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U22,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U22,44256Z,10,,NC_U22_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U22,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U23,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U23,44256Z,10,,NC_U23_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U23,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U24,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U24,44256Z,10,,NC_U24_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U24,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U25,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U25,44256Z,10,,NC_U25_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U25,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U26,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U26,44256Z,10,,NC_U26_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U26,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U27,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U27,44256Z,10,,NC_U27_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U27,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+4,C21,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,C21,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,C3,22pF,1,,N_U30_1,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,C3,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,C4,22pF,1,,N_U30_2,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,C4,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,C8,22uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,C8,22uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,JP1,SHUNT,1,,N_U30_11,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,JP1,SHUNT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,JP2,SHUNT,1,,N_U30_9,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,JP2,SHUNT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R14,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R14,10K,2,,-ZEROWS,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R17,22ohm,1,,VCLK,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R17,22ohm,2,,VCLK1,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R19,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R19,10K,2,,N_U30_11,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R32,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R32,10K,2,,IOCHRDY,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R38,10ohm,1,,EXTAL,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R38,10ohm,2,,MCLK,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R4,22ohm,1,,PCLK,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R4,22ohm,2,,PCLKX,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R6,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R6,10K,2,,N_U30_9,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R7,22ohm,1,,N_U30_12,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R7,22ohm,2,,MCLK,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,U12,GAL16V8A,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+4,U12,GAL16V8A,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+4,U16,NM93C46,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+4,U16,NM93C46,6,,NC_U16_6,medium,NM93C46 normal pinout NC; omitted from symbol. Not a statement about the production part's pins 6-7.
+4,U16,NM93C46,7,,NC_U16_7,medium,NM93C46 normal pinout NC; omitted from symbol. Not a statement about the production part's pins 6-7.
+4,U16,NM93C46,8,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+4,U28,OAK087,19,SSA(19)/GA20,UNRESOLVED_U28_19,low,"Net label illegible (looks ECLK/BCLK); connected labeled stub, not a no-connect. Datasheet AT-mode function EPCLK."
+4,U28,OAK087,20,SSA(18)/SRDY1,UNRESOLVED_U28_20,low,"Net label illegible (looks EPCL); connected labeled stub, not a no-connect. Datasheet AT-mode function EPDATA."
+4,U28,OAK087,71,SA20,VGAIO,medium,"Label read VGAIO, matching U15.19. Rotated crop distinguishes SA20 from neighboring SA19=HA19."
+4,X2,14.318MHz,1,,N_U30_1,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,X2,14.318MHz,2,,N_U30_2,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C11,22pF,1,,VSYNC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C11,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C12,22pF,1,,HSYNC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C12,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C13,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C13,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C14,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C14,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C15,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C15,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C16,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C16,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C17,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C17,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C18,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C18,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C19,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C19,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C20,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C20,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C22,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C22,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C23,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C23,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C24,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C24,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C25,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C25,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C26,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C26,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C27,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C27,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C28,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C28,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C29,.1uF,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C29,.1uF,2,,N_U31_29,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C30,.1uF,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C30,.1uF,2,,N_U31_31,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C31,.1uF,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C31,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C32,.1uF,1,,-12V,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C32,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C33,10uF TANT,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C33,10uF TANT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C34,.1uF,1,,+12V,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C34,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C5,22pF,1,,RED,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C5,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C6,22pF,1,,GRN,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C6,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C7,22pF,1,,BLU,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C7,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,D1,1.2V Zener,1,,N_U31_31,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,D1,1.2V Zener,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,JP3,SHUNT,1,,N_U31_23,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,JP3,SHUNT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,L6,ferrite,1,,+5V,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,L6,ferrite,2,,VAA,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R10,75ohm metal,1,,GRN,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R10,75ohm metal,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R11,75ohm metal,1,,BLU,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R11,75ohm metal,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R12,22ohm,1,,VSYNCI,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R12,22ohm,2,,VSYNC,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R13,22ohm,1,,HSYNCI,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R13,22ohm,2,,HSYNC,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R20,147ohm metal,1,,RSET,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R20,147ohm metal,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R3,[Value],1,,+5V,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R3,[Value],2,,N_U31_23,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R31,1K,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R31,1K,2,,N_U31_31,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R9,75ohm metal,1,,RED,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R9,75ohm metal,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,U31,BT478-JOZ,1,,NC_U31_1,medium,Bt478 datasheet NC; omitted from schematic symbol. Bt481 changes this pin to SENSE*.
+5,U31,BT478-JOZ,3,,GND,medium,Hidden analog ground; datasheet pin assignment; rail inferred.
+5,U31,BT478-JOZ,4,,VAA,medium,Hidden analog supply; datasheet pin assignment; rail inferred.
+5,U31,BT478-JOZ,21,,VAA,medium,Hidden analog supply; datasheet pin assignment; rail inferred.
+5,U31,BT478-JOZ,22,,VAA,medium,Hidden analog supply; datasheet pin assignment; rail inferred.
+5,U31,BT478-JOZ,24,,GND,medium,Hidden analog ground; datasheet pin assignment; rail inferred.

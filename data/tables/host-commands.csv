@@ -1,0 +1,17 @@
+Code,Command,Parameter bytes,Bulk or result phase,Completion
+$00,GetStatus,0,"13 host reads: one dummy, then 12 returned bytes","$01, then $00. The library does not wait for the $00."
+$01,SetMode,"2: mode, emulation flag",None,"$A5, or $A6 when the monitor has no such mode"
+$02,UploadData,"10: flag, destination (3), length (3), IIgs source (3, ignored)",Data in phases of up to 64 KB,Phase handshakes. Flag 0 writes the wrong place (E4).
+$03,ScrollScreen,"9: source (3), destination (3), length (3)","VRAM copy, low 512 KB only (E8); copies toward a higher address go wrong (E9)",$A5
+$04,ScreenOff,0,None,Sets sequencer clocking bit 5. No completion handshake.
+$05,ScreenOn,0,None,Clears sequencer clocking bit 5. No completion handshake.
+$06,SetPalette,3: IIgs address (ignored),768 bytes in,Phase handshakes
+$07,SetPaletteEntry,"4: index, red, green, blue",None,Parameter handshake
+$08,SetBorder,1: palette index,None,"Parameter handshake. Writes the overscan register, which the next mode change rewrites (border color)."
+$09,RunCode,"5: CBR, CBAR, BBR, address (2)",Calls Z180 code,"None. The library waits for $A5/$A6, but the ROM sends neither."
+$0A,ClearScreen,"7: fill byte, start (3), length (3)","VRAM fill, whole 1 MB, in 64 KB blocks",$A5
+$0B,SetShadow,1: value,None,Parameter handshake. Writes value OR $08 to port $A1.
+$0C,SetVGAReg,"6: index port (2), index, data port (2), value",None,Parameter handshake
+$0D,GetVGAReg,"5: index port (2), index, data port (2)","2 host reads: one dummy, then the value",Result-phase handshake
+$0E,SetUserMode,0,84 bytes in,Bulk handshake. The first 81 bytes define mode $FF.
+$0F,"SetTextFont (documented, not in ROM 1.4)",Not accepted by ROM 1.4,None in ROM 1.4,ROM 1.4 ignores commands $0F and up.

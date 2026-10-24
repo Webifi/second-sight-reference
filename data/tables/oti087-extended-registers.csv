@@ -1,0 +1,39 @@
+Index or port,Name,Firmware use,Source
+$102,Add-on enable,written by enable_oak_add_on_mode,databook p30
+$00,Product number (read),never written,Oak BIOS; databook pages 31-32 missing
+$02,Status,$05 in every mode table,Oak BIOS; databook pages 31-32 missing
+$03,Oak test,$10,databook p33
+$04,Local bus control,$07,databook p33-34
+$05,Video memory mapping,$19 linear (1 MB at $100000) or $00 VGA,databook p34-35
+$06,Clock select,"per mode; set_video_mode writes $3C2 after ext 6, so the misc byte decides CSEL1-0",databook p35
+$07,Configuration 1 (read),read only,databook p36
+$08,Configuration 2 (read),read only,databook p37
+$09-$0B,Scratch,not used,databook p37
+$0D,Oak miscellaneous,not written,databook p38
+$10,DIP switch (read),never read,databook p38
+$11,Segment,not written,databook p38-39
+$13,Bus control,$C8,databook p39
+$14,Overflow,per mode,databook p39-40
+$15,HSYNC/2 start,per mode,databook p40
+$17,Extended CRTC,per mode,databook p40
+$18,EEPROM control,never written,databook p40
+$19,Color palette range,$0F,databook p41
+$20,FIFO depth,"$01 (text, hires, 320x200) or $05 (VGA $53/$61/$FA/$FE, RGB $61/$FA/$FB/$FE)",databook p41
+$21,Mode select,$00 / $04 / $05 / $06,databook p41
+$22,Feature select,"$08 / $0C (mode tables), $08 (uploads), $10 / $00 (lores), $1C / $38 (Super Hi-Res); bit 0 never set",databook p42
+$23,Extended read segment,used by renderers,databook p42
+$24,Extended write segment,used by renderers,databook p42
+$25,Extended common read/write,per mode,databook p42
+$30,Color expansion control,$0D in render loops,databook p43
+$31,Foreground color,per use,databook p43
+$32,Background color,per use,databook p43
+$33,Color pattern,per use,databook p44
+$34,Pixel mask,per use,databook p44
+$35,CPU latch index,written by every mode record (bytes 75-80 write $30-$35),databook p44
+$36,CPU latch data,never read or written by ROM 1.4 routines; host GetVGAReg can request it,databook p44
+$40/$41,Hardware cursor X start (high/low),never written,databook p44
+$42/$43,Hardware cursor Y start (high/low),never written,databook p45
+$44/$45,Hardware cursor X/Y preset,never written,databook p45
+$47/$48/$49,Hardware cursor pattern address,never written,databook p45
+$4A/$4B,Hardware cursor color 0 / color 1,never written,databook p46
+$4C,Hardware cursor control,never written,databook p46

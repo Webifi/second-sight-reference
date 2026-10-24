@@ -1,0 +1,506 @@
+{
+ "note": "Entries with sha256 are fetched by tools/fetch_sources.py into sources/ (git-ignored). Entries of kind \"link\" are references only.",
+ "entries": [
+  {
+   "id": "mirror/Datasheets/OTI-068.pdf",
+   "title": "Oak OTI-068 dual clock synthesizer databook (April 1993), 6 pages",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Datasheets/OTI-068.pdf",
+   "local": "mirror/Datasheets/OTI-068.pdf",
+   "size": 151147,
+   "sha256": "754400e25ec6b08d589f275b52a7b84280d0051a66754fd4d24010ba8742987c"
+  },
+  {
+   "id": "mirror/Datasheets/OTI-087.pdf",
+   "title": "Oak OTI-087 local-bus VGA controller databook (Feb 1993) plus OTI-087X addendum, 79 scanned pages; printed pages 31-32 missing",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Datasheets/OTI-087.pdf",
+   "local": "mirror/Datasheets/OTI-087.pdf",
+   "size": 3246422,
+   "sha256": "d7dd695cfc2ccf44e44e2ad4a4c911388ca65fb1cf9a3b7e3ea027b5a941e455"
+  },
+  {
+   "id": "mirror/Datasheets/VGA Registers.pdf",
+   "title": "Generic IBM VGA register reference shipped in the developer kit",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Datasheets/VGA%20Registers.pdf",
+   "local": "mirror/Datasheets/VGA Registers.pdf",
+   "size": 1870609,
+   "sha256": "4d48e30e88f2fbcaf65d692e9f99f3123785bbec83fc2c1c5f56af6995ecaafa"
+  },
+  {
+   "id": "mirror/Disk Images/gview.025c.po",
+   "title": "Disk image or note from the mirror: gview.025c.po",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Disk%20Images/gview.025c.po",
+   "local": "mirror/Disk Images/gview.025c.po",
+   "size": 143360,
+   "sha256": "483dd4abd353064490b5934b25abc7c45eab5bda57a4fed93fcddc9974bcb843"
+  },
+  {
+   "id": "mirror/Disk Images/gview.025c.txt",
+   "title": "Disk image or note from the mirror: gview.025c.txt",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Disk%20Images/gview.025c.txt",
+   "local": "mirror/Disk Images/gview.025c.txt",
+   "size": 231,
+   "sha256": "ca0d7bee329e5465599624bcdd8a0c08ed4ed795f8a0cdc3213a12ce4c72f33b"
+  },
+  {
+   "id": "mirror/Disk Images/ss.source.082395.po",
+   "title": "Sequential Systems developer source disk, 1995-08-23 (ProDOS): VGALOW.ASM, VGALIB.C, VGA.H, mode files, SecondView source, ZMAC assembler, firmware notes",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Disk%20Images/ss.source.082395.po",
+   "local": "mirror/Disk Images/ss.source.082395.po",
+   "size": 1638400,
+   "sha256": "fb6508cfc5dac9097cb932c1f4b9e6e5081ecfdb9da1945a86d5750563466612"
+  },
+  {
+   "id": "mirror/Disk Images/sslib082696.po",
+   "title": "Second Sight library disk, 1996-08-26 (ProDOS)",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Disk%20Images/sslib082696.po",
+   "local": "mirror/Disk Images/sslib082696.po",
+   "size": 143360,
+   "sha256": "826c86fe409909ab73540a39c13e5855f65b8909fa87846d1b3ef11dfa568b24"
+  },
+  {
+   "id": "mirror/Disk Images/SView1.0a5.po",
+   "title": "Disk image or note from the mirror: SView1.0a5.po",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Disk%20Images/SView1.0a5.po",
+   "local": "mirror/Disk Images/SView1.0a5.po",
+   "size": 143360,
+   "sha256": "7ca561fb60f8b2ca96a6f1b57eb2b3aab5f1800a11384bc419f6bf722f1c9554"
+  },
+  {
+   "id": "mirror/Disk Images/Third View 3.5.po",
+   "title": "Disk image or note from the mirror: Third View 3.5.po",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Disk%20Images/Third%20View%203.5.po",
+   "local": "mirror/Disk Images/Third View 3.5.po",
+   "size": 819200,
+   "sha256": "026d24ab31f7e2d928cc13ebf7b4de1eb9232c2cc21032e253217212a0a229a7"
+  },
+  {
+   "id": "mirror/Disk Images/Third View 3.5.txt",
+   "title": "Disk image or note from the mirror: Third View 3.5.txt",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Disk%20Images/Third%20View%203.5.txt",
+   "local": "mirror/Disk Images/Third View 3.5.txt",
+   "size": 140,
+   "sha256": "eaa125b662194303e7c89536f50f272251bef4efb0e11fce223050634a76f914"
+  },
+  {
+   "id": "mirror/Disk Images/Third View 5.25po.po",
+   "title": "Disk image or note from the mirror: Third View 5.25po.po",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Disk%20Images/Third%20View%205.25po.po",
+   "local": "mirror/Disk Images/Third View 5.25po.po",
+   "size": 143360,
+   "sha256": "62d0243d991c2b38f84fd8c819ed1dad65ef6e432a1548e86ff9f5fa5d6bd773"
+  },
+  {
+   "id": "mirror/Disk Images/viewdl20.po",
+   "title": "Disk image or note from the mirror: viewdl20.po",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Disk%20Images/viewdl20.po",
+   "local": "mirror/Disk Images/viewdl20.po",
+   "size": 143360,
+   "sha256": "fe26859fdb0e1b63b6eab31133b84acb5684e0bb543e3dda48b563f121baa235"
+  },
+  {
+   "id": "mirror/Documentation/Second Sight - Pinouts.doc",
+   "title": "VGA and RGB cable pinouts (Word document written in 2006 by a later owner)",
+   "kind": "secondary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Documentation/Second%20Sight%20-%20Pinouts.doc",
+   "local": "mirror/Documentation/Second Sight - Pinouts.doc",
+   "size": 193024,
+   "sha256": "872b3fbee52b6b9c5262b30a96de3a54e46a8dda1a800a5f0ba6c89e62887526"
+  },
+  {
+   "id": "mirror/Manuals/Second Sight - Concepts.pdf",
+   "title": "Programmer library documentation, July 14 1995",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Manuals/Second%20Sight%20-%20Concepts.pdf",
+   "local": "mirror/Manuals/Second Sight - Concepts.pdf",
+   "size": 160736,
+   "sha256": "f668b18e0cc4dc1bef91429c174064b69d3a570bbb917df29e10807a708bf1a6"
+  },
+  {
+   "id": "mirror/Manuals/Second Sight - Firmware.pdf",
+   "title": "Low-level command interface and firmware documentation, Aug 10 1995",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Manuals/Second%20Sight%20-%20Firmware.pdf",
+   "local": "mirror/Manuals/Second Sight - Firmware.pdf",
+   "size": 198730,
+   "sha256": "d2a3c172d411c823138bc2540801f0c1ffa66750f5374bce5e580935cb2f929e"
+  },
+  {
+   "id": "mirror/Manuals/Second Sight - Manual.pdf",
+   "title": "Owner manual, June 21 1995 (scanned)",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Manuals/Second%20Sight%20-%20Manual.pdf",
+   "local": "mirror/Manuals/Second Sight - Manual.pdf",
+   "size": 3388532,
+   "sha256": "3aa8b2ebc66a628fb56361d1ffe0f209ff595f09a515c93dc24d7974ae9c2cc2"
+  },
+  {
+   "id": "mirror/Manuals/Second Sight - Summary.pdf",
+   "title": "Developer kit contents summary",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Manuals/Second%20Sight%20-%20Summary.pdf",
+   "local": "mirror/Manuals/Second Sight - Summary.pdf",
+   "size": 27143,
+   "sha256": "bf7985b4d41dbeb1024eeafded6c151a4002dba66fde30b392c40743356445d9"
+  },
+  {
+   "id": "mirror/Photos/Second Sight VGA Card - Back.jpg",
+   "title": "Photo of the 1995 production board or its box: Second Sight VGA Card - Back.jpg",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Photos/Second%20Sight%20VGA%20Card%20-%20Back.jpg",
+   "local": "mirror/Photos/Second Sight VGA Card - Back.jpg",
+   "size": 146183,
+   "sha256": "462e33535310e99f881e668eba39e4cbc6bc1a1fe1913057c8ee95736a4195b4"
+  },
+  {
+   "id": "mirror/Photos/Second Sight VGA Card - Box.jpg",
+   "title": "Photo of the 1995 production board or its box: Second Sight VGA Card - Box.jpg",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Photos/Second%20Sight%20VGA%20Card%20-%20Box.jpg",
+   "local": "mirror/Photos/Second Sight VGA Card - Box.jpg",
+   "size": 116415,
+   "sha256": "9327816807f9fd589f1422b417cac7af660ffd47584861890a6bf3619bd7aac2"
+  },
+  {
+   "id": "mirror/Photos/Second Sight VGA Card - Front.jpg",
+   "title": "Photo of the 1995 production board or its box: Second Sight VGA Card - Front.jpg",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Photos/Second%20Sight%20VGA%20Card%20-%20Front.jpg",
+   "local": "mirror/Photos/Second Sight VGA Card - Front.jpg",
+   "size": 756817,
+   "sha256": "d66bc14e8aeae5113f7265da75632becffbfc222df0fd415d2482552955a36eb"
+  },
+  {
+   "id": "mirror/Photos/Second Sight VGA Card - Front Blank.jpg",
+   "title": "Photo of the 1995 production board or its box: Second Sight VGA Card - Front Blank.jpg",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Photos/Second%20Sight%20VGA%20Card%20-%20Front%20Blank.jpg",
+   "local": "mirror/Photos/Second Sight VGA Card - Front Blank.jpg",
+   "size": 60222,
+   "sha256": "8cf43ccde050288d03acd301749b821cea929c0f4742d440a95e044735e13317"
+  },
+  {
+   "id": "mirror/Photos/Second Sight VGA Card - RGB connector.jpg",
+   "title": "Photo of the 1995 production board or its box: Second Sight VGA Card - RGB connector.jpg",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Photos/Second%20Sight%20VGA%20Card%20-%20RGB%20connector.jpg",
+   "local": "mirror/Photos/Second Sight VGA Card - RGB connector.jpg",
+   "size": 70527,
+   "sha256": "ed59c903a10f04ca25dcf666ecce22fa4fa5b79ead566e7806eb2ab98ebf1163"
+  },
+  {
+   "id": "mirror/Photos/Second Sight VGA Card - VGA connector.jpg",
+   "title": "Photo of the 1995 production board or its box: Second Sight VGA Card - VGA connector.jpg",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Photos/Second%20Sight%20VGA%20Card%20-%20VGA%20connector.jpg",
+   "local": "mirror/Photos/Second Sight VGA Card - VGA connector.jpg",
+   "size": 73011,
+   "sha256": "036ce0235977c90a4c874cabfdf13069b121f14b50fc6c88991d06977ca262c2"
+  },
+  {
+   "id": "mirror/ROM Images/isplsi1016_BE8C.bin",
+   "title": "Lattice ispLSI1016 (U7) JEDEC fuse file read with Max Loader, QF15360, checksum BE8C",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/ROM%20Images/isplsi1016_BE8C.bin",
+   "local": "mirror/ROM Images/isplsi1016_BE8C.bin",
+   "size": 17393,
+   "sha256": "f8b2f5429a65acbe3f6c13d6aa6ae3e87e9d83c8d1e3e8bbc1d54977ee626328"
+  },
+  {
+   "id": "mirror/ROM Images/ROM_BEEF.bin",
+   "title": "27C1000 EPROM dump, label \"rev. 1.4-BEEF\", byte sum $BEEF",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/ROM%20Images/ROM_BEEF.bin",
+   "local": "mirror/ROM Images/ROM_BEEF.bin",
+   "size": 131072,
+   "sha256": "bd29e30ebf004e205609112a3c21a26eb28504115e047862fbd27f641f784d61"
+  },
+  {
+   "id": "mirror/Schematics/Second Sight - Schematics.pdf",
+   "title": "Prototype schematic \"discQUEST VGA Board\", A. Vogan and J.A. Yandrofski, Rev x, 4/28/94, 5 sheets, CCITT G4 scans",
+   "kind": "primary",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Schematics/Second%20Sight%20-%20Schematics.pdf",
+   "local": "mirror/Schematics/Second Sight - Schematics.pdf",
+   "size": 140827,
+   "sha256": "2f2a5e81a196b883406675c10710ac15bcce336ccc06f52c7d73e952fa3808fe"
+  },
+  {
+   "id": "github/jawaidbazyar2-secondsight/ROM_BEEF.asm",
+   "title": "IDA disassembly of ROM_BEEF.bin with partial annotations (third party; the code is relied on, comments are checked)",
+   "kind": "secondary",
+   "url": "https://raw.githubusercontent.com/jawaidbazyar2/secondsight/780abcb754ce4ed516980925230ddbb4581107f0/ROM_BEEF.asm",
+   "local": "github/jawaidbazyar2-secondsight/ROM_BEEF.asm",
+   "size": 927249,
+   "sha256": "a0f6b7091fed0b2cf8dbec8e17cb8656e76936d84bd08f2e0705aa4898812f9e"
+  },
+  {
+   "id": "github/jawaidbazyar2-secondsight/Second-Sight-Card-API.md",
+   "title": "Host protocol notes derived from VGALOW.ASM and the disassembly (third party)",
+   "kind": "secondary",
+   "url": "https://raw.githubusercontent.com/jawaidbazyar2/secondsight/780abcb754ce4ed516980925230ddbb4581107f0/Second-Sight-Card-API.md",
+   "local": "github/jawaidbazyar2-secondsight/Second-Sight-Card-API.md",
+   "size": 16862,
+   "sha256": "d82ab690b3e52e6e5ea2b1bb8504cbcd24f5fe3c3d47c2ca6017a1bb33357060"
+  },
+  {
+   "id": "github/jawaidbazyar2-secondsight/VGALOW.ASM",
+   "title": "Sequential Systems IIgs low-level library source (same as the source disk, reformatted)",
+   "kind": "primary",
+   "url": "https://raw.githubusercontent.com/jawaidbazyar2/secondsight/780abcb754ce4ed516980925230ddbb4581107f0/VGALOW.ASM",
+   "local": "github/jawaidbazyar2-secondsight/VGALOW.ASM",
+   "size": 12829,
+   "sha256": "db60d257c51af010bd9a2d623880635e265a2b004b884435e2848ba5894f2b20"
+  },
+  {
+   "id": "github/jawaidbazyar2-secondsight/VGA.H",
+   "title": "Library header: status record and vga_mode_rec layout",
+   "kind": "primary",
+   "url": "https://raw.githubusercontent.com/jawaidbazyar2/secondsight/780abcb754ce4ed516980925230ddbb4581107f0/VGA.H",
+   "local": "github/jawaidbazyar2-secondsight/VGA.H",
+   "size": 2227,
+   "sha256": "f5decfd130307a07c9438ed2b47c1d2e351836b44b946c0b275ad58ff653039f"
+  },
+  {
+   "id": "github/jawaidbazyar2-secondsight/VGALIB.C",
+   "title": "Library C source",
+   "kind": "primary",
+   "url": "https://raw.githubusercontent.com/jawaidbazyar2/secondsight/780abcb754ce4ed516980925230ddbb4581107f0/VGALIB.C",
+   "local": "github/jawaidbazyar2-secondsight/VGALIB.C",
+   "size": 5455,
+   "sha256": "45ea3a2b19274c553f073283fd4023d3315bb96da9b265556f6fe38066032a55"
+  },
+  {
+   "id": "github/jawaidbazyar2-secondsight/NOTES",
+   "title": "Library change log",
+   "kind": "primary",
+   "url": "https://raw.githubusercontent.com/jawaidbazyar2/secondsight/780abcb754ce4ed516980925230ddbb4581107f0/NOTES",
+   "local": "github/jawaidbazyar2-secondsight/NOTES",
+   "size": 1186,
+   "sha256": "60dc7885f9a12fe2a3067976337ae5edfcf0e2d00dbc298be04a9718f09b6fa3"
+  },
+  {
+   "id": "brutaldeluxe/VGA.Lib.s",
+   "title": "Library source copy hosted by Brutal Deluxe",
+   "kind": "primary",
+   "url": "https://www.brutaldeluxe.fr/documentation/secondsight/VGA.Lib.s",
+   "local": "brutaldeluxe/VGA.Lib.s",
+   "size": 13362,
+   "sha256": "8a755cdb4afd0ca16d994c869f42c132dd185ce3c9f6ba6638d97d8a74ec18bb"
+  },
+  {
+   "id": "text/Second.Sight.Info.txt",
+   "title": "Specifications and FAQ by Jawaid Bazyar (Sequential Systems team), about 1994-95",
+   "kind": "primary",
+   "url": "http://apple2.org.za/gswv/a2zine/GS.WorldView/v1999/Sep/A2.Best.of.Usenet/Second.Sight.Info.txt",
+   "local": "text/Second.Sight.Info.txt",
+   "size": 6484,
+   "sha256": "261aa74f86762099fb7088dc693d3557dd35c124bb10f71bb34fd1da878edf5f"
+  },
+  {
+   "id": "text/SecondSight.Card.INFO.txt",
+   "title": "User discussion compiled from the A2 Delphi forum, 1998",
+   "kind": "secondary",
+   "url": "https://mirrors.apple2.org.za/apple.cabi.net/FAQs.and.INFO/CPUandMore/SecondSight.Card.INFO.txt",
+   "local": "text/SecondSight.Card.INFO.txt",
+   "size": 12898,
+   "sha256": "3edea460f97dede54060a807394a7e84c75cce2d353703ee4d80d0a26d0f783d"
+  },
+  {
+   "id": "text/comp.sys.apple2-faq-part13.txt",
+   "title": "comp.sys.apple2 FAQ part 13: Apple II slot pin meanings per machine",
+   "kind": "secondary",
+   "url": "https://ftp.cs.utoronto.ca/pub/usenet/comp.answers/apple2/faq/part13",
+   "local": "text/comp.sys.apple2-faq-part13.txt",
+   "size": 41611,
+   "sha256": "8d9ac6242f192b946f9b3a2231129446a3d7c549d993af9b150afdc134e893ec"
+  },
+  {
+   "id": "apple/tn-iigs-068.html",
+   "title": "Apple IIgs Technical Note #68: M2SEL, M2B0 timing, RDY and DMA on IIgs slots",
+   "kind": "primary",
+   "url": "https://apple2.gs/technotes/tn-iigs-068/",
+   "local": "apple/tn-iigs-068.html",
+   "size": 21873,
+   "sha256": "d8713db2d4825b33a69a095fdcd076176729814a73bb3f00af4cd8c247e16c1c"
+  },
+  {
+   "id": "bitsavers/OTI-087_Feb1993.pdf",
+   "title": "Oak OTI-087 databook, a separate 300 dpi scan of the same document; also lacks printed pages 31-32",
+   "kind": "primary",
+   "url": "http://bitsavers.informatik.uni-stuttgart.de/components/oakTechnology/OTI-087_Feb1993.pdf",
+   "local": "bitsavers/OTI-087_Feb1993.pdf",
+   "size": 31626778,
+   "sha256": "30a261a36da4dc5bc33e1f35e0383acc91fc5b62cb55797f6d659c29fbb9a3cb"
+  },
+  {
+   "id": "bitsavers/OAK.TXT",
+   "title": "Finn Thoegersen VGA register notes for Oak chips (covers OTI-087 index 00h and 02h)",
+   "kind": "secondary",
+   "url": "http://bitsavers.informatik.uni-stuttgart.de/components/oakTechnology/OAK.TXT",
+   "local": "bitsavers/OAK.TXT",
+   "size": 22714,
+   "sha256": "3c04bcbf2148deb4865d1c2cd07e4214668b6adf30292605426371561fe383b1"
+  },
+  {
+   "id": "brooktree/btl481a_c.pdf",
+   "title": "Brooktree Bt481A RAMDAC datasheet, document L481A_C",
+   "kind": "primary",
+   "url": "http://www.pldworld.com/_hdl/1/erc.msstate.edu/www/~reese/EE4993/data_sheets/btl481a_c.pdf",
+   "local": "brooktree/btl481a_c.pdf",
+   "size": 369359,
+   "sha256": "68229c48859f130da0963c45267aa50a1033ef314f500a1848b00310595667b6"
+  },
+  {
+   "id": "lattice/ispLSI1016_datasheet.pdf",
+   "title": "Lattice ispLSI1016 datasheet (architecture, pinouts)",
+   "kind": "primary",
+   "url": "https://ftcelectronics.jp/datasheets-18/ISPLSI-1016-60LT44I.pdf",
+   "local": "lattice/ispLSI1016_datasheet.pdf",
+   "size": 654137,
+   "sha256": "10e1db6363be043e24d053632aef7cb0a4bfbc8eae56b415c42bfa661f567b5b"
+  },
+  {
+   "id": "lattice/1994_Lattice_Handbook.pdf",
+   "title": "Lattice 1994 handbook: ispLSI 1000 family architecture, GLB, clock distribution",
+   "kind": "primary",
+   "url": "https://ftpmirror.your.org/pub/misc/bitsavers/components/latticeSemiconductor/_dataBooks/1994_Lattice_Handbook.pdf",
+   "local": "lattice/1994_Lattice_Handbook.pdf",
+   "size": 30991909,
+   "sha256": "6a57c43a69824a0e1885bcbea685525a36c87f6a471583117d048736da4242b7"
+  },
+  {
+   "id": "zilog/um0050.pdf",
+   "title": "Zilog Z8018x Family MPU User Manual UM0050 (UM005004-0918): Z8S180 registers, DMA, wait states (DCNTL tables 3 and 4), MMU",
+   "kind": "primary",
+   "url": "https://www.zilog.com/docs/z180/um0050.pdf",
+   "local": "zilog/um0050.pdf",
+   "size": 2922169,
+   "sha256": "0208b12651d22387c1610e03cbb6b66127f7cdd8271ca4e16692fef239d72166"
+  },
+  {
+   "id": "archive.org/Second_Sight_VGA_Schematic",
+   "title": "Same schematic, recompressed with a lower-resolution background (no new detail)",
+   "kind": "link",
+   "url": "https://archive.org/details/Second_Sight_VGA_Schematic"
+  },
+  {
+   "id": "archive.org/Second_Sight_VGA_Manual_v1",
+   "title": "Same owner manual (identical file)",
+   "kind": "link",
+   "url": "https://archive.org/details/Second_Sight_VGA_Manual_v1"
+  },
+  {
+   "id": "archive.org/Second_Sight_VGA_ProgLib",
+   "title": "Programmer library document",
+   "kind": "link",
+   "url": "https://archive.org/details/Second_Sight_VGA_ProgLib"
+  },
+  {
+   "id": "brutaldeluxe/secondsight.html",
+   "title": "Brutal Deluxe copy of the developer documents",
+   "kind": "link",
+   "url": "https://www.brutaldeluxe.fr/documentation/secondsight.html"
+  },
+  {
+   "id": "github/jawaidbazyar2/secondsight",
+   "title": "Repository holding the disassembly and library sources (pinned commit)",
+   "kind": "link",
+   "url": "https://github.com/jawaidbazyar2/secondsight/tree/780abcb754ce4ed516980925230ddbb4581107f0"
+  },
+  {
+   "id": "github/eventcatcher/startrack",
+   "title": "About 20 ispLSI1016 designs (JEDEC plus LDF source) used to learn the fuse encoding; pinned commit",
+   "kind": "link",
+   "url": "https://github.com/eventcatcher/startrack/tree/42154dfddd8188a1a7317720ae5ffae54dcb77b6/sources/hardware/PLD%20Design"
+  },
+  {
+   "id": "patent/US5635855",
+   "title": "Lattice patent describing the 192 x 80 ispLSI JEDEC array layout",
+   "kind": "link",
+   "url": "https://patents.google.com/patent/US5635855A/en"
+  },
+  {
+   "id": "patent/US5204556",
+   "title": "Lattice routing-pool patent (fixed source-to-input slot routing)",
+   "kind": "link",
+   "url": "https://patents.google.com/patent/US5204556A/en"
+  },
+  {
+   "id": "patent/US5128871",
+   "title": "Lattice patent on PLD resource allocation",
+   "kind": "link",
+   "url": "https://patents.google.com/patent/US5128871A/en"
+  },
+  {
+   "id": "apple/TN-IIgs-65-79.pdf",
+   "title": "Scanned Apple IIgs technical notes 65-79 (includes #68)",
+   "kind": "link",
+   "url": "https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Computers/Apple%20IIGS/Documentation/Apple%20IIGS%20Technical%20Notes%2065-79.pdf"
+  },
+  {
+   "id": "zilog/Z8S180",
+   "title": "Zilog Z8S180/Z8L180 specification (third-party copy)",
+   "kind": "link",
+   "url": "https://pic.hallikainen.org/techref/zilog/z180/s180l1~1.pdf"
+  },
+  {
+   "id": "lattice/licensing",
+   "title": "Lattice licensing table: ispLEVER Classic support for ispLSI needs a paid subscription",
+   "kind": "link",
+   "url": "https://www.latticesemi.com/en/Support/Licensing"
+  },
+  {
+   "id": "related/gssquared",
+   "title": "GSSquared IIgs emulator with a command-level Second Sight simulation (not used as evidence)",
+   "kind": "link",
+   "url": "https://github.com/jawaidbazyar2/gssquared"
+  },
+  {
+   "id": "oak/bios-paradise-TBv1.01B",
+   "title": "Oak VGA BIOS for the OTI-087, Paradise TBv1.01B (10 Mar 1993), 32 KB. Reads extended index 00 bit 1 (087 vs 083) and index 02 bits 2:1 (memory size). Download is a zip; the inner ROM oakoti087wdparadise.BIN has SHA-256 9df355978ca8de7786b6368cd6802fe2de776f4686d8ef55330c1f535ec58c4a",
+   "kind": "link",
+   "url": "https://web.archive.org/web/20241110191423id_/https://vgamuseum.info/index.php/companies/item/download/1570_5b330f99f81a6a6b3b0efc7d603cf672"
+  },
+  {
+   "id": "oak/bios-TEv1.02",
+   "title": "Oak VGA87 BIOS TEv1.02 (30 Apr 1993), 32 KB, same index 00/02 code. Download is a zip; the inner ROM OTI087X.VBI has SHA-256 c7d4508f28465ea226bd132c7028731cb05af11d9f96b91a25cdd92654c60b27",
+   "kind": "link",
+   "url": "https://web.archive.org/web/20241107152017id_/http://www.vgamuseum.info/index.php/home/item/download/1875_094ce2e92b88976b1c472af2ef15d881"
+  },
+  {
+   "id": "oak/oti087-product-overview-1992",
+   "title": "Oak OTI-087 Product Overview, August 1992, 16 pages (straps, pins, modes; no extended-register chapter). SHA-256 93c1a266f0bd7d804ab7b08d9c21bf6c635527df67c1611d452d5eda9e6d0909",
+   "kind": "link",
+   "url": "https://web.archive.org/web/20260616122232id_/https://vgamuseum.info/index.php/companies/item/download/449_8328689f263e5a3135bb9d36ef57beaa"
+  },
+  {
+   "id": "oak/vidfaq-1998",
+   "title": "Oak Technology video FAQ (1998): BIOS 1.0x = OTI-87B, 2.0x = OTI-87X",
+   "kind": "link",
+   "url": "https://web.archive.org/web/19981202060820id_/http://poppy.oaktech.com/vidfaq.html"
+  },
+  {
+   "id": "book/ferraro-1994",
+   "title": "Ferraro, Programmer's Guide to the EGA, VGA, and Super VGA Cards, 3rd ed. 1994, chapter 25 (Oak): status register table (secondary)",
+   "kind": "link",
+   "url": "https://archive.org/details/programmersguidetotheegavgaandsupervgacardsbyrichardf.ferraro19943rdedition"
+  },
+  {
+   "id": "zilog/z8s180-product-spec",
+   "title": "Zilog Z8S180 product specification (PLCC-68 pinout used by the netlist check)",
+   "kind": "link",
+   "url": "https://www.zilog.com/docs/z180/z8s180ps.pdf"
+  }
+ ]
+}

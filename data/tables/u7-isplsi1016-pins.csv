@@ -1,0 +1,45 @@
+PLCC pin,Lattice pin name,Net on drawing,Direction,Meaning
+1,GND,GND,power,Ground
+2,IN3,AD6,input,"Apple data bit 6. The label is blurred; the fuse map loads PAGE2 from this pin on $C068 (STATEREG) writes, and PAGE2 is bit 6 (AD6 and AD4)."
+3,IO24,AA00,input,Apple address A0
+4,IO25,AA01,input,Apple address A1
+5,IO26,AA02,input,Apple address A2
+6,IO27,AA03,input,Apple address A3
+7,IO28,AA04,input,Apple address A4
+8,IO29,AA05,input,Apple address A5
+9,IO30,AA06,input,Apple address A6
+10,IO31,AA07,input,Apple address A7
+11,Y0,CLK,clock,"Softswitch clock, falling edge; 7M or Q3 both meet its timing (clocks)"
+12,VCC,VCC,power,Logic supply
+13,ISPEN,(no connection),programming,"In-system programming enable, not connected on the drawing"
+14,IN0,M2B0,input,"IIgs Mega II bank bit, from slot pin 35. Needs a pull-down (bank input and pull-down)."
+15,IO0,AA08,input,Apple address A8
+16,IO1,AA09,input,Apple address A9
+17,IO2,AA10,input,Apple address A10
+18,IO3,AA11,input,Apple address A11
+19,IO4,AA12,input,Apple address A12
+20,IO5,AA13,input,Apple address A13
+21,IO6,AA14,input,Apple address A14
+22,IO7,AA15,input,Apple address A15
+23,GND,GND,power,Ground
+24,IN1,AX,input,From U4: selects Z180 card-port accesses (AX and port selection)
+25,IO8,M2SEL_n,input,"Slot pin 39: /M2SEL on a IIgs, 6502 SYNC on a IIe"
+26,IO9,ADOUT,output,Enables latch U3 onto the Apple data bus (reads of $C0B0-$C0BF)
+27,IO10,CATCH,output,Clocks address latches U5/U6 and starts the copy into SRAM
+28,IO11,ADIN,output,Clocks data latch U2
+29,IO12,HA00,input,Z180 address A0
+30,IO13,HD3,bidirectional,Z180 data bit 3
+31,IO14,HA01,input,Z180 address A1
+32,IO15,HD1,bidirectional,Z180 data bit 1
+33,Y2,(stub on prototype),clock,"Bank-window clock for M2B0, falling edge: 7M, wired on production (TN #68, clocks)"
+34,VCC,VCC,power,Logic supply
+35,Y1/RESET,RESET,input,"Y1 clock input, unused; not the global reset (reset)"
+36,IN2,AD4,input,Apple data bit 4; loaded into RAMWRT from $C068 bit 4 (AD6 and AD4)
+37,IO16,CPU,input,"PHASE 0 (slot pin 40), high during the data phase (clocks)"
+38,IO17,INT1,output,Z180 INT1 and DREQ1; low = event pending
+39,IO18,CATCH_BANK,output (registered),"SRAM bank of the copied byte: 0 = main/$E0, 1 = aux/$E1"
+40,IO19,HD0,bidirectional,Z180 data bit 0
+41,IO20,HA02,input,Z180 address A2
+42,IO21,ARW,input,Apple R/W (1 = read)
+43,IO22,RDY0,output,Low pulls Apple RDY low through a 74F125 (stall)
+44,IO23,HD2,bidirectional,Z180 data bit 2

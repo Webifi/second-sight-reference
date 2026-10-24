@@ -1,0 +1,5 @@
+Step or condition,Behavior,Source
+RS2,Tied low on the production card. The Command A access and normal pixel-mask writes need RS2 low.,ROM; the prototype drawing connects HA2 instead
+Command A access,Read pixel mask $3C6 four times in a row; the next $3C6 write reaches Command Register A,Bt481A
+Access flag clear,A write to any other register clears the flag,Bt481A
+Firmware sequence,"Read $3C7 once, read $3C6 four times, write the command value",ROM_BEEF.asm:1018-1033

@@ -1,0 +1,19 @@
+Port,Access,Decoder,Source
+$A0,write,U4 (BCLK) clocks latch U3,"schematic sheet 1 (U3 CLK=BCLK, OE=ADOUT); ROM_BEEF.asm get_status, copy_api_data_chunk"
+$A0,read,U4 (BEN) enables latch U2; U7 ACK_A0,schematic sheet 1 (U2); U7 source ACK_A0; ROM_BEEF.asm:2690
+$A1,any access reloads configuration; never read,U7 port 1,U7 source COPY_INHIBIT and MODE_D3 (the port $A1 terms); ROM_BEEF.asm reset (lines 58-59) and set_shadow; firmware documentation SetShadow 0/4
+$A2,any,none,U7 source: no equation decodes port 2
+$A3,any,none,U7 source: no equation decodes port 3
+$A4,read,U7 port 4,U7 source FLAGS_ACCESS and HDn_DRIVE; render_superhires ROM_BEEF.asm:9036-9160
+$A5,read,U7 port 5,U7 source FLAGS_ACCESS and HDn_DRIVE; render_superhires
+$A6,read,U7 port 6,U7 source HDn_DRIVE (EVENT_A0-A3); handle_event ROM_BEEF.asm:2636-2651
+$A7,read,U7 port 7,U7 source HDn_DRIVE (EVENT_A4-A7); check_for_api_call
+$A8,any read or write,U4,ROM_BEEF.asm:1006-1016; all VGA mode tables
+$A9,any read or write,U4,ROM_BEEF.asm:1006-1016; AppleColor mode tables give 15.5-16.5 kHz only with the divide
+$AA,any read or write,U4,"ROM_BEEF.asm:60 (reset read) and 362, 1799, 2031, 2152, 2281, 5005, 8580: each follows the ext reg 5 = $00 write"
+$AB,any read or write,U4,"ROM_BEEF.asm:287, 1724, 1923, 2216, 4905: each precedes the ext reg 5 = $19 write"
+$AC,any read or write,U4,Port-pair pattern; schematic U4 AIRQ0 and U8 gate B
+$AD,any read or write,U4,ROM_BEEF.asm:56-57; schematic U4 output AIRQ0
+"$AE, $AF",none,nothing,U4 pin list (all six outputs accounted for)
+"$3B0-$3DF, $46E8, $102",read/write,OTI-087 itself,"netlist (U28 IORD/IOWR, ENVGA = VCC); ROM_BEEF.asm throughout; OTI-087 databook p18, p30"
+$00-$3F,read/write,Z8S180 internal,Z8S180 specification; ROM_BEEF.asm

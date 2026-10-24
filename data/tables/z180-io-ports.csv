@@ -1,0 +1,18 @@
+Port,Read,Write,Notes
+$00-$3F,Z8S180 internal registers,Z8S180 internal registers,
+$A0,U2 input latch; acknowledge event,Load U3 output latch; acknowledge event,U7's ACK_A0 acknowledges on either
+$A1,Reloads configuration from bus bits 2-3; never read,"COPY_INHIBIT in bit 2, MODE_D3 in bit 3",U7 has no read/write input
+$A2,Undriven bus,No effect,No U7 equation uses it
+$A3,Undriven bus,No effect,No U7 equation uses it
+$A4,"Lower four band flags, then clear",Bus contention; flags still clear; never write,The read returns the flags before the clear
+$A5,"Upper four band flags, then clear",Bus contention; flags still clear; never write,The read returns the flags before the clear
+$A6,Event address bits 3-0,Bus contention; never write,U7 drives HD0-HD3 on every access
+$A7,Event address bits 7-4,Bus contention; never write,$B here means the event was at $C0Bx
+$A8,DIVOE low: VGA clock path,DIVOE low: VGA clock path,U8 gate D passes the pixel clock
+$A9,DIVOE high: AppleColor RGB clock path,DIVOE high: AppleColor RGB clock path,U8 gate D stops driving; U12 supplies the divided clock
+$AA,Clear linear-window flag,Clear linear-window flag,Read once at reset; used after Oak register 5 = $00
+$AB,Set linear-window flag,Set linear-window flag,Used before Oak register 5 = $19
+$AC,AIRQ0 low: raise Apple IRQ,AIRQ0 low: raise Apple IRQ,Never used by the firmware
+$AD,AIRQ0 high: release Apple IRQ,AIRQ0 high: release Apple IRQ,Written once at reset
+"$AE, $AF",Undriven bus,No effect,Nothing decodes them
+"$3B0-$3DF, $46E8, $102",OTI-087 registers,OTI-087 registers,The Oak decodes the full address itself

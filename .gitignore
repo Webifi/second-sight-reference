@@ -1,0 +1,13 @@
+# Downloaded source documents: listed in sources/manifest.json, fetched by tools/fetch_sources.py
+sources/*
+!sources/manifest.json
+
+# Renders and text dumps made by the tools
+build/
+
+__pycache__/
+*.pyc
+
+# Crash dumps from the Windows grep.exe
+*.stackdump
+

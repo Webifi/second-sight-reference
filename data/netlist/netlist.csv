@@ -1,0 +1,971 @@
+sheet,refdes,part,pin_number,pin_name,net,confidence,note
+1,U1,APPLE I/O,1,-IOSEL,NC_U1_1,high,Open pin stub in schematic.
+1,U1,APPLE I/O,2,A0,AA0,high,
+1,U1,APPLE I/O,3,A1,AA1,high,
+1,U1,APPLE I/O,4,A2,AA2,high,
+1,U1,APPLE I/O,5,A3,AA3,high,
+1,U1,APPLE I/O,6,A4,AA4,high,
+1,U1,APPLE I/O,7,A5,AA5,high,
+1,U1,APPLE I/O,8,A6,AA6,high,
+1,U1,APPLE I/O,9,A7,AA7,high,
+1,U1,APPLE I/O,10,A8,AA8,high,
+1,U1,APPLE I/O,11,A9,AA9,high,
+1,U1,APPLE I/O,12,A10,AA10,high,
+1,U1,APPLE I/O,13,A11,AA11,high,
+1,U1,APPLE I/O,14,A12,AA12,high,
+1,U1,APPLE I/O,15,A13,AA13,high,
+1,U1,APPLE I/O,16,A14,AA14,high,
+1,U1,APPLE I/O,17,A15,AA15,high,
+1,U1,APPLE I/O,18,R/-W,ARW,high,
+1,U1,APPLE I/O,19,-SYNC,NC_U1_19,high,Open pin stub in schematic.
+1,U1,APPLE I/O,20,-IOSTR,NC_U1_20,high,Open pin stub in schematic.
+1,U1,APPLE I/O,21,-RDY,ARDY,high,
+1,U1,APPLE I/O,22,-DMA,DMA,high,
+1,U1,APPLE I/O,23,INTIN,N_U1_23,high,
+1,U1,APPLE I/O,24,DMAOUT,DMAINOUT,high,
+1,U1,APPLE I/O,25,VCC,VCC,high,
+1,U1,APPLE I/O,26,GND,GND,high,
+1,U1,APPLE I/O,27,DMAIN,DMAINOUT,high,
+1,U1,APPLE I/O,28,INTOUT,N_U1_23,high,
+1,U1,APPLE I/O,29,-NMI,NC_U1_29,high,Open pin stub in schematic.
+1,U1,APPLE I/O,30,IRQ,AIRQ,high,
+1,U1,APPLE I/O,31,-RESET,ARES,high,
+1,U1,APPLE I/O,32,-INH,NC_U1_32,high,Open pin stub in schematic.
+1,U1,APPLE I/O,33,-12V,-12V,high,
+1,U1,APPLE I/O,34,-5V,NC_U1_34,high,Open pin stub in schematic.
+1,U1,APPLE I/O,35,M2B0,M2B0,high,
+1,U1,APPLE I/O,36,7M,7M,high,
+1,U1,APPLE I/O,37,Q3,NC_U1_37,high,Open pin stub in schematic.
+1,U1,APPLE I/O,38,PHASE1,NC_U1_38,high,Open pin stub in schematic.
+1,U1,APPLE I/O,39,-M2SEL,M2SEL,high,
+1,U1,APPLE I/O,40,PHASE0,PHASE0,high,
+1,U1,APPLE I/O,41,-DEVSEL,NC_U1_41,high,Open pin stub in schematic.
+1,U1,APPLE I/O,42,D7,AD7,high,
+1,U1,APPLE I/O,43,D6,AD6,high,
+1,U1,APPLE I/O,44,D5,AD5,high,
+1,U1,APPLE I/O,45,D4,AD4,high,
+1,U1,APPLE I/O,46,D3,AD3,high,
+1,U1,APPLE I/O,47,D2,AD2,high,
+1,U1,APPLE I/O,48,D1,AD1,high,
+1,U1,APPLE I/O,49,D0,AD0,high,
+1,U1,APPLE I/O,50,12V,+12V,high,
+1,U2,SN74HCT574DW,1,OC,BEN,medium,"Blurred net label read BEN; matches U4.16, subject to original CAD/continuity confirmation."
+1,U2,SN74HCT574DW,2,1D,AD7,high,
+1,U2,SN74HCT574DW,3,2D,AD6,high,
+1,U2,SN74HCT574DW,4,3D,AD5,high,
+1,U2,SN74HCT574DW,5,4D,AD4,high,
+1,U2,SN74HCT574DW,6,5D,AD3,high,
+1,U2,SN74HCT574DW,7,6D,AD2,high,
+1,U2,SN74HCT574DW,8,7D,AD1,high,
+1,U2,SN74HCT574DW,9,8D,AD0,high,
+1,U2,SN74HCT574DW,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U2,SN74HCT574DW,11,CLK,ADIN,high,
+1,U2,SN74HCT574DW,12,8Q,HD0,high,
+1,U2,SN74HCT574DW,13,7Q,HD1,high,
+1,U2,SN74HCT574DW,14,6Q,HD2,high,
+1,U2,SN74HCT574DW,15,5Q,HD3,high,
+1,U2,SN74HCT574DW,16,4Q,HD4,high,
+1,U2,SN74HCT574DW,17,3Q,HD5,high,
+1,U2,SN74HCT574DW,18,2Q,HD6,high,
+1,U2,SN74HCT574DW,19,1Q,HD7,high,
+1,U2,SN74HCT574DW,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U3,SN74HCT574DW,1,OC,ADOUT,high,
+1,U3,SN74HCT574DW,2,1D,HD7,high,
+1,U3,SN74HCT574DW,3,2D,HD6,high,
+1,U3,SN74HCT574DW,4,3D,HD5,high,
+1,U3,SN74HCT574DW,5,4D,HD4,high,
+1,U3,SN74HCT574DW,6,5D,HD3,high,
+1,U3,SN74HCT574DW,7,6D,HD2,high,
+1,U3,SN74HCT574DW,8,7D,HD1,high,
+1,U3,SN74HCT574DW,9,8D,HD0,high,
+1,U3,SN74HCT574DW,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U3,SN74HCT574DW,11,CLK,BCLK,high,
+1,U3,SN74HCT574DW,12,8Q,AD0,high,
+1,U3,SN74HCT574DW,13,7Q,AD1,high,
+1,U3,SN74HCT574DW,14,6Q,AD2,high,
+1,U3,SN74HCT574DW,15,5Q,AD3,high,
+1,U3,SN74HCT574DW,16,4Q,AD4,high,
+1,U3,SN74HCT574DW,17,3Q,AD5,high,
+1,U3,SN74HCT574DW,18,2Q,AD6,high,
+1,U3,SN74HCT574DW,19,1Q,AD7,high,
+1,U3,SN74HCT574DW,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U5,SN74HCT574DW,1,OC,BACK,high,
+1,U5,SN74HCT574DW,2,1D,AA7,high,
+1,U5,SN74HCT574DW,3,2D,AA6,high,
+1,U5,SN74HCT574DW,4,3D,AA5,high,
+1,U5,SN74HCT574DW,5,4D,AA4,high,
+1,U5,SN74HCT574DW,6,5D,AA3,high,
+1,U5,SN74HCT574DW,7,6D,AA2,high,
+1,U5,SN74HCT574DW,8,7D,AA1,high,
+1,U5,SN74HCT574DW,9,8D,AA0,high,
+1,U5,SN74HCT574DW,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U5,SN74HCT574DW,11,CLK,CATCH,high,
+1,U5,SN74HCT574DW,12,8Q,HA0,high,
+1,U5,SN74HCT574DW,13,7Q,HA1,high,
+1,U5,SN74HCT574DW,14,6Q,HA2,high,
+1,U5,SN74HCT574DW,15,5Q,HA3,high,
+1,U5,SN74HCT574DW,16,4Q,HA4,high,
+1,U5,SN74HCT574DW,17,3Q,HA5,high,
+1,U5,SN74HCT574DW,18,2Q,HA6,high,
+1,U5,SN74HCT574DW,19,1Q,HA7,high,
+1,U5,SN74HCT574DW,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U6,SN74HCT574DW,1,OC,BACK,high,
+1,U6,SN74HCT574DW,2,1D,AA15,high,
+1,U6,SN74HCT574DW,3,2D,AA14,high,
+1,U6,SN74HCT574DW,4,3D,AA13,high,
+1,U6,SN74HCT574DW,5,4D,AA12,high,
+1,U6,SN74HCT574DW,6,5D,AA11,high,
+1,U6,SN74HCT574DW,7,6D,AA10,high,
+1,U6,SN74HCT574DW,8,7D,AA9,high,
+1,U6,SN74HCT574DW,9,8D,AA8,high,
+1,U6,SN74HCT574DW,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U6,SN74HCT574DW,11,CLK,CATCH,high,
+1,U6,SN74HCT574DW,12,8Q,HA8,high,
+1,U6,SN74HCT574DW,13,7Q,HA9,high,
+1,U6,SN74HCT574DW,14,6Q,HA10,high,
+1,U6,SN74HCT574DW,15,5Q,HA11,high,
+1,U6,SN74HCT574DW,16,4Q,HA12,high,
+1,U6,SN74HCT574DW,17,3Q,HA13,high,
+1,U6,SN74HCT574DW,18,2Q,HA14,high,
+1,U6,SN74HCT574DW,19,1Q,HA15,high,
+1,U6,SN74HCT574DW,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+1,U7,PLSI1016,1,GND,GND,high,
+1,U7,PLSI1016,2,IN3,AD6,medium,Blurred label; AD6 reading agrees with supplied C068 bit-6 analysis; continuity unverified.
+1,U7,PLSI1016,3,IO24,AA0,high,
+1,U7,PLSI1016,4,IO25,AA1,high,
+1,U7,PLSI1016,5,IO26,AA2,high,
+1,U7,PLSI1016,6,IO27,AA3,high,
+1,U7,PLSI1016,7,IO28,AA4,high,
+1,U7,PLSI1016,8,IO29,AA5,high,
+1,U7,PLSI1016,9,IO30,AA6,high,
+1,U7,PLSI1016,10,IO31,AA7,high,
+1,U7,PLSI1016,11,Y0,CLK,high,
+1,U7,PLSI1016,12,VCC,VCC,high,
+1,U7,PLSI1016,13,ISPEN,NC_U7_13,high,Open pin stub in schematic.
+1,U7,PLSI1016,14,IN0,M2B0,high,
+1,U7,PLSI1016,15,IO0,AA8,high,
+1,U7,PLSI1016,16,IO1,AA9,high,
+1,U7,PLSI1016,17,IO2,AA10,high,
+1,U7,PLSI1016,18,IO3,AA11,high,
+1,U7,PLSI1016,19,IO4,AA12,high,
+1,U7,PLSI1016,20,IO5,AA13,high,
+1,U7,PLSI1016,21,IO6,AA14,high,
+1,U7,PLSI1016,22,IO7,AA15,high,
+1,U7,PLSI1016,23,GND,GND,high,
+1,U7,PLSI1016,24,IN1,AX,high,
+1,U7,PLSI1016,25,IO8,M2SEL,high,
+1,U7,PLSI1016,26,IO9,ADOUT,high,
+1,U7,PLSI1016,27,IO10,CATCH,high,
+1,U7,PLSI1016,28,IO11,ADIN,high,
+1,U7,PLSI1016,29,IO12,HA0,high,
+1,U7,PLSI1016,30,IO13,HD3,high,
+1,U7,PLSI1016,31,IO14,HA1,high,
+1,U7,PLSI1016,32,IO15,HD1,high,
+1,U7,PLSI1016,33,Y2,NC_U7_33,high,Open pin stub in schematic.
+1,U7,PLSI1016,34,VCC,VCC,high,
+1,U7,PLSI1016,35,Y1/RESET,RESET,medium,Net reads RESET; do not silently alias to RESN on U17.12.
+1,U7,PLSI1016,36,IN2,AD4,high,
+1,U7,PLSI1016,37,IO16,CPU,high,
+1,U7,PLSI1016,38,IO17,INT1,high,
+1,U7,PLSI1016,39,IO18,CATCH_BANK,high,
+1,U7,PLSI1016,40,IO19,HD0,high,
+1,U7,PLSI1016,41,IO20,HA2,high,
+1,U7,PLSI1016,42,IO21,ARW,high,
+1,U7,PLSI1016,43,IO22,RDY0,high,
+1,U7,PLSI1016,44,IO23,HD2,high,
+1;4,U8,74125,1,,RDY0,high,
+1;4,U8,74125,2,,GND,high,
+1;4,U8,74125,3,,ARDY,high,
+1;4,U8,74125,4,,AIRQ0,high,
+1;4,U8,74125,5,,GND,high,
+1;4,U8,74125,6,,AIRQ,high,
+1;4,U8,74125,7,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+1;4,U8,74125,8,,UNRESOLVED_U8_8,low,Not shown or not legible; connection not established. Unused gate C omitted from drawing.
+1;4,U8,74125,9,,UNRESOLVED_U8_9,low,Not shown or not legible; connection not established. Unused gate C omitted from drawing.
+1;4,U8,74125,10,,UNRESOLVED_U8_10,low,Not shown or not legible; connection not established. Unused gate C omitted from drawing.
+1;4,U8,74125,11,,VCLK1,high,
+1;4,U8,74125,12,,VCLK0,high,
+1;4,U8,74125,13,,DIVOE,high,
+1;4,U8,74125,14,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,C1,22pF,1,,EXTAL,medium,Pad numbers not printed; transcription convention: first endpoint.
+2,C1,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+2,C2,22pF,1,,N_U18_3,medium,Pad numbers not printed; transcription convention: first endpoint.
+2,C2,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+2,R1,22ohm,1,,HCLK,medium,Pad numbers not printed; transcription convention: first endpoint.
+2,R1,22ohm,2,,N_U18_68,medium,Pad numbers not printed; transcription convention: second endpoint.
+2,R15,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+2,R15,10K,2,,NMI,medium,Pad numbers not printed; transcription convention: second endpoint.
+2,R16,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+2,R16,10K,2,,RES,medium,Pad numbers not printed; transcription convention: second endpoint.
+2,U10,27C1000,1,,UNRESOLVED_U10_1,low,Not shown or not legible; connection not established. VPP not drawn; datasheet identifies pin 1; termination unverified.
+2,U10,27C1000,2,OE,ROM,high,
+2,U10,27C1000,3,A15,HA15,high,
+2,U10,27C1000,4,A12,HA12,high,
+2,U10,27C1000,5,A7,HA7,high,
+2,U10,27C1000,6,A6,HA6,high,
+2,U10,27C1000,7,A5,HA5,high,
+2,U10,27C1000,8,A4,HA4,high,
+2,U10,27C1000,9,A3,HA3,high,
+2,U10,27C1000,10,A2,HA2,high,
+2,U10,27C1000,11,A1,HA1,high,
+2,U10,27C1000,12,A0,HA0,high,
+2,U10,27C1000,13,IO0,HD0,high,
+2,U10,27C1000,14,IO1,HD1,high,
+2,U10,27C1000,15,IO2,HD2,high,
+2,U10,27C1000,16,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U10,27C1000,17,IO3,HD3,high,
+2,U10,27C1000,18,IO4,HD4,high,
+2,U10,27C1000,19,IO5,HD5,high,
+2,U10,27C1000,20,IO6,HD6,high,
+2,U10,27C1000,21,IO7,HD7,high,
+2,U10,27C1000,22,CE,GND,high,
+2,U10,27C1000,23,A10,HA10,high,
+2,U10,27C1000,24,A16,HA16,high,
+2,U10,27C1000,25,A11,HA11,high,
+2,U10,27C1000,26,A9,HA9,high,
+2,U10,27C1000,27,A8,HA8,high,
+2,U10,27C1000,28,A13,HA13,high,
+2,U10,27C1000,29,A14,HA14,high,
+2,U10,27C1000,30,,NC_U10_30,medium,Datasheet NC; pin omitted from symbol.
+2,U10,27C1000,31,PGM,+5V,high,
+2,U10,27C1000,32,,VCC,high,Designer note explicitly says missing TANGO p32 VCC was forced into original netlist.
+2,U11,431000,1,,NC_U11_1,medium,TC551001 datasheet NC; pin omitted from symbol.
+2,U11,431000,2,A16,HA16,high,
+2,U11,431000,3,A14,HA14,high,
+2,U11,431000,4,A12,HA12,high,
+2,U11,431000,5,A7,HA7,high,
+2,U11,431000,6,A6,HA6,high,
+2,U11,431000,7,A5,HA5,high,
+2,U11,431000,8,A4,HA4,high,
+2,U11,431000,9,A3,HA3,high,
+2,U11,431000,10,A2,HA2,high,
+2,U11,431000,11,A1,HA1,high,
+2,U11,431000,12,A0,HA0,high,
+2,U11,431000,13,IO0,HD0,high,
+2,U11,431000,14,IO1,HD1,high,
+2,U11,431000,15,IO2,HD2,high,
+2,U11,431000,16,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U11,431000,17,IO3,HD3,high,
+2,U11,431000,18,IO4,HD4,high,
+2,U11,431000,19,IO5,HD5,high,
+2,U11,431000,20,IO6,HD6,high,
+2,U11,431000,21,IO7,HD7,high,
+2,U11,431000,22,CE1,RAM,high,
+2,U11,431000,23,A10,HA10,high,
+2,U11,431000,24,OE,MRD,high,
+2,U11,431000,25,A11,HA11,high,
+2,U11,431000,26,A9,HA9,high,
+2,U11,431000,27,A8,HA8,high,
+2,U11,431000,28,A13,HA13,high,
+2,U11,431000,29,WE,MWR,high,
+2,U11,431000,30,CE2,+5V,high,
+2,U11,431000,31,A15,HA15,high,
+2,U11,431000,32,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U15,GAL16V8A,1,I0/CK,HCLK,high,
+2,U15,GAL16V8A,2,I1,BACK,high,
+2,U15,GAL16V8A,3,I2,IOCHRDY,high,
+2,U15,GAL16V8A,4,I3,VGAIO_SEL,high,
+2,U15,GAL16V8A,5,I4,HA19,high,
+2,U15,GAL16V8A,6,I5,HA18,high,
+2,U15,GAL16V8A,7,I6,HA17,high,
+2,U15,GAL16V8A,8,I7,HA16,high,
+2,U15,GAL16V8A,9,I8,RTS0,high,
+2,U15,GAL16V8A,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U15,GAL16V8A,11,I9,-ME,high,
+2,U15,GAL16V8A,12,F0,NC_U15_12,high,Open pin stub in schematic.
+2,U15,GAL16V8A,13,F1,ROM,high,
+2,U15,GAL16V8A,14,F2,RAM,high,
+2,U15,GAL16V8A,15,F3,WAIT,high,
+2,U15,GAL16V8A,16,F4,RS2,high,
+2,U15,GAL16V8A,17,F5,NC_U15_17,high,Open pin stub in schematic.
+2,U15,GAL16V8A,18,F6,RS1,high,
+2,U15,GAL16V8A,19,F7,VGAIO,high,
+2,U15,GAL16V8A,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U17,GAL16V8A,1,I0/CK,HCLK,high,
+2,U17,GAL16V8A,2,I1,CATCH,high,
+2,U17,GAL16V8A,3,I2,CATCH_BANK,high,
+2,U17,GAL16V8A,4,I3,BACK,high,
+2,U17,GAL16V8A,5,I4,ARES,high,
+2,U17,GAL16V8A,6,I5,NC_U17_6,high,Open pin stub in schematic.
+2,U17,GAL16V8A,7,I6,NC_U17_7,high,Open pin stub in schematic.
+2,U17,GAL16V8A,8,I7,NC_U17_8,high,Open pin stub in schematic.
+2,U17,GAL16V8A,9,I8,NC_U17_9,high,Open pin stub in schematic.
+2,U17,GAL16V8A,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U17,GAL16V8A,11,I9,NC_U17_11,high,Open pin stub in schematic.
+2,U17,GAL16V8A,12,F0,RESN,medium,Net appears RESN. Relation to RESET is not established by this scan.
+2,U17,GAL16V8A,13,F1,NC_U17_13,high,Open pin stub in schematic.
+2,U17,GAL16V8A,14,F2,NC_U17_14,high,Open pin stub in schematic.
+2,U17,GAL16V8A,15,F3,HA19,medium,Blurred label read HA19; supplied handover also marks HA19 uncertain.
+2,U17,GAL16V8A,16,F4,BREQ,high,
+2,U17,GAL16V8A,17,F5,INT_RES,high,
+2,U17,GAL16V8A,18,F6,HWR,high,
+2,U17,GAL16V8A,19,F7,RES,high,
+2,U17,GAL16V8A,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U18,Z180PLCC,1,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U18,Z180PLCC,2,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U18,Z180PLCC,3,XTAL,N_U18_3,high,
+2,U18,Z180PLCC,4,EXTAL,EXTAL,high,
+2,U18,Z180PLCC,5,WAIT,WAIT,high,
+2,U18,Z180PLCC,6,RESET,RES,high,
+2,U18,Z180PLCC,7,BUSREQ,BREQ,high,
+2,U18,Z180PLCC,8,BUSACK,BACK,high,
+2,U18,Z180PLCC,9,NMI,NMI,high,
+2,U18,Z180PLCC,10,INT0,-INT0,high,
+2,U18,Z180PLCC,11,INT1,INT1,high,
+2,U18,Z180PLCC,12,INT2,INT2,high,
+2,U18,Z180PLCC,13,ST,NC_U18_13,high,Open pin stub in schematic.
+2,U18,Z180PLCC,14,A0,HA0,high,
+2,U18,Z180PLCC,15,A1,HA1,high,
+2,U18,Z180PLCC,16,A2,HA2,high,
+2,U18,Z180PLCC,17,A3,HA3,high,
+2,U18,Z180PLCC,18,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U18,Z180PLCC,19,A4,HA4,high,
+2,U18,Z180PLCC,20,A5,HA5,high,
+2,U18,Z180PLCC,21,A6,HA6,high,
+2,U18,Z180PLCC,22,A7,HA7,high,
+2,U18,Z180PLCC,23,A8,HA8,high,
+2,U18,Z180PLCC,24,A9,HA9,high,
+2,U18,Z180PLCC,25,A10,HA10,high,
+2,U18,Z180PLCC,26,A11,HA11,high,
+2,U18,Z180PLCC,27,A12,HA12,high,
+2,U18,Z180PLCC,28,A13,HA13,high,
+2,U18,Z180PLCC,29,A14,HA14,high,
+2,U18,Z180PLCC,30,A15,HA15,high,
+2,U18,Z180PLCC,31,A16,HA16,high,
+2,U18,Z180PLCC,32,A17,HA17,high,
+2,U18,Z180PLCC,33,A18,HA18,high,
+2,U18,Z180PLCC,34,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U18,Z180PLCC,35,A19,HA19,high,
+2,U18,Z180PLCC,36,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U18,Z180PLCC,37,D0,HD0,high,
+2,U18,Z180PLCC,38,D1,HD1,high,
+2,U18,Z180PLCC,39,D2,HD2,high,
+2,U18,Z180PLCC,40,D3,HD3,high,
+2,U18,Z180PLCC,41,D4,HD4,high,
+2,U18,Z180PLCC,42,D5,HD5,high,
+2,U18,Z180PLCC,43,D6,HD6,high,
+2,U18,Z180PLCC,44,D7,HD7,high,
+2,U18,Z180PLCC,45,RTS0,RTS0,high,
+2,U18,Z180PLCC,46,,UNRESOLVED_U18_46,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,47,,UNRESOLVED_U18_47,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,48,,UNRESOLVED_U18_48,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,49,,UNRESOLVED_U18_49,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,50,DREQ0,GND,high,
+2,U18,Z180PLCC,51,,UNRESOLVED_U18_51,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,52,,UNRESOLVED_U18_52,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,53,,UNRESOLVED_U18_53,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,54,TEND0,NC_U18_54,high,Open pin stub in schematic.
+2,U18,Z180PLCC,55,,UNRESOLVED_U18_55,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,56,,UNRESOLVED_U18_56,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,57,,UNRESOLVED_U18_57,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,58,DREQ1,INT1,high,
+2,U18,Z180PLCC,59,TEND1,NC_U18_59,high,Open pin stub in schematic.
+2,U18,Z180PLCC,60,HALT,NC_U18_60,high,Open pin stub in schematic.
+2,U18,Z180PLCC,61,RFSH,RFSH,high,
+2,U18,Z180PLCC,62,IOE,-IOE,high,
+2,U18,Z180PLCC,63,ME,-ME,high,
+2,U18,Z180PLCC,64,,UNRESOLVED_U18_64,low,Not shown or not legible; connection not established. Serial/test function absent from schematic symbol; board termination unknown.
+2,U18,Z180PLCC,65,LIR,NC_U18_65,high,Open pin stub in schematic.
+2,U18,Z180PLCC,66,WR,HWR,high,
+2,U18,Z180PLCC,67,RD,HRD,high,
+2,U18,Z180PLCC,68,PHI,N_U18_68,high,
+2,U29,7432,1,,-ME,high,
+2,U29,7432,2,,HRD,high,
+2,U29,7432,3,,MRD,high,
+2,U29,7432,4,,-ME,high,
+2,U29,7432,5,,HWR,high,
+2,U29,7432,6,,MWR,high,
+2,U29,7432,7,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U29,7432,8,,IORD,high,
+2,U29,7432,9,,-IOE,high,
+2,U29,7432,10,,HRD,high,
+2,U29,7432,11,,IOWR,high,
+2,U29,7432,12,,-IOE,high,
+2,U29,7432,13,,HWR,high,
+2,U29,7432,14,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U4,GAL16V8A,1,I0/CK,HA0,high,
+2,U4,GAL16V8A,2,I1,HA1,high,
+2,U4,GAL16V8A,3,I2,HA2,high,
+2,U4,GAL16V8A,4,I3,HA3,high,
+2,U4,GAL16V8A,5,I4,HA4,high,
+2,U4,GAL16V8A,6,I5,HA5,high,
+2,U4,GAL16V8A,7,I6,HA6,high,
+2,U4,GAL16V8A,8,I7,HA7,high,
+2,U4,GAL16V8A,9,I8,HRD,high,
+2,U4,GAL16V8A,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+2,U4,GAL16V8A,11,I9,HWR,high,
+2,U4,GAL16V8A,12,F0,BCLK,high,
+2,U4,GAL16V8A,13,F1,-IOE,high,
+2,U4,GAL16V8A,14,F2,BACK,high,
+2,U4,GAL16V8A,15,F3,AX,high,
+2,U4,GAL16V8A,16,F4,BEN,high,
+2,U4,GAL16V8A,17,F5,DIVOE,high,
+2,U4,GAL16V8A,18,F6,VGAIO_SEL,high,
+2,U4,GAL16V8A,19,F7,AIRQ0,high,
+2,U4,GAL16V8A,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+2,X1,20MHz,1,,N_U18_3,medium,Pad numbers not printed; transcription convention: first endpoint.
+2,X1,20MHz,2,,EXTAL,medium,Pad numbers not printed; transcription convention: second endpoint.
+3,R21,10K,1,,GND,high,
+3,R21,10K,2,,MD11,high,
+3,R21,10K,3,,MD15,high,
+3,R21,10K,4,,MD10,high,
+3,R21,10K,5,,MD5,high,
+3,R21,10K,6,,MD3,high,
+3,R26,10K,1,,MD9,medium,Pad numbers not printed; transcription convention: first endpoint.
+3,R26,10K,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+3,R27,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+3,R27,10K,2,,MD8,medium,Pad numbers not printed; transcription convention: second endpoint.
+3,R39,10K,1,,VCC,high,
+3,R39,10K,2,,MD1,high,
+3,R39,10K,3,,MD2,high,
+3,R39,10K,4,,MD4,high,
+3,R39,10K,5,,NC_R39_5,high,Open pin stub in schematic.
+3,R39,10K,6,,NC_R39_6,high,Open pin stub in schematic.
+3,U20,44256Z,1,OE,GND,high,
+3,U20,44256Z,2,CAS,CASA,high,
+3,U20,44256Z,3,IO2,MD2,high,
+3,U20,44256Z,4,IO3,MD3,high,
+3,U20,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U20,44256Z,6,IO0,MD0,high,
+3,U20,44256Z,7,IO1,MD1,high,
+3,U20,44256Z,8,WE,WEA,high,
+3,U20,44256Z,9,RAS,RASL,high,
+3,U20,44256Z,10,,NC_U20_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U20,44256Z,11,A0,MA0,high,
+3,U20,44256Z,12,A1,MA1,high,
+3,U20,44256Z,13,A2,MA2,high,
+3,U20,44256Z,14,A3,MA3,high,
+3,U20,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U20,44256Z,16,A4,MA4,high,
+3,U20,44256Z,17,A5,MA5,high,
+3,U20,44256Z,18,A6,MA6,high,
+3,U20,44256Z,19,A7,MA7,high,
+3,U20,44256Z,20,A8,MA8,high,
+3,U21,44256Z,1,OE,GND,high,
+3,U21,44256Z,2,CAS,CASA,high,
+3,U21,44256Z,3,IO2,MD10,high,
+3,U21,44256Z,4,IO3,MD11,high,
+3,U21,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U21,44256Z,6,IO0,MD8,high,
+3,U21,44256Z,7,IO1,MD9,high,
+3,U21,44256Z,8,WE,WEA,high,
+3,U21,44256Z,9,RAS,RASL,high,
+3,U21,44256Z,10,,NC_U21_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U21,44256Z,11,A0,MA0,high,
+3,U21,44256Z,12,A1,MA1,high,
+3,U21,44256Z,13,A2,MA2,high,
+3,U21,44256Z,14,A3,MA3,high,
+3,U21,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U21,44256Z,16,A4,MA4,high,
+3,U21,44256Z,17,A5,MA5,high,
+3,U21,44256Z,18,A6,MA6,high,
+3,U21,44256Z,19,A7,MA7,high,
+3,U21,44256Z,20,A8,MA8,high,
+3,U22,44256Z,1,OE,GND,high,
+3,U22,44256Z,2,CAS,CASA,high,
+3,U22,44256Z,3,IO2,MD18,high,
+3,U22,44256Z,4,IO3,MD19,high,
+3,U22,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U22,44256Z,6,IO0,MD16,high,
+3,U22,44256Z,7,IO1,MD17,high,
+3,U22,44256Z,8,WE,WEC,high,
+3,U22,44256Z,9,RAS,RASL,high,
+3,U22,44256Z,10,,NC_U22_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U22,44256Z,11,A0,MA0,high,
+3,U22,44256Z,12,A1,MA1,high,
+3,U22,44256Z,13,A2,MA2,high,
+3,U22,44256Z,14,A3,MA3,high,
+3,U22,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U22,44256Z,16,A4,MA4,high,
+3,U22,44256Z,17,A5,MA5,high,
+3,U22,44256Z,18,A6,MA6,high,
+3,U22,44256Z,19,A7,MA7,high,
+3,U22,44256Z,20,A8,MA8,high,
+3,U23,44256Z,1,OE,GND,high,
+3,U23,44256Z,2,CAS,CASA,high,
+3,U23,44256Z,3,IO2,MD22,high,
+3,U23,44256Z,4,IO3,MD23,high,
+3,U23,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U23,44256Z,6,IO0,MD20,high,
+3,U23,44256Z,7,IO1,MD21,high,
+3,U23,44256Z,8,WE,WEC,high,
+3,U23,44256Z,9,RAS,RASL,high,
+3,U23,44256Z,10,,NC_U23_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U23,44256Z,11,A0,MA0,high,
+3,U23,44256Z,12,A1,MA1,high,
+3,U23,44256Z,13,A2,MA2,high,
+3,U23,44256Z,14,A3,MA3,high,
+3,U23,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U23,44256Z,16,A4,MA4,high,
+3,U23,44256Z,17,A5,MA5,high,
+3,U23,44256Z,18,A6,MA6,high,
+3,U23,44256Z,19,A7,MA7,high,
+3,U23,44256Z,20,A8,MA8,high,
+3,U24,44256Z,1,OE,GND,high,
+3,U24,44256Z,2,CAS,CASA,high,
+3,U24,44256Z,3,IO2,MD6,high,
+3,U24,44256Z,4,IO3,MD7,high,
+3,U24,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U24,44256Z,6,IO0,MD4,high,
+3,U24,44256Z,7,IO1,MD5,high,
+3,U24,44256Z,8,WE,WEB,high,
+3,U24,44256Z,9,RAS,RASL,high,
+3,U24,44256Z,10,,NC_U24_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U24,44256Z,11,A0,MA0A,high,
+3,U24,44256Z,12,A1,MA1A,high,
+3,U24,44256Z,13,A2,MA2A,high,
+3,U24,44256Z,14,A3,MA3A,high,
+3,U24,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U24,44256Z,16,A4,MA4A,high,
+3,U24,44256Z,17,A5,MA5A,high,
+3,U24,44256Z,18,A6,MA6A,high,
+3,U24,44256Z,19,A7,MA7A,high,
+3,U24,44256Z,20,A8,MA8A,high,
+3,U25,44256Z,1,OE,GND,high,
+3,U25,44256Z,2,CAS,CASA,high,
+3,U25,44256Z,3,IO2,MD14,high,
+3,U25,44256Z,4,IO3,MD15,high,
+3,U25,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U25,44256Z,6,IO0,MD12,high,
+3,U25,44256Z,7,IO1,MD13,high,
+3,U25,44256Z,8,WE,WEB,high,
+3,U25,44256Z,9,RAS,RASL,high,
+3,U25,44256Z,10,,NC_U25_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U25,44256Z,11,A0,MA0A,high,
+3,U25,44256Z,12,A1,MA1A,high,
+3,U25,44256Z,13,A2,MA2A,high,
+3,U25,44256Z,14,A3,MA3A,high,
+3,U25,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U25,44256Z,16,A4,MA4A,high,
+3,U25,44256Z,17,A5,MA5A,high,
+3,U25,44256Z,18,A6,MA6A,high,
+3,U25,44256Z,19,A7,MA7A,high,
+3,U25,44256Z,20,A8,MA8A,high,
+3,U26,44256Z,1,OE,GND,high,
+3,U26,44256Z,2,CAS,CASA,high,
+3,U26,44256Z,3,IO2,MD26,high,
+3,U26,44256Z,4,IO3,MD27,high,
+3,U26,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U26,44256Z,6,IO0,MD24,high,
+3,U26,44256Z,7,IO1,MD25,high,
+3,U26,44256Z,8,WE,WED,high,
+3,U26,44256Z,9,RAS,RASL,high,
+3,U26,44256Z,10,,NC_U26_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U26,44256Z,11,A0,MA0A,high,
+3,U26,44256Z,12,A1,MA1A,high,
+3,U26,44256Z,13,A2,MA2A,high,
+3,U26,44256Z,14,A3,MA3A,high,
+3,U26,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U26,44256Z,16,A4,MA4A,high,
+3,U26,44256Z,17,A5,MA5A,high,
+3,U26,44256Z,18,A6,MA6A,high,
+3,U26,44256Z,19,A7,MA7A,high,
+3,U26,44256Z,20,A8,MA8A,high,
+3,U27,44256Z,1,OE,GND,high,
+3,U27,44256Z,2,CAS,CASA,high,
+3,U27,44256Z,3,IO2,MD30,high,
+3,U27,44256Z,4,IO3,MD31,high,
+3,U27,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U27,44256Z,6,IO0,MD28,high,
+3,U27,44256Z,7,IO1,MD29,high,
+3,U27,44256Z,8,WE,WED,high,
+3,U27,44256Z,9,RAS,RASL,high,
+3,U27,44256Z,10,,NC_U27_10,medium,ZIP key/NC position; not a signal pin in symbol.
+3,U27,44256Z,11,A0,MA0A,high,
+3,U27,44256Z,12,A1,MA1A,high,
+3,U27,44256Z,13,A2,MA2A,high,
+3,U27,44256Z,14,A3,MA3A,high,
+3,U27,44256Z,15,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+3,U27,44256Z,16,A4,MA4A,high,
+3,U27,44256Z,17,A5,MA5A,high,
+3,U27,44256Z,18,A6,MA6A,high,
+3,U27,44256Z,19,A7,MA7A,high,
+3,U27,44256Z,20,A8,MA8A,high,
+4,C21,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,C21,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,C3,22pF,1,,N_U30_1,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,C3,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,C4,22pF,1,,N_U30_2,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,C4,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,C8,22uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,C8,22uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,JP1,SHUNT,1,,N_U30_11,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,JP1,SHUNT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,JP2,SHUNT,1,,N_U30_9,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,JP2,SHUNT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R14,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R14,10K,2,,-ZEROWS,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R17,22ohm,1,,VCLK,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R17,22ohm,2,,VCLK1,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R19,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R19,10K,2,,N_U30_11,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R2,22ohm,1,,NC_R2_1,high,Open pin stub in schematic.
+4,R2,22ohm,2,,NC_R2_2,high,Open pin stub in schematic.
+4,R2,22ohm,3,,N_U28_123,high,
+4,R2,22ohm,4,,N_U28_120,high,
+4,R2,22ohm,5,,N_U28_119,high,
+4,R2,22ohm,6,,N_U28_118,high,
+4,R2,22ohm,7,,N_U28_117,high,
+4,R2,22ohm,8,,N_U28_116,high,
+4,R2,22ohm,9,,WEC,high,
+4,R2,22ohm,10,,WED,high,
+4,R2,22ohm,11,,WEA,high,
+4,R2,22ohm,12,,WEB,high,
+4,R2,22ohm,13,,RASL,high,
+4,R2,22ohm,14,,CASA,high,
+4,R2,22ohm,15,,NC_R2_15,high,Open pin stub in schematic.
+4,R2,22ohm,16,,NC_R2_16,high,Open pin stub in schematic.
+4,R32,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R32,10K,2,,IOCHRDY,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R38,10ohm,1,,EXTAL,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R38,10ohm,2,,MCLK,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R4,22ohm,1,,PCLK,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R4,22ohm,2,,PCLKX,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R6,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R6,10K,2,,N_U30_9,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R7,22ohm,1,,N_U30_12,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,R7,22ohm,2,,MCLK,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,U12,GAL16V8A,1,I0/CK,VCLK0,high,
+4,U12,GAL16V8A,2,I1,DIVOE,high,
+4,U12,GAL16V8A,3,I2,NC_U12_3,high,Open pin stub in schematic.
+4,U12,GAL16V8A,4,I3,NC_U12_4,high,Open pin stub in schematic.
+4,U12,GAL16V8A,5,I4,NC_U12_5,high,Open pin stub in schematic.
+4,U12,GAL16V8A,6,I5,NC_U12_6,high,Open pin stub in schematic.
+4,U12,GAL16V8A,7,I6,HSYNC,high,
+4,U12,GAL16V8A,8,I7,VSYNC,high,
+4,U12,GAL16V8A,9,I8,NC_U12_9,high,Open pin stub in schematic.
+4,U12,GAL16V8A,10,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+4,U12,GAL16V8A,11,I9,NC_U12_11,high,Open pin stub in schematic.
+4,U12,GAL16V8A,12,F0,NC_U12_12,high,Open pin stub in schematic.
+4,U12,GAL16V8A,13,F1,NC_U12_13,high,Open pin stub in schematic.
+4,U12,GAL16V8A,14,F2,NC_U12_14,high,Open pin stub in schematic.
+4,U12,GAL16V8A,15,F3,NC_U12_15,high,Open pin stub in schematic.
+4,U12,GAL16V8A,16,F4,VCLK1,high,
+4,U12,GAL16V8A,17,F5,NC_U12_17,high,Open pin stub in schematic.
+4,U12,GAL16V8A,18,F6,XSYNC,high,
+4,U12,GAL16V8A,19,F7,NC_U12_19,high,Open pin stub in schematic.
+4,U12,GAL16V8A,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+4,U16,NM93C46,1,CS,EECS,high,
+4,U16,NM93C46,2,SK,CSEL2,high,
+4,U16,NM93C46,3,DI,CSEL1,high,
+4,U16,NM93C46,4,DO,CSEL0,high,
+4,U16,NM93C46,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
+4,U16,NM93C46,6,,NC_U16_6,medium,NM93C46 normal pinout NC; omitted from symbol. Not a statement about the production part's pins 6-7.
+4,U16,NM93C46,7,,NC_U16_7,medium,NM93C46 normal pinout NC; omitted from symbol. Not a statement about the production part's pins 6-7.
+4,U16,NM93C46,8,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
+4,U28,OAK087,1,VSS00,GND,high,
+4,U28,OAK087,2,MD24,MD24,high,
+4,U28,OAK087,3,MD25,MD25,high,
+4,U28,OAK087,4,MD26,MD26,high,
+4,U28,OAK087,5,MD27,MD27,high,
+4,U28,OAK087,6,MD28,MD28,high,
+4,U28,OAK087,7,MD29,MD29,high,
+4,U28,OAK087,8,MD30,MD30,high,
+4,U28,OAK087,9,MD31,MD31,high,
+4,U28,OAK087,10,BD0/-ATOEL,NC_U28_10,high,Open pin stub in schematic.
+4,U28,OAK087,11,BD1/DIR,NC_U28_11,high,Open pin stub in schematic.
+4,U28,OAK087,12,BD2/-SDLOE,NC_U28_12,high,Open pin stub in schematic.
+4,U28,OAK087,13,BD3/-SDHOE,NC_U28_13,high,Open pin stub in schematic.
+4,U28,OAK087,14,BD4/CPUA0,NC_U28_14,high,Open pin stub in schematic.
+4,U28,OAK087,15,BD5/CPUA1,NC_U28_15,high,Open pin stub in schematic.
+4,U28,OAK087,16,BD6/-CPUBHE,NC_U28_16,high,Open pin stub in schematic.
+4,U28,OAK087,17,BD7/CPURESET,NC_U28_17,high,Open pin stub in schematic.
+4,U28,OAK087,18,CSEL3,CSEL3,high,
+4,U28,OAK087,19,SSA(19)/GA20,UNRESOLVED_U28_19,low,"Net label illegible (looks ECLK/BCLK); connected labeled stub, not a no-connect. Datasheet AT-mode function EPCLK."
+4,U28,OAK087,20,SSA(18)/SRDY1,UNRESOLVED_U28_20,low,"Net label illegible (looks EPCL); connected labeled stub, not a no-connect. Datasheet AT-mode function EPDATA."
+4,U28,OAK087,21,VDD0,VCC,high,
+4,U28,OAK087,22,VSS0,GND,high,
+4,U28,OAK087,23,SSA(17)/-LBSEL,NC_U28_23,high,Open pin stub in schematic.
+4,U28,OAK087,24,SWSENSE,SWSENSE,high,
+4,U28,OAK087,25,P0,P0,high,
+4,U28,OAK087,26,P1,P1,high,
+4,U28,OAK087,27,P2,P2,high,
+4,U28,OAK087,28,P3,P3,high,
+4,U28,OAK087,29,VSS01,GND,high,
+4,U28,OAK087,30,P4,P4,high,
+4,U28,OAK087,31,P5,P5,high,
+4,U28,OAK087,32,P6,P6,high,
+4,U28,OAK087,33,P7,P7,high,
+4,U28,OAK087,34,VSYNC,VSYNCI,high,
+4,U28,OAK087,35,HSYNC,HSYNCI,high,
+4,U28,OAK087,36,-BLANK,-BLANK,high,
+4,U28,OAK087,37,PCLK,PCLKX,high,
+4,U28,OAK087,38,SD8,NC_U28_38,high,Open pin stub in schematic.
+4,U28,OAK087,39,SD9,NC_U28_39,high,Open pin stub in schematic.
+4,U28,OAK087,40,SD10,NC_U28_40,high,Open pin stub in schematic.
+4,U28,OAK087,41,VSS02,GND,high,
+4,U28,OAK087,42,SD11,NC_U28_42,high,Open pin stub in schematic.
+4,U28,OAK087,43,SD12,NC_U28_43,high,Open pin stub in schematic.
+4,U28,OAK087,44,SD13,NC_U28_44,high,Open pin stub in schematic.
+4,U28,OAK087,45,SD14,NC_U28_45,high,Open pin stub in schematic.
+4,U28,OAK087,46,SD15,NC_U28_46,high,Open pin stub in schematic.
+4,U28,OAK087,47,-EEPCS/-ATDEN,EECS,high,
+4,U28,OAK087,48,-DACRD,-DACRD,high,
+4,U28,OAK087,49,-DACWR,-DACWR,high,
+4,U28,OAK087,50,SA0,HA0,high,
+4,U28,OAK087,51,SA1,HA1,high,
+4,U28,OAK087,52,SA2,HA2,high,
+4,U28,OAK087,53,SA3,HA3,high,
+4,U28,OAK087,54,SA4,HA4,high,
+4,U28,OAK087,55,SA5,HA5,high,
+4,U28,OAK087,56,SA6,HA6,high,
+4,U28,OAK087,57,SA7,HA7,high,
+4,U28,OAK087,58,SA8,HA8,high,
+4,U28,OAK087,59,SA9,HA9,high,
+4,U28,OAK087,60,SA10,HA10,high,
+4,U28,OAK087,61,VDD1,VCC,high,
+4,U28,OAK087,62,SA11,HA11,high,
+4,U28,OAK087,63,SA12,HA12,high,
+4,U28,OAK087,64,SA13,HA13,high,
+4,U28,OAK087,65,SA14,HA14,high,
+4,U28,OAK087,66,SA15,HA15,high,
+4,U28,OAK087,67,SA16,HA16,high,
+4,U28,OAK087,68,SA17,HA17,high,
+4,U28,OAK087,69,SA18,HA18,high,
+4,U28,OAK087,70,SA19,HA19,high,
+4,U28,OAK087,71,SA20,VGAIO,medium,"Label read VGAIO, matching U15.19. Rotated crop distinguishes SA20 from neighboring SA19=HA19."
+4,U28,OAK087,72,SA21,GND,high,
+4,U28,OAK087,73,SA22,GND,high,
+4,U28,OAK087,74,SA23,GND,high,
+4,U28,OAK087,75,SD0,HD0,high,
+4,U28,OAK087,76,SD1,HD1,high,
+4,U28,OAK087,77,SD2,HD2,high,
+4,U28,OAK087,78,-M16/SRDY,NC_U28_78,high,Open pin stub in schematic.
+4,U28,OAK087,79,IOCHRDY,IOCHRDY,high,
+4,U28,OAK087,80,VSS03,GND,high,
+4,U28,OAK087,81,SD3,HD3,high,
+4,U28,OAK087,82,SD4,HD4,high,
+4,U28,OAK087,83,SD5,HD5,high,
+4,U28,OAK087,84,SD6,HD6,high,
+4,U28,OAK087,85,SD7,HD7,high,
+4,U28,OAK087,86,AEN,GND,high,
+4,U28,OAK087,87,-RFSH,RFSH,high,
+4,U28,OAK087,88,-MRD,MRD,high,
+4,U28,OAK087,89,-MWR,MWR,high,
+4,U28,OAK087,90,CINT,-INT0,high,
+4,U28,OAK087,91,-IO16,NC_U28_91,high,Open pin stub in schematic.
+4,U28,OAK087,92,HLDA,VCC,high,
+4,U28,OAK087,93,ALE/-ADS,ALE,high,
+4,U28,OAK087,94,VDD2,VCC,high,
+4,U28,OAK087,95,-ROMEN/PROCLK,NC_U28_95,high,Open pin stub in schematic.
+4,U28,OAK087,96,VSS1,GND,high,
+4,U28,OAK087,97,RSET,RESET,high,
+4,U28,OAK087,98,ENVGA/-WR,VCC,high,
+4,U28,OAK087,99,-ZEROWS/-DC,-ZEROWS,high,
+4,U28,OAK087,100,-BHE,VCC,high,
+4,U28,OAK087,101,-IOR,IORD,high,
+4,U28,OAK087,102,-IOW,IOWR,high,
+4,U28,OAK087,103,CSEL2,CSEL2,high,
+4,U28,OAK087,104,CSEL1,CSEL1,high,
+4,U28,OAK087,105,CSEL0,CSEL0,high,
+4,U28,OAK087,106,VCLK,VCLK,high,
+4,U28,OAK087,107,MCLK,MCLK,high,
+4,U28,OAK087,108,MA23(1),MA1A,high,
+4,U28,OAK087,109,MA23(2),MA2A,high,
+4,U28,OAK087,110,MA23(3),MA3A,high,
+4,U28,OAK087,111,MA23(4),MA4A,high,
+4,U28,OAK087,112,MA23(5),MA5A,high,
+4,U28,OAK087,113,MA23(6),MA6A,high,
+4,U28,OAK087,114,MA23(7),MA7A,high,
+4,U28,OAK087,115,MA23(8),MA8A,high,
+4,U28,OAK087,116,-WEC,N_U28_116,high,
+4,U28,OAK087,117,-WED,N_U28_117,high,
+4,U28,OAK087,118,-WEA,N_U28_118,high,
+4,U28,OAK087,119,-WEB,N_U28_119,high,
+4,U28,OAK087,120,-RASL,N_U28_120,high,
+4,U28,OAK087,121,VSS04,GND,high,
+4,U28,OAK087,122,MA23(0),MA0A,high,
+4,U28,OAK087,123,-CASA,N_U28_123,high,
+4,U28,OAK087,124,MA01(0),MA0,high,
+4,U28,OAK087,125,-RASH/MA(9),NC_U28_125,high,Open pin stub in schematic.
+4,U28,OAK087,126,MA01(1),MA1,high,
+4,U28,OAK087,127,MA01(2),MA2,high,
+4,U28,OAK087,128,MA01(3),MA3,high,
+4,U28,OAK087,129,MA01(4),MA4,high,
+4,U28,OAK087,130,VSS05,GND,high,
+4,U28,OAK087,131,MA01(5),MA5,high,
+4,U28,OAK087,132,MA01(6),MA6,high,
+4,U28,OAK087,133,MA01(7),MA7,high,
+4,U28,OAK087,134,MA01(8),MA8,high,
+4,U28,OAK087,135,MD0,MD0,high,
+4,U28,OAK087,136,MD1,MD1,high,
+4,U28,OAK087,137,MD2,MD2,high,
+4,U28,OAK087,138,MD3,MD3,high,
+4,U28,OAK087,139,MD4,MD4,high,
+4,U28,OAK087,140,MD5,MD5,high,
+4,U28,OAK087,141,VDD3,VCC,high,
+4,U28,OAK087,142,MD6,MD6,high,
+4,U28,OAK087,143,MD7,MD7,high,
+4,U28,OAK087,144,VSS06,GND,high,
+4,U28,OAK087,145,MD8,MD8,high,
+4,U28,OAK087,146,MD9,MD9,high,
+4,U28,OAK087,147,MD10,MD10,high,
+4,U28,OAK087,148,MD11,MD11,high,
+4,U28,OAK087,149,MD12,MD12,high,
+4,U28,OAK087,150,MD13,MD13,high,
+4,U28,OAK087,151,MD14,MD14,high,
+4,U28,OAK087,152,MD15,MD15,high,
+4,U28,OAK087,153,MD16,MD16,high,
+4,U28,OAK087,154,MD17,MD17,high,
+4,U28,OAK087,155,MD18,MD18,high,
+4,U28,OAK087,156,MD19,MD19,high,
+4,U28,OAK087,157,MD20,MD20,high,
+4,U28,OAK087,158,MD21,MD21,high,
+4,U28,OAK087,159,MD22,MD22,high,
+4,U28,OAK087,160,MD23,MD23,high,
+4,U30,OTI068,1,XTAL1,N_U30_1,high,
+4,U30,OTI068,2,XTAL2,N_U30_2,high,
+4,U30,OTI068,3,AVSS,GND,high,
+4,U30,OTI068,4,FS0,CSEL0,high,
+4,U30,OTI068,5,FS1,CSEL1,high,
+4,U30,OTI068,6,STROBE,NC_U30_6,high,Open pin stub in schematic.
+4,U30,OTI068,7,FS2,CSEL2,high,
+4,U30,OTI068,8,FS3,CSEL3,high,
+4,U30,OTI068,9,MS0,N_U30_9,high,
+4,U30,OTI068,10,DVSS,GND,high,
+4,U30,OTI068,11,MS1,N_U30_11,high,
+4,U30,OTI068,12,MCLK,N_U30_12,high,
+4,U30,OTI068,13,DVDD,VCC,high,
+4,U30,OTI068,14,VSS,GND,high,
+4,U30,OTI068,15,AVDD,VCC,high,
+4,U30,OTI068,16,VSS,GND,high,
+4,U30,OTI068,17,VSS,GND,high,
+4,U30,OTI068,18,NC,NC_U30_18,high,Open pin stub in schematic.
+4,U30,OTI068,19,VCLK,VCLK0,high,
+4,U30,OTI068,20,DVDD,VCC,high,
+4,X2,14.318MHz,1,,N_U30_1,medium,Pad numbers not printed; transcription convention: first endpoint.
+4,X2,14.318MHz,2,,N_U30_2,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C11,22pF,1,,VSYNC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C11,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C12,22pF,1,,HSYNC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C12,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C13,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C13,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C14,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C14,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C15,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C15,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C16,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C16,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C17,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C17,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C18,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C18,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C19,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C19,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C20,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C20,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C22,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C22,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C23,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C23,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C24,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C24,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C25,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C25,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C26,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C26,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C27,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C27,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C28,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C28,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C29,.1uF,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C29,.1uF,2,,N_U31_29,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C30,.1uF,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C30,.1uF,2,,N_U31_31,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C31,.1uF,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C31,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C32,.1uF,1,,-12V,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C32,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C33,10uF TANT,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C33,10uF TANT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C34,.1uF,1,,+12V,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C34,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C5,22pF,1,,RED,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C5,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C6,22pF,1,,GRN,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C6,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C7,22pF,1,,BLU,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,C7,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,D1,1.2V Zener,1,,N_U31_31,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,D1,1.2V Zener,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,J1,BERG16,1,,BLU,high,
+5,J1,BERG16,2,,NC_J1_2,high,Open pin stub in schematic.
+5,J1,BERG16,3,,GRN,high,
+5,J1,BERG16,4,,GND,high,
+5,J1,BERG16,5,,RED,high,
+5,J1,BERG16,6,,NC_J1_6,high,Open pin stub in schematic.
+5,J1,BERG16,7,,NC_J1_7,high,Open pin stub in schematic.
+5,J1,BERG16,8,,NC_J1_8,high,Open pin stub in schematic.
+5,J1,BERG16,9,,GND,high,
+5,J1,BERG16,10,,HSYNC,high,
+5,J1,BERG16,11,,GND,high,
+5,J1,BERG16,12,,VSYNC,high,
+5,J1,BERG16,13,,GND,high,
+5,J1,BERG16,14,,NC_J1_14,high,Open pin stub in schematic.
+5,J1,BERG16,15,,GND,high,
+5,J1,BERG16,16,,NC_J1_16,high,Open pin stub in schematic.
+5,JP3,SHUNT,1,,N_U31_23,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,JP3,SHUNT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,L6,ferrite,1,,+5V,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,L6,ferrite,2,,VAA,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R10,75ohm metal,1,,GRN,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R10,75ohm metal,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R11,75ohm metal,1,,BLU,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R11,75ohm metal,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R12,22ohm,1,,VSYNCI,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R12,22ohm,2,,VSYNC,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R13,22ohm,1,,HSYNCI,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R13,22ohm,2,,HSYNC,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R20,147ohm metal,1,,RSET,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R20,147ohm metal,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R3,[Value],1,,+5V,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R3,[Value],2,,N_U31_23,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R31,1K,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R31,1K,2,,N_U31_31,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,R9,75ohm metal,1,,RED,medium,Pad numbers not printed; transcription convention: first endpoint.
+5,R9,75ohm metal,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,U31,BT478-JOZ,1,,NC_U31_1,medium,Bt478 datasheet NC; omitted from schematic symbol. Bt481 changes this pin to SENSE*.
+5,U31,BT478-JOZ,2,8/6,VAA,high,
+5,U31,BT478-JOZ,3,,GND,medium,Hidden analog ground; datasheet pin assignment; rail inferred.
+5,U31,BT478-JOZ,4,,VAA,medium,Hidden analog supply; datasheet pin assignment; rail inferred.
+5,U31,BT478-JOZ,5,SYNC,VAA,high,
+5,U31,BT478-JOZ,6,RD,-DACRD,high,
+5,U31,BT478-JOZ,7,BLANK,-BLANK,high,
+5,U31,BT478-JOZ,8,D0,HD0,high,
+5,U31,BT478-JOZ,9,D1,HD1,high,
+5,U31,BT478-JOZ,10,D2,HD2,high,
+5,U31,BT478-JOZ,11,D3,HD3,high,
+5,U31,BT478-JOZ,12,D4,HD4,high,
+5,U31,BT478-JOZ,13,D5,HD5,high,
+5,U31,BT478-JOZ,14,D6,HD6,high,
+5,U31,BT478-JOZ,15,D7,HD7,high,
+5,U31,BT478-JOZ,16,WR,-DACWR,high,
+5,U31,BT478-JOZ,17,RS0,HA0,high,
+5,U31,BT478-JOZ,18,RS1,HA1,high,
+5,U31,BT478-JOZ,19,RS2,HA2,high,
+5,U31,BT478-JOZ,20,,VAA,high,Explicit drawing note: please tie pin 20 to VAA (not shown). Bt478 VAA; Bt481 TRUECOL*.
+5,U31,BT478-JOZ,21,,VAA,medium,Hidden analog supply; datasheet pin assignment; rail inferred.
+5,U31,BT478-JOZ,22,,VAA,medium,Hidden analog supply; datasheet pin assignment; rail inferred.
+5,U31,BT478-JOZ,23,SETUP,N_U31_23,high,
+5,U31,BT478-JOZ,24,,GND,medium,Hidden analog ground; datasheet pin assignment; rail inferred.
+5,U31,BT478-JOZ,25,IOR,RED,high,
+5,U31,BT478-JOZ,26,IOG,GRN,high,
+5,U31,BT478-JOZ,27,IOB,BLU,high,
+5,U31,BT478-JOZ,28,IREF,RSET,high,
+5,U31,BT478-JOZ,29,COMP,N_U31_29,high,
+5,U31,BT478-JOZ,30,OPA,N_U31_29,high,
+5,U31,BT478-JOZ,31,VREF,N_U31_31,high,
+5,U31,BT478-JOZ,32,P0,P0,high,
+5,U31,BT478-JOZ,33,P1,P1,high,
+5,U31,BT478-JOZ,34,P2,P2,high,
+5,U31,BT478-JOZ,35,P3,P3,high,
+5,U31,BT478-JOZ,36,P4,P4,high,
+5,U31,BT478-JOZ,37,P5,P5,high,
+5,U31,BT478-JOZ,38,P6,P6,high,
+5,U31,BT478-JOZ,39,P7,P7,high,
+5,U31,BT478-JOZ,40,CLOCK,PCLK,high,
+5,U31,BT478-JOZ,41,OL0,GND,high,
+5,U31,BT478-JOZ,42,OL1,GND,high,
+5,U31,BT478-JOZ,43,OL2,GND,high,
+5,U31,BT478-JOZ,44,OL3,GND,high,

@@ -1,0 +1,21 @@
+Output,Select pins,MHz,Used by
+VCLK,FS3-FS0 = $0,25.175,"VGA 320x200x256, 640x480x256, 640x400x256, 640x200, double hires, hires; AppleColor 560x192 in the firmware tables"
+VCLK,FS3-FS0 = $1,28.322,VGA 40/80-column text; several mode files
+VCLK,FS3-FS0 = $2,65.000,None
+VCLK,FS3-FS0 = $3,44.900,None
+VCLK,FS3-FS0 = $4,28.322,"Several RGB mode files, after the misc-output override (clock selection)"
+VCLK,FS3-FS0 = $5,36.000,AppleColor 40-column text and 280x192 in the firmware tables
+VCLK,FS3-FS0 = $6,40.000,None
+VCLK,FS3-FS0 = $7,36.000,None
+VCLK,FS3-FS0 = $8,25.175,None
+VCLK,FS3-FS0 = $9,28.322,None
+VCLK,FS3-FS0 = $A,78.000,"M640X48016M, whose DAC setting leaves true color off (24-bit mode width)"
+VCLK,FS3-FS0 = $B,65.000,None
+VCLK,FS3-FS0 = $C,63.000,"AppleColor 80-column text, 640x200, 640x400: 63 MHz / 2 in the sequencer / 2 in U12 = 15.75 MHz dots (clock dividers)"
+VCLK,FS3-FS0 = $D,72.000,"M80X25.1575M and M80X24.1575M, after the misc-output override"
+VCLK,FS3-FS0 = $E,40.000,None
+VCLK,FS3-FS0 = $F,50.000,"M640X48032K.50M, M640X40032K.50M and M1280X480.50M"
+MCLK,MS1-MS0 = 00,44.000,None
+MCLK,MS1-MS0 = 01,50.000,None
+MCLK,MS1-MS0 = 10,66.000,None
+MCLK,MS1-MS0 = 11,40.000,This board (memory-clock straps)

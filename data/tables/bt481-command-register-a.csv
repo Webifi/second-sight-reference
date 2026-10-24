@@ -1,0 +1,8 @@
+A7,A6,A5,A4,Pixel mode,Pixel clocks per pixel on P7-P0,Used by
+0,any,any,any,"8-bit palette index, 256 entries",1,Every firmware mode table (feature byte high nibble 0)
+1,0,0,0,"15-bit color (5 red, 5 green, 5 blue), both clock edges","1: low byte on the rising edge, high byte on the falling edge",None
+1,1,0,0,"16-bit color (5 red, 6 green, 5 blue), both clock edges","1: low byte on the rising edge, high byte on the falling edge",None
+1,0,1,0,"15-bit color, one clock edge","2, low byte first",The library's 32K-color mode files (feature byte $A0/$A1): VGA 640x480 and 640x400 at 50 MHz; RGB 640x400 and 320x200 (card mode files)
+1,1,1,0,"16-bit color, one clock edge",2,None
+1,0,0,1,"24-bit color plus 8-bit overlay, both clock edges",2,None
+1,1,1,1,"24-bit color, one clock edge (bypass)",3,"None. A 16.7-million-color mode needs it, but M640X48016M leaves the DAC in palette mode."

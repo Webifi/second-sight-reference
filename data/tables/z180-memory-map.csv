@@ -1,0 +1,7 @@
+Physical range,After reset (/RTS0 high),Normal (/RTS0 low),Notes
+$00000-$1FFFF,EPROM overlay,128 KB SRAM,The firmware switches the overlay with /RTS0
+$20000-$3FFFF,SRAM mirror,SRAM mirror,Used during boot while the EPROM is at zero
+$40000-$4FFFF,Select video RAM half 0,Select video RAM half 0,"Any access, read or write, selects the half; read data floats"
+$50000-$5FFFF,Select video RAM half 1,Select video RAM half 1,"Any access, read or write, selects the half; read data floats"
+$60000-$7FFFF,128 KB EPROM,128 KB EPROM,Low half holds code and data; high half is zero
+$80000-$FFFFF,OTI-087 video window,OTI-087 video window,Oak register 5 and the board's controls set the mapping

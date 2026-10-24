@@ -1,0 +1,78 @@
+{
+  "result": "PASS: CSV consistency and pin coverage only",
+  "part_count": 91,
+  "pin_positions": 970,
+  "net_count_including_open_and_unknown": 319,
+  "pins_by_sheet": {
+    "1": 174,
+    "1;4": 14,
+    "2": 218,
+    "3": 176,
+    "4": 254,
+    "5": 134
+  },
+  "confidence": {
+    "high": 763,
+    "medium": 190,
+    "low": 17
+  },
+  "ic_parts": 26,
+  "ic_pin_comparisons": 756,
+  "pinout_status_counts": {
+    "alias_or_notation": 179,
+    "match": 469,
+    "omitted_symbol": 81,
+    "unnamed_symbol": 21,
+    "legacy_name": 1,
+    "symbol_label_difference": 4,
+    "disagreement": 1
+  },
+  "unresolved_pins": [
+    "U8.8",
+    "U8.9",
+    "U8.10",
+    "U10.1",
+    "U18.46",
+    "U18.47",
+    "U18.48",
+    "U18.49",
+    "U18.51",
+    "U18.52",
+    "U18.53",
+    "U18.55",
+    "U18.56",
+    "U18.57",
+    "U18.64",
+    "U28.19",
+    "U28.20"
+  ],
+  "named_singleton_count": 13,
+  "checks": [
+    "Unique physical pins and BOM references",
+    "BOM and netlist component sets agree",
+    "Valid sheet numbers, pin numbers and confidence values",
+    "Exact forward/inverse connectivity equality",
+    "No accidental merging of NC or unresolved pins",
+    "Every IC pin has one datasheet comparison",
+    "All 44 production RAMDAC pins compared",
+    "UTF-8 output has no replacement or NUL characters"
+  ],
+  "limits": [
+    "No board continuity or powered measurements",
+    "Hidden power rails are inferences",
+    "No original CAD netlist or GAL fusemaps",
+    "Production differences do not change the prototype CSV"
+  ],
+  "sha256": {
+    "bom.csv": "33007de6167cff6f81c4ad42a1ac45b7789201fc7235f2599a0f9e1945827e3c",
+    "bt478_bt481_pin_changes.csv": "49ccdc18c99508a89a63fc51559dc55f7336815e377362051bdf265e1eda27e0",
+    "netlist.csv": "dfdbc7eefc2e65fc81bb7d505193d622f94a21097124f92fb4466a02edec1494",
+    "nets.csv": "08ef9deb97e913585be9c6c934999ee605a429190100c26fcf29076606155a1c",
+    "pinout_checks.csv": "b131aa30e5662bd37b2d729ec31798f942ace201f8f9762992fe08df8c8c3294",
+    "pinout_differences.csv": "603fea17415bc9daf251f5b48c8d4c98b6cdfb2aac104320ffcd9296e6f4a8c2",
+    "singleton_nets.csv": "e51b8a06907d79ce0418999671963cfb5ad62ec402589dd9500b203f2b2f3578",
+    "uncertain_pins.csv": "83c6d399e83b16688e240fa463594bb3b6e3aa1b313c10801ccce19bf90e4fdc",
+    "README.md": "c0dfacf65174f5a1fe917300c3d998e5f95512d4fe9388c210729b9d15d8f141",
+    "SOURCES.md": "04bf73df33e32a7cd85fda9f5b3f9ddb0c41ad6add5e0ef3a78dc09488bdbaa3"
+  }
+}

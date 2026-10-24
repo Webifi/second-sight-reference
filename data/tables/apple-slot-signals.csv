@@ -1,0 +1,29 @@
+Pin,Signal,What the card does with it,Connected to (prototype drawing)
+1,/IOSELECT,Not used. The card has no slot ROM.,No connection drawn
+2-17,A0-A15,Read. The Lattice decodes every address; latches U5/U6 hold the address of a copied write.,"U5, U6, U7"
+18,R/W,Read. 1 = the Apple is reading.,U7
+19,(IIe/IIgs slot 7: composite sync),Not used.,No connection drawn
+20,/IOSTROBE,Not used.,No connection drawn
+21,RDY,Driven low to pause the Apple's processor (RDY and /IRQ).,U8 gate A output
+22,/DMA,Not used. The card never takes over the Apple bus.,Signal label with no connected part
+23,INT OUT,Joined to pin 28 (daisy chains).,pin 28
+24,DMA OUT,Joined to pin 27 (daisy chains).,pin 27
+25,+5 V,Powers the card.,all logic
+26,Ground,Ground reference for the card.,all logic
+27,DMA IN,Joined to pin 24.,pin 24
+28,INT IN,Joined to pin 23.,pin 23
+29,/NMI,Not used.,No connection drawn
+30,/IRQ,"Can be driven low, but the 1.4 firmware never does (RDY and /IRQ).",U8 gate B output
+31,/RESET,Read. An Apple reset restarts the card's Z180.,U17 (reset logic)
+32,/INH,Not used.,No connection drawn
+33,-12 V,Not used; only a 0.1 uF decoupling capacitor (C32) to ground.,C32
+34,-5 V,Not used.,No connection drawn
+35,M2B0 (IIgs),Read. Tells which 64 KB bank a IIgs write goes to (M2B0).,U7
+36,7M (7 MHz clock),"Clocks the Lattice's bank-sampling window on the production board (board clock connections, Lattice clocks).",Signal label with no connected part
+37,Q3,No use drawn. It can clock Lattice Y0 instead of 7M (Lattice clocks).,No connection drawn
+38,PHASE 1,Not used.,No connection drawn
+39,/M2SEL (IIgs) or SYNC (IIe),Read. Marks a bus cycle the card should look at (pin 39).,U7
+40,PHASE 0,"The Lattice's ""data phase"" input on the production board (Lattice clocks).",Signal label with no connected part
+41,/DEVSELECT,Not used.,No connection drawn
+42-49,D7-D0,"Read (latch U2) and driven (latch U3, only on reads of $C0B0-$C0BF).","U2, U3; D4 and D6 also go to U7"
+50,+12 V,Not used; only a 0.1 uF decoupling capacitor (C34) to ground.,C34

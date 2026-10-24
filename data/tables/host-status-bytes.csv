@@ -1,0 +1,9 @@
+Host read after dummy,Returned value,Meaning
+1-5,"G, S, V, G, A",Signature
+6,$06,Count of following bytes the library reads
+7,"$14 in ROM 1.4; $15 in firmware 1.5, $20 in 2.0","Firmware version: high nibble major, low nibble minor (firmware documentation p1)"
+8,Emulation flag,"0 = Apple display emulation, 1 = native mode"
+9,Mode,Current firmware mode code
+10,$01,"Reported video RAM size, always 1 MB in this ROM"
+11,Value read from $3C2,Monitor/sense byte
+12,$18,"First byte of the next ROM instruction, read past the five-field status record"
