@@ -47,8 +47,10 @@ A replica must match three interfaces:
    Oak extensions, the Bt481 registers and color modes, and every OTI-068 clock selection.
    Custom code can program these directly, including features never used by the ROM.
 
-The Apple-side logic is U7's design source, [`SecondSight_U7.ldf`](../data/lattice/SecondSight_U7.ldf),
-which pDS 2.61 builds back into the original fuse map, plus the [glue logic](07-glue-logic.md).
+The Apple-side logic is the Lattice chip's design source: the original,
+[`Lattice_original-BE8C.ldf`](../data/lattice/Lattice_original-BE8C.ldf), which pDS 2.61
+builds back into the original fuse map, and
+[`Lattice_v2.0.ldf`](../data/lattice/Lattice_v2.0.ldf) with the three corrections, plus the [glue logic](07-glue-logic.md).
 
 ## Architecture options
 
@@ -103,7 +105,8 @@ Implement the [Lattice equations](04-capture-logic.md) with their event ordering
   FPGA version must set and clear them at the same moments.
 - The four 74HCT574 latches and the copy controller ([Glue logic](07-glue-logic.md)) can
   live in the same device.
-- Optionally, the three corrections of [Lattice v2.0](12-lattice-fix.md): the bank rule "B or
+- Optionally, the three corrections of [Lattice v2.0](12-lattice-fix.md)
+  ([`Lattice_v2.0.ldf`](../data/lattice/Lattice_v2.0.ldf)): the bank rule "B or
   RAMWRT" (E14), an event for $C034 writes (E15), and the Apple's bank rule for writes
   made while 80STORE is on (E28). None changes anything ROM 1.4 relies on.
 
@@ -171,7 +174,9 @@ land while PHASE 0 is high and stay stable 60 ns before PHASE 0 falls
 ### What has to be written
 
 - **The Apple-side logic**: the [Lattice equations](04-capture-logic.md) (full text:
-  [SecondSight_U7.ldf](../data/lattice/SecondSight_U7.ldf)), the latches U2, U3, U5 and U6,
+  [`Lattice_original-BE8C.ldf`](../data/lattice/Lattice_original-BE8C.ldf), or
+  [`Lattice_v2.0.ldf`](../data/lattice/Lattice_v2.0.ldf) with the corrections), the
+  latches U2, U3, U5 and U6,
   and the copy controller U17 ([Glue logic](07-glue-logic.md)). A per-cycle version is in
   the [emulator guide](10-emulator-guide.md#a-per-cycle-model).
 - **The Z180.** [What ROM 1.4 needs from the processor](05-z180.md#what-rom-14-needs-from-the-processor)

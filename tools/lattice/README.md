@@ -28,9 +28,9 @@ for the ispLSI1016E ([Do not buy](../../docs/lattice-versions.md#do-not-buy)).
 
 | File | What it is |
 |---|---|
-| `data/lattice/SecondSight_U7.ldf` | The original design, commented. With its placement file `.fxp`, pDS 2.61 builds it into the chip Sequential shipped, every fuse equal |
-| `data/lattice/SecondSight_U7_fixed.ldf` | The corrected design, v2.0: the original with the E14, E15 and E28 fixes, each marked CORRECTION |
-| `data/lattice/SecondSight_U7.jed` | The fuse map read from the original chip (checksum BE8C) |
+| `data/lattice/Lattice_original-BE8C.ldf` | The original design, commented. With its placement file `.fxp`, pDS 2.61 builds it into the chip Sequential shipped, every fuse equal |
+| `data/lattice/Lattice_v2.0.ldf` | The corrected design, v2.0: the original with the E14, E15 and E28 fixes, each marked CORRECTION |
+| `data/lattice/Lattice_original-BE8C.jed` | The fuse map read from the original chip (checksum BE8C) |
 | `prebuilt/lattice/*.jed` | The two maps these sources build into ([Lattice chip versions](../../docs/lattice-versions.md)) |
 
 ## Build with pDS 2.61
@@ -46,17 +46,17 @@ eight letters (for example `U7.LDF` and `U7.fxp`):
 The script does the same steps in Wine on a virtual screen:
 
 ```bash
-tools/lattice/pds261_build.sh data/lattice/SecondSight_U7.ldf data/lattice/SecondSight_U7.fxp build/lattice/SecondSight_U7_ispLSI1016.jed
+tools/lattice/pds261_build.sh data/lattice/Lattice_original-BE8C.ldf data/lattice/Lattice_original-BE8C.fxp build/lattice/Lattice_original-BE8C_ispLSI1016.jed
 ```
 
 ```bash
-tools/lattice/pds261_build.sh data/lattice/SecondSight_U7_fixed.ldf data/lattice/SecondSight_U7_fixed.fxp build/lattice/SecondSight_U7_fixed_ispLSI1016.jed
+tools/lattice/pds261_build.sh data/lattice/Lattice_v2.0.ldf data/lattice/Lattice_v2.0.fxp build/lattice/Lattice_v2.0_ispLSI1016.jed
 ```
 
 | Source | Result |
 |---|---|
-| SecondSight_U7 | 15,360 fuses, checksum BE8C: every fuse equal to the original chip |
-| SecondSight_U7_fixed | 15,360 fuses, checksum BBB1 |
+| Lattice_original-BE8C | 15,360 fuses, checksum BE8C: every fuse equal to the original chip |
+| Lattice_v2.0 | 15,360 fuses, checksum BBB1 |
 
 ## Check a build
 
@@ -68,13 +68,13 @@ output pin after each cycle (a `.jed` runs in the emulator, a `.ldf` is evaluate
 written):
 
 ```bash
-python tools/lattice/u7_test.py compare data/lattice/SecondSight_U7_fixed.ldf data/lattice/SecondSight_U7_fixed.ldf build/lattice/SecondSight_U7_fixed_ispLSI1016.jed
+python tools/lattice/u7_test.py compare data/lattice/Lattice_v2.0.ldf data/lattice/Lattice_v2.0.ldf build/lattice/Lattice_v2.0_ispLSI1016.jed
 ```
 
 The v2.0 fixes, on an original and a corrected chip:
 
 ```bash
-python tools/lattice/u7_test.py directed prebuilt/lattice/Lattice_original-BE8C_ispLSI1016.jed prebuilt/lattice/Lattice_v2.0-BBB1_ispLSI1016.jed data/lattice/SecondSight_U7_fixed.ldf
+python tools/lattice/u7_test.py directed prebuilt/lattice/Lattice_original-BE8C_ispLSI1016.jed prebuilt/lattice/Lattice_v2.0-BBB1_ispLSI1016.jed data/lattice/Lattice_v2.0.ldf
 ```
 
 It prints each case: copies of bank $E1 writes made while RAMWRT is on (E14), the event
@@ -88,12 +88,12 @@ cycle; the fix checks pass on v2.0 and show the old behavior on the original.
 Compare two fuse maps fuse by fuse:
 
 ```bash
-python tools/lattice/jedec.py data/lattice/SecondSight_U7.jed build/lattice/SecondSight_U7_ispLSI1016.jed
+python tools/lattice/jedec.py data/lattice/Lattice_original-BE8C.jed build/lattice/Lattice_original-BE8C_ispLSI1016.jed
 ```
 
 ## Changing the design
 
-1. Edit `SecondSight_U7_fixed.ldf`, or a copy of it, and keep its comments in step.
+1. Edit `Lattice_v2.0.ldf`, or a copy of it, and keep its comments in step.
 2. Put a new output in a block with a free output. Name it on that block's line in the
    `.fxp`, or leave the place `-1` and let pDS choose.
 3. Stay inside the chip's limits: each block has four outputs, 20 product terms and 18

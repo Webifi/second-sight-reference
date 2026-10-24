@@ -101,7 +101,7 @@ python tools/prodos.py ls "sources/mirror/Disk Images/ss.source.082395.po"
 
 ## 6. Decode the Lattice ispLSI1016
 
-[`data/lattice/SecondSight_U7.ldf`](../data/lattice/SecondSight_U7.ldf) is U7's logic,
+[`data/lattice/Lattice_original-BE8C.ldf`](../data/lattice/Lattice_original-BE8C.ldf) is U7's logic,
 written for Lattice pDS 2.61, the tool that built the original chip. pDS 2.61 builds the
 original fuse map (`isplsi1016_BE8C.bin`, 15,360 fuses) from it with every fuse equal.
 How the source was made:

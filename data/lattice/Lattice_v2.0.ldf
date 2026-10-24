@@ -1,5 +1,45 @@
-// SecondSight_U7.ldf: the source of U7, the Second Sight's Lattice ispLSI1016, as
-// Sequential shipped it (fuse checksum BE8C).
+// Lattice_v2.0.ldf: the corrected design of U7, Lattice v2.0, for the Second Sight's
+// Lattice ispLSI1016 (docs/lattice-versions.md).
+//
+// CORRECTIONS
+// This is Lattice_original-BE8C.ldf, the source of the chip Sequential shipped, with three
+// equations changed and one output added, each marked CORRECTION. They fix three
+// errata beyond the firmware's reach. See docs/reference/errata.md and
+// docs/12-lattice-fix.md:
+//   E14  A direct write to bank $E1 or $01 while RAMWRT is on is picked for a copy into
+//        the wrong SRAM bank, and above $6000 not picked at all (U5/U6, U2 and GAL U17
+//        make every copy; this chip only decides). The rule for the auxiliary bank was
+//        "B xor RAMWRT"; it becomes "B or RAMWRT": CAPTURE and CATCH_BANK (BANK_Q) each
+//        drop !RAMWRT from one term. Only writes with B = 1 made while RAMWRT is on
+//        change.
+//   E15  The IIgs border color never reaches the card. EVENT_DECODE gains a term, so a
+//        write to $C034 in IIgs mode is an event like $C022 and $C029: ADIN latches the
+//        byte the IIgs writes into U2, INT1 interrupts the Z180, and its handler reads
+//        the byte from port $A0. Showing the border also needs firmware 2.0
+//        (firmware/v2.0).
+//   E28  With 80STORE on, a bank $00 write is copied into the bank PAGE2 picks whatever
+//        its address, so writes outside the 80STORE pages land in the wrong SRAM bank; in
+//        IIgs mode one case copies Super Hi-Res writes over the card's own code in SRAM
+//        bank 0. CATCH_BANK (BANK_Q) follows the Apple's rule: PAGE2 for text page 1,
+//        and for hires page 1 while HIRES is on; RAMWRT for every other address. A new
+//        output in block A2, HIRES1_ADDR, tells BANK_Q whether the address is in hires
+//        page 1; it takes the place of A2_FIT.
+// Everything else is the original's, and the placement file differs only in naming
+// HIRES1_ADDR, so pDS 2.61 builds every block these changes do not touch exactly as in
+// the original chip.
+//
+// CHANGING THE DESIGN
+// Make a change here or in a copy of this file, and build it with pDS 2.61
+// (tools/lattice/README.md). A new output goes in a block with a free output, and
+// Lattice_v2.0.fxp names it on that block's line (or leave the slot -1 and let
+// pDS pick). The chip's limits per block: four outputs, 20 product terms, 18 inputs;
+// pDS reports a design that does not fit. Each signal also enters a block on one fixed
+// routing-pool slot, a block's own outputs included, and some signals share a slot; when
+// a block reads two of them, pDS's router copies one onto a free output of the block
+// that makes it, and with none free it reports "unplaced inputs" (in its route report,
+// .rp7). HIRES1_ADDR exists for this reason. Then run the checks in
+// tools/lattice/README.md.
+// Keep every latch exactly as written (LATCHES below).
 //
 // WHAT THIS CHIP DOES
 // U7, a Lattice ispLSI1016 in a 44-pin PLCC, is the Second Sight's Apple-side logic. On
@@ -14,26 +54,12 @@
 // since the Z180 last read them) and two configuration bits the Z180 writes through port
 // $A1 (COPY_INHIBIT, MODE_D3). Details: docs/04-capture-logic.md.
 //
-// REBUILDING THE ORIGINAL FUSE MAP
-// Lattice's pDS 2.61 builds this file, with its placement file SecondSight_U7.fxp, into
-// the fuse map of the chip Sequential shipped: all 15,360 fuses the same, fuse checksum
-// BE8C. Sequential's design used pDS 2.61 and this source structure. The recovered file
-// preserves the features that determine pDS's result:
-//   - The order of the SIGTYPE lines, of the equations, of the product terms, and of the
-//     names inside each term. pDS numbers the signals of a block in the order the text
-//     first mentions them, and that numbering decides the order of each output's product
-//     terms, which decides where each term goes in the chip.
-//   - STRONGMIN on some outputs. pDS minimizes those with its stronger method instead of
-//     the default (FASTMIN), and that changes the order of their product terms.
-//   - A2_FIT and B0_FIT are unused outputs present in the original build. pDS fits them
-//     to place the block's other outputs on the original OR gates. Its router then
-//     deletes the unused outputs.
-//   - SecondSight_U7.fxp, pDS's placement file: which block and which block output each
-//     signal uses, and which I/O cell each pin uses. COPY_INHIBIT and BANK_HELD appear
-//     twice in it: pDS's router copied each into a second output of its block, for the
-//     block that reads it.
-// The same logic written in another order gives a chip that behaves the same, with other
-// fuses. Changed designs (SecondSight_U7_fixed.ldf) start from this file.
+// THIS FILE AND THE ORIGINAL
+// The original's source, Lattice_original-BE8C.ldf, rebuilds the chip Sequential shipped with
+// every fuse equal; it explains what in the text decides where pDS puts each term (the
+// order, STRONGMIN, A2_FIT and B0_FIT, the placement file). This file keeps all of that
+// except A2_FIT, whose output HIRES1_ADDR uses, and changes only the CORRECTION
+// lines.
 //
 // BUILDING
 // Lattice pDS 2.61 (the "pLSI/ispLSI Development System" for DOS and Windows 3.1, 1994)
@@ -90,7 +116,7 @@
 // pDS file header: the file format, the design's name and the part. Every speed grade of
 // the ispLSI1016 has the same fuse layout, so the grade named here changes nothing.
 LDF 1.00.00 DESIGNLDF;
-DESIGN SSU7;
+DESIGN SSU7FIX;
 PART ispLSI1016-60LJ44;
 OPTION Y1_AS_RESET OFF;
 
@@ -196,7 +222,7 @@ BANK_WINDOW.CLK = !CLK_Y2;
 // terms). A read of $A1 loads it too, from whatever is on the data bus: never read $A1.
 // It is a latch with no reset; the firmware writes $A1 in its first instructions.
 // pDS's router puts a copy of COPY_INHIBIT on a second output of this block, for block
-// A4's CAPTURE (SecondSight_U7.fxp names it twice).
+// A4's CAPTURE (Lattice_original-BE8C.fxp names it twice).
 COPY_INHIBIT =COPY_INHIBIT.PIN & !HA0
              # COPY_INHIBIT.PIN & HA1
              # COPY_INHIBIT.PIN & HA2
@@ -226,17 +252,20 @@ HDOE_A = HOST_DATA_OE.PIN;
 // write (!ARW), copying allowed (!COPY_INHIBIT) and a valid cycle (IIe mode, or /M2SEL
 // low), which is why each address range appears twice. The last two terms add
 // $6000-$9FFF in IIgs mode: the upper part of Super Hi-Res, for writes to the auxiliary
-// bank. Together they are "B xor RAMWRT": a write with B = 1 (bank $E1 or $01), or a
-// bank $00 write that RAMWRT sends to auxiliary memory. Erratum E14: a write with B = 1
-// while RAMWRT is on is lost.
+// bank. Together they are "B or RAMWRT": a write with B = 1 (bank $E1 or $01), or a
+// bank $00 write that RAMWRT sends to auxiliary memory.
+// CORRECTION (E14): the last term also needed !RAMWRT, which made the rule "B xor
+// RAMWRT" and lost a write with B = 1 made while RAMWRT is on (the game Rastan's
+// palettes and scan-line control bytes). B = 1 always means the auxiliary bank, so the
+// term no longer looks at RAMWRT.
 CAPTURE = !ARW & !COPY_INHIBIT & !M2SEL_N & RANGE_2000_5FFF // hires pages 1-2, /M2SEL low
         # !ARW & !COPY_INHIBIT & !M2SEL_N & RANGE_0400_0BFF // text/lores 1-2, /M2SEL low
         # !ARW & !COPY_INHIBIT & RANGE_0400_0BFF & !MODE_D3 // text/lores 1-2, IIe mode
         # !MODE_D3 & !ARW & !COPY_INHIBIT & RANGE_2000_5FFF // hires pages 1-2, IIe mode
         # MODE_D3 & !ARW & !COPY_INHIBIT & !M2SEL_N & RAMWRT & !BANK_HELD & RANGE_2000_9FFF
                                                     // IIgs: bank $00 to aux via RAMWRT
-        # MODE_D3 & !ARW & !RAMWRT & !COPY_INHIBIT & !M2SEL_N & BANK_HELD & RANGE_2000_9FFF;
-                                                    // IIgs: B=1, RAMWRT loses it (E14)
+        # MODE_D3 & !ARW & !COPY_INHIBIT & !M2SEL_N & BANK_HELD & RANGE_2000_9FFF;
+                                                    // IIgs: B = 1, bank $E1 or $01
 
 // A valid access to $C000-$C0FF. In IIe mode (MODE_D3 = 0) every cycle counts. In IIgs
 // mode only cycles with /M2SEL low count: the IIgs's fast-side cycles do not assert
@@ -271,12 +300,12 @@ END;
 END;
 
 // ====================================================================================
-// Block A2: the held IIgs bank bit B, and the copy strobe CATCH.
+// Block A2: the held IIgs bank bit B, the copy strobe CATCH, and the hires page 1 decode.
 // ====================================================================================
 SYM GLB A2 1 A2;
 SIGTYPE BANK_HELD            Out;                   // IIgs bank B: M2B0 in bank window
 SIGTYPE CATCH_ACTIVE         Out;                   // Apple video write copy active
-SIGTYPE A2_FIT               Out;
+SIGTYPE HIRES1_ADDR          Out;                   // hires 1: $2000-$3FFF (E28)
 EQUATIONS
 
 // A copy is under way: CAPTURE in the data phase, with M2B0 low. The Apple leaves M2B0
@@ -290,18 +319,18 @@ CATCH_ACTIVE = CAPTURE & CPU & !M2B0;
 // cycle (/M2SEL low), and M2B0 low clears it. Outside the window it holds, through the
 // data phase that follows. In IIe mode (MODE_D3 = 0) it is always 0. pDS's router puts a
 // copy of BANK_HELD on a second output of this block, for block B0's BANK_Q
-// (SecondSight_U7.fxp names it twice).
+// (Lattice_original-BE8C.fxp names it twice).
 BANK_HELD =M2B0 & BANK_HELD.PIN & MODE_D3          // hold while M2B0 is 1
           # MODE_D3 & BANK_HELD.PIN & !BANK_WINDOW  // hold outside the window
           # MODE_D3 & BANK_WINDOW & M2B0 & !M2SEL_N; // set: M2B0 = 1 in the window
 
-// Nothing reads A2_FIT. The original build had this output: pDS fits it, which puts
-// BANK_HELD and CATCH_ACTIVE on the OR gates the original chip uses, then its router
-// deletes it. Keep it, or this block's fuses change.
-A2_FIT = MODE_D3 & BANK_WINDOW & M2SEL_N
-       # !MODE_D3 & !BANK_WINDOW & M2SEL_N
-       # !MODE_D3 & BANK_WINDOW & !M2SEL_N
-       # MODE_D3 & !BANK_WINDOW & !M2SEL_N;
+// CORRECTION (E28), new output: the address is in hires page 1, $2000-$3FFF (within
+// $2000-$5FFF, A13 = 1). Block B0's BANK_Q reads it: there PAGE2 picks the bank of a
+// hires page 1 write while 80STORE and HIRES are on. It sits on this block's fourth
+// output, whose routing-pool slot in B0 is free; in the original that output held
+// A2_FIT, a dummy that steered where pDS put BANK_HELD and CATCH_ACTIVE, so their
+// product terms may sit on other OR gates than in the original chip.
+HIRES1_ADDR = RANGE_2000_5FFF & AA13;
 END;
 END;
 
@@ -385,14 +414,40 @@ BANK_Q.PTCLK = !(CAPTURE & CPU);
 // Bank 1 if any term is true, otherwise bank 0. B comes from M2B0 (layer 1); the
 // softswitch terms cover bank $00 writes that RAMWRT or 80STORE send to auxiliary memory,
 // which M2B0 does not show (layer 2). See docs/04-capture-logic.md, Bank tracking.
+// CORRECTION (E14): the B term was BANK_HELD & !RAMWRT & MODE_D3, which sent a write
+// with B = 1 made while RAMWRT is on to bank 0. B = 1 always means the auxiliary bank,
+// so the term no longer looks at RAMWRT.
+// CORRECTION (E28): with 80STORE on, the terms follow the Apple's rule for a bank $00
+// write (Apple IIgs Hardware Reference, Table 3-3): PAGE2 picks the bank for text page 1
+// ($0400-$07FF), and for hires page 1 ($2000-$3FFF) while HIRES is on; RAMWRT picks it
+// for every other address. The original had two terms instead,
+// "!BANK_HELD & STORE80 & PAGE2" and "!BANK_HELD & RAMWRT & MODE_D3 & !HIRES", which
+// applied PAGE2 to every address while 80STORE was on, and RAMWRT too in IIgs mode with
+// HIRES off. In IIgs mode with 80STORE and HIRES on, PAGE2 off and RAMWRT on, that
+// copied Super Hi-Res writes to $6000-$9FFF over the card's own code in bank 0.
+// The address terms rely on what CAPTURE copies, $0400-$0BFF and $2000-$9FFF: text page
+// 1 is RANGE_0400_0BFF with A10 = 1, and hires page 1 comes from block A2 (HIRES1_ADDR).
+// In this block A11 and A13-A15 share their routing-pool slots with CAPTURE, PAGE2,
+// RAMWRT and STORE80, so they cannot come in here. The B term no longer names MODE_D3,
+// which freed A10's slot: every term of BANK_HELD has MODE_D3, so BANK_HELD is 0 in IIe
+// mode anyway. The address is still valid when BANK_Q loads: the same falling
+// CAPTURE & CPU makes CATCH_N rise at its pin, later, and U5/U6 latch the address on
+// that edge.
 BANK_Q = !BANK_HELD & RAMWRT & !STORE80             // RAMWRT, 80STORE off
-       # !BANK_HELD & STORE80 & PAGE2               // 80STORE with PAGE2
-       # BANK_HELD & !RAMWRT & MODE_D3              // IIgs write to bank $E1 or $01;
-                                                    // E14: misses B = 1 with RAMWRT on
-       # !BANK_HELD & RAMWRT & MODE_D3 & !HIRES;    // IIgs mode: RAMWRT, HIRES off
+       # BANK_HELD                                  // IIgs write to bank $E1 or $01
+       # !BANK_HELD & STORE80 & PAGE2 & RANGE_0400_0BFF & AA10
+                                                    // 80STORE, text page 1: PAGE2
+       # !BANK_HELD & STORE80 & PAGE2 & HIRES & HIRES1_ADDR
+                                                    // 80STORE, HIRES, hires 1: PAGE2
+       # !BANK_HELD & STORE80 & RAMWRT & RANGE_0400_0BFF & !AA10
+                                                    // 80STORE, text page 2: RAMWRT
+       # !BANK_HELD & STORE80 & RAMWRT & !RANGE_0400_0BFF & !HIRES1_ADDR
+                                                    // 80STORE, $4000-$9FFF: RAMWRT
+       # !BANK_HELD & STORE80 & RAMWRT & !RANGE_0400_0BFF & !HIRES;
+                                                    // 80STORE,!HIRES,$2000-$9FFF: RAMWRT
 
-// Nothing reads B0_FIT. As A2_FIT in block A2: the original build had it, pDS fits it,
-// which puts BANK_Q on the OR gates the original chip uses, then its router deletes it.
+// Nothing reads B0_FIT. The original build had it: pDS fits it, which steers where
+// BANK_Q's terms go, then its router deletes it.
 B0_FIT = HIRES & BANK_HELD
        # !HIRES & !BANK_HELD;
 END;
@@ -617,6 +672,11 @@ LOAD_RAMWRT = !AA7 & !AA6 & !AA5 & !AA4 & !AA3 & AA2 & !AA1 & !ARW & C0_VALID & 
 // addresses). No event for $C000/$C001 (80STORE is tracked here instead), for
 // $C054/$C055 while 80STORE is on (then they switch memory, not the display), for
 // $C0B8-$C0BF, or for $C068.
+// CORRECTION (E15): the last term is new. It makes a write to $C034 in IIgs mode, the
+// IIgs border color (the low four bits of CLOCKCTL), an event like the $C022 text color
+// write: ADIN latches the byte written into U2, and the Z180 reads it from port $A0.
+// ROM 1.4 has no handler for it: the event reaches the default handler, which ignores
+// the byte; firmware 2.0 (firmware/v2.0) adds one.
 EVENT_DECODE = !AA7 & AA6 & AA4 & AA3 & AA2 & AA1 & !ARW & C0_VALID // $C05E-$C05F, $C07E-$C07F
              # !AA7 & !AA6 & !AA5 & !AA4 & AA3 & AA2 & !ARW & C0_VALID // $C00C-$C00F: 80VID, ALTCHAR
              # AA7 & !AA6 & AA5 & AA4 & !AA3 & C0_VALID // $C0B0-$C0B7: card registers
@@ -624,7 +684,8 @@ EVENT_DECODE = !AA7 & AA6 & AA4 & AA3 & AA2 & AA1 & !ARW & C0_VALID // $C05E-$C0
              # !AA7 & AA6 & !AA5 & AA4 & AA2 & AA1 & C0_VALID // $C056-$C057 LORES/HIRES, $C05E-$C05F AN3
              # !AA7 & AA6 & !AA5 & AA4 & !AA3 & C0_VALID & !STORE80 // $C050-$C057, !80STORE
              # !AA7 & !AA6 & AA5 & !AA4 & !AA3 & !AA2 & AA1 & !AA0 & !ARW & C0_VALID & MODE_D3 // IIgs writes: $C022 text colors
-             # !AA7 & !AA6 & AA5 & !AA4 & AA3 & !AA2 & AA0 & !ARW & MODE_D3 & C0_VALID; // IIgs writes: $C029 NEWVIDEO, $C02B
+             # !AA7 & !AA6 & AA5 & !AA4 & AA3 & !AA2 & AA0 & !ARW & MODE_D3 & C0_VALID // IIgs writes: $C029 NEWVIDEO, $C02B
+             # AA2 & AA4 & AA5 & C0_VALID & MODE_D3 & !AA0 & !AA1 & !AA3 & !AA6 & !AA7 & !ARW; // IIgs writes: $C034 border (E15)
 END;
 END;
 

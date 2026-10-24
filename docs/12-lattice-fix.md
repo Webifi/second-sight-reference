@@ -98,7 +98,7 @@ that change palettes without drawing.
 ## The fuses
 
 A fuse map lists the chip's 15,360 programming bits. Lattice's pDS 2.61 builds the
-corrected design, [`SecondSight_U7_fixed.ldf`](../data/lattice/SecondSight_U7_fixed.ldf)
+corrected design, [`Lattice_v2.0.ldf`](../data/lattice/Lattice_v2.0.ldf)
 with its placement file, into fuse checksum BBB1. 142 bits differ from the original
 BE8C. They sit in the four blocks that changed, A2 (the new HIRES1_ADDR), A4 (CAPTURE),
 B0 (CATCH_BANK's register BANK_Q) and B7 (EVENT_DECODE), and in six routing-pool
@@ -119,11 +119,11 @@ for the ispLSI1016. It goes with [firmware 2.0](firmware-versions.md)
 ([Lattice chip versions](lattice-versions.md)).
 
 **From source:** pDS 2.61 builds
-[`data/lattice/SecondSight_U7_fixed.ldf`](../data/lattice/SecondSight_U7_fixed.ldf), which
+[`data/lattice/Lattice_v2.0.ldf`](../data/lattice/Lattice_v2.0.ldf), which
 has a comment on every block, signal and term:
 
 ```bash
-tools/lattice/pds261_build.sh data/lattice/SecondSight_U7_fixed.ldf data/lattice/SecondSight_U7_fixed.fxp build/lattice/SecondSight_U7_fixed_ispLSI1016.jed
+tools/lattice/pds261_build.sh data/lattice/Lattice_v2.0.ldf data/lattice/Lattice_v2.0.fxp build/lattice/Lattice_v2.0_ispLSI1016.jed
 ```
 
 What it needs, the steps by hand, and the checks of a built file against its source and

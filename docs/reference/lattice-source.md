@@ -22,7 +22,7 @@ block (GLB) and by I/O cell, either in pDS's edit windows or in any text editor.
 checks and minimizes the logic, places and routes it, and writes the JEDEC fuse map that a
 programmer loads. Source: [Lattice 1996 Data Book](../sources.md#s85) pp6-7 to 6-11.
 
-Sequential built U7 with pDS 2.61 from an LDF file. pDS 2.61 builds `SecondSight_U7.ldf`
+Sequential built U7 with pDS 2.61 from an LDF file. pDS 2.61 builds `Lattice_original-BE8C.ldf`
 into the original fuse map with all 15,360 fuses equal. The details that takes are pDS
 2.61's own: the text order, the STRONGMIN outputs, two outputs nothing reads, and the
 router's copies of two signals.
@@ -57,10 +57,10 @@ extensions); pDS 2.61's macro library `LATSYSM.LIB` (I/O cell macros).
 
 | File | Contents |
 |---|---|
-| [`SecondSight_U7.ldf`](../../data/lattice/SecondSight_U7.ldf) | The original design (fuse checksum BE8C), with comments on what every block, signal and term does |
-| [`SecondSight_U7.fxp`](../../data/lattice/SecondSight_U7.fxp) | Its placement file: the block and block output of every signal, the I/O cell of every pin |
-| [`SecondSight_U7_fixed.ldf`](../../data/lattice/SecondSight_U7_fixed.ldf), [`.fxp`](../../data/lattice/SecondSight_U7_fixed.fxp) | The [corrected design](../12-lattice-fix.md) for errata E14, E15 and E28: the original with three equations changed and one output added, each marked `CORRECTION` with its reason |
-| [`SecondSight_U7.jed`](../../data/lattice/SecondSight_U7.jed) | The original fuse map (checksum BE8C), the dump the design was recovered from |
+| [`Lattice_original-BE8C.ldf`](../../data/lattice/Lattice_original-BE8C.ldf) | The original design (fuse checksum BE8C), with comments on what every block, signal and term does |
+| [`Lattice_original-BE8C.fxp`](../../data/lattice/Lattice_original-BE8C.fxp) | Its placement file: the block and block output of every signal, the I/O cell of every pin |
+| [`Lattice_v2.0.ldf`](../../data/lattice/Lattice_v2.0.ldf), [`.fxp`](../../data/lattice/Lattice_v2.0.fxp) | Lattice v2.0 (fuse checksum BBB1), the [corrected design](../12-lattice-fix.md) for errata E14, E15 and E28: the original with three equations changed and one output added, each marked `CORRECTION` with its reason |
+| [`Lattice_original-BE8C.jed`](../../data/lattice/Lattice_original-BE8C.jed) | The original fuse map (checksum BE8C), the dump the design was recovered from |
 
 Every place the corrected design differs from the original:
 
@@ -143,11 +143,13 @@ CAPTURE, in every block.
 
 ## The full source
 
-The original design, `SecondSight_U7.ldf`, comments included:
+The original design, `Lattice_original-BE8C.ldf`, comments included. Lattice v2.0's full
+text is [`Lattice_v2.0.ldf`](../../data/lattice/Lattice_v2.0.ldf); its differences from
+this file are listed under [The source files](#the-source-files).
 
 <!-- ldf:begin -->
 ```text
-// SecondSight_U7.ldf: the source of U7, the Second Sight's Lattice ispLSI1016, as
+// Lattice_original-BE8C.ldf: the source of U7, the Second Sight's Lattice ispLSI1016, as
 // Sequential shipped it (fuse checksum BE8C).
 //
 // WHAT THIS CHIP DOES
@@ -164,7 +166,7 @@ The original design, `SecondSight_U7.ldf`, comments included:
 // $A1 (COPY_INHIBIT, MODE_D3). Details: docs/04-capture-logic.md.
 //
 // REBUILDING THE ORIGINAL FUSE MAP
-// Lattice's pDS 2.61 builds this file, with its placement file SecondSight_U7.fxp, into
+// Lattice's pDS 2.61 builds this file, with its placement file Lattice_original-BE8C.fxp, into
 // the fuse map of the chip Sequential shipped: all 15,360 fuses the same, fuse checksum
 // BE8C. Sequential's design used pDS 2.61 and this source structure. The recovered file
 // preserves the features that determine pDS's result:
@@ -177,12 +179,12 @@ The original design, `SecondSight_U7.ldf`, comments included:
 //   - A2_FIT and B0_FIT are unused outputs present in the original build. pDS fits them
 //     to place the block's other outputs on the original OR gates. Its router then
 //     deletes the unused outputs.
-//   - SecondSight_U7.fxp, pDS's placement file: which block and which block output each
+//   - Lattice_original-BE8C.fxp, pDS's placement file: which block and which block output each
 //     signal uses, and which I/O cell each pin uses. COPY_INHIBIT and BANK_HELD appear
 //     twice in it: pDS's router copied each into a second output of its block, for the
 //     block that reads it.
 // The same logic written in another order gives a chip that behaves the same, with other
-// fuses. Changed designs (SecondSight_U7_fixed.ldf) start from this file.
+// fuses. Changed designs (Lattice_v2.0.ldf) start from this file.
 //
 // BUILDING
 // Lattice pDS 2.61 (the "pLSI/ispLSI Development System" for DOS and Windows 3.1, 1994)
@@ -345,7 +347,7 @@ BANK_WINDOW.CLK = !CLK_Y2;
 // terms). A read of $A1 loads it too, from whatever is on the data bus: never read $A1.
 // It is a latch with no reset; the firmware writes $A1 in its first instructions.
 // pDS's router puts a copy of COPY_INHIBIT on a second output of this block, for block
-// A4's CAPTURE (SecondSight_U7.fxp names it twice).
+// A4's CAPTURE (Lattice_original-BE8C.fxp names it twice).
 COPY_INHIBIT =COPY_INHIBIT.PIN & !HA0
              # COPY_INHIBIT.PIN & HA1
              # COPY_INHIBIT.PIN & HA2
@@ -439,7 +441,7 @@ CATCH_ACTIVE = CAPTURE & CPU & !M2B0;
 // cycle (/M2SEL low), and M2B0 low clears it. Outside the window it holds, through the
 // data phase that follows. In IIe mode (MODE_D3 = 0) it is always 0. pDS's router puts a
 // copy of BANK_HELD on a second output of this block, for block B0's BANK_Q
-// (SecondSight_U7.fxp names it twice).
+// (Lattice_original-BE8C.fxp names it twice).
 BANK_HELD =M2B0 & BANK_HELD.PIN & MODE_D3          // hold while M2B0 is 1
           # MODE_D3 & BANK_HELD.PIN & !BANK_WINDOW  // hold outside the window
           # MODE_D3 & BANK_WINDOW & M2B0 & !M2SEL_N; // set: M2B0 = 1 in the window

@@ -432,7 +432,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   event decode does not include $C034, so the byte is never latched and the Z180 never
   learns the value. Lattice's pDS 2.61 builds the recovered source, every `EVENT_DECODE`
   term included, into BE8C with every fuse equal. Sources:
-  `EVENT_DECODE` in the [design source](../../data/lattice/SecondSight_U7.ldf) (block B7);
+  `EVENT_DECODE` in the [design source](../../data/lattice/Lattice_original-BE8C.ldf) (block B7);
   [event addresses](z180-io-ports.md#apple-event-addresses).
 - **Workaround:** SetBorder ($08) after every change of display mode, with a palette index
   whose color matches the IIgs border. A CDA of the time did this ([GEnie message](../sources.md#s74)).
@@ -452,7 +452,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   in IIgs mode it applies RAMWRT whenever HIRES is off, text page 1 included.
 - **Symptom:** in these cases the card copies the write into the other SRAM bank, so its
   copy of that page holds wrong bytes until the program writes them again. These follow
-  from `BANK_Q` in the [design source](../../data/lattice/SecondSight_U7.ldf), which
+  from `BANK_Q` in the [design source](../../data/lattice/Lattice_original-BE8C.ldf), which
   pDS 2.61 builds into BE8C with every fuse equal:
   - 80STORE and PAGE2 on, a main-memory write to text page 2, hires page 2, or hires
     page 1 with HIRES off: copied to auxiliary.

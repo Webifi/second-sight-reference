@@ -12,7 +12,7 @@ U7 controls the Apple-side interface. On every slot bus cycle it decides three t
 It also gives the Z180 eight read-only status bits ("band flags") and two configuration
 bits.
 
-The equations are U7's recovered source, [`SecondSight_U7.ldf`](../data/lattice/SecondSight_U7.ldf).
+The equations are U7's recovered source, [`Lattice_original-BE8C.ldf`](../data/lattice/Lattice_original-BE8C.ldf).
 Lattice's pDS 2.61 builds it back into the chip's fuse map, `isplsi1016_BE8C.bin`, with
 every fuse equal ([Lattice design source](reference/lattice-source.md)).
 
@@ -35,7 +35,7 @@ every fuse equal ([Lattice design source](reference/lattice-source.md)).
 ## Signals
 
 Pins and nets: [Lattice pins](reference/lattice-pins.md). The names below are those of
-the [design source](../data/lattice/SecondSight_U7.ldf):
+the [design source](../data/lattice/Lattice_original-BE8C.ldf):
 
 - `CPU` is PHASE 0 (slot pin 40, U7 pin 37), high during the Apple data phase
   ([Clocks and phase](#clocks-and-phase)).
@@ -157,7 +157,7 @@ That is why the manual says a ROM 01 IIgs must use slot 3.
 
 Four flip-flops follow the Apple's own softswitches on falling Y0 edges. HIRES loads for
 a qualifying $C056/$C057 address (C0_VALID), without a CPU/data-phase term; PAGE2, RAMWRT
-and STORE80 require CPU high as well. Source: [design source](../data/lattice/SecondSight_U7.ldf), blocks A7, B5 and B7.
+and STORE80 require CPU high as well. Source: [design source](../data/lattice/Lattice_original-BE8C.ldf), blocks A7, B5 and B7.
 
 The address is stable through a normal bus cycle, so the missing data-phase term does not
 change what HIRES ends up holding. Every switch:
@@ -287,7 +287,7 @@ shares a net with the OTI-087's active-high reset. In reset mode that net would 
 hold one of the two chips in reset (high resets the Oak, low resets the Lattice), but the
 card runs both. The fuse map agrees: BE8C's reset multiplexer takes the constant, not
 pin 35, which is what pDS 2.61 writes for `OPTION Y1_AS_RESET OFF`, the option the
-recovered [source](../data/lattice/SecondSight_U7.ldf) has.
+recovered [source](../data/lattice/Lattice_original-BE8C.ldf) has.
 So pin 35 is the Y1 clock input, unused, and an Apple reset leaves the Lattice registers
 alone. The IIgs reset code rewrites HIRES, PAGE2 and RAMWRT itself.
 Sources: [netlist](../data/netlist/README.md); [OTI-087 databook](sources.md#s02) p18.
@@ -302,7 +302,7 @@ redraw. Source: [`ROM_BEEF.asm:9036-9044`](sources.md#s27).
 ## How this was checked
 
 Lattice pDS 2.61 builds the recovered source,
-[`SecondSight_U7.ldf`](../data/lattice/SecondSight_U7.ldf), into BE8C with all 15,360
+[`Lattice_original-BE8C.ldf`](../data/lattice/Lattice_original-BE8C.ldf), into BE8C with all 15,360
 fuses equal. Every equation, register, clock and pin of the source is therefore the
 chip's, including the copy rule (CAPTURE), the bank equation (CATCH_BANK) and the event
 decode (EVENT_DECODE) that errata

@@ -67,7 +67,7 @@ Directions come from the fuse map, except for the supply and programming pins.
 
 On `$C068` accesses the fuse map loads PAGE2 from pin 2. STATEREG bit 6 is PAGE2, so the
 blurred label is AD6. Pin 36 supplies AD4, which loads RAMWRT from bit 4.
-Source: [design source](../../data/lattice/SecondSight_U7.ldf), block B5 and the I/O cells.
+Source: [design source](../../data/lattice/Lattice_original-BE8C.ldf), block B5 and the I/O cells.
 
 ### Bank input and pull-down
 

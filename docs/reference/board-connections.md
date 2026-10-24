@@ -86,10 +86,11 @@ retrace bit ($3DA bit 3) gives the same timing with no change to the card.
 - The drawing's /INT0 net joins only Z180 pin 10 and Oak pin 90 (CINT). Source:
   [netlist](../../data/netlist/README.md).
 - CINT is an active-low, open-collector output: it can pull the line low but never drives
-  it high. The databook's DC table lists it with the chip's other open-drain outputs
-  (IOCHRDY, IO16, M16, ZEROWS). The two of those this card uses each have an external
-  pull-up: R32 on IOCHRDY and R14 on ZEROWS. CINT has none. Sources:
-  [OTI-087 databook](../sources.md#s02) p18 and DC characteristics (printed p57).
+  it high. When it is not pulling low it is off, with at most 10 uA of leakage, and the
+  databook describes no internal pull-up on any pin. The DC table lists it with the
+  chip's other open-drain outputs (IOCHRDY, IO16, M16, ZEROWS). The two of those this card
+  uses each have an external pull-up: R32 on IOCHRDY and R14 on ZEROWS. CINT has none.
+  Sources: [OTI-087 databook](../sources.md#s02) p18 and DC characteristics (printed p57).
 - The Z8S180's /INT0 is a plain input; neither the product specification nor the user
   manual describes an internal pull-up. Sources: [Z8S180 specification](../sources.md#s62)
   pin description; [Zilog UM0050](../sources.md#s39) pin description.

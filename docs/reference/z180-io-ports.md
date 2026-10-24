@@ -117,7 +117,7 @@ Each bit of $A4/$A5 marks a 4 KB band of Super Hi-Res memory as written
 ([band flag layout](#band-flag-layout)). Any access to the port, even a write, clears its
 flags; a read returns them first. Never write these ports: U7 drives HD0-HD3 against the
 Z180, so the write data is lost even though the flags clear.
-Sources: [design source](../../data/lattice/SecondSight_U7.ldf), the DIRTY_ and HDn_DRIVE
+Sources: [design source](../../data/lattice/Lattice_original-BE8C.ldf), the DIRTY_ and HDn_DRIVE
 equations; [ROM_BEEF.asm:9036-9160](../sources.md#s27), `render_superhires`.
 
 `$A6/$A7` return the caught low Apple address byte, low nibble then high nibble. They also
@@ -200,8 +200,8 @@ Sources: [Z8S180 specification](../sources.md#s62); [ROM_BEEF.asm](../sources.md
 <!-- csv: data/tables/z180-io-details.csv -->
 | Port | Bit 0 | Bit 1 | Bit 2 | Bit 3 | Source |
 |---|---|---|---|---|---|
-| $A4 | $2000-$2FFF | $3000-$3FFF | $4000-$4FFF | $5000-$5FFF | [design source](../../data/lattice/SecondSight_U7.ldf), HDn_DRIVE |
-| $A5 | $6000-$6FFF | $7000-$7FFF | $8000-$8FFF | $9000-$9FFF | [design source](../../data/lattice/SecondSight_U7.ldf), HDn_DRIVE |
+| $A4 | $2000-$2FFF | $3000-$3FFF | $4000-$4FFF | $5000-$5FFF | [design source](../../data/lattice/Lattice_original-BE8C.ldf), HDn_DRIVE |
+| $A5 | $6000-$6FFF | $7000-$7FFF | $8000-$8FFF | $9000-$9FFF | [design source](../../data/lattice/Lattice_original-BE8C.ldf), HDn_DRIVE |
 
 ## Tracked softswitches
 

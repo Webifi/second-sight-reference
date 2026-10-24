@@ -304,8 +304,8 @@ for 10,000 erase-and-program cycles and 20 years of data retention.
 ## Building a version yourself
 
 Both designs are pDS 2.61 source files with a comment on every block, signal and term:
-[`data/lattice/SecondSight_U7.ldf`](../data/lattice/SecondSight_U7.ldf) (BE8C) and
-[`SecondSight_U7_fixed.ldf`](../data/lattice/SecondSight_U7_fixed.ldf) (v2.0), each with
+[`data/lattice/Lattice_original-BE8C.ldf`](../data/lattice/Lattice_original-BE8C.ldf) (BE8C) and
+[`Lattice_v2.0.ldf`](../data/lattice/Lattice_v2.0.ldf) (v2.0), each with
 its placement file (`.fxp`). Build commands and checks:
 [Building the Lattice fuse map](../tools/lattice/README.md).
 
@@ -314,12 +314,12 @@ its placement file (`.fxp`). Build commands and checks:
 The fuse map read from Sequential's chip is
 [`original/isplsi1016_BE8C.bin`](../original/isplsi1016_BE8C.bin) ([public copy](sources.md#s24)),
 a JEDEC text file despite its name, the same bytes as
-[`data/lattice/SecondSight_U7.jed`](../data/lattice/SecondSight_U7.jed). pDS 2.61 builds
-[`SecondSight_U7.ldf`](../data/lattice/SecondSight_U7.ldf) and its placement file back
+[`data/lattice/Lattice_original-BE8C.jed`](../data/lattice/Lattice_original-BE8C.jed). pDS 2.61 builds
+[`Lattice_original-BE8C.ldf`](../data/lattice/Lattice_original-BE8C.ldf) and its placement file back
 into it with all 15,360 fuses equal:
 
 ```bash
-tools/lattice/pds261_build.sh data/lattice/SecondSight_U7.ldf data/lattice/SecondSight_U7.fxp build/lattice/SecondSight_U7_ispLSI1016.jed
+tools/lattice/pds261_build.sh data/lattice/Lattice_original-BE8C.ldf data/lattice/Lattice_original-BE8C.fxp build/lattice/Lattice_original-BE8C_ispLSI1016.jed
 ```
 
 How the fuses are read: [Method](13-method.md#6-decode-the-lattice-isplsi1016).

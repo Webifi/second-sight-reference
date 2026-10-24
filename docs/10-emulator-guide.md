@@ -80,14 +80,20 @@ cannot stall the CPU, run the Z180 forward until it acknowledges, inside the bus
 
 ### A per-cycle model
 
-Run it once per slow-side bus cycle. It is the original Lattice chip's copy and event logic; U17's
-timing is in [wait states](05-z180.md#wait-states).
+Run it once per slow-side bus cycle. `V2` picks the Lattice version: false for the
+original chip (BE8C), true for Lattice v2.0 (BBB1). Each v2.0 difference is marked with
+its erratum. The full equations of both versions:
+[`Lattice_original-BE8C.ldf`](../data/lattice/Lattice_original-BE8C.ldf) and
+[`Lattice_v2.0.ldf`](../data/lattice/Lattice_v2.0.ldf); `tools/lattice/ldfsim.py`
+evaluates either file as written, for checking a model against it. U17's timing is in
+[wait states](05-z180.md#wait-states).
 
 `is_event` uses the [event table](04-capture-logic.md#events-telling-the-z180-about-softswitch-accesses).
 State updates use the [tracked-softswitch table](04-capture-logic.md#tracked-softswitches);
 HIRES has no data-phase gate, while PAGE2, RAMWRT, and STORE80 do.
 
 ```text
+setting: V2   (false: original Lattice chip, BE8C; true: Lattice v2.0, BBB1)
 state: HIRES, PAGE2, RAMWRT, STORE80, COPY_INHIBIT, MODE_D3, B, flags[8],
        event_pending, event_addr, u2_data, u3_data
 
@@ -100,19 +106,37 @@ on_bus_cycle(addr, data, is_write, m2sel_low, m2b0):
     elif m2sel_low:
         B = m2b0                     # sampled in this cycle's address phase
 
+    if V2:
+        shr_copy = B or RAMWRT                 # E14
+    else:
+        shr_copy = B xor RAMWRT
     capture = is_write and not COPY_INHIBIT and (
         in(addr, $0400, $0BFF) or in(addr, $2000, $5FFF)
-        or (MODE_D3 and in(addr, $2000, $9FFF) and (B xor RAMWRT)))
+        or (MODE_D3 and in(addr, $2000, $9FFF) and shr_copy))
     event = (addr & $FF00) == $C000 and is_event(addr & $FF, is_write)
+    if V2 and MODE_D3 and is_write and addr == $C034:
+        event = 1                              # E15: the border color
 
     if (capture or event) and event_pending:
         stall Apple until Z180 acknowledges (any access to port $A0)
 
     if capture:
-        bank = (B and MODE_D3 and not RAMWRT)
-            or (not B and STORE80 and PAGE2)
-            or (not B and not STORE80 and RAMWRT)
-            or (not B and MODE_D3 and RAMWRT and not HIRES)
+        if V2:                                 # E14, E28: the Apple's own bank rule
+            if B:
+                bank = 1
+            elif not STORE80:
+                bank = RAMWRT
+            elif in(addr, $0400, $07FF):
+                bank = PAGE2                   # text page 1
+            elif in(addr, $2000, $3FFF) and HIRES:
+                bank = PAGE2                   # hires page 1
+            else:
+                bank = RAMWRT
+        else:
+            bank = (B and MODE_D3 and not RAMWRT)
+                or (not B and STORE80 and PAGE2)
+                or (not B and not STORE80 and RAMWRT)
+                or (not B and MODE_D3 and RAMWRT and not HIRES)
         u2_data = data                         # ADIN clocks U2 on copies too
         sram[bank * $10000 + addr] = data      # U17 uses a Z180 bus request
         if in(addr, $2000, $9FFF):
@@ -133,9 +157,8 @@ on_bus_cycle(addr, data, is_write, m2sel_low, m2b0):
 A pending event delays a later copy rather than discarding it. U2 takes data on both
 memory captures and write events; a read event leaves it unchanged.
 
-Lattice v2.0 changes three parts of this model: `capture` uses B or RAMWRT (E14), `bank` follows
-the Apple's 80STORE rule (E14, E28), and a $C034 write in IIgs mode is an event (E15)
-([Correcting the capture logic](12-lattice-fix.md#what-the-corrected-map-changes)).
+Why v2.0 differs, equation by equation:
+[Correcting the capture logic](12-lattice-fix.md#what-the-corrected-map-changes).
 
 ## 3. The Z180
 

@@ -2,7 +2,7 @@
 # Build a Lattice pDS design file (.ldf) into a JEDEC fuse map with Lattice pDS 2.61,
 # unattended, on Linux or WSL.
 #
-#   tools/lattice/pds261_build.sh data/lattice/SecondSight_U7.ldf data/lattice/SecondSight_U7.fxp out/U7.jed
+#   tools/lattice/pds261_build.sh data/lattice/Lattice_original-BE8C.ldf data/lattice/Lattice_original-BE8C.fxp out/U7.jed
 #
 # pDS 2.61 is a 16-bit Windows 3.1 program. This script runs it in Wine on a virtual
 # screen (Xvfb). Steps: File > Import LDF, Design > Verify, Design > Route with the
