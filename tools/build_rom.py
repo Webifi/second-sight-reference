@@ -4,12 +4,12 @@ The source is ASxxxx assembler syntax (asz80 with .hd64 for the Z180 instruction
 script assembles and links it, turns the linker's Intel HEX output into the 128 KB EPROM
 image, and reports what differs from ROM 1.4:
 
-    python tools/build_rom.py firmware/ROM_BEEF.asm
+    python tools/build_rom.py firmware/v1.4/ROM_BEEF.asm
         builds build/firmware/ROM_BEEF.bin; it must equal original/ROM_BEEF.bin byte for byte
-    python tools/build_rom.py firmware/for_original_u7/SecondSight_for_original_u7.asm
-        builds build/firmware/SecondSight_for_original_u7.bin (firmware v1.5) and lists
+    python tools/build_rom.py firmware/v1.5/SecondSight_v1_5.asm
+        builds build/firmware/SecondSight_v1_5.bin (firmware v1.5) and lists
         every byte range that differs from ROM 1.4; the same for
-        firmware/for_corrected_u7/SecondSight_for_corrected_u7.asm (firmware v2.0)
+        firmware/v2.0/SecondSight_v2_0.asm (firmware v2.0)
     python tools/build_rom.py --check
         builds the three committed sources, checks their SHA-256 against EXPECTED, and
         checks that prebuilt/firmware/ holds exactly the current ready-built images
@@ -38,21 +38,21 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / "build" / "firmware"
-ORIGINAL = REPO / "firmware" / "ROM_BEEF.asm"
+ORIGINAL = REPO / "firmware" / "v1.4" / "ROM_BEEF.asm"
 
 # SHA-256 each committed source must build, by its path in the repository. The
 # original's is the hash of original/ROM_BEEF.bin, the published EPROM dump.
 EXPECTED = {
-    "firmware/ROM_BEEF.asm": "bd29e30ebf004e205609112a3c21a26eb28504115e047862fbd27f641f784d61",
-    "firmware/for_original_u7/SecondSight_for_original_u7.asm": "45d6fb82f92b5e9ca2c5d9e03b1f9d0b8faaf0a73f7c2d52c9a3743ab06aa562",
-    "firmware/for_corrected_u7/SecondSight_for_corrected_u7.asm": "675f38252930c0cfef3e5d20de5358df07f433386066150d7e0dd74014be7337",
+    "firmware/v1.4/ROM_BEEF.asm": "bd29e30ebf004e205609112a3c21a26eb28504115e047862fbd27f641f784d61",
+    "firmware/v1.5/SecondSight_v1_5.asm": "45d6fb82f92b5e9ca2c5d9e03b1f9d0b8faaf0a73f7c2d52c9a3743ab06aa562",
+    "firmware/v2.0/SecondSight_v2_0.asm": "675f38252930c0cfef3e5d20de5358df07f433386066150d7e0dd74014be7337",
 }
 
 # The ready-built EPROM images kept in the repository, by the source that builds them.
 # --check stops when one no longer equals its build; --prebuilt writes them.
 PREBUILT = {
-    "firmware/for_original_u7/SecondSight_for_original_u7.asm": "1.5",
-    "firmware/for_corrected_u7/SecondSight_for_corrected_u7.asm": "2.0",
+    "firmware/v1.5/SecondSight_v1_5.asm": "1.5",
+    "firmware/v2.0/SecondSight_v2_0.asm": "2.0",
 }
 PREBUILT_DIR = REPO / "prebuilt" / "firmware"
 
@@ -161,7 +161,7 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     current = set()
     original = assemble(ORIGINAL)
-    if hashlib.sha256(original).hexdigest() != EXPECTED["firmware/ROM_BEEF.asm"]:
+    if hashlib.sha256(original).hexdigest() != EXPECTED["firmware/v1.4/ROM_BEEF.asm"]:
         sys.exit(f"{ORIGINAL.relative_to(REPO)} no longer builds ROM 1.4 byte for byte")
     for source in sources:
         image = original if source == ORIGINAL else assemble(source)

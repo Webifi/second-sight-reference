@@ -119,7 +119,7 @@ EVENT_DECODE (E15)
 
 pDS 2.61 builds a design file and its placement file into an ispLSI1016 fuse map.
 Builds, source comparisons and design changes:
-[Building U7 with Lattice's tools](../../tools/lattice/README.md).
+[Building the Lattice fuse map](../../tools/lattice/README.md).
 
 **What one logic block holds:**
 

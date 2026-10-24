@@ -80,7 +80,7 @@ cannot stall the CPU, run the Z180 forward until it acknowledges, inside the bus
 
 ### A per-cycle model
 
-Run it once per slow-side bus cycle. It is the original U7's copy and event logic; U17's
+Run it once per slow-side bus cycle. It is the original Lattice chip's copy and event logic; U17's
 timing is in [wait states](05-z180.md#wait-states).
 
 `is_event` uses the [event table](04-capture-logic.md#events-telling-the-z180-about-softswitch-accesses).
@@ -133,7 +133,7 @@ on_bus_cycle(addr, data, is_write, m2sel_low, m2b0):
 A pending event delays a later copy rather than discarding it. U2 takes data on both
 memory captures and write events; a read event leaves it unchanged.
 
-U7 v2.0 changes three parts of this model: `capture` uses B or RAMWRT (E14), `bank` follows
+Lattice v2.0 changes three parts of this model: `capture` uses B or RAMWRT (E14), `bank` follows
 the Apple's 80STORE rule (E14, E28), and a $C034 write in IIgs mode is an event (E15)
 ([Correcting the capture logic](12-lattice-fix.md#what-the-corrected-map-changes)).
 

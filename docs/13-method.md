@@ -18,7 +18,7 @@ source from the original files.
 ## Before you start
 
 Run the commands from the repository root. You need Python 3, Pillow for `pdf_pages.py`,
-and network access to download the sources. Building U7 needs Lattice's own tools
+and network access to download the sources. Building the Lattice fuse map needs Lattice's own tools
 ([What you need](../tools/lattice/README.md#what-you-need)). Every tool and its options:
 [tool index](../tools/README.md).
 
@@ -118,7 +118,7 @@ How the source was made:
    - the order of signals, equations, terms and names
    - which outputs use STRONGMIN (pDS's stronger minimizer)
    - two unused outputs that steer the placement, A2_FIT and B0_FIT
-3. **Build with pDS 2.61** ([Building U7](../tools/lattice/README.md)). The source and its
+3. **Build with pDS 2.61** ([Building the Lattice fuse map](../tools/lattice/README.md)). The source and its
    placement file give BE8C, all 15,360 fuses equal.
 4. **Name and comment.** Signal names come from the schematic's pin labels. Every block,
    signal and term has a comment.

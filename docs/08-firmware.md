@@ -121,7 +121,7 @@ VGA address X, which loads entry X's four plane bytes into the VGA latches, then
 the screen in write mode 1, which stores the latches: eight 16-color pixels per byte
 ([`ROM_BEEF.asm:7169-7190, 7437-7540, 7596-7640, 11397`](sources.md#s27)). In the
 firmware source the color path is `colour_dhires_line` and the monochrome path
-`mono_dhires_line` ([`src/dhires.asm`](../firmware/src/dhires.asm)); the s27 disassembly
+`mono_dhires_line` ([`src/dhires.asm`](../firmware/v1.4/src/dhires.asm)); the s27 disassembly
 has the two labels the other way round (`dhires_scan_mono` is its color path).
 
 **The color rule, and how it differs from the IIgs.** The table works on groups of eight
@@ -302,7 +302,7 @@ The card never shows the IIgs border color on its own:
   card's [event addresses](reference/z180-io-ports.md#apple-event-addresses), and the
   capture logic copies only screen memory, so the card never learns the value
   ([E15](reference/errata.md#e15-the-iigs-border-color-does-not-show)). Firmware alone
-  cannot change this. With [U7 v2.0](lattice-versions.md), a $C034 write is an event:
+  cannot change this. With [Lattice v2.0](lattice-versions.md), a $C034 write is an event:
   U7 latches the byte the IIgs writes into U2 and interrupts the Z180, as for $C022, and
   [firmware 2.0](firmware-versions.md) reads it from port $A0 and shows the color.
 - The card's border is the VGA overscan color: attribute controller register $11, which
@@ -349,15 +349,15 @@ top half of the screen. Source: Oak's packed-mode tables.
 ROM 1.4 is the last firmware Sequential shipped, and no source code for it survives. This
 repository holds it as assembly source that builds the dump byte for byte, and two changed
 versions of that source that fix the [errata](reference/errata.md) firmware can fix:
-firmware 1.5 for a card with the original U7, and 2.0 for a card with U7 v2.0. Every fix
+firmware 1.5 for a card with the original Lattice chip, and 2.0 for a card with Lattice v2.0. Every fix
 is a change to the source, and the firmware is built from it. Each version's fixes and
 ready-built image: [Firmware versions](firmware-versions.md).
 
 | Source | Builds |
 |---|---|
-| [`firmware/ROM_BEEF.asm`](../firmware/ROM_BEEF.asm) and [`firmware/src`](../firmware/src) | ROM 1.4, byte for byte (SHA-256 `bd29e30e...4d61`); each known fault is marked `BUG (En)` |
-| [`firmware/for_original_u7`](../firmware/for_original_u7/SecondSight_for_original_u7.asm) | Firmware 1.5: the errata fixes firmware alone can make, each marked `CHANGE (En)` |
-| [`firmware/for_corrected_u7`](../firmware/for_corrected_u7/SecondSight_for_corrected_u7.asm) | Firmware 2.0: the same plus E15, the IIgs border color, which needs [U7 v2.0](lattice-versions.md) |
+| [`firmware/v1.4/ROM_BEEF.asm`](../firmware/v1.4/ROM_BEEF.asm) and [`firmware/v1.4/src`](../firmware/v1.4/src) | ROM 1.4, byte for byte (SHA-256 `bd29e30e...4d61`); each known fault is marked `BUG (En)` |
+| [`firmware/v1.5`](../firmware/v1.5/SecondSight_v1_5.asm) | Firmware 1.5: the errata fixes firmware alone can make, each marked `CHANGE (En)` |
+| [`firmware/v2.0`](../firmware/v2.0/SecondSight_v2_0.asm) | Firmware 2.0: the same plus E15, the IIgs border color, which needs [Lattice v2.0](lattice-versions.md) |
 
 The two changed sources differ only in E15; a fix other than E15 goes into both.
 

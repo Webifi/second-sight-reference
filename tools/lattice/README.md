@@ -1,6 +1,6 @@
-# Building U7 with Lattice's tools
+# Building the Lattice fuse map
 
-[Tool index](../README.md) | [U7 logic versions](../../docs/lattice-versions.md) | [Correcting the capture logic](../../docs/12-lattice-fix.md)
+[Tool index](../README.md) | [Lattice chip versions](../../docs/lattice-versions.md) | [Correcting the capture logic](../../docs/12-lattice-fix.md)
 
 U7's sources, in [data/lattice](../../data/lattice), are Lattice pDS 2.61 design files.
 pDS 2.61 builds them into fuse maps; the original source builds into BE8C with every fuse
@@ -18,7 +18,7 @@ for the ispLSI1016E ([Do not buy](../../docs/lattice-versions.md#do-not-buy)).
 ## What you need
 
 - **Lattice pDS 2.61**, the "pLSI/ispLSI Development System" version 2.61 (1994): a
-  Windows 3.1 program, the tool that built the original U7. It runs in Wine on Linux or
+  Windows 3.1 program, the tool that built the original Lattice chip. It runs in Wine on Linux or
   WSL (a 32-bit prefix: Wine runs 16-bit Windows programs there), or on any Windows
   that runs 16-bit programs. pds261_build.sh expects it in `C:\PDS` of the Wine prefix.
 - **Python 3** for the checks. No packages.
@@ -31,7 +31,7 @@ for the ispLSI1016E ([Do not buy](../../docs/lattice-versions.md#do-not-buy)).
 | `data/lattice/SecondSight_U7.ldf` | The original design, commented. With its placement file `.fxp`, pDS 2.61 builds it into the chip Sequential shipped, every fuse equal |
 | `data/lattice/SecondSight_U7_fixed.ldf` | The corrected design, v2.0: the original with the E14, E15 and E28 fixes, each marked CORRECTION |
 | `data/lattice/SecondSight_U7.jed` | The fuse map read from the original chip (checksum BE8C) |
-| `prebuilt/lattice/*.jed` | The two maps these sources build into ([U7 logic versions](../../docs/lattice-versions.md)) |
+| `prebuilt/lattice/*.jed` | The two maps these sources build into ([Lattice chip versions](../../docs/lattice-versions.md)) |
 
 ## Build with pDS 2.61
 
@@ -74,7 +74,7 @@ python tools/lattice/u7_test.py compare data/lattice/SecondSight_U7_fixed.ldf da
 The v2.0 fixes, on an original and a corrected chip:
 
 ```bash
-python tools/lattice/u7_test.py directed prebuilt/lattice/U7_original-BE8C_ispLSI1016.jed prebuilt/lattice/U7_v2.0-BBB1_ispLSI1016.jed data/lattice/SecondSight_U7_fixed.ldf
+python tools/lattice/u7_test.py directed prebuilt/lattice/Lattice_original-BE8C_ispLSI1016.jed prebuilt/lattice/Lattice_v2.0-BBB1_ispLSI1016.jed data/lattice/SecondSight_U7_fixed.ldf
 ```
 
 It prints each case: copies of bank $E1 writes made while RAMWRT is on (E14), the event

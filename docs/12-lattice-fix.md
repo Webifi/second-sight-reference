@@ -2,7 +2,7 @@
 
 [Reference index](../README.md) | [Glossary](glossary.md) | [Errata](reference/errata.md)
 
-U7 v2.0 fixes three faults of the capture logic that no firmware change can reach:
+Lattice v2.0 fixes three faults of the capture logic that no firmware change can reach:
 - [E14](reference/errata.md#e14-direct-e1-writes-with-ramwrt-on-are-not-copied-above-6000):
   direct $E1 writes made with RAMWRT on are lost.
 - [E15](reference/errata.md#e15-the-iigs-border-color-does-not-show): the IIgs border color
@@ -12,7 +12,7 @@ U7 v2.0 fixes three faults of the capture logic that no firmware change can reac
   card's own code.
 
 Everything else in the chip, pins included, stays as the original. Chips and programming:
-[U7 logic versions](lattice-versions.md#getting-a-chip).
+[Lattice chip versions](lattice-versions.md#getting-a-chip).
 
 ## Contents
 
@@ -114,9 +114,9 @@ builds to BE8C with every fuse equal
 
 ## Building the file
 
-**Ready-built:** [`U7_v2.0-BBB1_ispLSI1016.jed`](../prebuilt/lattice/U7_v2.0-BBB1_ispLSI1016.jed),
+**Ready-built:** [`Lattice_v2.0-BBB1_ispLSI1016.jed`](../prebuilt/lattice/Lattice_v2.0-BBB1_ispLSI1016.jed),
 for the ispLSI1016. It goes with [firmware 2.0](firmware-versions.md)
-([U7 logic versions](lattice-versions.md)).
+([Lattice chip versions](lattice-versions.md)).
 
 **From source:** pDS 2.61 builds
 [`data/lattice/SecondSight_U7_fixed.ldf`](../data/lattice/SecondSight_U7_fixed.ldf), which
@@ -127,7 +127,7 @@ tools/lattice/pds261_build.sh data/lattice/SecondSight_U7_fixed.ldf data/lattice
 ```
 
 What it needs, the steps by hand, and the checks of a built file against its source and
-the three fixes: [Building U7 with Lattice's tools](../tools/lattice/README.md).
+the three fixes: [Building the Lattice fuse map](../tools/lattice/README.md).
 
 ## Checking it on a card
 

@@ -126,9 +126,9 @@ Addresses are within each 64 KB bank.
   ranges, so a program's data there shows on screen as garbage.
 - A renderer that starts again rewrites its own range: keep nothing in $1000-$1DFF or
   $A000-$BFFF across a return to emulation.
-- With the original U7, one 80STORE case also copies into bank 0 $6000-$9FFF, over the
+- With the original Lattice chip, one 80STORE case also copies into bank 0 $6000-$9FFF, over the
   firmware's code ([E28](errata.md#e28-with-80store-on-u7-picks-the-copys-bank-without-looking-at-the-address));
-  U7 v2.0 never does.
+  Lattice v2.0 never does.
 - RunCode needs CBAR's low nibble = 2, so the handlers at $0000-$1FFF stay mapped.
 
 Sources: Sequential's [firmware documentation](../sources.md#s15) pp9-10;

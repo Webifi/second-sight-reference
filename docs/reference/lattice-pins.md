@@ -94,8 +94,8 @@ grounded input, which pulls Apple RDY low. Source: [netlist](../../data/netlist/
 
 ## Capture bank terms
 
-The original U7 (BE8C) copies a write to SRAM bank 1 when any of these terms is true.
-U7 v2.0 uses Apple's bank rule instead
+The original Lattice chip (BE8C) copies a write to SRAM bank 1 when any of these terms is true.
+Lattice v2.0 uses Apple's bank rule instead
 ([what the corrected map changes](../12-lattice-fix.md#what-the-corrected-map-changes)).
 
 | Term | Bank-1 condition |
@@ -107,7 +107,7 @@ U7 v2.0 uses Apple's bank rule instead
 
 ## Capture bank cases
 
-The original U7 in IIgs mode (MODE_D3 = 1):
+The original Lattice chip in IIgs mode (MODE_D3 = 1):
 
 | Write | Bank |
 |---|---|

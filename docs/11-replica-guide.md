@@ -103,7 +103,7 @@ Implement the [Lattice equations](04-capture-logic.md) with their event ordering
   FPGA version must set and clear them at the same moments.
 - The four 74HCT574 latches and the copy controller ([Glue logic](07-glue-logic.md)) can
   live in the same device.
-- Optionally, the three corrections of [U7 v2.0](12-lattice-fix.md): the bank rule "B or
+- Optionally, the three corrections of [Lattice v2.0](12-lattice-fix.md): the bank rule "B or
   RAMWRT" (E14), an event for $C034 writes (E15), and the Apple's bank rule for writes
   made while 80STORE is on (E28). None changes anything ROM 1.4 relies on.
 

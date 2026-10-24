@@ -5,7 +5,7 @@
 Every known fault of ROM 1.4, the card logic (U7), the IIgs library, the mode files and
 the programs written for the card. Each entry gives the symptom, the cause, a workaround
 for a card as shipped, and the fix: [firmware 1.5 and 2.0](../firmware-versions.md)
-([how](../firmware-fixes.md)) or [U7 v2.0](../lattice-versions.md). Workarounds use only
+([how](../firmware-fixes.md)) or [Lattice v2.0](../lattice-versions.md). Workarounds use only
 the card's own host commands ([Reaching the card from the IIgs](../14-custom-code.md#reaching-the-card-from-the-iigs)).
 
 ## Contents
@@ -35,8 +35,8 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 | [E11](#e11-super-hi-res-color-fill-mode-is-ignored) | Super Hi-Res color fill mode is ignored | ROM 1.4 | Reported 1996 (owner); cause found in the ROM | Program expands the fill | [Firmware 1.5 and 2.0](../firmware-fixes.md#e11-super-hi-res-color-fill-mode-is-ignored) |
 | [E12](#e12-palettes-rewritten-during-each-frame-show-wrong-colors) | Palettes rewritten during each frame (3200-color pictures) show wrong colors | ROM 1.4 | Reported 1995 ([manual](../sources.md#s16)) and 1996 (owners); cause found in the ROM | Show the picture in a 15-bit mode | None in firmware |
 | [E13](#e13-fast-animation-is-choppy) | Fast animation is choppy | ROM 1.4 | Reported 1996-1998 (owners); speed calculated from the ROM | None; changing less screen per frame helps | Partly: faster in [firmware 1.5 and 2.0](../firmware-fixes.md#e13-fast-animation-is-choppy), never 60 frames/s |
-| [E14](#e14-direct-e1-writes-with-ramwrt-on-are-not-copied-above-6000) | Direct $E1 writes with RAMWRT on are not copied above $6000 (the game Rastan) | Card logic | Found in the U7 logic; matches an owner's report on the game Rastan | Change the game's code | [U7 v2.0](../lattice-versions.md) |
-| [E15](#e15-the-iigs-border-color-does-not-show) | The IIgs border color ($C034) never shows on the card | Card logic | Found in the U7 logic | SetBorder after each mode change | [U7 v2.0](../lattice-versions.md) with [firmware 2.0](../firmware-fixes.md#e15-the-iigs-border-color-does-not-show) (Super Hi-Res: nearest color) |
+| [E14](#e14-direct-e1-writes-with-ramwrt-on-are-not-copied-above-6000) | Direct $E1 writes with RAMWRT on are not copied above $6000 (the game Rastan) | Card logic | Found in the U7 logic; matches an owner's report on the game Rastan | Change the game's code | [Lattice v2.0](../lattice-versions.md) |
+| [E15](#e15-the-iigs-border-color-does-not-show) | The IIgs border color ($C034) never shows on the card | Card logic | Found in the U7 logic | SetBorder after each mode change | [Lattice v2.0](../lattice-versions.md) with [firmware 2.0](../firmware-fixes.md#e15-the-iigs-border-color-does-not-show) (Super Hi-Res: nearest color) |
 | [E16](#e16-library-mode-files-run-at-the-wrong-clock) | Several library mode files run at a different clock than their names | Library mode files with ROM 1.4 | Found in the mode files and the ROM; rests on [databook p35](../sources.md#s02) | Fix the record | [Firmware 1.5 and 2.0](../firmware-fixes.md#e16-library-mode-files-run-at-the-wrong-clock) |
 | [E17](#e17-the-true-color-mode-file-shows-palette-colors) | The true-color mode file leaves the color chip in palette mode | Library file `M640X48016M` | Found in the mode file | Register fix | [Firmware 1.5 and 2.0](../firmware-fixes.md#e17-the-true-color-mode-file-shows-palette-colors) |
 | [E18](#e18-old-library-upload-and-status-bugs) | Old library: one-byte upload remainder, status copy | Library before 8/1995 | Reported 1995 (Sequential's library notes) | Use the 8/1996 library | No |
@@ -49,7 +49,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 | [E25](#e25-very-large-pictures-may-hang-the-card) | Pictures of 1024 x 1024 and larger may hang the card | GView 0.25c, 1996 | Reported 1996 ([GView README](../sources.md#s04)); cause found in GView's code (E19); the cause is not certain | Same as E19 | Partly: [firmware 1.5 and 2.0](../firmware-fixes.md#e25-very-large-pictures-may-hang-the-card) |
 | [E26](#e26-flashing-text-ignores-the-c022-colors) | Flashing text: white and blue in 40 columns whatever $C022 says; no flashing in 80 columns | ROM 1.4 | Found in the ROM | Avoid flashing text | [Firmware 1.5 and 2.0](../firmware-fixes.md#e26-flashing-text-ignores-the-c022-colors) |
 | [E27](#e27-four-language-characters-sit-one-row-low-in-the-8x16-font) | Characters $9B-$9E of the 8x16 font sit one dot row low; the sharp s loses a row, the Swedish A ring gets a stray dot | ROM 1.4, VGA monitor | Found in the ROM and its font file | None | [Firmware 1.5 and 2.0](../firmware-fixes.md#e27-four-language-characters-sit-one-row-low-in-the-8x16-font) |
-| [E28](#e28-with-80store-on-u7-picks-the-copys-bank-without-looking-at-the-address) | With 80STORE on, writes outside the 80STORE pages are copied to the wrong bank; one case overwrites the firmware | Card logic | Found in the U7 logic | Turn 80STORE off while writing outside text page 1 and hires page 1 | [U7 v2.0](../lattice-versions.md) |
+| [E28](#e28-with-80store-on-u7-picks-the-copys-bank-without-looking-at-the-address) | With 80STORE on, writes outside the 80STORE pages are copied to the wrong bank; one case overwrites the firmware | Card logic | Found in the U7 logic | Turn 80STORE off while writing outside text page 1 and hires page 1 | [Lattice v2.0](../lattice-versions.md) |
 | [E29](#e29-apple-display-switches-reset-a-native-vga-mode) | With Apple emulation off, an Apple display switch makes the card program the SetMode mode again: SetVGAReg changes are lost, ScreenOff is undone, $A5 appears at $C0B8 unasked | ROM 1.4 | Found in the ROM | Send SetVGAReg changes and ScreenOff again after the IIgs changes its display mode | [Firmware 1.5 and 2.0](../firmware-fixes.md#e29-apple-display-switches-reset-a-native-vga-mode) |
 
 ## ROM 1.4 faults
@@ -286,7 +286,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   program that only changes palettes, such as one cycling colors, costs a needless
   redraw of the 3,328-byte band on every pass: about 9.6 ms with ROM 1.4, 7.1 ms with the
   new renderer.
-  - [U7 v2.0](../lattice-versions.md) leaves this flag as the factory chip has it: the
+  - [Lattice v2.0](../lattice-versions.md) leaves this flag as the factory chip has it: the
     saving is a few milliseconds a pass, and only for programs that change palettes
     without drawing.
 - The same owner's report of a blank background in the game Rastan is [E14](#e14-direct-e1-writes-with-ramwrt-on-are-not-copied-above-6000).
@@ -309,14 +309,14 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   starts as blue ($00 $00 $D0) and white and only ever swaps. In 80 columns
   `emulate_text80` also clears `text80_palette_colour` after every pass ($91FF), so the
   next pass reloads entries 2 and 3 from $C022 straight after the swap.
-  Source: [firmware/src/text.asm](../../firmware/src/text.asm) (`emulate_text80`,
-  `setup_textmode_palette`, the flashing pair), [firmware/src/textsetup.asm](../../firmware/src/textsetup.asm)
-  (`set_textmode_palette`), [firmware/src/lores.asm](../../firmware/src/lores.asm) (`get_text_colour`, attribute $23).
+  Source: [firmware/v1.4/src/text.asm](../../firmware/v1.4/src/text.asm) (`emulate_text80`,
+  `setup_textmode_palette`, the flashing pair), [firmware/v1.4/src/textsetup.asm](../../firmware/v1.4/src/textsetup.asm)
+  (`set_textmode_palette`), [firmware/v1.4/src/lores.asm](../../firmware/v1.4/src/lores.asm) (`get_text_colour`, attribute $23).
 - **Workaround:** show inverse text instead of flashing text.
 - **Workaround, 40 columns:** load the pair with the $C022 colors. UploadData
   flag 1, destination $109484, 6 bytes: the background color's red, green and blue, then
   the text color's, as 8-bit DAC values (the 16 IIgs colors are `apple_colour_table` in
-  [firmware/src/textsetup.asm](../../firmware/src/textsetup.asm)). Send it again after
+  [firmware/v1.4/src/textsetup.asm](../../firmware/v1.4/src/textsetup.asm)). Send it again after
   each $C022 change. The card then alternates normal and inverse in those colors.
 - **Workaround, 80 columns:** none.
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e26-flashing-text-ignores-the-c022-colors).
@@ -333,8 +333,8 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   compiled as it is, and that file draws character $9A with 17 rows. The table is
   therefore 481 bytes, but `copy_font` copies 30 glyphs of 16 bytes from its start, so
   each of $9B-$9E starts one byte early: its first row is the previous glyph's last row
-  and its own last row is not copied. Source: [firmware/src/fonts.asm](../../firmware/src/fonts.asm)
-  (`hex81`), [firmware/src/textsetup.asm](../../firmware/src/textsetup.asm) (`copy_font`).
+  and its own last row is not copied. Source: [firmware/v1.4/src/fonts.asm](../../firmware/v1.4/src/fonts.asm)
+  (`hex81`), [firmware/v1.4/src/textsetup.asm](../../firmware/v1.4/src/textsetup.asm) (`copy_font`).
 - **Workaround:** none.
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e27-four-language-characters-sit-one-row-low-in-the-8x16-font).
 
@@ -403,7 +403,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   RAMWRT, and CATCH_BANK's first term needs no !RAMWRT. An emulator or a replica can offer
   that as an option, with the original behavior as the default.
 - A new program avoids the fault by clearing RAMWRT before writing $E1 directly.
-- **Fix:** [U7 v2.0](../lattice-versions.md#what-v20-changes) decides "B or RAMWRT", so those
+- **Fix:** [Lattice v2.0](../lattice-versions.md#what-v20-changes) decides "B or RAMWRT", so those
   writes are copied into SRAM bank 1 like any other screen write. Firmware cannot fix it:
   it can work out the mode, but the bytes it would need never reach the card:
   - It knows Super Hi-Res is on, because the $C029 write raises an event.
@@ -436,8 +436,8 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   [event addresses](z180-io-ports.md#apple-event-addresses).
 - **Workaround:** SetBorder ($08) after every change of display mode, with a palette index
   whose color matches the IIgs border. A CDA of the time did this ([GEnie message](../sources.md#s74)).
-- **Fix:** [U7 v2.0](../lattice-versions.md) together with [firmware 2.0](../firmware-versions.md).
-  U7 v2.0 makes a $C034 write an event: it latches the byte the IIgs writes into U2 and
+- **Fix:** [Lattice v2.0](../lattice-versions.md) together with [firmware 2.0](../firmware-versions.md).
+  Lattice v2.0 makes a $C034 write an event: it latches the byte the IIgs writes into U2 and
   interrupts the Z180, as for $C022. Firmware 2.0 reads that byte from port $A0 and shows
   bits 3-0 as the border: [the change](../firmware-fixes.md#e15-the-iigs-border-color-does-not-show).
 
@@ -466,7 +466,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   its own code at $6000-$9FFF.
 - **Workaround:** a program can turn 80STORE off while it writes outside text page 1 and
   hires page 1.
-- **Fix:** [U7 v2.0](../lattice-versions.md). Its bank equation follows the Apple's rule:
+- **Fix:** [Lattice v2.0](../lattice-versions.md). Its bank equation follows the Apple's rule:
   with 80STORE on, PAGE2 picks the bank for text page 1, and for hires page 1 while HIRES
   is on; RAMWRT picks it for every other address
   ([the change](../12-lattice-fix.md#what-the-corrected-map-changes)).

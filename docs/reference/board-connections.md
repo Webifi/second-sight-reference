@@ -27,7 +27,7 @@ Sources: [production photos](../sources.md#s20), [`Second Sight - Pinouts.doc`](
 | X2 | 14.31818 MHz crystal | same | OTI-068 reference |
 | U31 | Brooktree Bt481AKPJ "9320 PROTO 2" | Bt478 | color chip (RAMDAC), engineering sample |
 | U16 | ST serial EEPROM marked "93C466 9518" | NM93C46 | ST93C46, temperature grade 6. ROM 1.4 and the library never use it, so custom code can ([the serial EEPROM](../06-video.md#the-serial-eeprom)). |
-| U20-U27 | eight ZIP DRAMs | 44256Z | 256K x 4 each, 1 MB total. The card came with 512 KB and takes 1 MB ([Second.Sight.Info.txt](../sources.md#s40)). Super Hi-Res needs the full 1 MB: ROM 1.4 builds its tables in the upper 512 KB (`build_320_tables`, `build_640_tables` in [superhires.asm](../../firmware/src/superhires.asm)). |
+| U20-U27 | eight ZIP DRAMs | 44256Z | 256K x 4 each, 1 MB total. The card came with 512 KB and takes 1 MB ([Second.Sight.Info.txt](../sources.md#s40)). Super Hi-Res needs the full 1 MB: ROM 1.4 builds its tables in the upper 512 KB (`build_320_tables`, `build_640_tables` in [superhires.asm](../../firmware/v1.4/src/superhires.asm)). |
 | R2 | Dale "SOMC1603 330G", "DALE 9441" | 22 ohm array | 16-pin isolated network, 33 ohm, 2 percent; series resistors on the DRAM control lines ([production front photo](../sources.md#s20)) |
 | R32 | chip resistor marked "202" | 10K | IOCHRDY pull-up, 2.0 kohm on production ([production front photo](../sources.md#s20)) |
 | J1, J2 | 2-row headers labeled VGA and RGB | one BERG16 header | cables to DB-15 connectors |

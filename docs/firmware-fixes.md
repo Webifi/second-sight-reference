@@ -3,9 +3,9 @@
 [Reference index](../README.md) | [Firmware versions](firmware-versions.md) | [Errata](reference/errata.md) | [08 Firmware](08-firmware.md)
 
 How firmware 1.5 and 2.0 fix each erratum. Each change is marked `CHANGE (En)` in their
-source, [`for_original_u7`](../firmware/for_original_u7/SecondSight_for_original_u7.asm)
-(1.5) and [`for_corrected_u7`](../firmware/for_corrected_u7/SecondSight_for_corrected_u7.asm)
-(2.0); ROM 1.4's source marks the fault `BUG (En)`. Addresses are ROM 1.4's. One more
+source, [`firmware/v1.5`](../firmware/v1.5/SecondSight_v1_5.asm) and
+[`firmware/v2.0`](../firmware/v2.0/SecondSight_v2_0.asm); ROM 1.4's source,
+[`firmware/v1.4`](../firmware/v1.4/ROM_BEEF.asm), marks the fault `BUG (En)`. Addresses are ROM 1.4's. One more
 change is not an erratum fix:
 [UploadData across 512 KB](#uploaddata-across-512-kb), marked `CHANGE (512 KB)`.
 
@@ -21,7 +21,7 @@ change is not an erratum fix:
 - [E10](#e10-settextfont-is-missing) SetTextFont is missing
 - [E11](#e11-super-hi-res-color-fill-mode-is-ignored) Super Hi-Res color fill mode is ignored
 - [E13](#e13-fast-animation-is-choppy) Fast animation is choppy
-- [E15](#e15-the-iigs-border-color-does-not-show) The IIgs border color does not show (firmware 2.0, with [U7 v2.0](lattice-versions.md))
+- [E15](#e15-the-iigs-border-color-does-not-show) The IIgs border color does not show (firmware 2.0, with [Lattice v2.0](lattice-versions.md))
 - [E16](#e16-library-mode-files-run-at-the-wrong-clock) Library mode files run at the wrong clock
 - [E17](#e17-the-true-color-mode-file-shows-palette-colors) The true-color mode file shows palette colors
 - [E19](#e19-uploads-of-whole-64-kb-blocks-hang-older-programs) Uploads of whole 64 KB blocks hang older programs (partly)
@@ -82,7 +82,7 @@ Everything else the double-hires path runs (`emulate_double_hires`, `render_dhir
 `dhires_row`, the event handler and the command handlers) already lies below $9000.
 E5's wrapper at $1F00-$1F08 fits beside the moved routines.
 Source: [ROM_BEEF.asm:7090-7175 and 7306-7540](sources.md#s27); addresses from the
-ROM 1.4 source ([`firmware/src`](../firmware/src)).
+ROM 1.4 source ([`firmware/v1.4/src`](../firmware/v1.4/src)).
 
 ## E3. Super Hi-Res lines 102-127 use the wrong palette
 
@@ -312,18 +312,18 @@ palette and control-byte writes ($9D00-$9FFF), so a program that only cycles col
 lines 179-199 redrawn every pass ([E13](reference/errata.md#e13-fast-animation-is-choppy)).
 Firmware could keep a copy of $9000-$9CFF and compare before redrawing, but a pass that
 changes pixels there would then take up to 5.6 ms longer, to save 2.6 ms on a pass that
-changes only palettes. [U7 v2.0](lattice-versions.md#what-v20-changes) leaves the flag as the
+changes only palettes. [Lattice v2.0](lattice-versions.md#what-v20-changes) leaves the flag as the
 factory chip has it, for the same reason.
 
 ## E15. The IIgs border color does not show
 
-Firmware 2.0 only, with [U7 v2.0](lattice-versions.md). The fault: [E15](reference/errata.md#e15-the-iigs-border-color-does-not-show).
+Firmware 2.0 only, with [Lattice v2.0](lattice-versions.md). The fault: [E15](reference/errata.md#e15-the-iigs-border-color-does-not-show).
 
-With U7 v2.0, a $C034 write while MODE_D3
+With Lattice v2.0, a $C034 write while MODE_D3
 is set is an event: U7 latches the byte the IIgs writes into U2, keeps the address's low
 byte ($34), and interrupts the Z180, as for a $C022 write
 ([Events](04-capture-logic.md#events-telling-the-z180-about-softswitch-accesses)). With the
-original U7 nothing about the write reaches the card. Firmware 2.0 adds four things:
+original Lattice chip nothing about the write reaches the card. Firmware 2.0 adds four things:
 
 1. **A handler.** `set_softswitch_handler` ($1C86), called with A = $34 at the end of
    `setup_softswitch_handlers` ($1A40), puts the handler's address into the event

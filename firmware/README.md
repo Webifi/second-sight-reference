@@ -3,15 +3,16 @@
 [Reference index](../README.md) | [Firmware versions](../docs/firmware-versions.md) | [08 Firmware](../docs/08-firmware.md) | [Errata](../docs/reference/errata.md)
 
 The Z180 firmware as assembly source. ROM 1.4's source builds the original image byte for
-byte; firmware 1.5 (for the original U7) and 2.0 (for U7 v2.0) are changed copies of it
+byte; firmware 1.5 (for the original Lattice chip) and 2.0 (for Lattice v2.0) are changed copies of it
 ([Firmware versions](../docs/firmware-versions.md)).
 
-| File | Contents |
+Each version is a folder with its top file and its `src/` folder:
+
+| Folder | Contents |
 |---|---|
-| [`ROM_BEEF.asm`](ROM_BEEF.asm) | ROM 1.4 top file, with source references and the `src/` includes. Builds ROM 1.4 byte for byte. |
-| [`src/`](src) | ROM 1.4 routines and tables, arranged by address. Known faults are marked `BUG (En)`. [`src/hardware.inc`](src/hardware.inc) names the I/O ports. |
-| [`for_original_u7/`](for_original_u7) | Firmware 1.5, for a card with the original U7 (fuse map BE8C): a copy of the ROM 1.4 source with every fix firmware alone can make written in ([the list](../docs/firmware-versions.md#what-each-version-fixes)). Top file [`SecondSight_for_original_u7.asm`](for_original_u7/SecondSight_for_original_u7.asm). Each change is marked `CHANGE (En)` and says what it fixes. |
-| [`for_corrected_u7/`](for_corrected_u7) | Firmware 2.0, for a card with [U7 v2.0](../docs/lattice-versions.md), the corrected fuse map (BBB1): the same source plus E15, the IIgs border color, which only U7 v2.0 makes possible. Top file [`SecondSight_for_corrected_u7.asm`](for_corrected_u7/SecondSight_for_corrected_u7.asm). |
+| [`v1.4/`](v1.4) | ROM 1.4, Sequential's last release. Top file [`ROM_BEEF.asm`](v1.4/ROM_BEEF.asm); builds ROM 1.4 byte for byte. [`v1.4/src/`](v1.4/src) holds the routines and tables, arranged by address, with each known fault marked `BUG (En)`; [`v1.4/src/hardware.inc`](v1.4/src/hardware.inc) names the I/O ports. |
+| [`v1.5/`](v1.5) | Firmware 1.5, for a card with the original Lattice chip (fuse map BE8C): a copy of the ROM 1.4 source with every fix firmware alone can make written in ([the list](../docs/firmware-versions.md#what-each-version-fixes)). Top file [`SecondSight_v1_5.asm`](v1.5/SecondSight_v1_5.asm). Each change is marked `CHANGE (En)` and says what it fixes. |
+| [`v2.0/`](v2.0) | Firmware 2.0, for a card with [Lattice v2.0](../docs/lattice-versions.md), the corrected fuse map (BBB1): the 1.5 source plus E15, the IIgs border color, which only Lattice v2.0 makes possible. Top file [`SecondSight_v2_0.asm`](v2.0/SecondSight_v2_0.asm). |
 | [`original/`](original) | Files from the disk image [`ss.source.082395.po`](../docs/sources.md#s06): the mode records, the table generators, the fonts. The source uses them where they match ROM 1.4; [original/README.md](original/README.md) lists what each is. |
 
 The source starts from the annotated disassembly
@@ -33,15 +34,15 @@ into both.
 3. From the repository root, with Python 3, build any of the three top files:
 
 ```bash
-python tools/build_rom.py firmware/ROM_BEEF.asm
+python tools/build_rom.py firmware/v1.4/ROM_BEEF.asm
 ```
 
 ```bash
-python tools/build_rom.py firmware/for_original_u7/SecondSight_for_original_u7.asm
+python tools/build_rom.py firmware/v1.5/SecondSight_v1_5.asm
 ```
 
 ```bash
-python tools/build_rom.py firmware/for_corrected_u7/SecondSight_for_corrected_u7.asm
+python tools/build_rom.py firmware/v2.0/SecondSight_v2_0.asm
 ```
 
 The tool runs the assembler in the top file's folder, where its `.include "src/..."`
@@ -50,7 +51,7 @@ lines resolve. The image goes to `build/firmware/<name>.bin`, 131,072 bytes. For
 For any other source it lists every byte range that differs from ROM 1.4:
 
 ```text
-SecondSight_for_original_u7.asm: 131072 bytes, byte sum $B5CB, SHA-256 45d6fb82...a562
+SecondSight_v1_5.asm: 131072 bytes, byte sum $B5CB, SHA-256 45d6fb82...a562
   5353 bytes differ from ROM 1.4:
     ...
 ```
@@ -70,8 +71,8 @@ python tools/build_rom.py --prebuilt
 
 ## Changing the firmware
 
-Make a change in a copy of the source: in `for_original_u7/` and `for_corrected_u7/` for a
-fix both cards get, or in a new copy of `ROM_BEEF.asm` and `src/` for your own version.
+Make a change in a copy of the source: in `v1.5/` and `v2.0/` for a fix both cards get,
+or in a new copy of `v1.4/` for your own version.
 Mark each change, and build its top file. The build lists exactly what your change
 touches compared with ROM 1.4. The comments marked `;;` explain each routine and point
 into the docs: [08 Firmware](../docs/08-firmware.md) for how the firmware works,
@@ -127,6 +128,6 @@ upper 64 KB is zero; code there needs a loader and a bank switch
 ## Putting it on a card
 
 Program the image into a 27C1000 (128 KB) EPROM and fit it in socket U10 in place of the
-original, which stays unchanged for going back. Firmware 2.0 goes with U7 v2.0, firmware
-1.5 with the original U7. Ready-built images are in
+original, which stays unchanged for going back. Firmware 2.0 goes with Lattice v2.0, firmware
+1.5 with the original Lattice chip. Ready-built images are in
 [`prebuilt/firmware/`](../prebuilt/firmware): [Firmware versions](../docs/firmware-versions.md).

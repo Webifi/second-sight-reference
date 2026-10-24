@@ -1,4 +1,4 @@
-// SecondSight_U7_fixed.ldf: the corrected design of U7, U7 v2.0, for the Second Sight's
+// SecondSight_U7_fixed.ldf: the corrected design of U7, Lattice v2.0, for the Second Sight's
 // Lattice ispLSI1016 (docs/lattice-versions.md).
 //
 // CORRECTIONS
@@ -16,7 +16,7 @@
 //        write to $C034 in IIgs mode is an event like $C022 and $C029: ADIN latches the
 //        byte the IIgs writes into U2, INT1 interrupts the Z180, and its handler reads
 //        the byte from port $A0. Showing the border also needs firmware 2.0
-//        (firmware/for_corrected_u7).
+//        (firmware/v2.0).
 //   E28  With 80STORE on, a bank $00 write is copied into the bank PAGE2 picks whatever
 //        its address, so writes outside the 80STORE pages land in the wrong SRAM bank; in
 //        IIgs mode one case copies Super Hi-Res writes over the card's own code in SRAM
@@ -676,7 +676,7 @@ LOAD_RAMWRT = !AA7 & !AA6 & !AA5 & !AA4 & !AA3 & AA2 & !AA1 & !ARW & C0_VALID & 
 // IIgs border color (the low four bits of CLOCKCTL), an event like the $C022 text color
 // write: ADIN latches the byte written into U2, and the Z180 reads it from port $A0.
 // ROM 1.4 has no handler for it: the event reaches the default handler, which ignores
-// the byte; firmware 2.0 (firmware/for_corrected_u7) adds one.
+// the byte; firmware 2.0 (firmware/v2.0) adds one.
 EVENT_DECODE = !AA7 & AA6 & AA4 & AA3 & AA2 & AA1 & !ARW & C0_VALID // $C05E-$C05F, $C07E-$C07F
              # !AA7 & !AA6 & !AA5 & !AA4 & AA3 & AA2 & !ARW & C0_VALID // $C00C-$C00F: 80VID, ALTCHAR
              # AA7 & !AA6 & AA5 & AA4 & !AA3 & C0_VALID // $C0B0-$C0B7: card registers

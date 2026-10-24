@@ -95,7 +95,7 @@ Port $A1 stores two bits; bits 0 and 1 are not stored.
 - **Bit 2, COPY_INHIBIT:** set stops all copying.
 - **Bit 3, MODE_D3 (IIgs mode):** requires /M2SEL for copies and events, enables the Super
   Hi-Res range and the bank latch, and enables events for `$C022/$C029/$C02B` (and `$C034`
-  in U7 v2.0).
+  in Lattice v2.0).
 
 The firmware writes `$08` at reset and ORs `$08` into every SetShadow value. So SetShadow
 0 copies everything and 4 stops copying. Source: [ROM_BEEF.asm:58-59](../sources.md#s27)
@@ -224,7 +224,7 @@ Sources: [Z8S180 specification](../sources.md#s62); [ROM_BEEF.asm](../sources.md
 | $C00C-$C00F (80VID, ALTCHAR) | no | yes | |
 | $C07E-$C07F | no | yes | the firmware has no handler; harmless |
 | $C022 (text colors), $C029 (NEWVIDEO), $C02B (language) | no | yes | MODE_D3 set |
-| $C034 (border color) | no | yes | U7 v2.0 only, MODE_D3 set ([E15](errata.md#e15-the-iigs-border-color-does-not-show)) |
+| $C034 (border color) | no | yes | Lattice v2.0 only, MODE_D3 set ([E15](errata.md#e15-the-iigs-border-color-does-not-show)) |
 
 ## Z180 interrupt inputs
 
@@ -245,7 +245,7 @@ Sources: [Z8S180 specification](../sources.md#s62); [ROM_BEEF.asm](../sources.md
 ## State observable by Z180 software
 
 Events show TEXT, MIXED, HIRES, AN3, 80VID, ALTCHAR, NEWVIDEO, $C022 and $C02B, and $C034
-with U7 v2.0. PAGE2 events happen only with 80STORE off. $C07E/$C07F writes also raise
+with Lattice v2.0. PAGE2 events happen only with 80STORE off. $C07E/$C07F writes also raise
 events but have no firmware handler.
 
 There are no events for 80STORE ($C000/$C001), RAMWRT ($C004/$C005), $C068, RAMRD or

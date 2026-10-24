@@ -1,9 +1,11 @@
-# U7 logic versions
+# Lattice chip versions
 
 [Reference index](../README.md) | [Firmware versions](firmware-versions.md) | [04 Capture logic](04-capture-logic.md) | [Errata](reference/errata.md)
 
-U7, a Lattice ispLSI1016, is the card's capture logic ([04 Capture logic](04-capture-logic.md));
-its program is a fuse map. It must be an ispLSI1016, not an ispLSI1016E
+The Lattice chip is the card's capture logic ([04 Capture logic](04-capture-logic.md)): the
+square 44-pin chip in a socket at the right end of the card, just above the slot
+connector, with a white sticker reading BE8C. The schematic calls it U7. Its program is a
+fuse map. A replacement must be an ispLSI1016, not an ispLSI1016E
 ([Do not buy](#do-not-buy)).
 
 > [!WARNING]
@@ -11,18 +13,18 @@ its program is a fuse map. It must be an ispLSI1016, not an ispLSI1016E
 
 | Version | What it is | File and SHA-256 |
 |---|---|---|
-| **BE8C** | The chip Sequential shipped, labeled with its fuse checksum. Read from the chip ([original image](#the-original-image)); pDS 2.61 rebuilds it with every fuse equal. | [`U7_original-BE8C_ispLSI1016.jed`](../prebuilt/lattice/U7_original-BE8C_ispLSI1016.jed) `f8b2f5429a65acbe3f6c13d6aa6ae3e87e9d83c8d1e3e8bbc1d54977ee626328` |
-| **v2.0-BBB1** | Fixes E14 (direct $E1 writes), E15 (the border color reaches the firmware) and E28 (the bank of writes with 80STORE on). Built by pDS 2.61. | [`U7_v2.0-BBB1_ispLSI1016.jed`](../prebuilt/lattice/U7_v2.0-BBB1_ispLSI1016.jed) `07bb3dd28e1d158158cdfae06f9f7f624b42f132512c8c9c3df99acc1e441fb2` |
+| **BE8C** | The chip Sequential shipped, labeled with its fuse checksum. Read from the chip ([original image](#the-original-image)); pDS 2.61 rebuilds it with every fuse equal. | [`Lattice_original-BE8C_ispLSI1016.jed`](../prebuilt/lattice/Lattice_original-BE8C_ispLSI1016.jed) `f8b2f5429a65acbe3f6c13d6aa6ae3e87e9d83c8d1e3e8bbc1d54977ee626328` |
+| **v2.0-BBB1** | Fixes E14 (direct $E1 writes), E15 (the border color reaches the firmware) and E28 (the bank of writes with 80STORE on). Built by pDS 2.61. | [`Lattice_v2.0-BBB1_ispLSI1016.jed`](../prebuilt/lattice/Lattice_v2.0-BBB1_ispLSI1016.jed) `07bb3dd28e1d158158cdfae06f9f7f624b42f132512c8c9c3df99acc1e441fb2` |
 
 Both files are for the ispLSI1016, any speed grade (-60 to -110). Sequential paired its
 BE8C chip with the EPROM ("V1.1 EPROM and Lattice or greater",
-[firmware documentation](sources.md#s15)); v2.0 is the U7 [firmware 2.0](firmware-versions.md)
+[firmware documentation](sources.md#s15)); v2.0 is the version [firmware 2.0](firmware-versions.md)
 needs. pDS 2.61, the tool that built the original chip, builds both from the sources in
 [`data/lattice`](../data/lattice) ([Building a version yourself](#building-a-version-yourself)).
 
 ## Contents
 
-- [Which firmware goes with which U7](#which-firmware-goes-with-which-u7)
+- [Which firmware goes with which Lattice chip](#which-firmware-goes-with-which-lattice-chip)
 - [What v2.0 changes](#what-v20-changes)
 - [Getting a chip](#getting-a-chip)
 - [Programming a chip](#programming-a-chip)
@@ -30,15 +32,15 @@ needs. pDS 2.61, the tool that built the original chip, builds both from the sou
 - [Building a version yourself](#building-a-version-yourself)
 - [The original image](#the-original-image)
 
-## Which firmware goes with which U7
+## Which firmware goes with which Lattice chip
 
-U7 v2.0 goes with [firmware 2.0](firmware-versions.md), which shows the IIgs border color
-it reports. The original U7 goes with firmware 1.5. Every pairing works: the full table
-is on [Firmware versions](firmware-versions.md#which-firmware-goes-with-which-u7).
+Lattice v2.0 goes with [firmware 2.0](firmware-versions.md), which shows the IIgs border color
+it reports. The original Lattice chip goes with firmware 1.5. Every pairing works: the full table
+is on [Firmware versions](firmware-versions.md#which-firmware-goes-with-which-lattice-chip).
 
 ## What v2.0 changes
 
-U7 copies nothing itself. It watches each IIgs bus cycle and decides two things: whether
+The Lattice chip copies nothing itself. It watches each IIgs bus cycle and decides two things: whether
 the card copies a write into its SRAM, and in which SRAM bank; and whether the Z180 is
 interrupted to hear about a softswitch access. Latches U5/U6 (the address), U2 (the data
 byte) and GAL U17 (the SRAM write) carry out every copy
@@ -47,12 +49,12 @@ equations and adds one output; every other output keeps the original's equation,
 pins are unchanged:
 
 - **E14:** a direct write to bank $E1 or $01 made while RAMWRT is on is selected for
-  copying, into SRAM bank 1. The original U7 skipped those writes above $6000 and picked
+  copying, into SRAM bank 1. The original Lattice chip skipped those writes above $6000 and picked
   bank 0 for them below. U5/U6, U2 and U17 then copy the byte as they copy every other
   screen write. The game Rastan's palettes and control bytes are such writes.
 - **E15:** a write to $C034 in IIgs mode raises an event, like a write to $C022 (the text
   colors). During the write the IIgs drives the new value on the slot's data bus, as it
-  does for every write. U7 latches that byte into U2, keeps the address's low byte ($34),
+  does for every write. The chip latches that byte into U2, keeps the address's low byte ($34),
   and interrupts the Z180. Firmware 2.0's handler reads the byte from port $A0 and takes
   bits 3-0 as the border color
   ([Events](04-capture-logic.md#events-telling-the-z180-about-softswitch-accesses)).
@@ -105,7 +107,7 @@ closest match; a faster grade has shorter maximum delays (input to output 20 ns 
 
 - **The ispLSI1016E.** It fits the socket and has the same logic, but it is a different
   chip: its fuse map has 17,600 fuses instead of 15,360
-  ([Lattice 1996 Data Book](sources.md#s85) Table 8), so neither U7 file fits it.
+  ([Lattice 1996 Data Book](sources.md#s85) Table 8), so neither file fits it.
   Listings mix the 1016 and the 1016E, so check the part number letter by letter: the
   ispLSI1016E-80LJI, for example, is the E device. Find an ispLSI1016, no E.
 - **The ispLSI1016EA.** It cannot work in the card. It is programmed through fixed JTAG
@@ -119,8 +121,8 @@ closest match; a faster grade has shorter maximum delays (input to output 20 ns 
 
 ## Programming a chip
 
-The file for an ispLSI1016 is [`U7_v2.0-BBB1_ispLSI1016.jed`](../prebuilt/lattice/U7_v2.0-BBB1_ispLSI1016.jed)
-(or [`U7_original-BE8C_ispLSI1016.jed`](../prebuilt/lattice/U7_original-BE8C_ispLSI1016.jed)
+The file for an ispLSI1016 is [`Lattice_v2.0-BBB1_ispLSI1016.jed`](../prebuilt/lattice/Lattice_v2.0-BBB1_ispLSI1016.jed)
+(or [`Lattice_original-BE8C_ispLSI1016.jed`](../prebuilt/lattice/Lattice_original-BE8C_ispLSI1016.jed)
 to go back). The card does not wire the chip's programming pins (ispEN, pin 13, is
 unconnected), so the chip is programmed outside the card. Three routes work from a PC
 over USB:
@@ -176,7 +178,7 @@ Lattice's download cable while the chip sits in a [programming socket](#the-prog
 - **The steps:** connect the cable's flywires to the socket (colors in
   [The programming socket](#the-programming-socket)) with the socket unpowered, black
   ground wire first; power the socket; in ispVM System, scan the chain, which reads the
-  chip's identifier ($01, ispLSI1016); give the device the file `U7_v2.0-BBB1_ispLSI1016.jed`;
+  chip's identifier ($01, ispLSI1016); give the device the file `Lattice_v2.0-BBB1_ispLSI1016.jed`;
   run the erase, program and verify operation. Source: [Lattice cable guide](sources.md#s87)
   (connection order).
 
@@ -285,7 +287,7 @@ seconds, most of it the 192 program pulses of 40-100 ms.
 
 ### Fitting the chip
 
-With the card out of the computer, U7 comes out of its PLCC socket with a PLCC extraction
+With the card out of the computer, the Lattice chip comes out of its PLCC socket with a PLCC extraction
 tool, and the new chip goes in the same way round: its pin-1 mark, a dot or the cut corner,
 at the socket's notched corner.
 
@@ -293,7 +295,7 @@ at the socket's notched corner.
 
 Programming a second chip leaves the original chip unwritten, and it can be refitted. Any
 ispLSI1016 can also be programmed back to the original map with
-[`U7_original-BE8C_ispLSI1016.jed`](../prebuilt/lattice/U7_original-BE8C_ispLSI1016.jed),
+[`Lattice_original-BE8C_ispLSI1016.jed`](../prebuilt/lattice/Lattice_original-BE8C_ispLSI1016.jed),
 the same bytes as the dump read from Sequential's chip ([The original image](#the-original-image)).
 The original's file header has the security fuse off (`G0`), so the original chip can
 also be read in a programmer and compared with that file. The data sheet rates the part
@@ -305,7 +307,7 @@ Both designs are pDS 2.61 source files with a comment on every block, signal and
 [`data/lattice/SecondSight_U7.ldf`](../data/lattice/SecondSight_U7.ldf) (BE8C) and
 [`SecondSight_U7_fixed.ldf`](../data/lattice/SecondSight_U7_fixed.ldf) (v2.0), each with
 its placement file (`.fxp`). Build commands and checks:
-[Building U7 with Lattice's tools](../tools/lattice/README.md).
+[Building the Lattice fuse map](../tools/lattice/README.md).
 
 ## The original image
 
