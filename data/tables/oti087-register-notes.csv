@@ -1,11 +1,11 @@
 Index or port,Note,Source
-$00,"Oak's VGA BIOS (TBv1.01B and TEv1.02, OTI-087B era) reads bit 1 and prints 087 or 083 from it.",Oak BIOS TBv1.01B/TEv1.02; OAK.TXT/Programmer's Guide; databook pp31-32 missing
-$02,"Oak's VGA BIOS reads bits 2-1: the sign-on prints the memory size from them. POST writes them while probing memory, so they are writable.",Oak BIOS TBv1.01B/TEv1.02; OAK.TXT/Programmer's Guide; databook pp31-32 missing
+$00,Oak's VGA BIOS (TEv1.02 and TBv1.01B) reads bit 1 and prints 087 or 083 from it. TEv1.02 also reads $01 bits 7-4 (offset $1FD6) and runs extra steps only on an 087B; TBv1.01B has no $01 test.,Oak BIOS TEv1.02/TBv1.01B; OAK.TXT/Programmer's Guide; databook pp31-32 missing
+$02,"Oak's VGA BIOS reads bits 2-1: the sign-on prints the memory size from them. POST writes them while probing memory, so they are writable. Oak's VESA extension in the 87X DOS kit reads the same bits.",Oak BIOS TBv1.01B/TEv1.02; OAK.TXT/Programmer's Guide; databook pp31-32 missing
 $04,Local-bus modes only; this card is strapped for the AT bus,OTI-087 p33-34
 $06,A change needs a software reset,OTI-087 p35
 $07,"Strapped: bits 1, 2, 4 = 1 and bits 3, 5 = 0. Bits 0, 6, 7 are not strapped.",OTI-087 p36
-$08,"Strapped: bit 0 = 1 and bits 1, 2, 3, 7 = 0. Bits 4-6 are not strapped.",OTI-087 p37
+$08,"The drawing straps bit 0 high and bits 1, 2, 3, 7 low. Production R26 has no resistor body, so the drawing alone does not establish a fitted MD9 pull-down or bit 1's reset level on production. Bits 4-6 have no drawn straps.",OTI-087 p37; production photos
 $13,"The databook scan has ""1100 1000"" handwritten beside this register",OTI-087 p39
 $21,A change needs a software reset,OTI-087 p41
 $22,Bit 3 write cache: Write cache,"OTI-087 p5, p33, p42"
-$4C,Oak VGA BIOS writes $10,OTI-087 p46
+$4C,Oak's TEv1.02 BIOS writes $10,OTI-087 p46

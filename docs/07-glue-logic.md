@@ -3,8 +3,9 @@
 [Reference index](../README.md) | [Glossary](glossary.md) | [Reference tables](reference/README.md)
 
 Four 20-pin PLDs and seven standard logic chips tie the Apple bus, the Z180 and the VGA
-chip together. No fuse dump of the four PLDs exists; their equations here follow from the
-board wiring ([netlist](../data/netlist/README.md)) and from what the firmware needs.
+chip together. No fuse dump of the four small PLDs has been found. The board wiring
+([netlist](../data/netlist/README.md), drawn from the prototype) and what the firmware
+needs fix each PLD's job, but not its exact equations or clock timing.
 
 ## Contents
 
@@ -50,7 +51,7 @@ Apple A8-A15 -> U6 (D) --Q--> Z180 HA8-HA15     clock CATCH (from U7), output en
     and the RGB path turns this gate off and lets U12 drive a divided clock.
   - gate C: not drawn.
 - U29 (74ACT32): MRD = /MREQ OR /RD, MWR = /MREQ OR /WR, IORD = /IORQ OR /RD,
-  IOWR = /IORQ OR /WR. These feed the SRAM and the OTI-087.
+  IOWR = /IORQ OR /WR. These feed the SRAM and the OTI-087X.
 
 ## U4: I/O decode
 
@@ -84,7 +85,7 @@ and copy /WR from acting like Z180 port writes (for example $A0 or $A1).
 ## U15: memory decode, boot overlay, half switch, waits
 
 Pins: inputs HCLK (pin 1, register clock), /BACK, IOCHRDY, VGAIO_SEL, HA16-HA19, RTS0,
-/ME (Z180 /MREQ); outputs ROM (EPROM /OE), RAM (SRAM /CE1), WAIT (Z180 /WAIT), VGAIO (OTI-087
+/ME (Z180 /MREQ); outputs ROM (EPROM /OE), RAM (SRAM /CE1), WAIT (Z180 /WAIT), VGAIO (OTI-087X
 LA20), RS1 and RS2 (not connected on the drawing).
 
 What U15 must do:
@@ -99,22 +100,39 @@ half      <= 0 on /ME low with HA19-16 = 0100                register, clocked b
 half      <= 1 on /ME low with HA19-16 = 0101
 LA19      = half                                             Oak address bit 19 (rework wire)
 VGAIO     = linear flag (VGAIO_SEL) and HA19 = 1             Oak address bit 20 (LA20)
-WAIT low  = for /ME low with HA19 = 1 (video memory): from the address decode, for at
-            least 2 waits on a read and 3 on a write, then while IOCHRDY is low
+WAIT low  = for /ME low with HA19 = 1 (video memory): from the address decode, for a
+            fixed number of waits, then while IOCHRDY is low
 ```
 
-**Why VGAIO must be gated.** The OTI-087 sees every memory read and write (MRD and MWR
+**Why VGAIO must be gated.** The OTI-087X sees every memory read and write (MRD and MWR
 from U29), so it answers any address that falls in its window. The firmware runs its whole
 upload loop from SRAM with the linear flag set (`upload_data` writes $AB, runs, then writes
 $AA; [`ROM_BEEF.asm:1721-1799`](sources.md#s27)). If VGAIO carried the flag for every access, each SRAM fetch
 would land in the Oak's 1 MB aperture at $100000 and collide with the SRAM. Uploads work,
-so U15 passes the flag only for $80000-$FFFFF. A replica gates LA19 the same way; the
-original's choice shows only to code that reads the SRAM mirror ($20000-$3FFFF) while a VGA
-graphics window is mapped, which the firmware never does. Source: [netlist](../data/netlist/README.md).
+so U15 passes the flag only for $80000-$FFFFF; gating it with HA19 is one way, and U15's
+exact equation is not recovered.
+
+**Copies must not reach video memory either.** During a copy the Oak still receives MWR,
+while the Z180's HA16-HA19 float. Holding LA19 and LA20 low during the copy keeps the
+Oak's address below its video windows, and U15 has /BACK to do it, but what the
+production card does is not traced. Floating address lines cannot be assumed low.
+Sources: [OTI-087 databook](sources.md#s02) pp17-18; [netlist](../data/netlist/README.md).
+
+A replica gates LA19 the same way; the original's choice shows only to code that reads the
+SRAM mirror ($20000-$3FFFF) while a VGA graphics window is mapped, which the firmware
+never does. Source: [netlist](../data/netlist/README.md).
 
 VGA register I/O has one automatic Z180 wait plus any IOCHRDY delay; SRAM needs no wait
 from U15 with fast enough parts. Wait counts and margins: [wait states](05-z180.md#wait-states).
 
+- U15 has no /RD or /WR input, so it forces the same number of waits on video memory reads
+  and writes; the Oak's IOCHRDY can still make their totals differ. A read needs at least
+  2 waits at 18 MHz and a write 3 for the Oak's worst-case timing
+  ([VGA bus timing](reference/clocks.md#vga-bus-timing)). The count U15 forces is not
+  recovered. Registered designs forcing 3 or 4 fit the PLD's resources, but the complete
+  U15/Oak/U17 timing must also pass the consecutive-capture budget below. /WAIT may
+  follow IOCHRDY combinationally; the HCLK input alone does not prove a registered
+  /WAIT output. Source: [netlist](../data/netlist/README.md) U15.
 - The EPROM's A16 is HA16, so all 128 KB appear in $60000-$7FFFF, and the boot overlay at
   $00000-$1FFFF shows the same 128 KB (code in the low half, zeros in the high half).
   Source: [netlist](../data/netlist/README.md).
@@ -123,57 +141,111 @@ from U15 with fast enough parts. Wait counts and margins: [wait states](05-z180.
 - RS1 and RS2 are unconnected outputs on the drawing; the color chip takes RS0-RS2
   from HA0-HA2. On production RS2 is tied low, because the firmware uses the RS2-free
   command access ([Board](02-board.md#production-changes)).
-- VGAIO drives OTI-087 LA20 (pin 71); production adds the half switch on LA19 (pin 70).
+- VGAIO drives OTI-087X LA20 (pin 71); production adds the half switch on LA19 (pin 70).
 
 ## U17: the copy controller and resets
 
-Pins: inputs HCLK, CATCH, CATCH_BANK, /BACK, ARES (Apple /RESET); outputs RES (Z180
-/RESET), RESN, INT_RES (not connected), BREQ (Z180 /BUSREQ), HWR (Z180 /WR line), and pin 15
-labeled "HA1?" (the last digit is unreadable; transcribed as HA19).
+Pins on the drawing: inputs HCLK, CATCH, CATCH_BANK, /BACK, ARES (Apple /RESET); outputs
+RES (Z180 /RESET), RESN, INT_RES (no external destination), BREQ (Z180 /BUSREQ) and HWR
+(Z180 /WR line). Pins 13 and 14 are open stubs; pin 15 is labeled "HA1?" (the last digit
+is unreadable). Source: [netlist](../data/netlist/README.md).
 
-One copy:
+One copy has these ordering constraints; the request can begin before CATCH rises:
 
-```
-1. CATCH rises (end of the Apple's data phase). U5/U6 and U2 hold address and data.
-2. U17 sees the edge (synchronized to HCLK) and pulls /BUSREQ low.
-3. The Z180 finishes its current machine cycle and pulls /BUSACK (BACK) low. It
-   floats its address bus, data bus, /MREQ, /IORQ, /RD and /WR.
-4. With BACK low: U5/U6 drive HA0-HA15, U2 drives HD0-HD7 (U4 BEN), U15 selects the SRAM,
-   and U17 drives SRAM A16 from CATCH_BANK. U17 pulses /WR (HWR) low for at least the
-   SRAM's 60 ns minimum write pulse (TC551001-10 datasheet): at least two HCLK
-   periods, 111 ns at 18 MHz.
-5. U17 releases /WR, then /BUSREQ. The Z180 takes the bus back.
-```
+1. CATCH rising loads U5/U6 with the Apple address. ADIN rising loads U2 with the byte.
+2. U17 requests the bus. The Z180 finishes a machine cycle, including its waits, then
+   asserts /BUSACK (BACK) and floats its address, data and bus-control outputs.
+3. BACK enables the capture latches. The copy write waits for valid bus ownership and
+   valid new latch outputs; SRAM is selected and A16 supplies the captured bank.
+4. The write ends with the SRAM's setup and hold requirements met. U17 releases its
+   request; the Z180 returns the bus at a bus-exchange edge.
+5. The controller must also be ready to recognize the next capture. Completing the
+   write alone does not establish this.
 
-- **Every CATCH is a copy.** U17's only inputs are HCLK, CATCH, CATCH_BANK, /BACK and
-  ARES: pins 6-9 and 11 are open, and no production rework wire reaches U17. So it
-  cannot tell the repeated phases of a cycle that RDY holds from the phase that
-  completes it, and copies on each one, also while the Z180 runs its INT1 handler. What
-  those copies write: [RDY](04-capture-logic.md#rdy-no-lost-events).
-- Pin 15 must carry CATCH_BANK to SRAM A16 during step 4: nothing else drives HA16 then,
-  and CATCH_BANK enters only U17. So the pin is **HA16**.
-- **Bus strobes:** /MREQ must be low and /RD high during the write. U17 drives them
-  through its pins 13 and 14; no other drawn part can.
-- **Reset:** ARES produces RES for the Z180, and RESN the OTI-087's active-high reset.
-  How the Lattice responds: [Reset and power-on](04-capture-logic.md#reset-and-power-on).
+The Z180 does not sample /WAIT during bus release. U15's waits can delay the grant,
+but cannot stretch U17's write after grant. Source: Zilog, March 1994,
+[Z180 Family Questions and Answers](sources.md#s129),
+p6-3; [UM0050](sources.md#s39) pp25-28.
+- **Production drivers not traced.** If production keeps U29's MWR = /MREQ OR /WR,
+  /MREQ must be low during the write; the SRAM's /WE overrides /OE, so /RD need not be
+  high. Which parts drive /MREQ and SRAM A16 during a copy is not traced on any
+  production photo. Pin 15 is the likely bank output; U8 has a third buffer the drawing
+  omits, so U17 is not the only part that could drive /MREQ.
+- **A second CATCH while a copy is pending.** CATCH clocks U5/U6 directly, so every CATCH
+  replaces the saved address, even while U17 is busy; U2 changes only if ADIN also
+  rises. U17 has no address or data inputs and cannot keep an older address and byte.
+  BACK and BREQ do not reach U7, so a pending copy never holds the Apple. An older
+  address and byte replaced before a completed write is lost. A latch change during the
+  write can break the SRAM's timing.
+- **Whether every CATCH makes its own write** depends on U17's busy-state logic, which is
+  not recovered. That includes the repeated phases of a cycle RDY holds
+  ([RDY](04-capture-logic.md#rdy-no-lost-events)).
+- **Reset:** ARES is the Apple's /RESET; RES drives the Z180's /RESET, and the OTI-087X
+  takes an active-high reset. The 18CV8 clears its registers at power-on. The reset
+  pulse length and release edge are not known. How the Lattice responds:
+  [Reset and power-on](04-capture-logic.md#reset-and-power-on).
 
 ### Copy timing budget
 
-The copy must finish before another captured write replaces the address in U5/U6.
-These latches take a new address on every CATCH; copies alone do not stall the Apple.
-On a IIgs the next copied write can follow one slow cycle, about 980 ns, later.
-Source: [Apple TN #68](sources.md#s43).
+U5/U6 take a new address on every CATCH and U2 new data on ADIN. U17 cannot keep an
+overwritten address and byte, and a pending copy does not stall the Apple. Two copied
+IIgs writes can arrive about 980 ns apart, one slow cycle
+([Apple TN #68](sources.md#s43)). So the first SRAM write must finish, with the SRAM's
+hold time, before the second CATCH, and U17 must be ready to take the second request.
 
-The Z180 releases its bus at the end of its current machine cycle: 3 clocks plus waits
-for a memory or I/O cycle, or 1 clock otherwise. BUSREQ takes priority over on-chip DMA,
-which pauses between its read and write. Source: [Zilog UM0050](sources.md#s39), "BUSREQ/BUSACK Bus Exchange Timing" and "DMAC and BUSREQ, BUSACK".
+The Z180 releases its bus only at the end of its current machine cycle: 3 clocks plus
+waits for a memory or I/O cycle, or 1 clock otherwise. It samples /BUSREQ at the falling
+clock edge before T3, T1 and each bus-release state. That includes the gap between the
+read and the write of a DMA transfer, HALT and SLEEP. Source: [Zilog UM0050](sources.md#s39)
+pp25-27, "DMAC and BUSREQ, BUSACK", HALT mode and SLEEP mode. /WAIT has no effect during
+bus release, so U15's waits can delay the grant but cannot stretch U17's write. Source:
+[Zilog, Z180 Family Questions and Answers, March 1994](sources.md#s129),
+p6-3. The firmware turns refresh off (RCR = 0), so no refresh cycle delays a copy.
 
-The delay before a copy starts is at most one machine cycle: about 167 ns for a
-zero-wait SRAM access or 222 ns for a card-port access at 18 MHz. An SRAM wait
-lengthens that cycle. U17's copy sequence takes 7-10 HCLK periods (about 0.4-0.6 us)
-without added VGA waits: synchronization, bus grant, at least two write clocks, then
-release. VGA waits can add up to the AT-bus allowance of 2.5 us
-([wait states](05-z180.md#wait-states)).
+ROM 1.4 sets no automatic memory waits (DCNTL = 0). Each `ldd` of its Super Hi-Res loop
+reads a conversion table in video memory and writes video memory in two separate machine
+cycles, so a copy waits for one of them, not the whole instruction. Text rendering writes
+video memory between SRAM lookups. Masking interrupts does not hold off /BUSREQ. Sources:
+`firmware/v1.4/src/superhires.asm` (`shr_high_pal0`), `text.asm`
+(`render_text80_line_loop`).
+
+The deadline: with the Toshiba TC551001-10 on s20, s108 and s109 (60 ns write pulse,
+databook B-38; the s128 card's NEC -70 has its own figure), the write must start within
+920 ns of the first CATCH, or 868.9 ns with a two-clock (111 ns) pulse, before latch, PLD
+and gate delays. Two whole 55.6 ns clocks is the shortest registered pulse.
+
+U17's own steps are not known: when it requests the bus (after CATCH rises, or while
+CATCH is still low), how many clocks it synchronizes, when the write starts, how long it
+lasts, and when it can take the next request. No fuse dump or design file of U17 or U15
+has been found. The working card limits them. For example, two late-request controllers
+that grant at (W+3)T, end their write at (W+6)T or (W+7)T and are ready again at (W+8)T,
+where W is the total waits of the Oak access running at the first CATCH, write the first
+byte in time at W = 10 but are ready only at 1000 ns and miss the second CATCH at 981 ns.
+A controller that combines finishing and re-arming saves a clock and passes that case.
+So if ten-wait Oak accesses occur during ROM 1.4's rendering, those slower designs are
+excluded; this does not by itself prove an early request.
+
+At the Oak's documented DRAM minimums, a video read that arrives as 3 or 5 back-to-back
+refresh cycles start takes 13-14 or 20 waits
+([how long IOCHRDY holds an access](05-z180.md#how-long-iochrdy-holds-an-access)). With
+W = 14 the Z180 cannot grant the bus before 944 ns, past the 920 ns deadline, so with any
+U17 design a capture that lands at the start of such an access is lost if the Apple writes
+again 980 ns later. No Oak document says whether a line's refresh cycles run back to back
+ahead of a waiting CPU access. Sequential's owner manual says programs that update Super
+Hi-Res faster than the card can follow cause no "problems other than the sometimes jerky
+display" ([owner manual](sources.md#s16) p30), and no owner report of a missed copy has
+been found. So the card does not hold a waiting video access behind a whole group of
+refresh cycles: the Oak serves it between them or ahead of them, and an emulator does the
+same.
+
+An emulator keeps U5/U6 and U2 as latches that CATCH and ADIN overwrite, keeps the Z180's
+machine cycles and waits, does the SRAM write at a U17 time it names as an approximation,
+and checks that two captures 980 ns apart both survive the normal renderer workload
+([emulator guide](10-emulator-guide.md)). A grant after the deadline is not an error on
+the card. The write stores whatever U5/U6 and U2 hold when it happens: a capture with no
+CATCH after it is copied late but intact, and a capture followed by a CATCH before its
+write is lost, replaced by the newer one. Whether the newer capture then gets a write of
+its own is U17's unrecovered busy logic, so the emulator names its choice.
 
 ## U12: AppleColor RGB timing
 

@@ -15,5 +15,5 @@ $AB,any read or write,U4,"ROM_BEEF.asm:287, 1724, 1923, 2216, 4905: each precede
 $AC,any read or write,U4,Port-pair pattern; schematic U4 AIRQ0 and U8 gate B
 $AD,any read or write,U4,ROM_BEEF.asm:56-57; schematic U4 output AIRQ0
 "$AE, $AF",none,nothing,U4 pin list (all six outputs accounted for)
-"$3B0-$3DF, $46E8, $102",read/write,OTI-087 itself,"netlist (U28 IORD/IOWR, ENVGA = VCC); ROM_BEEF.asm throughout; OTI-087 databook p18, p30"
+"$3B0-$3DF, $46E8, $102",read/write,OTI-087X itself,"netlist (U28 IORD/IOWR, ENVGA = VCC); ROM_BEEF.asm throughout; OTI-087 databook p18, p30"
 $00-$3F,read/write,Z8S180 internal,Z8S180 specification; ROM_BEEF.asm

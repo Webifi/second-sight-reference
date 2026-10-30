@@ -331,6 +331,11 @@ gs_regs_01:
                 .db     0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ; $30..$35
 
 ;; Not in MODES.S: written from the ROM bytes.
+;; BUG (E30): the AppleColor RGB double hires record. Its vertical counts give 222 lines
+;; per frame at 70.2 Hz (CRTC $06 = $DC, $07 bit 0 = 0), with 192 shown, sync at lines
+;; 197-201 ($10/$11) and blanking at 200 ($15/$16). The AppleColor RGB monitor is made for
+;; 60 Hz, and every other RGB record runs 258-264 lines at 60-64 Hz. Double hires never
+;; reaches the screen in this ROM (E2), so the record was never seen working.
 gs_regs_FA:
                 .db     0x63            ; misc out reg
                 .db     0x29            ; clocking mode reg

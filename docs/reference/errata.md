@@ -51,6 +51,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 | [E27](#e27-four-language-characters-sit-one-row-low-in-the-8x16-font) | Characters $9B-$9E of the 8x16 font sit one dot row low; the sharp s loses a row, the Swedish A ring gets a stray dot | ROM 1.4, VGA monitor | Found in the ROM and its font file | None | [Firmware 1.5 and 2.0](../firmware-fixes.md#e27-four-language-characters-sit-one-row-low-in-the-8x16-font) |
 | [E28](#e28-with-80store-on-u7-picks-the-copys-bank-without-looking-at-the-address) | With 80STORE on, writes outside the 80STORE pages are copied to the wrong bank; one case overwrites the firmware | Card logic | Found in the U7 logic | Turn 80STORE off while writing outside text page 1 and hires page 1 | [Lattice v2.0](../lattice-versions.md) |
 | [E29](#e29-apple-display-switches-reset-a-native-vga-mode) | With Apple emulation off, an Apple display switch makes the card program the SetMode mode again: SetVGAReg changes are lost, ScreenOff is undone, $A5 appears at $C0B8 unasked | ROM 1.4 | Found in the ROM | Send SetVGAReg changes and ScreenOff again after the IIgs changes its display mode | [Firmware 1.5 and 2.0](../firmware-fixes.md#e29-apple-display-switches-reset-a-native-vga-mode) |
+| [E30](#e30-double-hires-on-the-applecolor-rgb-monitor-runs-at-70-hz) | Double hires on the AppleColor RGB monitor runs at 70.2 Hz with 222 lines | ROM 1.4 | Found in the ROM's mode record; hidden by E2 | None | [Firmware 1.5 and 2.0](../firmware-fixes.md#e30-double-hires-on-the-applecolor-rgb-monitor-runs-at-70-hz) |
 
 ## ROM 1.4 faults
 
@@ -58,20 +59,27 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 
 - **Symptom:** a 320 x 200 x 256 picture does not display correctly. [GView 0.25c's README](../sources.md#s04)
   (February 1996) lists "320x200x256 does not work" under Known Errors.
+
 - **Cause:** the ROM's mode $13 table combines Oak packed-pixel mode with IBM's standard
-  mode 13h addressing; [Oak's own BIOS](../sources.md#s58) never does. Packed mode addresses
+  mode 13h addressing; [Oak's TEv1.02 BIOS](../sources.md#s58) never does. Packed mode addresses
   video memory a byte at a time and ignores the doubleword and word shifts, so the line
   pitch becomes 640 bytes: the card shows every other picture line in the top half of the
   screen and leaves the bottom half blank.
   Details: [Mode $13 addressing and display](../08-firmware.md#mode-13-packed-pixel-note).
+
 - **Also:** on the AppleColor RGB monitor the ROM refuses mode $13 and keeps the previous
   mode.
+
 - **Workaround used at the time:** show 8-bit pictures in mode $53 (640 x 480) or $61
   (640 x 400, the only 256-color mode on the RGB monitor), doubling each pixel in software.
   GView did this. Source: [GView README](../sources.md#s04).
+
 - **Register fix:** after SetMode $13, send SetVGAReg with index port $03DE,
-  index $21, data port $03DF, value $00. That gives exactly Oak's own mode 13h, which
-  displays correctly on any OTI-087. Source: [Oak BIOS](../sources.md#s58).
+  index $21, data port $03DF, value $00. That gives IBM's standard mode 13h, which
+  the OTI-087X implements ("all registers and data paths" of the IBM VGA, databook p1).
+  Oak's TEv1.02 BIOS sets mode 13h the same way. Sources:
+  [databook](../sources.md#s02); [Oak BIOS](../sources.md#s58).
+
 - The picture must then be written the standard VGA way, through Oak's $A0000 window:
   linear window off ($AA), half switch 1 (any access to $5xxxx), Z180 physical
   $A0000-$AFFFF ([Video window](../06-video.md#the-video-ram-window)). Do it with Z180
@@ -80,6 +88,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   cannot do it, because it always writes through the linear window. In standard mode
   13h the two low address bits pick the plane, and the display reads each plane at every
   fourth location. Source: [IBM VGA Technical Reference](../sources.md#s68) p2-54 and p2-75.
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e1-mode-13-shows-a-broken-picture).
 
 ### E2. Double hires hangs
@@ -87,10 +96,13 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 - **Symptom:** entering double hires (80-column, hires and $C05E on) hangs the card's
   processor; the VGA picture shows garbage and stops updating. Owners reported the freeze
   in December 1995. Source: [GenieLamp, December 1995](../sources.md#s70).
+
 - **Cause:** the renderer's scan routines sit at the same logical addresses ($9000 up)
   that its memory layout gives to the lookup tables, so the Z180 executes table data.
   [Double hires setup defect](../08-firmware.md#double-hires-setup-defect).
+
 - **Workaround:** none.
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e2-double-hires-hangs).
 
 ### E3. Super Hi-Res lines 102-127 use the wrong palette
@@ -98,43 +110,55 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 - **Symptom:** in Super Hi-Res, lines 102-127 take their scan-line control byte (and so
   their palette and 320/640 setting) from the line below. Visible only when neighboring
   lines differ, as in Doom.
+
 - **Cause:** one wrong pointer byte. [Super Hi-Res band pointer](../08-firmware.md#super-hi-res-band-pointer).
+
 - **Workaround:** write $7E to SRAM $0AB13 (it holds $7F). Every Super
   Hi-Res entry copies SRAM $0A000-$0BFFF to $1A000 and runs from there, so the fix
   persists until reset. If Super Hi-Res is already on, also write $7E to $1AB13.
+
 - Or, on a card with ROM 1.4, a program writes the correct byte into card SRAM before it
   starts: UploadData with flag 1, destination $10AB13 and the two bytes $7E $9D (the second
   byte rewrites the $9D already at $AB14); it lasts until the next reset. Other
   [SRAM write methods](../14-custom-code.md#writing-card-sram-from-the-iigs).
+
 - [SecondSight.Card.INFO.txt](../sources.md#s41) (1998) names "SSRomFix", a GS/OS startup file that "fixes a bug in SS ROM".
   A startup file can only change card SRAM until the next reset, and this band pointer is
   the known ROM fault such a change fixes completely ([Other ROM revisions](../08-firmware.md#other-rom-revisions)).
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e3-super-hi-res-lines-102-127-use-the-wrong-palette).
 
 ### E4. UploadData cannot load Z180 code as documented
 
 - **Symptom:** an upload with flag 0 ("Z180 memory") always lands in the first 64 KB of
   video memory (bank $08), whatever destination bank is given.
+
 - **Cause:** the flag-0 path adds 8 to the flag byte instead of the bank.
   [Known defects](../08-firmware.md#known-defects-and-oddities).
+
 - **Workaround:** use flag 1 with destination bank $10-$13. Banks of 8 and up
   are used as they are, and the DMA address register keeps only 20 bits, so bank $10
   lands in SRAM $0xxxx and $11 in $1xxxx.
   Details: [Loading Z180 code](../09-host-protocol.md#loading-z180-code).
+
 - **Sequential's own example fails on ROM 1.4:** [`SECOND/MISC/UP.C`](../sources.md#s06) on `ss.source.082395.po`
   loads `SAMPLE1.BIN` with `_UploadData(FL_CODE, 0x002000, ...)` (`FL_CODE` = 0 in [VGA.H](../sources.md#s30))
   and starts it with RunCode at $2000. With ROM 1.4 the code lands in video memory, and
   RunCode runs whatever SRAM $2000 holds. The disk dates from August 1995, before ROM 1.4
   shipped. Source: UP.C, VGA.H, SAMPLE1.LST.
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e4-uploaddata-cannot-load-z180-code-as-documented).
 
 ### E5. RunCode never reports completion
 
 - **Symptom:** Sequential's `_RunCode` waits forever.
+
 - **Cause:** the ROM's `run_code` never writes $A5 to port $A0 after the called code
   returns, but the library waits for $A5 or $A6. Source: [VGALOW.ASM](../sources.md#s29).
+
 - **Workaround:** end your Z180 code with `ld a,$A5` / `out0 ($A0),a` before `ret`. When calling
   a ROM routine that does not do this, do not wait for $A5.
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e5-runcode-never-reports-completion).
 
 ### E6. Mixed-hires text ignores the $C022 colors
@@ -142,15 +166,20 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 - **Symptom:** the four text lines under a hires picture are white on black on the card,
   whatever $C022 says, while the card's text and lores modes use the $C022 colors.
   The IIgs shows them in the $C022 colors. Source: [Apple IIgs Hardware Reference](../sources.md#s78), Screen Color register.
+
 - **Cause:** [Mixed-mode text colors](../08-firmware.md#mixed-mode-text-colors).
+
 - **Workaround:** none through the host commands.
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e6-mixed-hires-text-ignores-the-c022-colors).
 
 ### E7. Double lores is not implemented
 
 - **Symptom:** double lores shows as single lores.
+
 - **Workaround:** only a custom renderer uploaded to the card
   ([Beyond the firmware](../14-custom-code.md)).
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e7-double-lores-is-not-implemented).
 
 ### E8. ScrollScreen past 512 KB overwrites card memory
@@ -167,6 +196,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   ClearScreen fills anywhere in the 1 MB, but in a fill that does not start on a 64 KB
   boundary, the 64 KB block that crosses $80000 or $100000 runs on into SRAM from
   $00000 and crashes the card the same way.
+
 - **Cause:** both commands move data with Z180 DMA through the linear video window,
   where Z180 physical address = $80000 + video address. The DMA bank registers hold
   only four bits, so a bank of 16 or more wraps to Z180 physical $00000-$7FFFF: card
@@ -180,12 +210,15 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
     a nonzero offset wraps.
   Source: [ROM_BEEF.asm:1918-2211](../sources.md#s27) (`scroll_screen`), 2214 onward (`clear_screen`,
   `fill_video_mem_block`).
+
 - **Workaround:** keep ScrollScreen source and destination ranges below $80000, and start
   each ClearScreen on a 64 KB boundary or keep it inside one 64 KB block. For copies in
   the upper half, use custom Z180 code with the $4xxxx/$5xxxx half switch
   ([Video RAM window](../06-video.md#the-video-ram-window)).
+
 - GS FlicSS 0.7 hits this: it scrolls 256,000 bytes from 0 to $04B000, which ends at
   $089800.
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e8-scrollscreen-past-512-kb-overwrites-card-memory).
 
 ### E9. ScrollScreen toward a higher address copies the wrong bytes
@@ -198,6 +231,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   - **Repeated data:** when the two ranges overlap, the start of the source repeats
     through the rest of the destination.
   Copies toward a lower address are always right.
+
 - **Cause:** `scroll_screen` first picks a copy direction, then sets up one Z180 DMA
   transfer per 64 KB. Two steps are wrong:
   1. **The direction test** compares the destination with the source one byte at a time,
@@ -213,6 +247,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
      to destination + 1.
   Source: [ROM_BEEF.asm:1918-2084](../sources.md#s27) (`scroll_screen`,
   `copy_memory_block_decrement`).
+
 - **Workaround:** make the ROM copy upward, which copies exactly the requested
   range. Send the source bank byte with its top four bits set ($F0 plus the bank). The
   DMA uses only the low four bits of a bank, so the copy still reads the right place, but
@@ -220,13 +255,16 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   correct whenever the ranges do not overlap. Move an overlapping range toward a higher
   address in pieces no longer than the distance between source and destination, the last
   piece first.
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e9-scrollscreen-toward-a-higher-address-copies-the-wrong-bytes).
 
 ### E10. SetTextFont is missing
 
 - Sequential's [firmware documentation](../sources.md#s15) documents command $0F, SetTextFont; ROM 1.4 ignores
   commands $0F and above.
+
 - **Workaround:** none in ROM 1.4.
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e10-settextfont-is-missing).
 
 ### E11. Super Hi-Res color fill mode is ignored
@@ -235,10 +273,13 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   shows each pixel of value 0 in the color of the pixel before it. The card shows those
   pixels in color 0 of the line's palette. Source: [Apple IIgs Hardware Reference](../sources.md#s78), "Color Fill mode". A 1996 owner report agrees: the card "doesn't support fill mode".
   Source: [comp.sys.apple2, June 1996](../sources.md#s72).
+
 - **Cause:** the renderer reads only bits 7 and 3-0 of each control byte:
   [Super Hi-Res](../08-firmware.md#super-hi-res).
+
 - **Workaround:** the program draws the filled pixels itself and leaves bit 5 clear.
   Through the host commands, a program can upload the expanded line to an 8-bit mode.
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e11-super-hi-res-color-fill-mode-is-ignored).
 
 ### E12. Palettes rewritten during each frame show wrong colors
@@ -252,13 +293,16 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   Sequential's June 1995 manual already lists "3200-mode" as
   incompatible, because the card cannot keep pace with its palette updates. Source: [manual](../sources.md#s16) p25. Owners reported it in 1996: the card "doesn't support 3200
   mode because it doesn't support scan-line interrupts". Source: [comp.sys.apple2, June 1996](../sources.md#s72).
+
 - **Cause:** the card's VGA display runs on its own timing, not the IIgs beam, and the
   renderer compares palette memory only between its own passes:
   [Super Hi-Res](../08-firmware.md#super-hi-res).
+
 - **Workaround:** show the picture in one of the card's own 15-bit modes instead of
   Super Hi-Res: convert it to 15-bit color and upload it. SecondView 1.0a5 (July 1995)
   showed 3200-color pictures this way, in the 15/16-bit modes.
   Source: [SecondView release notes](../sources.md#s06).
+
 - **Fix:** none in firmware. Nothing on the card follows the IIgs beam: palette writes
   reach the Z180 only as copies into SRAM, with no event and no line number, so firmware
   could only guess which line each version of a palette was for. A viewer rewrites a
@@ -273,12 +317,16 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 - **Symptom:** owners reported that animation in games and demos is "extremely choppy
   and appears to skip frames" (the Ninjaforce MegaDemo especially); another wrote that
   games running at 20 frames per second or slower look right. Sources: [secondsight.rgb](../sources.md#s73); [comp.sys.apple2, June 1996](../sources.md#s72).
-- **Cause:** ROM 1.4's Super Hi-Res redraw of the whole screen takes at least 92 ms, more
-  than five IIgs frames, and at most one changed 4 KB band (about 25 lines) fits in one
+
+- **Cause:** ROM 1.4's Super Hi-Res redraw of the whole screen takes about 99 ms, about
+  six IIgs frames, and at most one changed 4 KB band (about 25 lines) fits in one
   frame: [redraw speed](../08-firmware.md#super-hi-res). Source: [Zilog UM0050](../sources.md#s39).
+
 - **Workaround:** none for existing programs. A program that changes less screen memory
   per frame gives the card less to redraw.
+
 - **Fix:** faster in [firmware 1.5 and 2.0](../firmware-fixes.md#e13-fast-animation-is-choppy), but never 60 new full screens a second.
+
 - **Palette writes also redraw lines 179-199.** The $9000 band flag sets on any copied
   write to $9000-$9FFF, which includes the control bytes and palettes at $9D00-$9FFF
   (`DIRTY_9000 = AA12 & WRITE_8000_9FFF`, [Lattice design source](lattice-source.md)). The
@@ -289,6 +337,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   - [Lattice v2.0](../lattice-versions.md) leaves this flag as the factory chip has it: the
     saving is a few milliseconds a pass, and only for programs that change palettes
     without drawing.
+
 - The same owner's report of a blank background in the game Rastan is [E14](#e14-direct-e1-writes-with-ramwrt-on-are-not-copied-above-6000).
 
 ### E26. Flashing text ignores the $C022 colors
@@ -301,6 +350,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   - **80 columns:** flashing characters do not flash. They show as inverse characters in
     the $C022 colors (when $C022 is $00 they alternate white on blue and blue on white).
   - Lores mixed mode's text lines flash white and blue as in 40 columns.
+
 - **Cause:** flashing characters (screen codes $40-$7F of the normal set) draw their
   glyph in DAC entry 3 on entry 2. `set_textmode_palette` loads entries 2 and 3 with the
   $C022 text and background colors. Every sixth pass (fourth in lores)
@@ -312,13 +362,17 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   Source: [firmware/v1.4/src/text.asm](../../firmware/v1.4/src/text.asm) (`emulate_text80`,
   `setup_textmode_palette`, the flashing pair), [firmware/v1.4/src/textsetup.asm](../../firmware/v1.4/src/textsetup.asm)
   (`set_textmode_palette`), [firmware/v1.4/src/lores.asm](../../firmware/v1.4/src/lores.asm) (`get_text_colour`, attribute $23).
+
 - **Workaround:** show inverse text instead of flashing text.
+
 - **Workaround, 40 columns:** load the pair with the $C022 colors. UploadData
   flag 1, destination $109484, 6 bytes: the background color's red, green and blue, then
   the text color's, as 8-bit DAC values (the 16 IIgs colors are `apple_colour_table` in
   [firmware/v1.4/src/textsetup.asm](../../firmware/v1.4/src/textsetup.asm)). Send it again after
   each $C022 change. The card then alternates normal and inverse in those colors.
+
 - **Workaround, 80 columns:** none.
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e26-flashing-text-ignores-the-c022-colors).
 
 ### E27. Four language characters sit one row low in the 8x16 font
@@ -328,6 +382,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   Swedish ] (A ring) and } (a ring), sit one dot row lower than the rest. The sharp s
   loses the bottom row of its tail, and the A ring gets that row as a dot at its top
   left. The 8x8 font (AppleColor RGB) is right.
+
 - **Cause:** the 8x16 language glyphs at $8694 are `FONT.TAB` from
   `ss.source.082395.po` (`SECOND/FIRM`, [firmware/original/FONT.TAB](../../firmware/original/FONT.TAB)),
   compiled as it is, and that file draws character $9A with 17 rows. The table is
@@ -335,7 +390,9 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   each of $9B-$9E starts one byte early: its first row is the previous glyph's last row
   and its own last row is not copied. Source: [firmware/v1.4/src/fonts.asm](../../firmware/v1.4/src/fonts.asm)
   (`hex81`), [firmware/v1.4/src/textsetup.asm](../../firmware/v1.4/src/textsetup.asm) (`copy_font`).
+
 - **Workaround:** none.
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e27-four-language-characters-sit-one-row-low-in-the-8x16-font).
 
 ### E29. Apple display switches reset a native VGA mode
@@ -347,13 +404,43 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
     pages, go back to the record's values;
   - a ScreenOff is undone;
   - $A5, SetMode's completion byte, goes to the handshake latch at $C0B8 unasked.
+
+  The same path can also answer a SetMode too early. If the SetMode lands between the
+  main loop's two flag tests, the card sends $A5 at once, 18 us after its $00, and sends a
+  second $A5 about 47 ms later, once `set_native_mode` has set the mode. A host that waits
+  for $00 can miss it; Sequential's `_SetMode` returns on the first $A5, before the mode is
+  set. With emulation off the main loop does nothing but these tests, so the gap covers
+  about a third of its time.
+
 - **Cause:** the event handlers for those switches request a mode change without looking
   at the emulation flag. With emulation off, the main loop answers every mode change with
-  `set_native_mode`, SetMode's own set-up. Source: [ROM_BEEF.asm](../sources.md#s27)
-  `get_emulation_routine`, `set_native_mode`, the softswitch handlers.
+  `set_native_mode`, SetMode's own set-up. For the early reply: SetMode runs inside INT1
+  and sets `mode_change_pending`, then `setmode_reply_owed`. The main loop tests the first
+  ($1E01) and then the second ($1E1B), so a SetMode between the two tests is answered by
+  the main loop's $A5 (the OUT0 at $1E24) before its mode change runs. Source:
+  [ROM_BEEF.asm](../sources.md#s27) `main_loop`, `set_mode`, `get_emulation_routine`,
+  `set_native_mode`, the softswitch handlers; [VGALOW.ASM](../sources.md#s29) `_SetMode`.
+
 - **Workaround:** after the IIgs changes its display mode, send the SetVGAReg changes and
   ScreenOff again.
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e29-apple-display-switches-reset-a-native-vga-mode).
+
+### E30. Double hires on the AppleColor RGB monitor runs at 70 Hz
+
+- **Symptom:** none seen in ROM 1.4, because double hires freezes first (E2). With E2
+  fixed, the RGB double hires mode would run at 70.2 frames per second with 222 lines per
+  frame, where the AppleColor RGB monitor is made for 60 Hz.
+
+- **Cause:** the RGB record for mode $FA sets 222 lines per frame (CRTC $06 = $DC, $07
+  bit 0 = 0) at its 15.58 kHz line rate, with vertical sync at lines 197-201 and one blank
+  line. Every other RGB record runs 258-264 lines at 60-64 Hz. Source:
+  [`firmware/v1.4/src/modes.asm`](../../firmware/v1.4/src/modes.asm) `gs_regs_FA`, ROM bytes
+  $C3D2-$C3EA; [AppleColor RGB specification](../sources.md#s110).
+
+- **Workaround:** none.
+
+- **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e30-double-hires-on-the-applecolor-rgb-monitor-runs-at-70-hz).
 
 ## Card logic faults
 
@@ -363,18 +450,22 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   that sends writes aimed at bank $00 to auxiliary memory (bank $01, shadowed to $E1). A
   program can write the Super Hi-Res screen that way, or *directly*, with an address that
   names bank $E1 (or $01 with shadowing) itself, such as `STA $E19E20`.
+
 - **Symptom:** direct writes made while RAMWRT happens to be on are lost above $6000 on the
   card: the upper Super Hi-Res screen, its scan-line control bytes ($9D00) and its palettes
   ($9E00). Direct writes below $6000 land in the wrong SRAM bank.
+
 - **Cause:** the slot's bank signal M2B0 shows the bank in the address but not RAMWRT
   ([Apple TN #68](../sources.md#s43)). The card copies $6000-$9FFF only when B xor RAMWRT is 1. A redirected
   write has B = 0 and RAMWRT = 1, so it is copied, to auxiliary memory. A direct write
   with RAMWRT on has B = 1 and RAMWRT = 1, so B xor RAMWRT is 0, the same value as for a
   main-memory write, and the card drops it; below $6000 its bank equation also files it
   in bank 0 ([Bank tracking](../04-capture-logic.md#bank-tracking)).
+
 - **The logic is exact:** Lattice's pDS 2.61 builds the recovered source, copy rule
   (CAPTURE) and bank equation (CATCH_BANK) included, into BE8C with every fuse equal
   ([how this was checked](../04-capture-logic.md#how-this-was-checked)).
+
 - **Rastan hits it:** Rastan is the IIgs version of Taito's 1987 arcade game, a
   side-scrolling sword fighter. It runs with $C068 = $3C (RAMRD and RAMWRT on). Its screen
   pixels go through bank $00 and are copied, but it stores its scan-line control bytes and
@@ -383,26 +474,32 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   background shows black or in the title screen's colors, matching the owner's report of
   a blank background. Found in the game's code.
   Source: [secondsight.rgb](../sources.md#s73).
+
 - **Rastan's code is correct IIgs code, not a game bug.** RAMWRT redirects only writes
   aimed at bank $00, so on a IIgs a long store to $01 or $E1 always lands there. The game
   turns RAMRD and RAMWRT on so that its bank $00 direct-page and stack writes land in
   bank $01, the Super Hi-Res buffer: `PEI` copies into a relocated stack ($03:69F1),
   `PHA` tile copies ($03:E79D) and direct-page shifts. That is the fastest way to draw a
   IIgs screen. Only the card's B xor RAMWRT rule treats the long stores differently.
+
 - **Changing the game, any site:** turn RAMWRT off around each direct write: `STA $C004` before,
   `STA $C005` after, through a `JSL` to a small routine where there is no room in place.
   With RAMWRT off, B xor RAMWRT is 1 and the card copies the write to auxiliary memory;
   the IIgs result is unchanged.
+
 - **Changing the game, where Super Hi-Res shadowing is on:** change the bank byte of the long
   store from $01 to $00, for example `STA $019D18,X` (`9F 18 9D 01`) to `STA $009D18,X`
   (`9F 18 9D 00`). With RAMWRT on, the IIgs still puts the byte in $01:9D18 and shadows
   it to $E1, and the card sees a redirected write and copies it. This does not apply
   to a site that writes $E1 while shadowing is off, such as Rastan's `MVN` into $E1:
   check $C035 bit 3 at each site, or turn RAMWRT off as above.
+
 - **The right rule:** B = 1 always means the auxiliary bank, so the rule should be B or
   RAMWRT, and CATCH_BANK's first term needs no !RAMWRT. An emulator or a replica can offer
   that as an option, with the original behavior as the default.
+
 - A new program avoids the fault by clearing RAMWRT before writing $E1 directly.
+
 - **Fix:** [Lattice v2.0](../lattice-versions.md#what-v20-changes) decides "B or RAMWRT", so those
   writes are copied into SRAM bank 1 like any other screen write. Firmware cannot fix it:
   it can work out the mode, but the bytes it would need never reach the card:
@@ -425,6 +522,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   with bits 3-0 of $C034 (the Control Panel's border setting, or a program). The card's
   border is the color each mode record picks: palette entry $10 in most text modes,
   entry 0 in the graphics modes ([Border color](../08-firmware.md#border-color)).
+
 - **Cause:** a $C034 write reaches the slot like every access to the IIgs's internal I/O
   (/M2SEL is low; [TN #68](../sources.md#s43)), with the new value on the slot's data bus.
   The card learns such a value only when U7 treats the access as an event: U7 then
@@ -434,8 +532,10 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   term included, into BE8C with every fuse equal. Sources:
   `EVENT_DECODE` in the [design source](../../data/lattice/Lattice_original-BE8C.ldf) (block B7);
   [event addresses](z180-io-ports.md#apple-event-addresses).
+
 - **Workaround:** SetBorder ($08) after every change of display mode, with a palette index
   whose color matches the IIgs border. A CDA of the time did this ([GEnie message](../sources.md#s74)).
+
 - **Fix:** [Lattice v2.0](../lattice-versions.md) together with [firmware 2.0](../firmware-versions.md).
   Lattice v2.0 makes a $C034 write an event: it latches the byte the IIgs writes into U2 and
   interrupts the Z180, as for $C022. Firmware 2.0 reads that byte from port $A0 and shows
@@ -447,9 +547,11 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   With 80STORE on, PAGE2 picks it instead for text page 1 ($0400-$07FF), and also for
   hires page 1 ($2000-$3FFF) when HIRES is on. Source: [Apple IIgs Hardware Reference](../sources.md#s78)
   p44, Table 3-3. The IIe follows the same rule.
+
 - **Cause:** U7's bank equation (`BANK_Q`, [Bank tracking](../04-capture-logic.md#bank-tracking))
   has no address terms. While 80STORE is on it applies PAGE2 to every copied address, and
   in IIgs mode it applies RAMWRT whenever HIRES is off, text page 1 included.
+
 - **Symptom:** in these cases the card copies the write into the other SRAM bank, so its
   copy of that page holds wrong bytes until the program writes them again. These follow
   from `BANK_Q` in the [design source](../../data/lattice/Lattice_original-BE8C.ldf), which
@@ -460,12 +562,15 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
     page 2 with HIRES on, or $2000-$3FFF with HIRES off on a IIe): copied to main.
   - IIgs mode, 80STORE on, HIRES and PAGE2 off, RAMWRT on: a main-memory write to text
     page 1 is copied to auxiliary.
+
 - **One case stops the card.** In IIgs mode with 80STORE and HIRES on, PAGE2 off and
   RAMWRT on, a bank $00 write to $6000-$9FFF goes to auxiliary memory on the IIgs (and to
   the Super Hi-Res screen when shadowing is on). The card copies it into SRAM bank 0 over
   its own code at $6000-$9FFF.
+
 - **Workaround:** a program can turn 80STORE off while it writes outside text page 1 and
   hires page 1.
+
 - **Fix:** [Lattice v2.0](../lattice-versions.md). Its bank equation follows the Apple's rule:
   with 80STORE on, PAGE2 picks the bank for text page 1, and for hires page 1 while HIRES
   is on; RAMWRT picks it for every other address
@@ -478,19 +583,24 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 - Several mode files set Oak ext $06 and the misc output byte to different clocks. ROM
   1.4 writes the misc byte last, so the misc byte decides, and the mode runs at a clock
   other than its name. List: [Library mode files](../06-video.md#library-mode-files).
+
 - **Workaround:** edit the record so both name the intended clock before sending SetUserMode.
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e16-library-mode-files-run-at-the-wrong-clock).
 
 ### E17. The true-color mode file shows palette colors
 
 - `M640X48016M` sets true-color timing but leaves the Bt481 in 8-bit palette mode.
+
 - **Workaround:** set Bt481 Command Register A to $F0 and CRTC $01 to $4F
   ([24-bit mode width](../14-custom-code.md#24-bit-mode-width)).
+
 - From the IIgs, with GetVGAReg and SetVGAReg (use $03CE, the graphics-controller index,
   as the harmless index port): read $03C7 once, read $03C6 four times, then write $F0 to
   $03C6, which reaches Command Register A. For CRTC $01, clear CRTC $11 bit 7 first
   (on any VGA it write-protects CRTC $00-$07), write $01 = $4F, then restore $11.
   Sources: [Bt481A datasheet](../sources.md#s36); [ROM_BEEF.asm:1018-1033](../sources.md#s27).
+
 - **Fix:** [firmware 1.5 and 2.0](../firmware-fixes.md#e17-the-true-color-mode-file-shows-palette-colors).
 
 ### E18. Old library upload and status bugs
@@ -498,7 +608,9 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 - Library notes record: `_UploadData` sent a whole 64 KB chunk when one byte was left
   (fixed 8/16/95); a bad memcpy trashed the library's status copy (fixed 7/10/95);
   later fixes to `_GetVGAReg` and `_UploadData`.
+
 - **Workaround:** link with the library from `sslib082696.po` (August 1996).
+
 - **Fix:** none in firmware. Both faults are in the IIgs library, which writes to Apple
   memory that the card cannot reach. The August 1996 library is the fix.
 
@@ -506,17 +618,21 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 
 - **Symptom:** the IIgs program hangs after an upload whose length is an exact multiple of
   64 KB (for example 512 KB). The card itself finishes the upload correctly.
+
 - **Cause:** the older `_UploadData` waits for the card's "ready" handshake for a
   remainder phase before checking whether any remainder is left. ROM 1.4 sends no
   remainder phase when the remainder is zero, so the program waits forever. The August
   1996 library checks first ([`VGALOW.ASM`](../sources.md#s29) line 576, "catch lengths of 0"; NOTES 8/26/96).
+
 - **Programs with the old routine:** SecondView 1.0a6, GView 0.25c and GS FlicSS 0.7. In each, the bank
   loop's closing branch (`C6 01 D0 E7`, decrement the bank count and loop) is followed
   directly by `JSR WaitHSOn`, with no length test: SSVIEW (`ss.source.082395.po`,
   [`SECOND/SVIEW/SSVIEW`](../sources.md#s06)) at file offset $CB39, GVIEW (`gview.025c.po`) at $915F,
   and the [GS FlicSS](../sources.md#s81) data fork at $2502.
+
 - **Workaround:** link with the August 1996 library. Programs that cannot be relinked can pad an
   upload by two bytes so that its length is not a multiple of 64 KB.
+
 - **Fix:** partly, in [firmware 1.5 and 2.0](../firmware-fixes.md#e19-uploads-of-whole-64-kb-blocks-hang-older-programs).
 
 ## Faults of earlier firmware
@@ -526,6 +642,7 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 - SecondView 1.0a2 (June 1995): pictures over 512 KB "were overwriting the VGA firmware
   and causing the board to crash", until the firmware could upload to the upper 512 KB.
   ROM 1.4 can. Source: [SecondView RELEASE.NOTES](../sources.md#s06).
+
 - **Fix:** not needed; ROM 1.4 already uploads to the upper 512 KB.
 
 ### E21. Faults fixed in v1.1
@@ -552,25 +669,31 @@ Sequential's "Second Sight Firmware Update v1.1" notes ([`SECOND/SVIEW/SS.NOTES`
 - **Symptom:** GView 0.25c uploads each row of a 640-pixel picture as 639 bytes, so
   column 639 on the card keeps whatever video memory held before. Found in the program's
   code.
+
 - **Cause:** the display routine decrements the picture width before it builds the
   source rectangle: `LDA $1869` / `DEC A` / `STA $1869`, bytes `AD 69 18 3A 8D 69 18` at
   GVIEW data-fork offset $D990. The height is used as it is. The library's pixel-map
   copier takes right minus left as the row length (offset $FC9D), so a 640 x 480
   picture becomes 480 uploads of 639 bytes.
+
 - **Workaround:** none; the lost column is one pixel wide.
+
 - **Fix:** none in firmware. GView never sends the last pixel of each row.
 
 ### E23. SecondView 1.0a6 zeroes the first pixel of rows 2, 4, 6 in interlaced GIFs
 
 - **Symptom:** in an interlaced GIF, counting rows from 0, the first pixel of rows 2, 4, 6
   and so on shows color 0. Found in the program's code.
+
 - **Cause:** the GIF decoder stores each pixel with a 16-bit accumulator (`sta [<row],Y`)
   but advances one byte (`iny`): [`SECOND/SVIEW/IQGIF.ASM`](../sources.md#s06) loops xloop2 and xloop3, bytes
   `97 0B C8` at SSVIEW data-fork offset $2017. The high byte of each row's last pixel,
   always 0, lands on the next row's first pixel. The last interlace pass writes rows 1,
   3, 5 and so on after the even rows, so each one's spill overwrites the first pixel of
   the even row below it, and those zeros stay.
+
 - **Workaround:** use a non-interlaced GIF.
+
 - **Fix:** none in firmware. The pixel is overwritten in Apple memory before the upload.
 
 ## Reported faults
@@ -580,11 +703,14 @@ Sequential's "Second Sight Firmware Update v1.1" notes ([`SECOND/SVIEW/SS.NOTES`
 - **Symptom:** some boards show changing patterns and lock up the computer at power-up or
   after an Apple reset, only with VGA monitors; a second reset usually clears it.
   Source: [manual](../sources.md#s16), June 1995, pp25 and 29.
+
 - **Cause:** the card can stop the IIgs only by holding RDY low, which it does while an
   event waits for the Z180 to acknowledge it ([RDY](../04-capture-logic.md#rdy-no-lost-events)).
   A Z180 that has not started or has stopped never acknowledges; the Apple reset restarts
   it.
+
 - **Workaround:** press reset again.
+
 - **Fix:** none in firmware. The boot code acknowledges events before it sets any video
   mode: it writes port $A0 right after the EPROM copy and the handler-table setup, and the
   first mode set runs afterwards, from the main loop ([Boot](../05-z180.md#boot);
@@ -597,10 +723,13 @@ Sequential's "Second Sight Firmware Update v1.1" notes ([`SECOND/SVIEW/SS.NOTES`
 
 - [GView's README](../sources.md#s04) (February 1996): pictures of "1024+ x 1024+ may crash or hang the
   system"; GView truncates them, "but the SecondSight still seems to hang sometimes".
+
 - **Cause:** [E19](#e19-uploads-of-whole-64-kb-blocks-hang-older-programs): GView
   0.25c contains the old upload routine (GVIEW file offset $915F), and a 1024 x 1024
   picture at one byte per pixel is exactly 16 blocks of 64 KB.
+
 - **Workaround:** the same as E19.
+
 - **Fix:** partly, in [firmware 1.5 and 2.0](../firmware-fixes.md#e25-very-large-pictures-may-hang-the-card).
 
 ---

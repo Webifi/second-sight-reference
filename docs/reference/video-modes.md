@@ -12,7 +12,11 @@ the mode it was meant to set; the values say what it sets.
   register 6, so the misc byte can change the clock that register 6 asked for.
 - Timing values are calculated from the programmed registers. H visible is a programmed
   count: packed color and double-width timing can make it differ from the picture width.
-- What each register does: [OTI-087 registers](oti087-registers.md),
+- Oak extended register $14 bit 7 turns on interlace. The vertical counts are then per
+  field, and two fields make one frame with twice the lines. Interlaced rows give the
+  lines per frame and both rates. ROM 1.4's AppleColor RGB mode `$61` is interlaced:
+  640 x 400 at 31 frames per second.
+- What each register does: [OTI-087X registers](oti087-registers.md),
   [Bt481 modes](bt481-modes.md), [Clock selections](clocks.md).
 - Building a new mode from these records: [SetUserMode byte layout](host-commands.md#setusermode),
   [Bt481 pixel formats](bt481-modes.md), [24-bit mode width](../14-custom-code.md#24-bit-mode-width).
@@ -89,7 +93,9 @@ These records come from the named monitor list in the ROM.
 
 ## Built-in AppleColor RGB records
 
-These records come from the named monitor list in the ROM.
+These records come from the named monitor list in the ROM. Record `$FA`'s 222 lines at
+70.2 Hz are ROM 1.4 fault [E30](errata.md#e30-double-hires-on-the-applecolor-rgb-monitor-runs-at-70-hz);
+firmware 1.5 and 2.0 run it at 260 lines, 59.9 Hz.
 
 ### Clock and output path
 
@@ -110,7 +116,7 @@ These records come from the named monitor list in the ROM.
 |---|---|---|---|---|---|---|---|---|---|
 | `$01` | 568 | x1 | 320 | 264 | 200 | 8 | no | 15.85 | 60.0 |
 | `$03` | 960 | x1 | 640 | 264 | 200 | 8 | no | 16.41 | 62.1 |
-| `$61` | 960 | x1 | 640 | 264 | 200 | 1 | no | 16.41 | 62.1 |
+| `$61` | 960 | x1 | 640 | 264 per field | 400 interlaced (200 per field) | 1 | no | 16.41 | 31.0 (fields 62.1) |
 | `$FA` | 808 | x1 | 560 | 222 | 192 | 1 | no | 15.58 | 70.2 |
 | `$FB` | 544 | x1 | 320 | 258 | 192 | 1 | no | 16.54 | 64.1 |
 | `$FC` | 567 | x1 | 360 | 264 | 192 | 8 | no | 15.87 | 60.1 |
@@ -152,11 +158,11 @@ Every filename in this group is relative to [`SECOND/MISC/RGB/`](../sources.md#s
 
 | Record | H total (dots) | Hi/true-color factor (ext $21) | H visible (dots) | V total (lines) | V visible (lines) | Scan lines per row | Double scan | Line rate (kHz) | Frame rate (Hz) |
 |---|---|---|---|---|---|---|---|---|---|
-| `M640X400X32K` | 960 | x2 | 640 | 264 | 200 | 1 | no | 16.41 | 62.1 |
+| `M640X400X32K` | 960 | x2 | 640 | 264 per field | 400 interlaced (200 per field) | 1 | no | 16.41 | 31.0 (fields 62.1) |
 | `M640X200.1575M` | 960 | x1 | 640 | 264 | 200 | 1 | no | 16.41 | 62.1 |
-| `M640X200.18M` | 1064 | x1 | 640 | 222 | 200 | 1 | no | 13.31 | 60.0 |
-| `M640X200.14M` | 824 | x1 | 640 | 222 | 200 | 1 | no | 15.28 | 68.8 |
-| `M640X400.1575M` | 960 | x1 | 640 | 264 | 200 | 1 | no | 16.41 | 62.1 |
+| `M640X200.18M` | 1064 | x1 | 640 | 222 per field | 400 interlaced (200 per field) | 1 | no | 13.31 | 30.0 (fields 60.0) |
+| `M640X200.14M` | 824 | x1 | 640 | 222 per field | 400 interlaced (200 per field) | 1 | no | 15.28 | 34.4 (fields 68.8) |
+| `M640X400.1575M` | 960 | x1 | 640 | 264 per field | 400 interlaced (200 per field) | 1 | no | 16.41 | 31.0 (fields 62.1) |
 | `M320X200X32K` | 960 | x1 | 640 | 264 | 200 | 1 | no | 16.41 | 62.1 |
 | `M80X25.1575M` | 960 | x1 | 640 | 264 | 200 | 8 | no | 18.75 | 71.0 |
 | `M80X24.1575M` | 960 | x1 | 640 | 264 | 192 | 8 | no | 18.75 | 71.0 |
@@ -285,7 +291,7 @@ Every filename in this group is relative to [`SECOND/MISC/VGA/`](../sources.md#s
 | `M560X192.VGA` | 800 | x1 | 560 | 449 | 384 | 1 | yes | 31.47 | 70.1 |
 | `M640X48016M` | 824 | x3 | 632 | 525 | 480 | 1 | no | 31.55 | 60.1 |
 | `M640X40032K.50M` | 1600 | x1 | 1280 | 449 | 400 | 1 | no | 31.25 | 69.6 |
-| `M320X40032K` | 960 | x1 | 640 | 264 | 200 | 1 | no | 16.41 | 62.1 |
+| `M320X40032K` | 960 | x1 | 640 | 264 per field | 400 interlaced (200 per field) | 1 | no | 16.41 | 31.0 (fields 62.1) |
 | `M1280X480.50M` | 1600 | x1 | 1280 | 525 | 480 | 1 | no | 31.25 | 59.5 |
 | `M800X600.36M` | 1024 | x1 | 800 | 625 | 600 | 1 | no | 35.16 | 56.2 |
 
@@ -320,6 +326,7 @@ bytes as assembler source: `db` lines of hexadecimal values with comments. `M40`
 
 Built-in RGB `$FA` selects the VGA path and its ext06 `$01` is overridden by misc `$63`.
 Its final 25.175 MHz clock, sequencer division, and timing counts give 15.58 kHz lines ([Video: built-in modes](../06-video.md#built-in-modes)).
+Its vertical counts are fault [E30](errata.md#e30-double-hires-on-the-applecolor-rgb-monitor-runs-at-70-hz); the clock path is not.
 
 The same holds for files in [`SECOND/MISC/RGB/`](../sources.md#s06): the feature byte
 chooses the path, not the directory or the file name.
@@ -328,6 +335,9 @@ chooses the path, not the directory or the file name.
 
 The 1.4 firmware writes misc output after extended register 6. So a file with an
 override runs at the clock after the override, whatever frequency its name says.
+
+Names can also mislead about lines: `M640X200.14M` and `M640X200.18M` turn interlace on,
+so they show 400 lines, not 200.
 
 ### True-color file
 
@@ -343,7 +353,7 @@ settings that fix it: [24-bit mode width](../14-custom-code.md#24-bit-mode-width
 | $03 | 80 x 25 text, 9-dot | 80 x 25 text | |
 | $13 | 320 x 200 x 256 | (none) | |
 | $53 | 640 x 480 x 256 | (none) | |
-| $61 | 640 x 400 x 256 | 640 x 200 x 256 | |
+| $61 | 640 x 400 x 256 | 640 x 400 x 256, interlaced | |
 | $FA | 560 x 192 x 16, double-scanned | 560 x 192 | double hires |
 | $FB | 280 x 192 x 16, double-scanned | 280 x 192 | hires |
 | $FC | 40 x 24 text | 40 x 24 text | 40-column text |
@@ -373,14 +383,14 @@ them with SetUserMode and mode files. Source: [VGA.H](../sources.md#s30).
 
 ## Mode 13 addressing registers
 
-Sources: [Oak VGA87 BIOS TEv1.02](../sources.md#s58), standard table at BIOS offset $1172,
+Sources: Oak's [VGA87 BIOS TEv1.02](../sources.md#s58), standard table at BIOS offset $1172,
 packed tables at $1472 and $1B72, extended-register entries at $2C4A and later (byte 6 =
 ext $21); [Paradise TBv1.01B](../sources.md#s57).
 
 | Mode table | CRTC $14 / $17 | Attribute mode | Ext $21 |
 |---|---|---|---|
-| [Oak BIOS](../sources.md#s58), mode 13h | $40 / $A3 (doubleword, word mode) | $41 | $00 (standard VGA) |
-| [Oak BIOS](../sources.md#s58), packed 640 x 480 and 640 x 400 x 256 | $00 / $C3 (byte mode) | $01 | $04 (packed) |
+| [Oak TEv1.02 BIOS](../sources.md#s58), mode 13h | $40 / $A3 (doubleword, word mode) | $41 | $00 (standard VGA) |
+| [Oak TEv1.02 BIOS](../sources.md#s58), packed 640 x 480 and 640 x 400 x 256 | $00 / $C3 (byte mode) | $01 | $04 (packed) |
 | ROM 1.4 modes $53, $61, $FE (640 wide) | $00 / $C3 | $01 | $04, the same as Oak's packed modes |
 | ROM 1.4 mode $13 | $40 / $A3 | $41 | $04 |
 

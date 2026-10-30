@@ -1,9 +1,18 @@
-# OTI-087 extended registers
+# OTI-087X extended registers
 
 [Reference tables](README.md) | [Glossary](../glossary.md)
 
-The Oak OTI-087's extended register fields and the values ROM 1.4 writes to them
+The Oak OTI-087X's extended register fields and the values ROM 1.4 writes to them
 ([Video](../06-video.md)).
+
+- The card's chip is marked OTI087X ([which Oak chip](../06-video.md#which-oak-chip)).
+  Its specification is the February 1993 [OTI-087 databook](../sources.md#s02) with the
+  OTI-087X addendum bound into it. Where the addendum changes the book, the addendum wins.
+- Oak's [87X Windows drivers](../sources.md#s69) and [87X DOS kit](../sources.md#s79) are
+  OTI-087X software. Oak's [TEv1.02 BIOS](../sources.md#s58) serves the 087B and later chips,
+  the 087X included. The Paradise [TBv1.01B BIOS](../sources.md#s57) and the
+  [87B drivers](../sources.md#s113) are OTI-087B software; facts taken only from them are
+  marked that way.
 
 - An extended register is reached by writing its index to `$3DE`, then reading or writing
   its data at `$3DF`. Port `$102` is separate: it enables the chip
@@ -12,7 +21,9 @@ The Oak OTI-087's extended register fields and the values ROM 1.4 writes to them
   their usual ports ([VGA ports](z180-io-ports.md#vga-ports)).
 
 Sources: the [OTI-087 databook](../sources.md#s02), the firmware and mode records, and
-[Oak's own BIOS](../sources.md#s58) for the register pages the databook copy is missing.
+for the register pages the databook copy is missing, Oak's own drivers
+([87X](../sources.md#s69), [87B](../sources.md#s113), [NT](../sources.md#s114)), BIOS
+([TEv1.02](../sources.md#s58)) and the [Programmer's Guide](../sources.md#s61).
 
 ## Contents
 
@@ -29,16 +40,18 @@ Sources: the [OTI-087 databook](../sources.md#s02), the firmware and mode record
 
 ## Register index
 
-Page numbers are the databook's printed pages. Pages 31-32 ($00 and $02) are missing from
-every copy, so those two registers come from Oak's BIOS and drivers. Each register links
-to its bit fields.
+Page numbers are the databook's printed pages. Pages 31-32 (the `$3DE` index port and
+ext $00-$02) are missing from every copy, so those registers come from Oak's BIOS and
+drivers. Each register links to its bit fields.
 
 <!-- csv: data/tables/oti087-extended-registers.csv -->
 | Index or port | Name | Firmware use | Source |
 |---|---|---|---|
 | [$102](#reg-102) | Add-on enable | written by enable_oak_add_on_mode | [databook p30](../sources.md#s02) |
-| [$00](#reg-00) | Product number (read) | never written | Oak BIOS; databook pages 31-32 missing |
-| [$02](#reg-02) | Status | $05 in every mode table | Oak BIOS; databook pages 31-32 missing |
+| [$3DE](#reg-3de) | Extended index port | every extended access | Oak BIOS and [NT driver](../sources.md#s114); databook pages 31-32 missing |
+| [$00](#reg-00) | Product number (read) | never written | Oak's [DOS installers](../sources.md#s79); Oak BIOS and drivers; databook pages 31-32 missing |
+| [$01](#reg-01) | Revision (read) | never written | Oak's [DOS installers](../sources.md#s79) and [87X drivers](../sources.md#s69); databook pages 31-32 missing |
+| [$02](#reg-02) | Status | $05 in every mode table | Oak BIOS and 87X DOS kit; databook pages 31-32 missing |
 | [$03](#reg-03) | Oak test | $10 | [databook p33](../sources.md#s02) |
 | [$04](#reg-04) | Local bus control | $07 | [databook p33-34](../sources.md#s02) |
 | [$05](#reg-05) | Video memory mapping | $19 linear (1 MB at $100000) or $00 VGA | [databook p34-35](../sources.md#s02) |
@@ -46,12 +59,17 @@ to its bit fields.
 | [$07](#reg-07) | Configuration 1 (read) | read only | [databook p36](../sources.md#s02) |
 | [$08](#reg-08) | Configuration 2 (read) | read only | [databook p37](../sources.md#s02) |
 | [$09-$0B](#reg-09-0b) | Scratch | not used | [databook p37](../sources.md#s02) |
+| [$0C](#reg-0c) | CRT control | not written | [databook p37](../sources.md#s02) |
 | [$0D](#reg-0d) | Oak miscellaneous | not written | [databook p38](../sources.md#s02) |
+| [$0E](#reg-0e-0f) | Backward compatibility | not written | [databook p38](../sources.md#s02) |
+| [$0F](#reg-0e-0f) | NMI data cache | not written | [databook p38](../sources.md#s02) |
 | [$10](#reg-10) | DIP switch (read) | never read | [databook p38](../sources.md#s02) |
 | [$11](#reg-11) | Segment | not written | [databook p38-39](../sources.md#s02) |
+| [$12](#reg-12) | Configuration | not written | [databook p39](../sources.md#s02) |
 | [$13](#reg-13) | Bus control | $C8 | [databook p39](../sources.md#s02) |
 | [$14](#reg-14) | Overflow | per mode | [databook p39-40](../sources.md#s02) |
 | [$15](#reg-15) | HSYNC/2 start | per mode | [databook p40](../sources.md#s02) |
+| [$16](#reg-16) | Oak overflow 2 | not written | [databook p40](../sources.md#s02) |
 | [$17](#reg-17) | Extended CRTC | per mode | [databook p40](../sources.md#s02) |
 | [$18](#reg-18) | EEPROM control | never written | [databook p40](../sources.md#s02) |
 | [$19](#reg-19) | Color palette range | $0F | [databook p41](../sources.md#s02) |
@@ -77,23 +95,33 @@ to its bit fields.
 
 ## Identification, configuration and bus fields
 
+These fields identify the chip and describe its bus and memory configuration.
+
 <!-- csv: data/tables/oti087-register-bits.csv -->
 | Index or port | Field or value | Source |
 | --- | --- | --- |
 | <a id="reg-102"></a>$102 | Bit 0 enable VGA/palette/VRAM access | [OTI-087 p30](../sources.md#s02) |
-| <a id="reg-00"></a>$00 | Bit 1 set = OTI-083, clear = OTI-087 | Oak BIOS [TBv1.01B](../sources.md#s57)/[TEv1.02](../sources.md#s58); [OAK.TXT](../sources.md#s35) |
+| <a id="reg-3de"></a>$3DE | Read/write index. Oak's BIOS and NT driver read it, keep the byte, and write it back to restore the index they found (BIOS file offset $1BF0, NT `OAK.SYS` $2D50-$2DF1). Oak's NT driver finds the chip by writing $11 and checking that bits 4-0 read back $11 | Oak BIOS [TEv1.02](../sources.md#s58); [NT driver](../sources.md#s114); third-party [OAK.TXT](../sources.md#s35) ("bit 0-7 Index", 83/87) |
+| <a id="reg-00"></a>$00 | Reads 1 on the OTI-087X. Oak's DOS installers name an 087-family chip (087B, 087D, 087X, 089) only when it reads 1 (`INSTALL.EXE` file offset $2B8B) | Oak [87X DOS kit](../sources.md#s79) and [87B DOS kit](../sources.md#s116); [Programmer's Guide, 1994](../sources.md#s61) section 25.4 and the third-party [XFree86 driver](../sources.md#s63) also take 1 as an OTI-087 |
+| $00 | Bit 1 set = OTI-083, clear = OTI-087 | Oak BIOS [TEv1.02](../sources.md#s58) and [TBv1.01B](../sources.md#s57); third-party [OAK.TXT](../sources.md#s35) |
+| $00 | Oak's OTI-087X drivers load only when it reads 1 or 2; the OTI-087B drivers accept 1-3, the NT driver 1-4 | [87X drivers](../sources.md#s69); [87B drivers](../sources.md#s113); [NT driver](../sources.md#s114) |
+| <a id="reg-01"></a>$01 | Bits 7-4 revision: 0 = 087B, 1 = 087D, 2 = 087X, 3 = 089. The OTI-087X reads $2x. Oak's DOS installers branch on these four values and title themselves "087B", "087D", "087X" or "089 Driver Install" (`INSTALL.EXE` file offsets $2BB1-$2C02, titles $80E7-$8146) | Oak [87X DOS kit](../sources.md#s79) and [87B DOS kit](../sources.md#s116) |
+| $01 | Oak's 87X Windows drivers refuse to load when bits 7-4 are 0 (an 087B); Oak's hi-color drivers pick their DAC setting table from the same test | [87X drivers](../sources.md#s69) |
+| $01 | Bits 3-0: no Oak program reads them; every reader masks with $F0 | Oak DOS and Windows kits |
 | <a id="reg-02"></a>$02 | Bit 0 (read only) 0 = 286 bus, 1 = 386/486 | [OAK.TXT](../sources.md#s35); [Programmer's Guide, 1994](../sources.md#s61) |
-| $02 | Bits 2-1 memory size 0=256K 1=512K 2=1MB 3=2MB | Oak BIOS [TBv1.01B](../sources.md#s57)/[TEv1.02](../sources.md#s58) |
-| <a id="reg-03"></a>$03 | Bits 2-0 test mode | [OTI-087 p33](../sources.md#s02) |
-| $03 | Bit 4 flush write cache after each write | [OTI-087 p33](../sources.md#s02) |
-| $03 | Bit 5 VSYNC test: every change of this bit, 0 to 1 or 1 to 0, toggles the VSYNC output once; it works without bit 7 | [OTI-087 p33](../sources.md#s02) |
-| $03 | Bit 6 I/O write test | [OTI-087 p33](../sources.md#s02) |
-| $03 | Bit 7 enable the test modes of bits 2-0 ("global test modes"); must be 0 in normal operation | [OTI-087 p33](../sources.md#s02) |
+| $02 | Bits 2-1 memory size 0=256K 1=512K 2=1MB 3=2MB | Oak BIOS [TEv1.02](../sources.md#s58) and [TBv1.01B](../sources.md#s57); Oak's VESA extension `OTIVBE.COM` in the [87X DOS kit](../sources.md#s79) |
+| <a id="reg-03"></a>$03 | Bits 2-0 test mode: 000 "Test CRTC", 010 "Test waveform RAM", 101 "Scan Test Attribute Controller"; 001, 011, 100, 110 and 111 reserved. Oak describes no procedure, output or read-back for 000 and 010, and no other source found does (every OTI-087 databook copy found, VGA Museum's two downloads included, is the same scan and lacks printed pp31-32) | [OTI-087 p33](../sources.md#s02) |
+| $03 | Mode 101: in text mode the font data and the attribute data come from system data bits 15-8 and 7-0 instead of video memory; in graphics mode the pixel data comes from bits 15-8. On this card SD8-SD15 are open and SD0-SD7 are the Z180 data bus, so the font and pixel data come from unconnected pins | [OTI-087 p33](../sources.md#s02); [netlist](../../data/netlist/netlist.csv) U28 |
+| $03 | Bit 4: flush the write cache immediately after each write. Oak's BIOS writes $10 with bit 7 = 0 (TEv1.02 file offset $1E0E; again $00 then $10 at $1E20 and $1E28 when ext $07 bit 2 is 0), and so do Oak's OS/2 mode tables | [OTI-087 p33](../sources.md#s02); [TEv1.02](../sources.md#s58) |
+| $03 | Bit 5 VSYNC test: "This bit will cause the Vsync to toggle when it is changed from 1 to 0 or from 0 to 1" | [OTI-087 p33](../sources.md#s02) |
+| $03 | Bit 6 I/O write test: an I/O write command is not clocked by MCLK. Must be 0 in normal operation | [OTI-087 p33](../sources.md#s02) |
+| $03 | Bit 7: "Enable global test modes". Must be 0 in normal operation. Default $00 | [OTI-087 p33](../sources.md#s02) |
+| $03 | Oak's software writes only $00 and $10. Its Windows drivers, VDD and VESA extension read the byte and write it back unchanged (`STD8_SC.DRX` read at $8DC4, write-back at $8DFC; `VDD87X.38X` $1239 and $1437; `OTIVBE.COM` $497 and $4B5) | [87X drivers](../sources.md#s69); [87X DOS kit](../sources.md#s79) |
 | <a id="reg-04"></a>$04 | Bit 0 one wait on first write | [OTI-087 p33-34](../sources.md#s02) |
 | $04 | Bit 1 one wait on write hit | [OTI-087 p33-34](../sources.md#s02) |
 | $04 | Bit 2 one wait on read hit | [OTI-087 p33-34](../sources.md#s02) |
 | $04 | Bit 3 486 minimum wait | [OTI-087 p33-34](../sources.md#s02) |
-| $04 | Bit 4 turbo local bus | [OTI-087 p33-34](../sources.md#s02) |
+| $04 | Bit 4 turbo local bus; 0 required on "OTI-087 Rev A and OTI-087 Rev B" | [OTI-087 p34](../sources.md#s02) |
 | $04 | Default $0F | [OTI-087 p33-34](../sources.md#s02) |
 | <a id="reg-05"></a>$05 | Bit 0 Oak mapping (0 = VGA A0000/B8000 windows) | [OTI-087 p34-35](../sources.md#s02) |
 | $05 | Bit 1 DMA access disable | [OTI-087 p34-35](../sources.md#s02) |
@@ -108,14 +136,17 @@ to its bit fields.
 | $07 | Bit 7 CPU clock (local bus) | [OTI-087 p36](../sources.md#s02) |
 | <a id="reg-08"></a>$08 | Loaded at reset from the strap lines MD15-MD8. Bits 1-0 local bus type | [OTI-087 p37](../sources.md#s02) |
 | $08 | Bits 3-2 color chip type (00 = Bt476-style pass-through) | [OTI-087 p37](../sources.md#s02) |
-| $08 | Bit 6 feature connector | [OTI-087 p37](../sources.md#s02) |
-| $08 | Bit 7 DRAM WE/CAS pin assignment | [OTI-087 p37](../sources.md#s02) |
+| $08 | Bit 6 feature connector (local-bus pinouts). On the OTI-087X only bits 6, 1, 0 = 101 and 110 are listed: both put EPCLK on pin 19 and EPDATA on pin 20, and pin 99 does not apply | [OTI-087 p37](../sources.md#s02); [OTI-087X addendum](../sources.md#s02) |
+| $08 | Bit 7 reserved on the OTI-087X (the databook's DRAM WE/CAS pin choice) | [OTI-087X addendum](../sources.md#s02); [OTI-087 p37](../sources.md#s02) |
 | <a id="reg-09-0b"></a>$09-$0B | 8 scratch bits each | [OTI-087 p37](../sources.md#s02) |
+| <a id="reg-0c"></a>$0C | Bits 7-0 not used | [OTI-087 p37](../sources.md#s02) |
 | <a id="reg-0d"></a>$0D | Bits 2-0 mirror index $20 | [OTI-087 p38](../sources.md#s02) |
 | $0D | Bits 4-3 mirror index $21 bits 3-2 | [OTI-087 p38](../sources.md#s02) |
 | $0D | Bit 5 mirrors index $06 bit 2 (CSEL2) | [OTI-087 p38](../sources.md#s02) |
+| <a id="reg-0e-0f"></a>$0E, $0F | Bits 7-0 not used | [OTI-087 p38](../sources.md#s02) |
 | <a id="reg-10"></a>$10 | Loaded at reset from the strap lines SD7-SD0 | [OTI-087 p38](../sources.md#s02) |
 | <a id="reg-11"></a>$11 | Bits 3-0 read segment, 7-4 write segment (compatibility alias of $23/$24) | [OTI-087 p38-39](../sources.md#s02) |
+| <a id="reg-12"></a>$12 | Bits 7-0 not used | [OTI-087 p39](../sources.md#s02) |
 | <a id="reg-13"></a>$13 | Bit 3 AT-bus zero-wait-state enable | [OTI-087 p39](../sources.md#s02) |
 | $13 | Bit 4 16-bit BIOS ROM | [OTI-087 p39](../sources.md#s02) |
 | $13 | Bit 5 disable BIOS at C0000 | [OTI-087 p39](../sources.md#s02) |
@@ -124,16 +155,20 @@ to its bit fields.
 
 ## Timing and display fields
 
+These fields control display timing, the start address, clocks and pixel format.
+For the mode-setting procedure, see [building a mode](../14-custom-code.md#building-a-mode).
+
 <!-- csv: data/tables/oti087-register-bits.csv -->
 | Index or port | Field or value | Source |
 | --- | --- | --- |
 | <a id="reg-14"></a>$14 | Bit 0 VT bit 10 | [OTI-087 p39-40](../sources.md#s02) |
 | $14 | Bit 1 VBS bit 10 | [OTI-087 p39-40](../sources.md#s02) |
 | $14 | Bit 2 VRS bit 10 | [OTI-087 p39-40](../sources.md#s02) |
-| $14 | Bit 3 start address bit 8 | [OTI-087 p39-40](../sources.md#s02) |
+| $14 | Bit 3 start address bit 16, the same bit as ext $17 bit 0 (the databook calls it "High Order Start Address Bit 8") | [OTI-087 p39-40](../sources.md#s02) |
 | $14 | Bit 7 interlace | [OTI-087 p39-40](../sources.md#s02) |
 | <a id="reg-15"></a>$15 | Odd-field vertical retrace start in interlace (character units) | [OTI-087 p40](../sources.md#s02) |
-| <a id="reg-17"></a>$17 | Bits 2-0 start address bits 10-8 | [OTI-087 p40](../sources.md#s02) |
+| <a id="reg-16"></a>$16 | Bits 7-0 not used on the OTI-087 | [OTI-087 p40](../sources.md#s02) |
+| <a id="reg-17"></a>$17 | Bits 2-0 start address bits 18-16, above CRTC $0C/$0D (the databook's "High Order Start Address Bit 10-8"); in packed 256-color mode the start address counts 8-byte units | [OTI-087 p40](../sources.md#s02); the 8-byte unit from the third-party [XFree86](../sources.md#s63) `OAKAdjust` and [Programmer's Guide](../sources.md#s61) 25.6, which name no 087 revision |
 | <a id="reg-18"></a>$18 | Bit 0 data (read from CSEL0, written to CSEL1) | [OTI-087 p40](../sources.md#s02) |
 | $18 | Bit 1 chip select | [OTI-087 p40](../sources.md#s02) |
 | $18 | Bit 2 1 = CSEL2-0 drive the EEPROM instead of the clock chip | [OTI-087 p40](../sources.md#s02) |
@@ -149,6 +184,9 @@ to its bit fields.
 
 ## Transfer and color expansion fields
 
+These fields control the video-memory windows, latch, caches and color expansion.
+Examples and costs: [drawing with the OTI-087X](../15-oak-drawing.md).
+
 <!-- csv: data/tables/oti087-register-bits.csv -->
 | Index or port | Field or value | Source |
 | --- | --- | --- |
@@ -160,12 +198,12 @@ to its bit fields.
 | $22 | Default 0 | [OTI-087 p42](../sources.md#s02) |
 | <a id="reg-23"></a>$23 | Bits 4-0 CPU address bits 20-16 for reads in the A0000 window | [OTI-087 p42](../sources.md#s02) |
 | <a id="reg-24"></a>$24 | Bits 4-0 CPU address bits 20-16 for writes | [OTI-087 p42](../sources.md#s02) |
-| <a id="reg-25"></a>$25 | Writes both $23 and $24 | [OTI-087 p42](../sources.md#s02) |
+| <a id="reg-25"></a>$25 | Writes both $23 and $24; a read returns $24. The Programmer's Guide tells an OTI-087 from other Oak chips by writing $0A to $24 and reading it from $25 | [OTI-087 p42](../sources.md#s02); [Programmer's Guide](../sources.md#s61) listing 25.4 |
 | <a id="reg-30"></a>$30 | Bit 0 enable | [OTI-087 p43](../sources.md#s02) |
 | $30 | Bit 1 planar (1) / packed (0) | [OTI-087 p43](../sources.md#s02) |
 | $30 | Bit 2 use color pattern register | [OTI-087 p43](../sources.md#s02) |
 | $30 | Bit 3 pixel mask enable | [OTI-087 p43](../sources.md#s02) |
-| $30 | Bit 4 mask bit order | [OTI-087 p43](../sources.md#s02) |
+| $30 | Bit 4 mask bit order: 0 = mask bit 7 is pixel 7, 1 = mask bit 7 is pixel 0. Oak's 87X drivers set it; Oak's 87B drivers keep it 0 ([X versus earlier](../06-video.md#where-the-oti-087x-differs-from-earlier-oti-087s)) | [OTI-087 p43](../sources.md#s02); [87X drivers](../sources.md#s69); [87B drivers](../sources.md#s113) |
 | <a id="reg-31"></a>$31 | 8 bits | [OTI-087 p43](../sources.md#s02) |
 | <a id="reg-32"></a>$32 | 8 bits | [OTI-087 p43](../sources.md#s02) |
 | <a id="reg-33"></a>$33 | 8 bits; bit 7 is the first pixel | [OTI-087 p44](../sources.md#s02) |
@@ -175,6 +213,9 @@ to its bit fields.
 
 ## Cursor fields
 
+These fields position the cursor and select its pattern and colors. Pattern layout,
+positioning and display-mode limits: [hardware cursor](../06-video.md#hardware-cursor).
+
 <!-- csv: data/tables/oti087-register-bits.csv -->
 | Index or port | Field or value | Source |
 | --- | --- | --- |
@@ -183,15 +224,15 @@ to its bit fields.
 | <a id="reg-44-45"></a>$44/$45 | Starting position inside the 64x64 pattern | [OTI-087 p45](../sources.md#s02) |
 | $44/$45 | The cursor always ends at 63, no wrapping | [OTI-087 p45](../sources.md#s02) |
 | $44/$45 | Presets skip left/top, not right/bottom | [OTI-087 p45](../sources.md#s02) |
-| <a id="reg-47-48-49"></a>$47/$48/$49 | 24-bit pattern address in 8-byte units (packed mode) | [OTI-087 p45](../sources.md#s02) (address registers); [OAK.TXT](../sources.md#s35) and Oak's later [Spitfire specification](../sources.md#s64) p7-27 (units) |
+| <a id="reg-47-48-49"></a>$47/$48/$49 | 24-bit pattern address in 8-byte units (256-color packed mode) | [OTI-087 p45](../sources.md#s02) (address registers); [Oak 87X Windows driver](../sources.md#s69) STD8_HC.DRV writes $01FE80 for a pattern at $FF400 ([where the driver puts it](../06-video.md#hardware-cursor)); [OAK.TXT](../sources.md#s35) |
 | $47/$48/$49 | $47 = bits 23-16, $48 = bits 15-8, $49 = bits 7-0 | [OTI-087 p45](../sources.md#s02) |
 | $47/$48/$49 | 64x64 x 2-bit pattern | [OTI-087 p45](../sources.md#s02) |
 | $47/$48/$49 | No index $46 listed | [OTI-087 p45](../sources.md#s02) |
 | <a id="reg-4a-4b"></a>$4A/$4B | 8-bit color values | [OTI-087 p46](../sources.md#s02) |
-| $4A/$4B | Pattern code 00 shows $4A, code 01 shows $4B ([hardware cursor](../06-video.md#hardware-cursor)) | [Oak Windows driver](../sources.md#s69) STD8_HC.DRV |
-| <a id="reg-4c"></a>$4C | Bit 0 "HC color control": 0 = cursor off, 1 = cursor on; power-on 0 | [OTI-087 p46](../sources.md#s02); [Oak Windows driver](../sources.md#s69) writes $15 to show the cursor and $14 to hide it |
+| $4A/$4B | Pattern code 00 shows $4A, code 01 shows $4B ([hardware cursor](../06-video.md#hardware-cursor)) | [Oak 87X Windows driver](../sources.md#s69) STD8_HC.DRV |
+| <a id="reg-4c"></a>$4C | Bit 0 "HC color control": 0 = cursor off, 1 = cursor on; power-on 0 | [OTI-087 p46](../sources.md#s02); [Oak 87X Windows driver](../sources.md#s69) writes $15 to show the cursor and $14 to hide it |
 | $4C | Bit 1 0 = cursor in overscan mode, 1 = over the overscan | [OTI-087 p46](../sources.md#s02) |
-| $4C | Bit 2 bit order inside each byte: 0 = bit 0 is the leftmost pixel, 1 = bit 7; byte order and plane order stay the same | [OTI-087 p46](../sources.md#s02); [Spitfire p7-27](../sources.md#s64) |
+| $4C | Bit 2 bit order inside each byte: 0 = bit 0 is the first pixel, 1 = bit 7 is | [OTI-087 p46](../sources.md#s02) |
 | $4C | Bit 3 blink enable | [OTI-087 p46](../sources.md#s02) |
 | $4C | Bits 5-4 blink every 4/8/16/32 frames | [OTI-087 p46](../sources.md#s02) |
 | $4C | Default $10 | [OTI-087 p46](../sources.md#s02) |
@@ -201,27 +242,28 @@ to its bit fields.
 <!-- csv: data/tables/oti087-register-notes.csv -->
 | Index or port | Note | Source |
 | --- | --- | --- |
-| $00 | Oak's VGA BIOS ([TBv1.01B](../sources.md#s57) and [TEv1.02](../sources.md#s58), OTI-087B era) reads bit 1 and prints 087 or 083 from it. | Oak BIOS TBv1.01B/TEv1.02; [OAK.TXT](../sources.md#s35)/[Programmer's Guide](../sources.md#s61); databook pp31-32 missing |
-| $02 | Oak's VGA BIOS reads bits 2-1: the sign-on prints the memory size from them. POST writes them while probing memory, so they are writable. | Oak BIOS [TBv1.01B](../sources.md#s57)/[TEv1.02](../sources.md#s58); [OAK.TXT](../sources.md#s35)/[Programmer's Guide](../sources.md#s61); databook pp31-32 missing |
+| $00 | Oak's VGA BIOS ([TEv1.02](../sources.md#s58) and [TBv1.01B](../sources.md#s57)) reads bit 1 and prints 087 or 083 from it. TEv1.02 also reads $01 bits 7-4 (offset $1FD6) and runs extra steps only on an 087B; TBv1.01B has no $01 test. | Oak BIOS TEv1.02/TBv1.01B; [OAK.TXT](../sources.md#s35)/[Programmer's Guide](../sources.md#s61); databook pp31-32 missing |
+| $02 | Oak's VGA BIOS reads bits 2-1: the sign-on prints the memory size from them. POST writes them while probing memory, so they are writable. Oak's VESA extension in the 87X DOS kit reads the same bits. | Oak BIOS [TBv1.01B](../sources.md#s57)/[TEv1.02](../sources.md#s58); [OAK.TXT](../sources.md#s35)/[Programmer's Guide](../sources.md#s61); databook pp31-32 missing |
 | $04 | Local-bus modes only; this card is strapped for the AT bus | [OTI-087 p33-34](../sources.md#s02) |
 | $06 | A change needs a software reset | [OTI-087 p35](../sources.md#s02) |
 | $07 | Strapped: bits 1, 2, 4 = 1 and bits 3, 5 = 0. Bits 0, 6, 7 are not strapped. | [OTI-087 p36](../sources.md#s02) |
-| $08 | Strapped: bit 0 = 1 and bits 1, 2, 3, 7 = 0. Bits 4-6 are not strapped. | [OTI-087 p37](../sources.md#s02) |
+| $08 | The drawing straps bit 0 high and bits 1, 2, 3, 7 low. Production R26 has no resistor body, so the drawing alone does not establish a fitted MD9 pull-down or bit 1's reset level on production. Bits 4-6 have no drawn straps. | [OTI-087 p37](../sources.md#s02); production photos |
 | $13 | The databook scan has "1100 1000" handwritten beside this register | [OTI-087 p39](../sources.md#s02) |
 | $21 | A change needs a software reset | [OTI-087 p41](../sources.md#s02) |
 | $22 | Bit 3 write cache: [Write cache](#write-cache) | [OTI-087 p5](../sources.md#s02), p33, p42 |
-| $4C | [Oak VGA BIOS](../sources.md#s58) writes $10 | [OTI-087 p46](../sources.md#s02) |
+| $4C | [Oak's TEv1.02 BIOS](../sources.md#s58) writes $10 | [OTI-087 p46](../sources.md#s02) |
 
-- $00 reads $00: bit 1 = 0 identifies an OTI-087.
+- The OTI-087X reads $00 = 1 and $01 = $2x (bits 7-4 = 2), from Oak's own DOS installers
+  ([87X DOS kit](../sources.md#s79)). No Oak program reads $01 bits 3-0.
 - ROM 1.4 writes $02 with bits 2-1 = 10 (1 MB). Bit 0 of $02 is read-only and reads 0 in
   AT-bus mode. Oak's VDD87X.386 saves and restores the whole $02 byte.
 - The unstrapped bits of $07, $08 and $10 float at reset, and nothing reads them. An
   emulator can return $07 = $56, $08 = $01 and $10 = $FF.
-- Ext $20 defaults to 1 (p41; p38 says 0 for its $0D mirror), and Oak's own BIOS writes it
-  at power-on (offset $0306).
+- Ext $20 defaults to 1 (p41; p38 says 0 for its $0D mirror), and Oak's TEv1.02 BIOS
+  writes it at power-on (offset $0306).
 
 Sources: [OTI-087 databook](../sources.md#s02); [Oak BIOS TEv1.02](../sources.md#s58);
-[Oak 087X drivers](../sources.md#s69).
+[Oak 87X drivers](../sources.md#s69); [Programmer's Guide](../sources.md#s61).
 
 ## Notes on access and scope
 
@@ -244,7 +286,8 @@ Source: [netlist](../../data/netlist/README.md) U28.99 and R14.
 
 [Databook p42](../sources.md#s02) says not to enable the bit on an AT bus, while the
 overview on p5 describes the same cache giving zero-wait AT-bus writes.
-[Oak's own BIOS](../sources.md#s58) and Windows driver set the bit with no bus-type test.
+[Oak's TEv1.02 BIOS](../sources.md#s58) and Oak's 87X Windows driver set the bit
+with no bus-type test.
 Sources: OTI-087 p5, p42; Oak BIOS TEv1.02 offset $1E31;
 [`STD8_HC.DRV`](../sources.md#s69) offset $78D8.
 
@@ -252,8 +295,10 @@ Sources: OTI-087 p5, p42; Oak BIOS TEv1.02 offset $1E31;
 
 SetVGAReg, GetVGAReg and custom Z180 code reach every extended and standard VGA
 register, the hardware cursor, the CRT interrupt and the EEPROM interface, not only
-what ROM 1.4 uses ([Beyond the firmware](../14-custom-code.md)). The cursor pixel codes
-come from [Oak's own Windows driver](../sources.md#s69)
+what ROM 1.4 uses ([Beyond the firmware](../14-custom-code.md)). What each drawing and
+display feature does on this card, and its cost:
+[Drawing with the OTI-087X](../15-oak-drawing.md). The cursor pixel codes
+come from [Oak's 87X Windows driver](../sources.md#s69)
 ([hardware cursor](../06-video.md#hardware-cursor)).
 
 ## ROM register access

@@ -39,7 +39,7 @@ Each range links to its notes.
 | [$40000-$4FFFF](#video-ram-half-switches) | Select video RAM half 0 | Select video RAM half 0 | Any access, read or write, selects the half; read data floats |
 | [$50000-$5FFFF](#video-ram-half-switches) | Select video RAM half 1 | Select video RAM half 1 | Any access, read or write, selects the half; read data floats |
 | [$60000-$7FFFF](#fixed-eprom-mapping) | 128 KB EPROM | 128 KB EPROM | Low half holds code and data; high half is zero |
-| [$80000-$FFFFF](#video-window) | OTI-087 video window | OTI-087 video window | Oak register 5 and the board's controls set the mapping |
+| [$80000-$FFFFF](#video-window) | OTI-087X video window | OTI-087X video window | Oak register 5 and the board's controls set the mapping |
 
 ## Notes on individual regions
 
@@ -73,7 +73,7 @@ U15 has no read/write input, so writes select the same halves. The standard VGA 
 needs half 1: Oak `$A0000` has bit 19 set.
 
 Reads return a floating bus: U15's decode enables neither SRAM nor EPROM there, and the
-OTI-087 answers only in its own windows. Source: [netlist](../../data/netlist/README.md).
+OTI-087X answers only in its own windows. Source: [netlist](../../data/netlist/README.md).
 
 ### Fixed EPROM mapping
 
@@ -112,7 +112,7 @@ Addresses are within each 64 KB bank.
 | 0 | $0C00-$1FFF | Firmware: command and interrupt handlers | Never |
 | 0 | $2000-$5FFF | The copy: main hires pages | With the copy off |
 | 0 | $6000-$CFFF | Firmware: renderers, fonts, tables, mode records | Never |
-| 0 | $D000-$FFFF | SetPalette's buffer at $F000-$F2FF; in firmware 1.5 and 2.0, SetTextFont's user font at $F000-$FFFF while font 3 is chosen | With the copy off, apart from those buffers |
+| 0 | $D000-$FFFF | SetPalette's buffer at $F000-$F2FF; in firmware 1.5 and 2.0, SetTextFont's user font at $F000-$FFFF while font 3 is chosen, and SetPalette then uses firmware memory instead | With the copy off, apart from those buffers |
 | 1 | $0000-$03FF | Nothing | Always |
 | 1 | $0400-$0BFF | The copy: auxiliary text pages | With the copy off |
 | 1 | $0C00-$0FFF | Nothing | Always |

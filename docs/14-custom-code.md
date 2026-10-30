@@ -8,10 +8,19 @@ through the stock host commands.
 
 ## Contents
 
-- [Z180 resources](#z180-resources): [clock](#clock), [memory](#memory), [DMA](#dma), [timers](#timers), [interrupts](#interrupts), [serial ports](#serial-ports)
-- [Video resources](#video-resources): [modes](#modes-beyond-the-firmwares-tables), [building a mode](#building-a-mode), [24-bit width](#24-bit-mode-width), [Oak](#oti-087-features-the-firmware-does-not-use), [Bt481](#bt481-features-the-firmware-does-not-use), [matching the IIgs frame](#matching-the-iigs-frame)
-- [Apple-side resources](#apple-side-resources): [protocol](#your-own-command-protocol), [events](#watching-the-apple), [IRQ](#interrupting-the-iigs), [limits](#what-the-iigs-cannot-do)
-- [Reaching the card from the IIgs](#reaching-the-card-from-the-iigs): [what the commands reach](#what-the-stock-commands-reach), [writing SRAM](#writing-card-sram-from-the-iigs)
+- [Z180 resources](#z180-resources)
+  - [Clock](#clock), [memory](#memory), [DMA](#dma) and [timers](#timers)
+  - [Interrupts](#interrupts), [retrace timing](#a-retrace-interrupt-on-a-stock-card) and [beam position](#where-the-cards-beam-is)
+  - [Serial ports](#serial-ports)
+- [Video resources](#video-resources)
+  - [Modes](#modes-beyond-the-firmwares-tables), [building a mode](#building-a-mode) and [24-bit width](#24-bit-mode-width)
+  - [Drawing with the Oak](#drawing-with-the-oti-087x) and [Bt481](#bt481-features-the-firmware-does-not-use)
+  - [Matching the IIgs frame](#matching-the-iigs-frame) and [per-line palette effects](#per-line-palette-effects)
+- [Apple-side resources](#apple-side-resources)
+  - [Protocol](#your-own-command-protocol) and [bulk data](#moving-bulk-data)
+  - [Events](#watching-the-apple), [IRQ](#interrupting-the-iigs) and [limits](#what-the-iigs-cannot-do)
+- [Reaching the card from the IIgs](#reaching-the-card-from-the-iigs)
+  - [What the commands reach](#what-the-stock-commands-reach) and [writing SRAM](#writing-card-sram-from-the-iigs)
 - [Storage: the serial EEPROM](#storage-the-serial-eeprom)
 - [Wiring rules for custom code](#wiring-rules-for-custom-code)
 
@@ -28,9 +37,9 @@ multiplies only 10-16 MHz inputs, into 20-32 MHz. Sources: Z8S180 PS0140, CMR/CC
 36.000 MHz oscillator -> Z8S180 EXTAL -> CCR /2 or /1 -> PHI (pin 68)
                                                         | 18 or 36 MHz
                                                         +-> CPU bus, DMA, ASCI, timers
-                                                        +-> R1 22 ohm -> HCLK -> U15, U17
-14.31818 MHz X2 -> OTI-068 -> VCLK (16 choices) -> OTI-087, U8/U12 -> Bt481
-                          -> MCLK (40 MHz straps) -> OTI-087 video memory
+                                                        +-> R1 -> HCLK -> U15, U17
+14.31818 MHz X2 -> OTI-068 -> VCLK (16 choices) -> OTI-087X, U8/U12 -> Bt481
+                          -> MCLK (40 MHz straps) -> OTI-087X video memory
 Apple slot clocks -> Lattice Y0, Y2 (7M) and CPU (PHASE 0) inputs
 ```
 
@@ -38,7 +47,8 @@ The prototype also had places for X1, a 20 MHz crystal, and R38 from MCLK; produ
 fits neither. Sources: [netlist](../data/netlist/README.md), [production photo](sources.md#s20).
 The Apple clocks: [Lattice clocks](04-capture-logic.md#clocks-and-phase).
 
-36 MHz is 80 percent above the fitted Z8S18020's rating and above the fastest 33 MHz grade
+36 MHz is 80 percent above the Z8S18020 rating on s20/s108/s109 and 125 percent above
+the Z8S18016 rating on [s128](sources.md#s128). It is also above the fastest 33 MHz grade
 ([PS0140](sources.md#s62) Table 8: minimum clock periods 50 ns and 30 ns; 36 MHz is
 27.8 ns), so the CPU is not specified to run at it. Even if it runs, **36 MHz cannot run
 the board's video path reliably**: no wait states repair the VGA address-setup limit
@@ -99,8 +109,10 @@ The Z180's interrupt inputs on this card:
   and the table is in SRAM, so code writes its handler's address there. Source:
   [ROM_BEEF.asm](sources.md#s27) `interrupt_vector_table`, `set_interrupt_vector`.
 
-**A retrace interrupt on a stock card.** The frame length is fixed by the mode, so PRT0
-can stand in for the missing retrace interrupt:
+#### A retrace interrupt on a stock card
+
+The frame length is fixed by the mode, so PRT0 can stand in for the missing retrace
+interrupt:
 
 1. With PRT0 stopped, load both of its registers. The counter (TMDR0) gets the frame
    length in timer steps minus a small lead; it starts at $FFFF after reset, so it must be
@@ -118,21 +130,33 @@ can stand in for the missing retrace interrupt:
 This costs a few microseconds of polling per frame. PRT1, started from the same retrace,
 can fire at any chosen line, for split-screen or palette effects.
 
-**Where the card's beam is.** For tear-free cursor moves, page flips or palette changes:
+#### Where the card's beam is
+
+For tear-free cursor moves, page flips or palette changes:
 
 - **Polling:** Input Status 1 at $3DA (the color address the firmware's modes select)
   reads bit 3 = 1 during vertical retrace and bit 0 = 1 whenever the display is blanked.
   Reading it also resets the attribute-controller flip-flop, as on any VGA.
 - **Interrupt, with the INT0 pull-up added:** the Oak's retrace interrupt (CINT) drives
   INT0; CRTC $11 bit 5 = 0 enables it, and writing bit 4 = 0 then 1 clears it.
-- **The current line:** the Oak has no readable line counter. Start a PRT timer at vertical
-  retrace and divide by the mode's line time, or count the bit-0 blanking pulses. CRTC $18
-  (line compare) splits the screen at a chosen line, as on any VGA.
+- **The current line:** no register is known to return it. The OTI-087X's register
+  definitions and IBM's VGA reference describe none, and no Oak BIOS or driver code reads
+  one: they wait on $3DA bits 0 and 3 only ([87X drivers](sources.md#s69),
+  [87X DOS kit](sources.md#s79), [TEv1.02 BIOS](sources.md#s58)). Some VGA clones return the
+  moving display address in CRTC $10/$11 while CRTC $03 bit 7 is 0, the EGA light-pen
+  readback. On a real OTI-087X card, a 2023 test that clears that bit and reads CRTC $11 64
+  times found 16 or fewer different values ([VOGONS report](sources.md#s122);
+  [test program](sources.md#s123) `RNG.CPP`, `init_rng`).
+- **Finding the line by timing:** wait for the vertical retrace, then count the bit-0
+  blanking pulses ("monitor the VGA status counting the lines as you go",
+  [PC Underground](sources.md#s124)), or start a PRT timer at the retrace and divide by the
+  mode's line time. CRTC $18 (line compare) splits the screen at a chosen line, as on any
+  VGA. The test modes of ext $03: [register reference](reference/oti087-registers.md#reg-03).
 - Write the hardware-cursor position (ext $40-$43) during vertical retrace, so the cursor
   never shows half in the old place.
 
 Sources: [OTI-087 databook](sources.md#s02) pin 90 (CINTn); [IBM VGA Technical Reference](sources.md#s68),
-Input Status 1 and CRTC $11, the standard registers the OTI-087 copies.
+Input Status 1 and CRTC $11, the standard registers the OTI-087X copies.
 
 ### Serial ports
 
@@ -145,19 +169,48 @@ Source: [netlist](../data/netlist/README.md).
 
 ### Modes beyond the firmware's tables
 
-The chips and the card's 1 MB of video RAM support more modes than ROM 1.4's tables hold:
-[additional modes](reference/video-modes.md#additional-modes). Send one as a mode record
-with SetUserMode, or write its registers from Z180 code. The pixel clock tops out at the
-OTI-068's 78 MHz. The board's straps fix the memory clock at 40 MHz, which limits how fast
-the CPU reaches video memory in the busiest modes
-([Video: ext $20](06-video.md#extended-registers-the-firmware-uses)).
+The firmware's mode tables are not a limit. Z180 code started with RunCode, or the IIgs
+alone through SetVGAReg ([the stock commands](#what-the-stock-commands-reach)),
+writes every register of the Oak, the OTI-068 clock select and the Bt481. So any timing
+those chips allow is available without firmware support; SetUserMode is just one way to
+deliver the same register values. Turn Apple emulation off first (SetMode with flag 1).
+In ROM 1.4 an Apple display switch can still reprogram the mode
+([E29](reference/errata.md#e29-apple-display-switches-reset-a-native-vga-mode)).
+
+What limits a mode is the hardware and the monitor:
+
+- **Pixel clock:** 16 [OTI-068 frequencies](reference/clocks.md#frequency-table), up to
+  78 MHz.
+- **Memory:** 1 MB of video RAM. The board's straps fix the memory clock at 40 MHz, which
+  limits how fast the CPU reaches video memory in the busiest modes
+  ([Video: ext $20](06-video.md#extended-registers-the-firmware-uses)).
+- **AppleColor RGB monitor:** it scans at about 15.7 kHz, so a 60 Hz field has about 262
+  lines. With the usual 20 or so lines for vertical retrace, about 240 show. Interlace
+  (ext $14 bit 7) alternates two such fields, for about 480 lines at 30 frames per second.
+  ROM 1.4's RGB mode $61 is already 640 x 400 interlaced.
+  - Apple's specification: 15.734 kHz lines at 60 Hz, 15.659 kHz at 50 Hz; negative
+    composite sync, 4.0 +/- 1.0 V; video flat to 6.5 MHz, 3 dB down at 8 MHz; vertical
+    size, vertical hold and horizontal hold on the back panel
+    ([TIL01930](sources.md#s110)).
+  - Owners drive it with 240p and 480i at 60 Hz and with 50 Hz PAL timing (which needs the
+    vertical size and hold adjusted). It shows nothing at 31 kHz. Shifting the picture far
+    right with the horizontal control makes it lose sync and whine on mode changes
+    ([2026 adapter guide](sources.md#s111)).
+  - The firmware's own RGB modes, used by every owner of this monitor, run at 15.58-16.54
+    kHz and 60-70 Hz ([AppleColor RGB records](reference/video-modes.md#built-in-applecolor-rgb-records)).
+- **VGA monitor:** a fixed 31.5 kHz monitor shows 480 lines. An SVGA monitor also takes
+  600 (Sequential's `M800X600.36M`) and 768: 1024 x 768 x 256 colors fits in 786,432
+  bytes, and the OTI-068 has the 65 MHz (60 Hz) and 44.9 MHz (87 Hz interlaced) clocks.
+
+More combinations: [additional modes](reference/video-modes.md#additional-modes).
 
 ### Building a mode
 
-A mode is the 81 register values SetUserMode sends
-([record layout](reference/host-commands.md#setusermode)), or the same registers written
-by Z180 code. The standard VGA registers keep their IBM meanings; the Oak's extended
-registers are in the [Oak register reference](reference/oti087-registers.md). A mode is
+A mode is a set of register values, written directly by Z180 code or SetVGAReg, or sent
+as the 81-byte record SetUserMode takes
+([record layout](reference/host-commands.md#setusermode)). The standard VGA registers
+keep their IBM meanings; the Oak's extended registers are in the
+[Oak register reference](reference/oti087-registers.md). A mode is
 five choices:
 
 1. **Connector.** Feature byte bit 0 = 0 selects the VGA connector: separate HSYNC and
@@ -177,7 +230,9 @@ five choices:
    is CRTC $06 + 2 lines, with bits 8 and 9 in CRTC $07 and bit 10 in ext $14 bit 0;
    (CRTC $12 + 1) lines are shown; CRTC $10/$11 place the vertical sync and $15/$16 the
    vertical blanking; CRTC $09 bit 7 shows every line twice. Ext $14 bit 7 turns on
-   interlace, and ext $15 sets the odd field's vertical sync. Misc output bits 6 and 7 set
+   interlace, and ext $15 sets the odd field's vertical sync; ROM 1.4's AppleColor RGB mode
+   $61 uses it for 640 x 400 ([video modes](reference/video-modes.md#built-in-mode-codes)).
+   Misc output bits 6 and 7 set
    the HSYNC and VSYNC polarity (1 = negative); the RGB connector's composite sync needs
    both negative.
 5. **Pixels in memory.** Ext $21 bits 3-2 = 01 selects packed pixels, one byte per pixel
@@ -189,7 +244,9 @@ five choices:
 Sources: [IBM VGA Technical Reference](sources.md#s68) for the standard registers;
 [OTI-087 databook](sources.md#s02) pp35-41; [Bt481A datasheet](sources.md#s36).
 
-**Example: a PAL monitor.** The RGB connector can drive a 50 Hz PAL RGB monitor or the RGB
+#### Example: a PAL monitor
+
+The RGB connector can drive a 50 Hz PAL RGB monitor or the RGB
 input of a SCART television:
 
 - Clock code $C, 63 MHz, halved by U12 and again by the sequencer: 15.75 MHz dots, the
@@ -220,16 +277,13 @@ record's clock and total counts give 60.1 Hz
 Writing them from the host:
 [E17](reference/errata.md#e17-the-true-color-mode-file-shows-palette-colors).
 
-### OTI-087 features the firmware does not use
+### Drawing with the OTI-087X
 
-- **Panning, page flipping and interlace:** the
-  [timing and display fields](reference/oti087-registers.md#timing-and-display-fields).
-  Change the start address while the retrace bit in $3DA is set for tear-free flips. The
-  FAQ describes 640 x 400 interlaced output on AppleColor RGB. Source:
-  [databook p39-40](sources.md#s02).
-- **Hardware cursor:** [Hardware cursor](06-video.md#hardware-cursor).
-- **Content-addressable latch and write cache:** the
-  [feature-select register](reference/oti087-registers.md#reg-22).
+Every drawing and display assist the Oak has, how each behaves on this card's 8-bit bus,
+and what it costs: latch copies, the pixel mask, color expansion, latch-register fills,
+the VGA graphics controller, the caches, hardware scrolling, split screen, page flipping,
+the hardware cursor and palette tricks
+([Drawing with the OTI-087X](15-oak-drawing.md)).
 
 ### Bt481 features the firmware does not use
 
@@ -247,7 +301,8 @@ frames together:
    frequencies, from ext $06 and misc output) and the CRTC horizontal and vertical totals,
    so a mode can run at about 60 Hz instead of Super Hi-Res's 70 Hz. The firmware's
    640 x 480 mode $53 already runs at 59.9 Hz; a record with that timing and doubled lines
-   shows 200 IIgs lines in 400 of its 480. Load it with SetUserMode or from Z180 code.
+   shows 200 IIgs lines in 400 of its 480. Write it from Z180 code, or send it with
+   SetUserMode.
 2. **Get a reference from the IIgs.** The card cannot see the IIgs beam, so the IIgs must
    say when its frame starts: a IIgs routine waits for vertical blank (the VBL interrupt,
    or bit 7 of $C019) and then reads or writes a card register in $C0B0-$C0B7. Every such
@@ -273,19 +328,25 @@ card's beam gains about 0.14 us per IIgs line, about 28 us over the 200 picture 
 less than one card line. Sources: [Apple IIgs Hardware Reference](sources.md#s78) video
 timing; [IBM VGA Technical Reference](sources.md#s68) CRTC $11; ROM mode records.
 
+#### Per-line palette effects
+
 With the frames locked, Z180 code can change Bt481 palette entries in step with the IIgs
-program's own palette changes, for per-line palette effects. Only the horizontal blank is
-free for this: a color changed while a line is drawn changes part way along it. In mode
-$53 the blank is at most 160 of the 800 dots, 6.36 us or about 114 Z180 clocks, twice per
-IIgs line. One color takes about 90 clocks: selecting the entry at $3C8 and switching to
+program's own palette changes, for per-line palette effects.
+
+Only the horizontal blank is free for this: a color changed while a line is drawn changes
+part way along it. In mode $53 the blank is at most 160 of the 800 dots, 6.36 us or about
+114 Z180 clocks, twice per IIgs line.
+
+One color takes about 90 clocks: selecting the entry at $3C8 and switching to
 $3C9 (about 25 clocks), then three DAC writes of about 21 clocks each (`LD A,(HL)` 6,
 `INC L` 4, `OUT (C),A` 10, one I/O wait). So one color fits in each blank, two per IIgs
 line, less the few clocks each copied IIgs write takes from the Z180's bus. That is
-enough for one or two colors per line, such as moving color bars. All 16 colors on every
-line, a full 3200-color display, needs about 1,000 clocks of DAC writes per line (one
-entry selection, then 48 writes) against about 228 clocks of blank, so it does not fit.
-Sources: [Zilog UM0050](sources.md#s39) instruction table; [OTI-087 databook](sources.md#s02)
-CRTC and interrupt registers.
+enough for one or two colors per line, such as moving color bars.
+
+All 16 colors on every line, a full 3200-color display, needs about 1,000 clocks of DAC
+writes per line (one entry selection, then 48 writes) against about 228 clocks of blank,
+so it does not fit. Sources: [Zilog UM0050](sources.md#s39) instruction table; [OTI-087
+databook](sources.md#s02) CRTC and interrupt registers.
 
 ## Apple-side resources
 
@@ -299,7 +360,180 @@ CRTC and interrupt registers.
 - The **RDY stall** holds the 65816 on the next event until the Z180 acknowledges the last
   one, so the IIgs can write as fast as it likes without losing bytes.
 - [Second.Sight.Info.txt](sources.md#s40) quotes about 1 MB per second from the IIgs to the
-  card.
+  card. That is the slot's own limit: back-to-back slow cycles take about 980 ns
+  ([Apple TN #68](sources.md#s43)).
+
+### Moving bulk data
+
+Three ways carry data in, one carries it out:
+
+| Path | Direction | Z180 work per byte | IIgs work per byte | Flow control |
+|---|---|---|---|---|
+| [Screen copy](#in-through-the-screen-copy) | In, to fixed SRAM windows | None: U17 borrows the bus for one write | An ordinary write to screen memory | None. The Z180 must keep its bus cycles short |
+| [Event bytes with DMA1](#in-through-event-bytes-and-dma1) | In, to any SRAM | One DMA1 transfer, 7 clocks of bus time | A write to $C0B0-$C0B7 | RDY holds the IIgs until the byte is taken |
+| UploadData | In | DMA1, with the firmware waiting inside INT1 | Command phases, then writes | RDY. The firmware's main loop is stopped for the whole upload ([UploadData](reference/host-commands.md#uploaddata)) |
+| [U3 with DMA1](#out-through-u3-and-dma1) | Out | One DMA1 transfer, 7 clocks of bus time | A read of $C0B0-$C0B7 and a store | RDY holds the IIgs until the next byte is loaded |
+
+The screen copy is the only path that needs neither Z180 code nor DMA for each byte, and
+the only one where the IIgs never waits for the card. The card cannot write IIgs memory
+itself ([What the IIgs cannot do](#what-the-iigs-cannot-do)), so every byte out costs the
+IIgs a read.
+
+#### The Z180 as a coprocessor
+
+For work on chunks of data in SRAM (decoding, decompressing,
+transforming, computing) that does not draw, the screen copy is the way in. The IIgs writes
+each chunk at full slot speed and never waits; the Z180 runs no code to receive it and
+keeps computing on the previous chunk, losing only the bus cycle each copy borrows. The
+screen copy's one rule, no Oak access while a block arrives, costs such a program nothing.
+
+Results go back through [U3 with DMA1](#out-through-u3-and-dma1), again with no Z180 code
+per byte. The [block protocol](#a-block-protocol) below runs this with two buffers.
+
+At 18 MHz, a DMA1 transfer between SRAM and port $A0 is a 3-clock memory cycle plus a
+4-clock I/O cycle: 0.39 us of bus time, with no code. Sources: [UM0050](sources.md#s39) DMA
+and bus cycle timing; [`commands.asm`](../firmware/v1.4/src/commands.asm) GetStatus and
+UploadData, which use DMA1 this way.
+
+#### In through the screen copy
+
+With copying on, U7 and U17 write every qualifying IIgs write into card SRAM at the same
+16-bit address ([Copying video writes](04-capture-logic.md#copying-video-writes)). With
+RAMWRT and 80STORE off, the windows are:
+
+| IIgs writes to | Lands in SRAM | Size |
+|---|---|---|
+| $E0/0400-0BFF | $00400-$00BFF | 2 KB |
+| $E0/2000-5FFF | $02000-$05FFF | 16 KB |
+| $E1/0400-0BFF | $10400-$10BFF | 2 KB |
+| $E1/2000-9FFF | $12000-$19FFF | 32 KB |
+
+Writes to $E0/6000-9FFF are not copied, and nothing outside these ranges is. The bank 1
+window $12000-$19FFF (the IIgs Super Hi-Res buffer) is the useful one: in bank 0 the
+firmware's own code and data sit around the small windows. Writes through banks $00/$01
+count only when the IIgs shadows them to $E0/$E1 (shadow register $C035): a shadowed
+write still makes one slow cycle on the slot. Sources: [Apple IIgs Hardware
+Reference](sources.md#s78) pp19-21; [Apple TN #68](sources.md#s43).
+
+Set the card and the IIgs up as follows:
+
+- **Card:** Apple emulation off (SetMode with flag 1), so the firmware does not draw the
+  windows; copying on (SetShadow 0). The two switches are separate
+  ([Memory](#memory)).
+- **IIgs:** 80STORE off for the whole transfer: with it on, U7 can copy $4000-$9FFF into
+  bank 0, over the firmware
+  ([E28](reference/errata.md#e28-with-80store-on-u7-picks-the-copys-bank-without-looking-at-the-address)).
+  Direct $E1 writes need RAMWRT off: with it on they land in bank 0 and $6000-$9FFF is
+  lost ([E14](reference/errata.md#e14-direct-e1-writes-with-ramwrt-on-are-not-copied-above-6000)).
+  Bank $00 writes that RAMWRT sends to bank $01 are copied into bank 1 correctly; that is
+  how stack writes reach the window. Do not mix the two methods in one block.
+- These are real IIgs memory writes: they change the IIgs's own Super Hi-Res buffer, so
+  the IIgs must not be showing it.
+
+**The timing rule.** U2, U5 and U6 hold one copy at a time, and a copy does not stall the
+IIgs. The next copied write can come about 980 ns later, and the two bytes of a 16-bit
+store always do. A copy starts only when the Z180 ends its current bus cycle, waits
+included, and an access to the Oak (video memory or a VGA register, by the CPU or by DMA)
+can stretch that cycle while the Oak holds IOCHRDY
+([Copy timing budget](07-glue-logic.md#copy-timing-budget)). A later write then
+replaces the earlier one before it is copied.
+
+So **while the IIgs is writing a block, the Z180 and its DMA make no Oak access**. Work in
+SRAM runs normally: the copy only borrows the bus. A coprocessor program that never
+touches the Oak meets this rule all the time, so the IIgs can send block after block
+without waiting.
+
+Keep other events away during a block. A captured write that RDY holds behind a pending
+event is copied with the event's byte until the write completes
+([RDY](04-capture-logic.md#rdy-no-lost-events)), so SRAM is right only at the end.
+
+#### In through event bytes and DMA1
+
+When the Z180 must keep drawing during a transfer, use events instead: inhibit the copy
+(SetShadow 4), point DMA1 from port $A0 to SRAM for N bytes, and have the IIgs write the N
+bytes to $C0B1. A 16-bit store writes $C0B1 and $C0B2, two bytes. RDY holds the IIgs
+whenever DMA1 has not taken the previous byte, so nothing is lost, and the Z180 runs
+between transfers, Oak work included. The cost is 0.39 us of bus time per byte and IIgs
+waits whenever the Z180 is slow to free the bus.
+
+#### Signals between the two programs
+
+| Signal | How | Side effects |
+|---|---|---|
+| Z180 to IIgs: a status byte | The Z180 writes port $A0; the IIgs polls $C0B8, which reads U3 without an event | Any Z180 access to port $A0 also acknowledges a pending event. Write a status byte only when the IIgs is waiting for it |
+| Z180 to IIgs: interrupt | The Z180 accesses port $AC to raise the IIgs IRQ, $AD to release it ([Apple IRQ](reference/z180-io-ports.md#apple-irq)) | The line stays low until the card releases it. A IIgs handler must check that the card raised it |
+| IIgs to Z180: doorbell | An access to $C0B0-$C0B7: INT1, the low address byte at ports $A6/$A7 (so the address itself can carry a code), and for a write the data byte at $A0 | After a screen-copy block, ring with a **read**: a write event replaces U2, which can still hold the last byte waiting to be copied |
+| IIgs to Z180: what changed | Band flags, ports $A4/$A5: one bit per 4 KB block of $2000-$9FFF that had a copied write | Set when a write qualifies, before the copy lands. Both banks share them. Reading clears them. A hint, not proof of completion |
+
+The doorbell and the copy take separate paths, so the doorbell does not prove that the
+block's last byte has landed. End each block with a commit byte that the Z180 clears before
+it opens the window and the IIgs writes last; after the doorbell, the Z180 waits for it.
+
+#### A block protocol
+
+These steps keep each side's rules, with two buffers in the $E1 window: A at $E1/2000-5FFF
+(SRAM $12000-$15FFF) and B at $E1/6000-9FFF (SRAM $16000-$19FFF). Each buffer holds a
+header (length, sequence number) and ends with its commit byte.
+
+1. **Request.** The IIgs writes a token to $C0B0 (buffer A or B and a sequence number),
+   then polls $C0B8. The Z180 reads the token at port $A0, which acknowledges the event.
+2. **Grant.** When that buffer is free, the Z180 finishes and stops all Oak access, clears
+   the buffer's commit byte, and writes "ready + token" to port $A0.
+3. **Write.** The IIgs writes the header and data, and the commit byte last. Meanwhile the
+   Z180 can work on the other buffer in SRAM.
+4. **Commit.** The IIgs makes one 8-bit read of $C0B2 for A or $C0B3 for B, ignores the
+   value, and polls $C0B8. The Z180 sees the event, reads $A0 to acknowledge it, and waits for the
+   commit byte.
+5. **Accept.** The Z180 checks the header, writes "accepted + token" to port $A0, and may
+   use the Oak again. "Accepted" means the data arrived, not that the buffer is free:
+   the next grant for that buffer gives it back.
+
+While the IIgs fills B, the Z180 can process A in SRAM. If processing A needs the Oak, do
+it between grants. One request is outstanding at a time, and each side waits for the
+other's answer before it sends the next signal, so no status write ever acknowledges an
+unseen event.
+
+#### Out through U3 and DMA1
+
+The IIgs reads U3 at $C0B0-$C0BF ([host registers](03-apple-interface.md#the-host-registers)).
+A read of $C0B0-$C0B7 also raises an event, so DMA1, pointed from SRAM to port $A0, loads
+the next byte for each read, as GetStatus does
+([GetStatus](reference/host-commands.md#getstatus)). Reads of $C0B8-$C0BF return the same
+byte again and do not advance.
+
+1. Inhibit the copy and keep other events away: any access to $C0B0-$C0B7, a write
+   included, takes the next byte.
+2. Arm DMA1 for the N bytes **plus one spare byte**, then write "ready" to port $A0. The
+   IIgs polls $C0B8 for it.
+3. The IIgs reads $C0B2 once and ignores the value: that read asks for byte 0.
+4. The IIgs makes N reads. Each returns the byte in U3 and asks for the next. The last
+   read loads the spare byte, so when DMA1 finishes, the IIgs has read all N.
+
+A 16-bit load from $C0B2 reads $C0B2 then $C0B3: two events and two successive bytes,
+because RDY holds the second read until DMA1 has loaded it. Store into fast RAM that is
+not shadowed, so the stores make no slow cycles and no copies.
+
+#### Speeds
+
+On a stock IIgs a fast cycle is 350 ns, a slow cycle about 980 ns when it follows another
+slow cycle, and about 1.5 us on average when it does not, because the fast side waits to
+synchronize ([Apple TN #68](sources.md#s43)). The slot therefore carries at most about
+1 MB/s. From those cycle times and the 65816's cycle counts
+([W65C816S data sheet](sources.md#s125)):
+
+| IIgs code | Per 2 bytes | Rate | IIgs time per KB |
+|---|---|---|---|
+| In: 16-bit `LDA dp` from fast RAM, `STA abs` to $E1 | 4.93 us | 406 KB/s | 2.5 ms |
+| In: `PEI dp` onto the stack, RAMWRT on, so the writes go to shadowed bank $01 | 3.88 us | 515 KB/s | 2.0 ms |
+| Out: 16-bit `LDA $B2` with D = $C000, `STA abs` to fast RAM | 4.93 us | 406 KB/s | 2.5 ms |
+| Out: `PEI $B2` with D = $C000, onto the stack in unshadowed bank $00 RAM | 3.88 us | 515 KB/s | 2.0 ms |
+
+These count the instructions only, not loop overhead or RAM refresh. A logic-analyzer test
+of `PEI` on a real IIgs measured 4.46 us per word, about 450 KB/s
+([PEI measurement](sources.md#s126)). `PEI` stores each word below the last, so the data
+must be laid out for that, and both `PEI` methods borrow the stack: turn interrupts off and
+restore S and D afterwards. An accelerator speeds up the code, but screen memory and the
+slot stay at 1 MHz ([TransWarp GS article](sources.md#s127)).
 
 ### Watching the Apple
 
@@ -384,7 +618,7 @@ EPROM holds the ROM's tables at their usual places (physical $60000 + ROM offset
 ## Storage: the serial EEPROM
 
 The card carries a 93C46 serial EEPROM: 64 words of 16 bits that survive power-off. On a
-PC, Oak's VGA BIOS keeps its configuration there, but the OTI-087 never reads it itself;
+PC, Oak's VGA BIOS (TEv1.02) keeps its configuration there, but the OTI-087X never reads it itself;
 only software reaches it, through ext $18 ([Video: the serial EEPROM](06-video.md#the-serial-eeprom)).
 ROM 1.4 and the Sequential library never touch ext $18, so all 64 words are free, for
 example to remember the user's monitor choice or start-up mode.

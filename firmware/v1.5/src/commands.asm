@@ -58,9 +58,14 @@ screen_off:
 
 ;; ----------------------------------------------------------------------------------------
 ;; Command $06, SetPalette (3 ignored bytes, then 768 bytes: red, green, blue for each
-;; of 256 colors). The bulk bytes arrive by DMA from port $A0 into SRAM $0F000 (with
-;; BBR $0D, logical $2000 is physical $0F000), then go to the DAC. The MMU is restored
-;; afterwards. docs/reference/host-commands.md, Palette commands.
+;; of 256 colors). The bulk bytes arrive by DMA from port $A0 into an SRAM buffer, then
+;; go to the DAC. The MMU is restored afterwards. docs/reference/host-commands.md, Palette
+;; commands.
+;; CHANGE (E10): the buffer comes from palette_bbr, palette_dest and palette_src
+;; (src/mainloop.asm). Their reset values are ROM 1.4's: SRAM $0F000, seen at logical
+;; $2000 with BBR $0D. While SetTextFont's user font is chosen, set_text_font
+;; (src/text.asm) points them at command_buffer instead, because the user font lives at
+;; $0F000 and the text set-ups reload it from there.
 ;; ----------------------------------------------------------------------------------------
 set_palette:
                 ;; PEL mask $FF, and start writing at DAC entry 0.
@@ -70,7 +75,8 @@ set_palette:
                 ld      a, #0
                 ld      bc, #VGA_DAC_WRITE_INDEX
                 out     (c), a          ; Palette Address (Write Mode) Register = 0
-                ;; Save the MMU and map physical $0F000 at logical $2000 (BBR $0D).
+                ;; Save the MMU and map the buffer at logical palette_src (CBAR $F2, BBR
+                ;; palette_bbr).
                 in0     a, (CBR)
                 ld      (backup_cbr), a
                 in0     a, (BBR)
@@ -79,24 +85,24 @@ set_palette:
                 ld      (backup_cbar), a
                 ld      a, #0xF2
                 out0    (CBAR), a       ; CBAR = 0xF2
-                ld      a, #0xD
-                out0    (BBR), a        ; BBR = 0x0D
+                ld      a, (palette_bbr)
+                out0    (BBR), a
                 ;; DMA job for copy_api_data_chunk: $300 bytes from port $A0 (the IIgs) to
-                ;; physical $0F000.
+                ;; the buffer, physical palette_dest.
                 ld      hl, #0x300
                 ld      (dma_count), hl
                 ld      hl, #0xA0
                 ld      (dma_source), hl
-                ld      hl, #0xF000
+                ld      hl, (palette_dest)
                 ld      (dma_dest), hl
-                ld      a, #0
+                xor     a               ; SRAM bank 0 (one byte, where ld a,#0 took two)
                 ld      (dma_dest_bank), a
                 call    copy_api_data_chunk
                 ;; Write the 768 bytes to the DAC data port: red, green, blue for each
                 ;; entry in turn.
                 ld      de, #0x300
                 ld      bc, #0x3C9
-                ld      hl, #0x2000
+                ld      hl, (palette_src)
 
 set_host_palette_loop:
                 ld      a, (hl)

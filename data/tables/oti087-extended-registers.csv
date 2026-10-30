@@ -1,7 +1,9 @@
 Index or port,Name,Firmware use,Source
 $102,Add-on enable,written by enable_oak_add_on_mode,databook p30
-$00,Product number (read),never written,Oak BIOS; databook pages 31-32 missing
-$02,Status,$05 in every mode table,Oak BIOS; databook pages 31-32 missing
+$3DE,Extended index port,every extended access,Oak BIOS and NT driver; databook pages 31-32 missing
+$00,Product number (read),never written,Oak's DOS installers; Oak BIOS and drivers; databook pages 31-32 missing
+$01,Revision (read),never written,Oak's DOS installers and 87X drivers; databook pages 31-32 missing
+$02,Status,$05 in every mode table,Oak BIOS and 87X DOS kit; databook pages 31-32 missing
 $03,Oak test,$10,databook p33
 $04,Local bus control,$07,databook p33-34
 $05,Video memory mapping,$19 linear (1 MB at $100000) or $00 VGA,databook p34-35
@@ -9,12 +11,17 @@ $06,Clock select,"per mode; set_video_mode writes $3C2 after ext 6, so the misc 
 $07,Configuration 1 (read),read only,databook p36
 $08,Configuration 2 (read),read only,databook p37
 $09-$0B,Scratch,not used,databook p37
+$0C,CRT control,not written,databook p37
 $0D,Oak miscellaneous,not written,databook p38
+$0E,Backward compatibility,not written,databook p38
+$0F,NMI data cache,not written,databook p38
 $10,DIP switch (read),never read,databook p38
 $11,Segment,not written,databook p38-39
+$12,Configuration,not written,databook p39
 $13,Bus control,$C8,databook p39
 $14,Overflow,per mode,databook p39-40
 $15,HSYNC/2 start,per mode,databook p40
+$16,Oak overflow 2,not written,databook p40
 $17,Extended CRTC,per mode,databook p40
 $18,EEPROM control,never written,databook p40
 $19,Color palette range,$0F,databook p41

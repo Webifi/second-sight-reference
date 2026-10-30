@@ -966,7 +966,7 @@ wait_1ms_loop:
 ;; 3. Moves the data in pieces of at most 4 KB that never cross $80000, so each piece lies
 ;;    in one video half. A piece whose source and destination are in the same half is one
 ;;    DMA through the linear window with that half selected, as before. A piece between
-;;    halves, at most 1 KB, goes through scroll_buffer: source half selected and the piece
+;;    halves, at most 1 KB, goes through command_buffer: source half selected and the piece
 ;;    copied into the buffer, then destination half selected and copied out.
 ;;    The halves are different memory, so such a piece cannot overlap itself; the order of
 ;;    the pieces follows the copy direction.
@@ -1084,7 +1084,7 @@ scroll_piece_down:
                 jr      scroll_next_piece
 
 scroll_between_halves:
-                ;; At most 1 KB, the size of scroll_buffer.
+                ;; At most 1 KB, the size of command_buffer.
                 ld      hl, (sc_piece)
                 ld      de, #0x400
                 call    min16
@@ -1107,7 +1107,7 @@ scroll_buffer_in:
                 call    video_z180_address
                 ld      (dma_source), hl
                 ld      (dma_source_bank), a
-                ld      hl, #scroll_buffer
+                ld      hl, #command_buffer
                 ld      (dma_dest), hl
                 ld      a, #0           ; SRAM bank 0
                 ld      (dma_dest_bank), a
@@ -1119,7 +1119,7 @@ scroll_buffer_in:
                 call    video_z180_address
                 ld      (dma_dest), hl
                 ld      (dma_dest_bank), a
-                ld      hl, #scroll_buffer
+                ld      hl, #command_buffer
                 ld      (dma_source), hl
                 ld      a, #0
                 ld      (dma_source_bank), a
@@ -1276,11 +1276,14 @@ sc_len:         .db     0, 0, 0
 sc_down:        .db     0
 sc_piece:       .dw     0
 
-;; ScrollScreen's 1 KB buffer for pieces between the video halves: SRAM bank 0 $0A600,
-;; where the bank 0 master copy of the Super Hi-Res renderer's block has 1 KB that no
-;; code uses (converter_page_tables, src/superhires.asm). It is firmware memory, so a
-;; scroll takes none of the memory the firmware documentation leaves free for programs.
-scroll_buffer = converter_page_tables
+;; A 1 KB buffer for commands that pass data through SRAM: ScrollScreen's pieces between
+;; the video halves, and SetPalette's 768 bytes while the user font is chosen
+;; (src/commands.asm, set_text_font). It is SRAM bank 0
+;; $0A600, where the bank 0 master copy of the Super Hi-Res renderer's block has 1 KB that
+;; no code uses (converter_page_tables, src/superhires.asm). Commands run one at a time,
+;; so the two uses never meet. It is firmware memory, so neither command takes any of the
+;; memory the firmware documentation leaves free for programs.
+command_buffer = converter_page_tables
 
 ;; ----------------------------------------------------------------------------------------
 ;; CHANGE (E8): command $0A, ClearScreen (fill byte, start, length), rewritten.
@@ -1411,6 +1414,29 @@ native_mode_check:
                 ret     NZ
                 ld      hl, #main_loop
                 ret
+
+;; ----------------------------------------------------------------------------------------
+;; CHANGE (E29): main_loop_no_change jumps here. It sends SetMode's $A5 once the mode
+;; change has run: emulation was turned back on, and an Apple renderer's set-up sends no
+;; reply (set_native_mode sends its own). SetMode runs inside INT1, so it can arrive after
+;; main_loop's mode_change_pending test and before this one. ROM 1.4 then sent the $A5 here
+;; and cleared setmode_reply_owed, but still set the mode, because it ran set_native_mode
+;; for every change. native_mode_check runs set_native_mode only while setmode_reply_owed
+;; is 1, so a pending change goes back to main_loop first and gets its reply from
+;; set_native_mode. The flag is cleared before the $A5 goes out, so a SetMode that
+;; follows the $A5 keeps its own flag.
+;; ----------------------------------------------------------------------------------------
+setmode_reply_check:
+                ld      a, (setmode_reply_owed)
+                or      a
+                jp      Z, main_loop_render
+                ld      a, (mode_change_pending)
+                or      a
+                jp      NZ, main_loop
+                ld      (setmode_reply_owed), a ; A = 0
+                ld      a, #0xA5
+                out0    (CARD_DATA), a
+                jp      main_loop_render
 
                 .org    0x9C00
 ;; ----------------------------------------------------------------------------------------
@@ -1965,6 +1991,8 @@ double_lores_block:
 ;; without touching the VGA registers from inside the interrupt. Font numbers: $00 the
 ;; standard ROM font, $01 the alternate ROM font, $02 the PC ANSI font, $03 the user font
 ;; at SRAM $0F000. ROM 1.4 holds one built-in font, so $01 and $02 load it too.
+;; SetPalette passes its bytes through SRAM $0F000 as in ROM 1.4, so while font $03 is
+;; chosen this points SetPalette at command_buffer instead (palette_bbr, src/mainloop.asm).
 ;; ----------------------------------------------------------------------------------------
 set_text_font:
                 ld      hl, #3
@@ -1978,6 +2006,15 @@ set_text_font:
                 call    copy_api_data_chunk
                 ld      a, (cmd_param1)
                 ld      (text_font), a
+                ld      hl, #palette_buffer_rom
+                cp      #3
+                jr      NZ, set_text_font_palette
+                ld      hl, #palette_buffer_font
+
+set_text_font_palette:
+                ld      de, #palette_bbr
+                ld      bc, #5
+                ldir
                 ld      hl, (emulate_current_videomode)
                 ld      de, #emulate_text40
                 or      a
@@ -1996,6 +2033,16 @@ set_text_font_reload:
 
 ;; The font SetTextFont chose; 0 (the built-in font) from reset.
 text_font:      .db     0
+
+;; SetPalette's buffer, copied into palette_bbr, palette_dest and palette_src: ROM 1.4's
+;; SRAM $0F000 (BBR $0D, logical $2000), or command_buffer, which BBR 0 shows at its own
+;; address.
+palette_buffer_rom:
+                .db     0x0D
+                .dw     0xF000, 0x2000
+palette_buffer_font:
+                .db     0x00
+                .dw     command_buffer, command_buffer
 
 ;; ----------------------------------------------------------------------------------------
 ;; CHANGE (E10): copy_font jumps here first. It runs from the text set-ups

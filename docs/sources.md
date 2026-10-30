@@ -3,6 +3,15 @@
 Every document this reference cites, with a public link. A quoted title is the document's
 own.
 
+Browse key sources by topic:
+
+- Board and wiring: [schematic](#s26), [production photos](#s18), [front view](#s20), [pinouts](#s13).
+- Oak graphics: [databook and OTI-087X addendum](#s02), [87X Windows drivers](#s69), [87X DOS kit](#s79).
+- Video clocks and colors: [OTI-068](#s01), [Bt481A](#s36), [IBM VGA](#s68).
+- Firmware and host commands: [Sequential's command documentation](#s15), [ROM image](#s25), [disassembly](#s27), [library source](#s29).
+- Apple bus and video: [IIgs hardware reference](#s78), [slot timing](#s43).
+- Z180 and capture logic: [Z180 manual](#s39), [Lattice data book](#s85), [Lattice fitter manual](#s76).
+
 ## Index
 
 | ID | Document |
@@ -73,7 +82,7 @@ own.
 | [s66](#s66) | GAL16V8 and PEEL18CV8 data sheets |
 | [s67](#s67) | Oak packed-pixel mode tables in XFree86, svgalib and the Oak BIOS |
 | [s68](#s68) | IBM VGA XGA Technical Reference Manual (preliminary draft, 19 May 1992) |
-| [s69](#s69) | Oak Windows 3.1 drivers for the OTI-087/087X (1993) |
+| [s69](#s69) | Oak Windows 3.1 drivers for the OTI-087X (87xwin.zip, 1993) |
 | [s70](#s70) | GenieLamp A2, December 1995: "NEW SECONDSIGHT ROM" |
 | [s71](#s71) | comp.sys.apple2 thread on the Second Sight ROM upgrade (February 1996) |
 | [s72](#s72) | comp.sys.apple2 thread "Need info on Second Sight card" (June 1996) |
@@ -112,6 +121,32 @@ own.
 | [s105](#s105) | mmu180 |
 | [s106](#s106) | ao486 |
 | [s107](#s107) | NESTang |
+| [s108](#s108) | Second Sight owner's photos, r/apple2 (2021) |
+| [s109](#s109) | Second Sight photo, Applefritter (2026) |
+| [s110](#s110) | Apple TIL01930: AppleColor RGB Monitor specifications |
+| [s111](#s111) | Adapting Apple's RGB Color Monitor for Analogue & MiSTer (2026) |
+| [s112](#s112) | Oak Technology graphics drivers page (1997) |
+| [s113](#s113) | Oak Windows 3.1 drivers for the OTI-087B (87bwin.zip, 1993) |
+| [s114](#s114) | Oak Windows NT 3.1 driver for the OTI-087 (87winnt.zip, 1993) |
+| [s115](#s115) | EDN, 3 February 1992: "Graphics IC quintuples Windows performance" |
+| [s116](#s116) | Oak OTI-087B DOS driver kit (87bdos.zip, 1993-94) |
+| [s117](#s117) | WHATVGA 2.00 documentation (Finn Thoegersen, 29 September 1995) |
+| [s118](#s118) | AVANCE.TXT: VGADOC register notes for Avance Logic chips |
+| [s119](#s119) | IBM patent EP0422300B1, "Display system with graphics cursor" (filed 1989) |
+| [s120](#s120) | IBM PS/2 Hardware Interface Technical Reference, Video Subsystem (October 1990) |
+| [s121](#s121) | VESA Display Monitor Timing Standard, version 1.0, revision 10 |
+| [s122](#s122) | VOGONS report: CRT Terminator RNG test on an OTI-087X card (22 August 2023) |
+| [s123](#s123) | CRT Terminator `RNG.CPP`, the light-pen readback test (commit 02d7048) |
+| [s124](#s124) | PC Underground (Abacus, 1995) |
+| [s125](#s125) | WDC W65C816S data sheet |
+| [s126](#s126) | PEI timing on a real IIgs (Ian Brumby, 2021) |
+| [s127](#s127) | "Accelerate Your TransWarp GS", AppleWorks Forum, March 1991 |
+| [s128](#s128) | ReactiveMicro Second Sight 600-dpi front/back production-card scans |
+| [s129](#s129) | Zilog, Z180 Family Questions and Answers (March 1994) |
+| [s130](#s130) | "Second Sight Features", comp.sys.apple2, 8 May 1995 |
+| [s131](#s131) | AMI PEEL18CV8 data sheet (February 1993) |
+| [s132](#s132) | BI Technologies 627/628 series resistor networks (January 2008) |
+| [s133](#s133) | Oak OTI-037 VGA controller data sheet |
 
 ## Documents
 
@@ -130,8 +165,13 @@ Oak OTI-068 dual clock synthesizer databook (April 1993), 6 pages
 
 Oak OTI-087 local-bus VGA controller databook (Feb 1993) plus OTI-087X addendum, 79 scanned pages; printed pages 31-32 missing
 
+The addendum, bound in right after the cover, "describes changes to the OTI-087 February
+1993 databook for OTI-087X parts", so the book plus its addendum is the OTI-087X's
+specification. The back cover carries Oak's document number 087C-021093-001.
+
 - **Kind:** original document.
 - **Public source:** <https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/Datasheets/OTI-087.pdf>.
+- A second scan of the same edition, with a text layer: [s34](#s34).
 
 <a id="s03"></a>
 
@@ -442,6 +482,10 @@ Their page calls it "Our Second Sight Library for Merlin 16+ users".
 
 Oak OTI-087 databook, a separate 300 dpi scan of the same document; also lacks printed pages 31-32
 
+74 pages with a text layer, including the OTI-087X addendum (PDF page 2) and the
+back-cover document number 087C-021093-001. SHA-256
+`30a261a36da4dc5bc33e1f35e0383acc91fc5b62cb55797f6d659c29fbb9a3cb`.
+
 - **Kind:** original document.
 - **Public source:** <http://bitsavers.informatik.uni-stuttgart.de/components/oakTechnology/OTI-087_Feb1993.pdf>.
 
@@ -450,6 +494,9 @@ Oak OTI-087 databook, a separate 300 dpi scan of the same document; also lacks p
 ### OAK.TXT
 
 VGA register notes for Oak chips (covers OTI-087 index 00h and 02h)
+
+Third party. Its 087 entries are headed "(83/87)" and name no 087 revision; it never
+mentions the OTI-087B or OTI-087X.
 
 - **Kind:** another author's account.
 - **Public source:** <http://bitsavers.informatik.uni-stuttgart.de/components/oakTechnology/OAK.TXT>.
@@ -640,6 +687,10 @@ Lattice licensing table: ispLEVER Classic support for ispLSI needs a paid subscr
 
 Oak VGA BIOS for the OTI-087, Paradise TBv1.01B (10 Mar 1993), 32 KB. Reads extended index 00 bit 1 (087 vs 083) and index 02 bits 2:1 (memory size). Download is a zip; the inner ROM oakoti087wdparadise.BIN has SHA-256 9df355978ca8de7786b6368cd6802fe2de776f4686d8ef55330c1f535ec58c4a
 
+Its version is 1.01: Oak's own table gives BIOS versions 1.0 to 1.03 to the OTI-087B
+([s112](#s112)), and its "B" matches Oak's 087B letter. It has no ext $01 test, so this is
+OTI-087B code.
+
 - **Public source:** <https://web.archive.org/web/20241110191423id_/https://vgamuseum.info/index.php/companies/item/download/1570_5b330f99f81a6a6b3b0efc7d603cf672>.
 
 <a id="s58"></a>
@@ -647,6 +698,13 @@ Oak VGA BIOS for the OTI-087, Paradise TBv1.01B (10 Mar 1993), 32 KB. Reads exte
 ### Oak VGA87 BIOS TEv1.02
 
 Oak VGA87 BIOS TEv1.02 (30 Apr 1993), 32 KB, same index 00/02 code. Download is a zip; the inner ROM OTI087X.VBI has SHA-256 c7d4508f28465ea226bd132c7028731cb05af11d9f96b91a25cdd92654c60b27
+
+The file name OTI087X.VBI is the download site's. This BIOS serves the 087B and later
+chips, the 087X included: a helper at file offset $1FD6 reads ext $01 bits 7-4, and the
+code at $2B93 and $39B5 runs extra steps only when they are 0 (an 087B). Its "E" is the
+letter Oak's installers give the 087X package (WIN31E, [s79](#s79)). Oak's driver page gives
+version numbers 1.0 to 1.03 to the 87B ([s112](#s112)); this BIOS's code shows it also
+handles later revisions. No Oak BIOS of version 2.0 or later has been found.
 
 - **Public source:** <https://web.archive.org/web/20241107152017id_/http://www.vgamuseum.info/index.php/home/item/download/1875_094ce2e92b88976b1c472af2ef15d881>.
 
@@ -656,13 +714,19 @@ Oak VGA87 BIOS TEv1.02 (30 Apr 1993), 32 KB, same index 00/02 code. Download is 
 
 Oak OTI-087 Product Overview, August 1992, 16 pages (straps, pins, modes; no extended-register chapter). SHA-256 93c1a266f0bd7d804ab7b08d9c21bf6c635527df67c1611d452d5eda9e6d0909
 
+It is older than the February 1993 databook and its OTI-087X addendum, and names no
+revision. Its feature list (p1) has no hardware cursor, no feature connector and no
+refresh types; the February 1993 databook adds all three.
+
 - **Public source:** <https://web.archive.org/web/20260616122232id_/https://vgamuseum.info/index.php/companies/item/download/449_8328689f263e5a3135bb9d36ef57beaa>.
 
 <a id="s60"></a>
 
 ### Oak Technology video FAQ
 
-Oak Technology video FAQ (1998): BIOS 1.0x = OTI-87B, 2.0x = OTI-87X
+Oak Technology video FAQ ("Last updated April 1996", archived 1998): BIOS 1.0x = OTI-87B,
+2.0x = OTI-87X. Oak shipped separate driver sets for the two, because the 87X has "several
+significant enhancements". The FAQ does not list them.
 
 - **Public source:** <https://web.archive.org/web/19981202060820id_/http://poppy.oaktech.com/vidfaq.html>.
 
@@ -671,6 +735,11 @@ Oak Technology video FAQ (1998): BIOS 1.0x = OTI-87B, 2.0x = OTI-87X
 ### Programmer's Guide to the EGA, VGA, and Super VGA Cards, 3rd edition (1994), chapter 25
 
 Programmer's Guide to the EGA, VGA, and Super VGA Cards, 3rd ed. 1994, chapter 25 (Oak): status register table (secondary)
+
+Third party (Richard Ferraro). It covers "the 087" and names no revision; it never
+mentions the OTI-087B or OTI-087X. Section 25.4: "The Product Identification Register
+returns a 1 if the chip is a 087 chip." Listing 25.4 identifies an 087 by writing $0A
+to ext $24 and reading it back from ext $25.
 
 - **Public source:** <https://archive.org/details/programmersguidetotheegavgaandsupervgacardsbyrichardf.ferraro19943rdedition>.
 
@@ -690,6 +759,10 @@ Period source code: `xc/programs/Xserver/hw/xfree86/vga256/drivers/oak/` in
 [XFree86 3.3.6 source part 1](http://ftp.xfree86.org/pub/XFree86/3.3.6/source/X336src-1.tgz).
 Archive SHA-256: `87231766bf967c0e6174e28c6bdf50e42c0f3f6c732489e455f4c405cfc43844`.
 
+Third party: written by Jorge Delgado (copyright 1994), not by Oak. It treats every
+OTI-087 as one chip and names no revision: its probe takes ext $00 = 1 as an "oti087"
+(`oak_driver.c:493-494`).
+
 `oti87_fill.c` and `oak_colexp.s` establish the offsets-0/1 color-expansion stores.
 `oak_driver.c:912-935,1058-1081` saves/restores the cursor; it never draws it.
 Lines 1258-1283 choose ext $22 = $1C on local bus with BitBlt, $14 on ISA, $18
@@ -699,10 +772,11 @@ without the option. The screen-copy acceleration is disabled as unfinished.
 
 ### OTI-64107/64105 Spitfire Preliminary Specification
 
-Oak, September 1994. Page 7-27 describes the later version of the OTI-087's cursor block:
-/8 packed-pixel pattern addressing, /4 planar addressing, enable, and bit order ("Intel
-format, Bit 0 is the first pixel"; "Motorola format, Bit 7 is the first pixel"). This
-reference applies those details to the 087's cursor block.
+Oak, September 1994. A later Oak design, "not downwardly compatible to any other Oak
+chips" ([Ferraro](#s61) 25.1.2). Page 7-27 describes its cursor block (/8 packed-pixel
+pattern addressing, /4 planar addressing, enable and bit order), and pages 7-8 and 7-9 a
+CRT counter test that drives the CRT counters onto pins SD15-SD0. It shows what a later
+Oak chip did; it is not a source for the OTI-087X's own behavior.
 
 [OAK.TXT](#s35) (VGADOC, lines 190-196) also describes the cursor layout and codes, but it
 is not an Oak publication, and its preset and blink wording conflicts with OTI-087
@@ -726,8 +800,9 @@ behind the [PLD identifications](07-glue-logic.md#the-parts). Pages: [`data/netl
 
 ### Oak packed-pixel mode tables in XFree86, svgalib and the Oak BIOS
 
-How Oak's BIOS and the 1990s XFree86 and svgalib drivers program the OTI-087's packed
-256-color modes.
+How Oak's TEv1.02 BIOS and the third-party XFree86 and svgalib drivers
+program the OTI-087's packed 256-color modes. None of them names an 087 revision; svgalib
+says it supports "the OTI-087 (all variants)".
 
 - **XFree86 3.3.2.3a**, `vga256/drivers/oak/oak_driver.c` lines 1145 and 1152 (OTI-087
   branch: attribute mode $01, ext $21 = $04) and `vga256/vga/vgaHW.c` lines 1064-1090
@@ -753,11 +828,22 @@ count-by-4 (p2-72), word/byte mode (p2-74), and the CRT memory address mapping f
 
 <a id="s69"></a>
 
-### Oak Windows 3.1 drivers for the OTI-087/087X (1993)
+### Oak Windows 3.1 drivers for the OTI-087X (87xwin.zip, 1993)
 
-Oak's own display drivers, "OAK-87, DISTev2.2", copyright 1993. `STD8_HC.DRV` (the
+Oak's own display drivers for the OTI-087X, "OAK-87, DISTev2.2", copyright 1993. Oak's
+driver page lists this kit under OTI-087x ([s112](#s112)). `STD8_HC.DRV` (the
 hardware-cursor driver) shows how Oak itself programs the pixel mask, the 64-bit latch
 and the hardware cursor. Read by disassembly only.
+
+- The 256-color drivers announce themselves as "OTI-087C". On any other chip they stop
+  with "This is not a(n) OTI-087 (rev.C or later) VGA adapter." Their check
+  (`STD8_SC.DRV` file offsets $8FA2-$8FD9): ext $11 must read back what was written,
+  ext $00 must read 1 or 2, and bits 7-4 of ext $01 must not all be 0.
+- Only this kit has the hardware-cursor drivers (`STD8_HC`, `LIN8_HC`). Every other file
+  matches the OTI-087B kit ([s113](#s113)) byte for byte, except the two 256-color
+  software-cursor drivers and the INF file.
+- `STD8_SC.DRV` SHA-256 `544d307b45d66dcab6bdd91f242086f3ef51e672f161144d99fbdfa865686025`;
+  zip SHA-256 `6db15c87142c0dcc33076f589e25e3d3210c9e00363062c0e0b31d5e2a325dfe`.
 
 - **Public source:** Wayback copy of oaktech.com: <https://web.archive.org/web/19961112200047id_/http://www.oaktech.com:80/zipfiles/87xwin.zip>.
   `STD8_HC.DRV` `523f60c849db7f865fce075e80a890aa1f5dbc3fb243d5b0c7e950525f6d5fa9`.
@@ -868,6 +954,14 @@ that moves one dot at a time.
 Oak's DOS utilities and drivers for the 087X, including `MONITOR.EXE`, whose READ.ME says it
 saves the chosen refresh rates to the card's EEPROM.
 
+Every program in it is byte-for-byte the same as in the OTI-087B DOS kit ([s116](#s116))
+except `INSTALL.EXE` (version 2.2 here, 1.6 there). Both installers hold Oak's revision
+table: they read ext $00 and name the chip only when it reads 1 (file offset $2B8B), then
+read ext $01 bits 7-4 (offsets $2BB1-$2C02) and title themselves "087B Driver Install" for
+0, "087D" for 1, "087X" for 2 and "089" for 3 (title strings at $80E7-$8146). `INSTALL.EXE`
+SHA-256 `609752e6c6cbd429563f22649e705f7cfedf286fce4b4cf805b27c666f9fd39c`; zip SHA-256
+`298550040f81b72d5f988459ec23f88e914102f678c9c8bcda84dde5c1126dd3`.
+
 - **Kind:** original document.
 - **Public source:** <https://web.archive.org/web/1997id_/http://www.oaktech.com/zipfiles/87xdos.zip>.
 
@@ -934,15 +1028,18 @@ with the DIL44/PLCC44 ZIF adapter (70-0041).
 Section 6, pp6-7 to 6-11, describes Lattice's pDS and pDS+ design software: its LDF
 design-file keywords, operators and dot extensions (p6-8), its system requirements and
 parallel-port key, and the device programmers that supported the ispLSI and pLSI parts
-in 1996 (p6-10). Section 8 is Lattice's full description of programming its ISP devices,
+in 1996 (p6-10).
+
+Section 8 is Lattice's full description of programming its ISP devices,
 written for anyone building their own programmer: the state machine, the instruction set (Table 4), the timing for the
 ispLSI 1000 family (Table 6), the address and data register sizes (Table 8, including the
 ispLSI1016E's 17,600 fuses), the mapping of JEDEC fuses to rows, and the programming
 sequence (pp8-1 to 8-20). The same section states the LSB-first order for the ispGAL22V10
-and ispGDS instruction registers. Section 2 has the 1000/1000E family description (I/O
-cell options and output slew, pp2-11 and 2-17; output enable, p2-19) and the ispLSI and
-pLSI 1016E data sheet (pp2-47 to 2-58), used for the 1016E's slew, output enable and pin
-functions.
+and ispGDS instruction registers.
+
+Section 2 has the 1000/1000E family description (I/O cell options and output slew, pp2-11
+and 2-17; output enable, p2-19) and the ispLSI and pLSI 1016E data sheet (pp2-47 to 2-58),
+used for the 1016E's slew, output enable and pin functions.
 
 - **Kind:** original document.
 - **Public source:** <http://bitsavers.informatik.uni-stuttgart.de/components/latticeSemiconductor/_dataBooks/1996_Lattice_Data_Book.pdf>.
@@ -1205,6 +1302,323 @@ README lists "720p HDMI output with sound".
 
 - **Kind:** web page or repository.
 - **Public source:** <https://github.com/nand2mario/nestang>.
+
+<a id="s108"></a>
+
+### Second Sight owner's photos, r/apple2 (2021)
+
+Front and back of a production card, 1500 x 2000 pixels each, posted by u/krishnadraws on
+2021-08-08. The back shows the 7M rework at the slot fingers. The Lattice chip on this card
+is marked "pLSI 1016-60LJ".
+
+- **Kind:** web page or repository.
+- **Public source:** <https://www.reddit.com/r/apple2/comments/p0e17o/>; the photos are
+  <https://i.imgur.com/Bipd5tx.jpeg> (front) and <https://i.imgur.com/FHxIslf.jpeg> (back).
+
+<a id="s109"></a>
+
+### Second Sight photo, Applefritter (2026)
+
+Front of a production card, 4288 x 2848 pixels, posted by c0op3r on 2026-04-13: the
+sharpest view of the Lattice socket and the 7M wire beside it. The Lattice chip on this
+card is marked "pLSI 1016-60LJ".
+
+- **Kind:** web page or repository.
+- **Public source:** <https://www.applefritter.com/files/2026/04/13/DSC_0041.JPG>, posted in
+  <https://www.applefritter.com/content/has-anyone-used-sequential-systems-secondsight-apple-iie>.
+
+<a id="s110"></a>
+
+### Apple TIL01930: AppleColor RGB Monitor specifications
+
+Apple Tech Info Library article for the AppleColor RGB Monitor (A2M6014): video and sync
+levels, scanning frequencies for 60 Hz and 50 Hz systems, video bandwidth, the active area
+and the back-panel controls.
+
+- **Kind:** original document.
+- **Public source:** <https://savagetaylor.com/TIL/TIL01930.pdf>.
+
+<a id="s111"></a>
+
+### Adapting Apple's RGB Color Monitor for Analogue & MiSTer (2026)
+
+Nerdly Pleasures, May 2026: an owner drives the A2M6014 from Analogue consoles and MiSTer
+at 15.7 kHz 240p and 480i, 60 Hz and 50 Hz, through a VGA-to-DA-15 adapter with composite
+sync, and describes the controls' limits.
+
+- **Kind:** web page or repository.
+- **Public source:** <http://nerdlypleasures.blogspot.com/2026/05/adapting-apples-rgb-color-monitor-for.html>.
+
+<a id="s112"></a>
+
+### Oak Technology graphics drivers page (1997)
+
+Oak's download page. Its table tells the chips apart by the video BIOS version that
+Microsoft's MSD reports: "v 1.0 to 1.03" is the OTI-87B and "v. 2.0 and up" is the
+OTI-87X. It lists separate kits for each: 87xwin.zip and 87xdos.zip for the OTI-087x,
+87bwin.zip and 87bdos.zip for the OTI-087B.
+
+- **Kind:** original document.
+- **Public source:** <https://web.archive.org/web/19970616130518id_/http://www.oaktech.com/graptech.html>.
+
+<a id="s113"></a>
+
+### Oak Windows 3.1 drivers for the OTI-087B (87bwin.zip, 1993)
+
+Oak's OTI-087B kit, "OAK-87, DISTbv1.6". Its 256-color drivers announce "OTI-087/043B" and
+accept ext $00 = 1, 2 or 3 without reading ext $01 (`STD8_SC.DRV` file offsets
+$90BD-$90E5). It has no hardware-cursor drivers. Read by disassembly only.
+
+- **Kind:** original document.
+- **Public source:** <https://web.archive.org/web/1997id_/http://www.oaktech.com/zipfiles/87bwin.zip>,
+  SHA-256 `8842bb788cee569e20accf1e0c8edfc153fc6ba32e21792d61c7d49a2dbeb5df`.
+
+<a id="s114"></a>
+
+### Oak Windows NT 3.1 driver for the OTI-087 (87winnt.zip, 1993)
+
+Oak's NT miniport, listed for both the OTI-087x and the OTI-087B. Its README says it
+works with all of Oak's OTI-087 chips. `OAKisPresent` (`OAK.SYS` file offsets
+$2D40-$2DF7) writes index $11 to port $3DE, requires bits 4-0 of $3DE to read back $11,
+then reads ext $00 and records a chip type for the values 1, 2, 3 and 4.
+
+- **Kind:** original document.
+- **Public source:** <https://web.archive.org/web/1997id_/http://www.oaktech.com/zipfiles/87winnt.zip>,
+  SHA-256 `a94e5e1c565b46ba405e1588b3d47f49c7c165f2530702efec6429f2914dc58b`.
+
+<a id="s115"></a>
+
+### EDN, 3 February 1992: "Graphics IC quintuples Windows performance"
+
+The trade-press report of the OTI-087's launch: a $31 chip (1,000 pieces) with a host bus
+interface to 40 MHz, a write cache, a read cache and "a 64 x 64-pixel hardware cursor with
+2 bits/pixel"; Windows drivers planned for February 1992 and an evaluation board for March.
+It names no revision.
+
+- **Kind:** another author's account.
+- **Public source:** <https://archive.org/details/edn-1992_02_03>.
+
+<a id="s116"></a>
+
+### Oak OTI-087B DOS driver kit (87bdos.zip, 1993-94)
+
+Oak's DOS utilities and application drivers for the OTI-087B. Every program matches the
+87X DOS kit ([s79](#s79)) byte for byte except `INSTALL.EXE` (version 1.6), which holds the
+same revision table.
+
+- **Kind:** original document.
+- **Public source:** <https://web.archive.org/web/1997id_/http://www.oaktech.com/zipfiles/87bdos.zip>,
+  SHA-256 `b83707fc3d6d1d7e3ebc21605d7d736f6b7af1111d544ea4901d266052fa346b`.
+
+<a id="s117"></a>
+
+### WHATVGA 2.00 documentation (Finn Thoegersen, 29 September 1995)
+
+The manual of WHATVGA, a DOS program that identifies and tests SVGA chips on real cards.
+Its "Adapters tested" table marks a 1 MB OTI-087 card's hardware cursor "Ok*", and its
+notes say: "Oak-087. The hardware cursor only works in 256color modes." Test 5 places a
+32 x 32 hardware cursor in the selected mode. It names no 087 revision. Third party.
+
+- **Kind:** another author's account.
+- **Public source:** <https://raw.githubusercontent.com/achernya/iap-6.828-website/master/readings/hardware/vgadoc/WHATVGA.DOC>,
+  lines 204-209 (test 5), 393 and 516 (table), 695 (note); SHA-256
+  `142e77398f013e49273781179fffaacf30c343c1d05ac02ac3779dcb72a7812d`.
+- **Source code, same release:** `BITBLT.PAS` (the cursor routines: Oak presets at line 348,
+  enable at 664-665, position at 783-787), `IDVGA.PAS` and `SUPERVGA.PAS` in the same folder,
+  <https://github.com/achernya/iap-6.828-website/tree/master/readings/hardware/vgadoc>.
+
+<a id="s118"></a>
+
+### AVANCE.TXT: VGADOC register notes for Avance Logic chips
+
+Finn Thoegersen's register notes for the Avance Logic ALG2101, ALG2201 and ALG2228, part of
+the same VGADOC set as [OAK.TXT](#s35). Their hardware cursor is another 64 x 64 two-color
+cursor of the period: "Note: in interlaced modes the cursor is shown double height" (line
+217). Third party; not about Oak.
+
+- **Kind:** another author's account.
+- **Public source:** <https://raw.githubusercontent.com/achernya/iap-6.828-website/master/readings/hardware/vgadoc/AVANCE.TXT>,
+  SHA-256 `ddd28c645be534f9adf698e4faa391a19bc6b4a2e5d17772b4b5b19e257b650a`.
+
+<a id="s119"></a>
+
+### IBM patent EP0422300B1, "Display system with graphics cursor" (filed 1989)
+
+IBM's patent for the XGA sprite. For a cursor that splits its rows between the two fields
+of an interlaced picture, the CRT controller sends a cursor line number "1 more than the
+line number of the cursor to be displayed" in non-interlaced modes; "For an interlaced
+display mode it will be 2 more". Not about Oak.
+
+- **Kind:** original document.
+- **Public source:** <https://patents.google.com/patent/EP0422300B1/en>.
+
+<a id="s120"></a>
+
+### IBM PS/2 Hardware Interface Technical Reference, Video Subsystem (October 1990)
+
+IBM's timing for the standard VGA monitor signals: sync polarity per line count and the
+horizontal and vertical timing of the 400- and 480-line modes (pp108-111). The reference
+for how a VGA monitor frames a standard 400- or 480-line picture.
+
+- **Kind:** original document.
+- **Public source:** <http://www.mcamafia.de/pdf/ibm_hitrc10.pdf>, 2,761,797 bytes,
+  SHA-256 `bc600a44a8dd03a1015e611079196cd671dfa0ad863249b6fea14dc23dab6d2a`.
+
+<a id="s121"></a>
+
+### VESA Display Monitor Timing Standard, version 1.0, revision 10
+
+VESA's standard monitor timings, including 800 x 600 at 56 and 60 Hz (pp14-15), the SVGA
+timings a monitor of the period expected.
+
+- **Kind:** original document.
+- **Public source:** <https://glenwing.github.io/docs/VESA-DMT-1.10.pdf>, 490,644 bytes,
+  SHA-256 `f0ff1e4d821a63678534f26e2c14b435470c34f46e8d3b1194bb6019eff0d08a`.
+
+<a id="s122"></a>
+
+### VOGONS report: CRT Terminator RNG test on an OTI-087X card (22 August 2023)
+
+A user (ViTi95) ran the CRT Terminator random-number program on real cards in a Pentium 100
+and reported "OTI 087x (ISA 16bit) - No hardware RNG available". The program's test is the
+EGA light-pen readback ([s123](#s123)), so the card's CRTC $11 did not change enough in 64
+reads with CRTC $03 bit 7 = 0.
+
+- **Kind:** another person's test of real hardware.
+- **Public source:** <https://www.vogons.org/viewtopic.php?p=1187912#p1187912>.
+
+<a id="s123"></a>
+
+### CRT Terminator `RNG.CPP`, the light-pen readback test (commit 02d7048)
+
+The source of the program in [s122](#s122), as published before that test. `init_rng`
+clears CRTC $11 bit 7 (write protect), clears CRTC $03 bit 7 ("Unmask access to Light Pen
+register"), restores CRTC $11, then reads CRTC $11 64 times with interrupts off. It reports a
+usable register only when more than 16 different values come back.
+
+- **Kind:** another author's program.
+- **Public source:** <https://raw.githubusercontent.com/juj/crt_terminator/02d70480301747a7d7cde260ae8a52ad96eac969/DOS/RNG/RNG.CPP>,
+  SHA-256 `78fd2303276ae458a7bf48a1f08148808e4d5751fa8aead9fa8751beb7109f3f`.
+
+<a id="s124"></a>
+
+### PC Underground (Abacus, 1995)
+
+A DOS demo-programming book. Chapter 5 times palette changes to chosen lines on a standard
+VGA by waiting for the vertical retrace and then counting the horizontal blanking pulses in
+$3DA bit 0: "You only choice is to continuously monitor the VGA status counting the lines
+as you go and then change the color at the desired line" (chapter 5, copper bars, `COPPER.ASM`).
+
+- **Kind:** another author's account.
+- **Public source:** <https://www.phatcode.net/res/225/files/pc_underground.pdf>, 5,205,631
+  bytes, SHA-256 `f3c335386e301ad7347c59fdbbd3678c4f0f63f6b0895789ac0f093328cbf8e3`.
+
+<a id="s125"></a>
+
+### WDC W65C816S data sheet
+
+The 65816's instruction cycle counts by addressing mode, including the extra cycle for
+16-bit data, `PEI`, `PEA`, `MVN`/`MVP`, and RDY holding a read or a write cycle.
+
+- **Kind:** original document.
+- **Public source:** <https://www.westerndesigncenter.com/wdc/documentation/w65c816s.pdf>.
+
+<a id="s126"></a>
+
+### PEI timing on a real IIgs (Ian Brumby, 2021)
+
+A logic-analyzer measurement on a real IIgs of Wolfenstein 3D's `PEI` screen-copy code: 39
+`PEI` instructions in a row took 0.173758 ms, 4.455 us per word.
+
+- **Kind:** another person's test of real hardware.
+- **Public source:** <https://retrocomputing.stackexchange.com/questions/228/inserting-nops-to-improve-iigs-shadow-copy-performance/21745>.
+
+<a id="s127"></a>
+
+### "Accelerate Your TransWarp GS", AppleWorks Forum, March 1991
+
+John Link's article on IIgs accelerators. Motherboard memory runs at 2.8, 2.6 or 1.0 MHz
+"(2.8 for ROM areas, 2.6 for RAM areas, and 1.0 for screen display areas)", and "the IIgs
+video memory cannot operate faster than 1 MHz"; the TransWarp GS's write-back buffers let it
+run on while those writes drain (p4).
+
+- **Kind:** another author's account.
+- **Public source:** <https://mirrors.apple2.org.za/ftp.apple.asimov.net/documentation/hardware/accelerators/Accelerate%20your%20TransWarp%20GS%20Card.pdf>.
+
+<a id="s128"></a>
+
+### ReactiveMicro Second Sight 600-dpi production-card scans
+
+Front and back of a fourth production card. The front shows a Z8S18016VSC CPU,
+NEC D431000AGW-70L SRAM marked ES, ICT 18CV8 -15 PLDs, DV74HCT574A latches,
+BI 8A330 network, Bt481AKPJ110 RAMDAC, Lattice sticker "ZORRO / BE8C / W6",
+and an EPROM label "rev. 1.4BEEF". Parts differ from card to card, so these markings
+describe this card only.
+
+- **Kind:** web page or repository.
+- **Public archive:** [ReactiveMicro SecondSite_VGA/Pics](https://downloads.reactivemicro.com/Apple%20II%20Items/Hardware/SecondSite_VGA/Pics/).
+- **Front:** [600-dpi PNG](https://downloads.reactivemicro.com/Apple%20II%20Items/Hardware/SecondSite_VGA/Pics/SecondSight%20VGA%20-%20Front%20-%20600DPI.png), 4686 x 1902 pixels.
+- **Back:** [600-dpi PNG](https://downloads.reactivemicro.com/Apple%20II%20Items/Hardware/SecondSite_VGA/Pics/SecondSight%20VGA%20-%20Back%20-%20600DPI.png), 4670 x 1964 pixels.
+- **Local originals:** `second-sight-private/photos/originals/reactivemicro-600dpi/front-600dpi.png` and `back-600dpi.png`.
+- **SHA256 front:** `c174b22ef86b6d05f1a485c6406369af0201c6bf7ed5d21eba161fd3aea5e0b4`.
+- **SHA256 back:** `9583ee08649baa24409e74b12be9fe23407362f79b4ec089a0325b8db5bc0f18`.
+
+The archive's file dates are not a manufacture date. R32 is fitted, but its value
+cannot be read in this scan.
+
+<a id="s129"></a>
+
+### Zilog, Z180 Family Questions and Answers (March 1994)
+
+Zilog application note AN971800100. Page 6-3: during sleep or bus release, the CPU does
+not sample /WAIT, so a wait cannot extend the cycle.
+
+- **Kind:** original document.
+- **Public source:** <https://www.zilog.com/docs/z180/appnotes/z180qa.pdf>.
+
+<a id="s130"></a>
+
+### "Second Sight Features", comp.sys.apple2, 8 May 1995
+
+Jawaid Bazyar's feature list for the card. On the blitter: "The Z180 can copy one byte
+of memory in 6 20MHz clock cycles", about 3.3 MB/s, and about 5 MB/s with the VGA
+controller's read/modify/write help.
+
+- **Kind:** another author's account.
+- **Public source:** Google Groups: <https://groups.google.com/g/comp.sys.apple2/c/OU04c1gWiuc>.
+
+<a id="s131"></a>
+
+### AMI PEEL18CV8 data sheet (February 1993)
+
+AMI's PEEL18CV8 timing tables. Printed page 20 lists the 18CV8-5, -7, -10, -15 and -25
+grades (the table is marked PREVIEW); for -15, tCO1 is 12 ns and tCO2 is 25 ns, and for
+-10 they are 7 ns and 12 ns.
+
+- **Kind:** original document.
+- **Public source:** <https://datasheet.datasheetarchive.com/originals/scans/Scans-091/DSAHI00040370.pdf>.
+
+<a id="s132"></a>
+
+### BI Technologies 627/628 series resistor networks (January 2008)
+
+BI's surface-mount resistor network data sheet. Page 4's marking table maps the marking
+8A330 to part 628A330: 16 leads, A circuit (eight isolated resistors), code 330 (33 ohm).
+Page 2 lists the resistance codes; page 5 gives 2 percent as standard and F for 1 percent.
+
+- **Kind:** original document.
+- **Public source:** <https://www.farnell.com/datasheets/1850686.pdf>.
+
+<a id="s133"></a>
+
+### Oak OTI-037 VGA controller data sheet
+
+Oak's 27-page data sheet for an earlier VGA controller. CRTC $11 bit 6 selects 3 or 5
+DRAM refresh cycles per horizontal line, five for slow 15.75 kHz displays (p2-12). The
+DRAM timing figures show a RAS precharge between display and CPU memory cycles (p2-24).
+
+- **Kind:** original document.
+- **Public source:** <https://peel.dk/Archive/-%20PC%20cards%2C%20manuals%2C%20BIN%20files%2C%20etc/Oak%20OTI-037C/oti-037.pdf>.
 
 ## Additional component datasheets
 

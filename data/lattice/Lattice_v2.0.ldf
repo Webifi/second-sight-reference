@@ -99,7 +99,7 @@
 //     CPU       PHASE 0 (slot pin 40): low in the address phase, high in the data phase
 //     M2SEL_N   /M2SEL (slot pin 39): low on a valid IIgs slow-side cycle (SYNC on a IIe)
 //     M2B0      IIgs bank bit 0 (slot pin 35): driven only early in the address phase,
-//               pulled low by a resistor the rest of the time
+//               undriven the rest of the time; a copy needs it to read low then
 //     AD4, AD6  Apple data bits 4 and 6, for STATEREG ($C068) writes
 //   Z180 side:
 //     AX        from U4: the Z180 is accessing one of its I/O ports $A0-$A7
@@ -309,8 +309,8 @@ SIGTYPE HIRES1_ADDR          Out;                   // hires 1: $2000-$3FFF (E28
 EQUATIONS
 
 // A copy is under way: CAPTURE in the data phase, with M2B0 low. The Apple leaves M2B0
-// undriven in the data phase, so the card copies only because a pull-down resistor (on
-// the production board, bodged onto the slot fingers near pin 35) holds it low. Pin
+// undriven in the data phase, so a write is copied only while the line reads low; the
+// drawing has no pull-down on it (docs/04-capture-logic.md, Copying video writes). Pin
 // CATCH_N is the inverse: its rising edge, at the end of the data phase, latches the
 // Apple address into U5/U6, and GAL U17 then writes the byte from U2 into SRAM.
 CATCH_ACTIVE = CAPTURE & CPU & !M2B0;
@@ -858,7 +858,7 @@ XPIN IO XAA7 LOCK 10;
 IB11(AA7,XAA7)
 END;
 
-SYM IOC I0 1 M2B0;                          // IIgs bank bit, slot 35; needs pull-down
+SYM IOC I0 1 M2B0;                          // IIgs bank bit, slot 35; must read low in data phase
 XPIN I XM2B0 LOCK 14;
 IB11(M2B0,XM2B0)
 END;

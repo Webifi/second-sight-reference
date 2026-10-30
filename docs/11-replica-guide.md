@@ -61,12 +61,12 @@ Option A: real Z180, logic in a CPLD, video in an FPGA
                               |
                          Z8S180 + flash (EPROM image) + 128 KB SRAM
                               |  8-bit bus, /WAIT
-                         FPGA: OTI-087 + Bt481 + clocks + video RAM --> DAC --> VGA / RGB
+                         FPGA: OTI-087X + Bt481 + clocks + video RAM --> DAC --> VGA / RGB
 
 Option B: one FPGA
 
   slot <-> 5 V buffers <-> FPGA: Lattice logic, Z180 soft core + MMU + DMA, SRAM,
-                                 OTI-087, palette, clocks --> DAC --> VGA / RGB
+                                 OTI-087X, palette, clocks --> DAC --> VGA / RGB
 ```
 
 - **Option A** keeps the processor real, with its DMA edge sense, MMU and I/O waits. A
@@ -193,7 +193,7 @@ land while PHASE 0 is high and stay stable 60 ns before PHASE 0 falls
   - Address decode, the boot overlay on /RTS0, the half switch and the card ports:
     [U15](07-glue-logic.md#u15-memory-decode-boot-overlay-half-switch-waits),
     [port table](reference/z180-io-ports.md#port-table).
-- **The OTI-087.** The [ao486](sources.md#s106) project's standard VGA used 2,534
+- **The OTI-087X.** The [ao486](sources.md#s106) project's standard VGA used 2,534
   logic cells on an Altera Cyclone IV E and has no extensions. The Oak extensions, the
   values ROM 1.4 writes, the [video window](06-video.md#the-video-ram-window) and the
   [64-bit latch lane rule](06-video.md#the-64-bit-latch-lane-rule) are in the

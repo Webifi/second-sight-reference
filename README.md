@@ -23,7 +23,7 @@ programs new 256-color and 15-bit-color modes.
 | Put new firmware or a new Lattice chip on a card | [Firmware versions](docs/firmware-versions.md), [Lattice chip versions](docs/lattice-versions.md) |
 | Change and build the firmware | [Firmware source](firmware/README.md) |
 | Change and build the Lattice logic | [Lattice design source](docs/reference/lattice-source.md), [Building the Lattice fuse map](tools/lattice/README.md) |
-| Write your own Z180 code or video effects | [Beyond the firmware](docs/14-custom-code.md) |
+| Write your own Z180 code or video effects | [Beyond the firmware](docs/14-custom-code.md), [Drawing with the OTI-087X](docs/15-oak-drawing.md) |
 | Look up a pin, port, register or mode | [Reference tables](docs/reference/README.md), [Glossary](docs/glossary.md) |
 | Check a claim | [Sources](docs/sources.md), [Method](docs/13-method.md), [Tools](tools/README.md) |
 
@@ -36,7 +36,7 @@ programs new 256-color and 15-bit-color modes.
 | [03 Apple interface](docs/03-apple-interface.md) | Slot signals, the host registers, timing, IIgs vs IIe |
 | [04 Capture logic](docs/04-capture-logic.md) | The Lattice ispLSI1016: how Apple video writes and softswitches reach the card |
 | [05 Z180 computer](docs/05-z180.md) | Clock, memory map, boot, DMA, interrupts, the card's I/O ports |
-| [06 Video](docs/06-video.md) | OTI-087 VGA chip, video RAM window, clock chip, Bt481 color chip, outputs, modes |
+| [06 Video](docs/06-video.md) | OTI-087X VGA chip, video RAM window, clock chip, Bt481 color chip, outputs, modes |
 | [07 Glue logic](docs/07-glue-logic.md) | The four small PLDs and the latches: what each must do |
 | [08 Firmware](docs/08-firmware.md) | ROM layout, boot, main loop, interrupt handler, renderers, known bugs |
 | [09 Host protocol](docs/09-host-protocol.md) | The command interface IIgs programs use, and loading Z180 code |
@@ -45,6 +45,7 @@ programs new 256-color and 15-bit-color modes.
 | [12 Correcting the capture logic](docs/12-lattice-fix.md) | Lattice v2.0, the corrected fuse map for errata E14, E15 and E28: what changes, getting and programming a chip, and going back |
 | [13 Method](docs/13-method.md) | How each result was obtained, and how to reproduce it |
 | [14 Beyond the firmware](docs/14-custom-code.md) | Resources available to custom Z180 and IIgs code, including what ROM 1.4 never uses |
+| [15 Drawing with the OTI-087X](docs/15-oak-drawing.md) | Every drawing and display assist of the VGA chip, how each behaves on this card, and its cost in Z180 clocks |
 | [Errata and workarounds](docs/reference/errata.md) | Every known fault: symptom, cause, workaround, and the firmware or Lattice fix |
 | [Firmware fixes](docs/firmware-fixes.md) | How firmware 1.5 and 2.0 fix each firmware fault |
 | [Reference tables](docs/reference/README.md) | Readable pin, memory, port, register, command, clock, and mode tables |

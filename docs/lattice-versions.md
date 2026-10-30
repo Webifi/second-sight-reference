@@ -28,6 +28,9 @@ needs. pDS 2.61, the tool that built the original chip, builds both from the sou
 - [What v2.0 changes](#what-v20-changes)
 - [Getting a chip](#getting-a-chip)
 - [Programming a chip](#programming-a-chip)
+  - [Device programmer](#with-a-device-programmer), [Lattice USB cable](#with-lattices-usb-cable) or [home-made programmer](#with-a-home-made-programmer)
+  - [Socket wiring](#the-programming-socket) and [programming protocol](#the-programming-protocol)
+  - [Fitting the chip](#fitting-the-chip)
 - [Going back to the original](#going-back-to-the-original)
 - [Building a version yourself](#building-a-version-yourself)
 - [The original image](#the-original-image)
@@ -190,8 +193,9 @@ input (SDO), plus a sixth output or a wire holding RESET low. The board's USB po
 the file from the PC. The [programming protocol](#the-programming-protocol) below is
 everything such a program needs; Lattice published it so that customers could program the
 chips from their own equipment, and its own C routines did exactly this
-([ispCODE](sources.md#s94)). A 3.3 V board needs level shifting on SDO, which the chip
-drives to 5 V.
+([ispCODE](sources.md#s94)).
+
+A 3.3 V board needs level shifting on SDO, which the chip drives to 5 V.
 
 This repository has no such program. Test one on a new chip, not the original: an
 instruction sent most significant bit first turns the data shift DATASHFT (00010) into
@@ -225,7 +229,9 @@ This is how Lattice's cable software and its own C routines program the chip. So
 machine, instruction set, device layout, timing); [ispLSI 1016 data sheet](sources.md#s86)
 pp13-14 (identifier, shift registers); [Using Proprietary Lattice ISP Devices](sources.md#s89).
 
-**The state machine.** Driving ispEN low puts the chip in programming mode, in the *Idle*
+#### The state machine
+
+Driving ispEN low puts the chip in programming mode, in the *Idle*
 state. MODE and SDI steer a small state machine, and every change happens on a rising edge
 of SCLK. SDO changes after the falling edge.
 
@@ -235,15 +241,18 @@ of SCLK. SDO changes after the falling edge.
 | 1 | 1 | Go to Shift | Go to Execute | Go to Shift |
 | 0 | x | Shift the identifier out | Shift one instruction bit in from SDI | One clock of the instruction |
 
-**Registers of the ispLSI1016.** An 8-bit identifier, $01. A 5-bit instruction register.
-A 96-bit address register: a 1 in bit r selects row r. A 160-bit data register in two
-80-bit halves, high-order bits 0-79 and low-order bits 80-159. Every register takes and
-gives its least significant bit first: the bit shifted in first ends up as bit 0, and bit
-0 comes out of SDO first. (Lattice states the bit order for the address and data registers
-of every ispLSI and for the instruction register of the ispGAL22V10 and ispGDS, which use
-the same state machine.)
+#### Registers of the ispLSI1016
 
-**The instructions** used here (Lattice also lists partial erases and test instructions):
+An 8-bit identifier, $01. A 5-bit instruction register. A 96-bit address register: a 1 in
+bit r selects row r. A 160-bit data register in two 80-bit halves, high-order bits 0-79
+and low-order bits 80-159. Every register takes and gives its least significant bit first:
+the bit shifted in first ends up as bit 0, and bit 0 comes out of SDO first. (Lattice
+states the bit order for the address and data registers of every ispLSI and for the
+instruction register of the ispGAL22V10 and ispGDS, which use the same state machine.)
+
+#### The instructions
+
+The instructions used here (Lattice also lists partial erases and test instructions):
 
 | Code | Name | In the Execute state |
 |---|---|---|
@@ -256,12 +265,13 @@ the same state machine.)
 | 01011 | VER/LDL | 1 clock, then wait at least 30 us: load the row's low-order bits |
 | 01001 | PRGMSC | Programs the security cell, which blocks reading; never needed here |
 
-**Rows and the JEDEC file.** Fuse L00000 is row 0, high-order bit 0; the fuses run on in
-order, so row r holds fuses 160r to 160r+79 in its high-order half and 160r+80 to 160r+159
-in its low-order half. A fuse value of 0 means a programmed cell and is shifted in as it
-is.
+#### Rows and the JEDEC file
 
-**The whole job:**
+Fuse L00000 is row 0, high-order bit 0; the fuses run on in order, so row r holds fuses
+160r to 160r+79 in its high-order half and 160r+80 to 160r+159 in its low-order half. A
+fuse value of 0 means a programmed cell and is shifted in as it is.
+
+#### The whole job
 
 1. Power the socket, wait at least 45 us, and hold RESET low. Set SCLK low, MODE high,
    SDI low. Drive ispEN low and wait 10 us.
@@ -280,7 +290,9 @@ is.
    160r+159.
 7. **Finish:** MODE 1, SDI 0, one clock to Idle; drive ispEN high.
 
-**Timing** (ispLSI 1000 family): setup and hold of MODE and SDI around a rising SCLK edge
+#### Timing
+
+Timing (ispLSI 1000 family): setup and hold of MODE and SDI around a rising SCLK edge
 at least 0.1 us; SCLK high and low at least 0.5 us each; SDO valid within 0.5 us of a
 falling edge; ispEN takes effect within 10 us. Programming the whole chip takes 10 to 20
 seconds, most of it the 192 program pulses of 40-100 ms.

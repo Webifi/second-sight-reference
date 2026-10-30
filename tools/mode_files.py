@@ -77,11 +77,21 @@ def describe(name, d):
     line_khz = mhz * 1000 / divide / rgb_divide / (htotal * dots * multiplier)
     frame_hz = line_khz * 1000 / vtotal
     path = "RGB ($A9, /2)" if rgb_divide == 2 else "VGA ($A8)"
+    # Oak ext $14 bit 7 turns on interlace (databook pp39-40). The vertical counts are then
+    # per field, and two fields make one frame with twice the lines: ROM 1.4's AppleColor
+    # RGB mode $61 is 200 lines per field, 640 x 400 in all.
+    if ext[EXT_INDEX.index(0x14)] & 0x80:
+        vertical = (f"vtotal {vtotal} per field, visible lines {vdisp} per field, interlaced "
+                    f"({2 * vdisp} lines per frame), {lines_per_row} line(s) per row{double_scan}, "
+                    f"line rate {line_khz:.2f} kHz, field {frame_hz:.1f} Hz, "
+                    f"frame {frame_hz / 2:.1f} Hz, ")
+    else:
+        vertical = (f"vtotal {vtotal}, visible lines {vdisp}, {lines_per_row} line(s) per "
+                    f"row{double_scan}, line rate {line_khz:.2f} kHz, frame {frame_hz:.1f} Hz, ")
     return (f"{name}: OTI-068 code {clock_select:X} = {mhz} MHz{override}, clocking ${clocking:02X}, "
             f"Bt481 CR A ${feature & 0xF0:02X}, output path {path}, "
             f"htotal {htotal * dots} x{multiplier} clocks, visible {hdisp * dots}, "
-            f"vtotal {vtotal}, visible lines {vdisp}, {lines_per_row} line(s) per row{double_scan}, "
-            f"line rate {line_khz:.2f} kHz, frame {frame_hz:.1f} Hz, "
+            f"{vertical}"
             f"ext05 ${ext[EXT_INDEX.index(0x05)]:02X}, ext20 ${ext[EXT_INDEX.index(0x20)]:02X}, "
             f"ext21 ${ext21:02X}, "
             f"ext22 ${ext[EXT_INDEX.index(0x22)]:02X}")

@@ -411,8 +411,8 @@ sheet,refdes,part,pin_number,pin_name,net,confidence,note
 3,R21,10K,4,,MD10,high,
 3,R21,10K,5,,MD5,high,
 3,R21,10K,6,,MD3,high,
-3,R26,10K,1,,MD9,medium,Pad numbers not printed; transcription convention: first endpoint.
-3,R26,10K,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+3,R26,10K,1,,MD9,medium,Pad numbers not printed; transcription convention: first endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
+3,R26,10K,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
 3,R27,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
 3,R27,10K,2,,MD8,medium,Pad numbers not printed; transcription convention: second endpoint.
 3,R39,10K,1,,VCC,high,
@@ -589,34 +589,34 @@ sheet,refdes,part,pin_number,pin_name,net,confidence,note
 4,C4,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
 4,C8,22uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
 4,C8,22uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
-4,JP1,SHUNT,1,,N_U30_11,medium,Pad numbers not printed; transcription convention: first endpoint.
-4,JP1,SHUNT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
-4,JP2,SHUNT,1,,N_U30_9,medium,Pad numbers not printed; transcription convention: first endpoint.
-4,JP2,SHUNT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,JP1,SHUNT,1,,N_U30_11,medium,Pad numbers not printed; transcription convention: first endpoint. Prototype clock strap; production counterpart is TP1. Physical three-pad JP1 beside SRAM is a different part and must not inherit these nets.
+4,JP1,SHUNT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint. Prototype clock strap; production counterpart is TP1. Physical three-pad JP1 beside SRAM is a different part and must not inherit these nets.
+4,JP2,SHUNT,1,,N_U30_9,medium,"Pad numbers not printed; transcription convention: first endpoint. Prototype clock strap; production counterpart is TP2, open on s20/s108/s109/s128."
+4,JP2,SHUNT,2,,GND,medium,"Pad numbers not printed; transcription convention: second endpoint. Prototype clock strap; production counterpart is TP2, open on s20/s108/s109/s128."
 4,R14,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
 4,R14,10K,2,,-ZEROWS,medium,Pad numbers not printed; transcription convention: second endpoint.
-4,R17,22ohm,1,,VCLK,medium,Pad numbers not printed; transcription convention: first endpoint.
-4,R17,22ohm,2,,VCLK1,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R17,22ohm,1,,VCLK,medium,Pad numbers not printed; transcription convention: first endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
+4,R17,22ohm,2,,VCLK1,medium,Pad numbers not printed; transcription convention: second endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
 4,R19,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
 4,R19,10K,2,,N_U30_11,medium,Pad numbers not printed; transcription convention: second endpoint.
-4,R2,22ohm,1,,NC_R2_1,high,Open pin stub in schematic.
-4,R2,22ohm,2,,NC_R2_2,high,Open pin stub in schematic.
-4,R2,22ohm,3,,N_U28_123,high,
-4,R2,22ohm,4,,N_U28_120,high,
-4,R2,22ohm,5,,N_U28_119,high,
-4,R2,22ohm,6,,N_U28_118,high,
-4,R2,22ohm,7,,N_U28_117,high,
-4,R2,22ohm,8,,N_U28_116,high,
-4,R2,22ohm,9,,WEC,high,
-4,R2,22ohm,10,,WED,high,
-4,R2,22ohm,11,,WEA,high,
-4,R2,22ohm,12,,WEB,high,
-4,R2,22ohm,13,,RASL,high,
-4,R2,22ohm,14,,CASA,high,
-4,R2,22ohm,15,,NC_R2_15,high,Open pin stub in schematic.
-4,R2,22ohm,16,,NC_R2_16,high,Open pin stub in schematic.
-4,R32,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
-4,R32,10K,2,,IOCHRDY,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R2,22ohm,1,,NC_R2_1,high,"Open pin stub in schematic. Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,2,,NC_R2_2,high,"Open pin stub in schematic. Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,3,,N_U28_123,high,"Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,4,,N_U28_120,high,"Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,5,,N_U28_119,high,"Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,6,,N_U28_118,high,"Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,7,,N_U28_117,high,"Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,8,,N_U28_116,high,"Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,9,,WEC,high,"Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,10,,WED,high,"Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,11,,WEA,high,"Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,12,,WEB,high,"Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,13,,RASL,high,"Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,14,,CASA,high,"Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,15,,NC_R2_15,high,"Open pin stub in schematic. Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R2,22ohm,16,,NC_R2_16,high,"Open pin stub in schematic. Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+4,R32,10K,1,,VCC,medium,"Pad numbers not printed; transcription convention: first endpoint. Prototype value only. Production R32 is 2.0 kohm on s20/s108, 10 kohm on s109, unreadable on s128; see bom.csv."
+4,R32,10K,2,,IOCHRDY,medium,"Pad numbers not printed; transcription convention: second endpoint. Prototype value only. Production R32 is 2.0 kohm on s20/s108, 10 kohm on s109, unreadable on s128; see bom.csv."
 4,R38,10ohm,1,,EXTAL,medium,Pad numbers not printed; transcription convention: first endpoint.
 4,R38,10ohm,2,,MCLK,medium,Pad numbers not printed; transcription convention: second endpoint.
 4,R4,22ohm,1,,PCLK,medium,Pad numbers not printed; transcription convention: first endpoint.
@@ -839,8 +839,8 @@ sheet,refdes,part,pin_number,pin_name,net,confidence,note
 5,C11,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
 5,C12,22pF,1,,HSYNC,medium,Pad numbers not printed; transcription convention: first endpoint.
 5,C12,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
-5,C13,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
-5,C13,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C13,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
+5,C13,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
 5,C14,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
 5,C14,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
 5,C15,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
@@ -875,10 +875,10 @@ sheet,refdes,part,pin_number,pin_name,net,confidence,note
 5,C30,.1uF,2,,N_U31_31,medium,Pad numbers not printed; transcription convention: second endpoint.
 5,C31,.1uF,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
 5,C31,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
-5,C32,.1uF,1,,-12V,medium,Pad numbers not printed; transcription convention: first endpoint.
-5,C32,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
-5,C33,10uF TANT,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
-5,C33,10uF TANT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C32,.1uF,1,,-12V,medium,Pad numbers not printed; transcription convention: first endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
+5,C32,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
+5,C33,10uF TANT,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint. Prototype C33. Physical production C37 has separately recorded values; do not silently substitute its refdes here.
+5,C33,10uF TANT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint. Prototype C33. Physical production C37 has separately recorded values; do not silently substitute its refdes here.
 5,C34,.1uF,1,,+12V,medium,Pad numbers not printed; transcription convention: first endpoint.
 5,C34,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
 5,C5,22pF,1,,RED,medium,Pad numbers not printed; transcription convention: first endpoint.

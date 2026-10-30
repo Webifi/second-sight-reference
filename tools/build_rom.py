@@ -44,8 +44,8 @@ ORIGINAL = REPO / "firmware" / "v1.4" / "ROM_BEEF.asm"
 # original's is the hash of original/ROM_BEEF.bin, the published EPROM dump.
 EXPECTED = {
     "firmware/v1.4/ROM_BEEF.asm": "bd29e30ebf004e205609112a3c21a26eb28504115e047862fbd27f641f784d61",
-    "firmware/v1.5/SecondSight_v1_5.asm": "45d6fb82f92b5e9ca2c5d9e03b1f9d0b8faaf0a73f7c2d52c9a3743ab06aa562",
-    "firmware/v2.0/SecondSight_v2_0.asm": "675f38252930c0cfef3e5d20de5358df07f433386066150d7e0dd74014be7337",
+    "firmware/v1.5/SecondSight_v1_5.asm": "19e9b6f5dbbb50378c026a09e7e0ea39d4cc90463de70fb926038563021b6846",
+    "firmware/v2.0/SecondSight_v2_0.asm": "f5e252bb5704694bacc6319116f2344b3543c657181906baadec95ba1706831f",
 }
 
 # The ready-built EPROM images kept in the repository, by the source that builds them.
@@ -90,10 +90,13 @@ def assemble(source):
         ([tool("asz80"), "-l", "-s", f"-o+{work / source.stem}", source.name], source.parent),
         ([tool("aslink"), "-n", "-i", "-m", source.stem], work),
     ]
+    # A warning stops the build too. ASxxxx reports a value it could not settle, such as an
+    # expression on a symbol defined further down ("Value of ... is changing"), only as a
+    # warning, and then writes a wrong byte into the image with return code 0.
     for command, folder in steps:
         run = subprocess.run(command, cwd=folder, capture_output=True, text=True)
         output = (run.stdout + run.stderr).strip()
-        if run.returncode != 0 or "?ASxxxx-Error" in output:
+        if run.returncode != 0 or "?ASxxxx-" in output or "?ASlink-" in output:
             sys.exit(f"{Path(command[0]).stem} failed on {source.name}:\n{output}")
 
     image = {}

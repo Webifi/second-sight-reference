@@ -91,11 +91,11 @@ OR. A name on both sides of an equation can be a feedback latch, not a clocked r
 | ASCI / CSI/O | Z180 asynchronous serial communication interfaces / clocked serial I/O ([Zilog UM0050](sources.md#s39)). |
 | SRAM / DRAM / EPROM / EEPROM | Static RAM / dynamic RAM / erasable programmable ROM / electrically erasable programmable ROM: the card's processor RAM, video RAM, firmware store and serial settings store. [Board](02-board.md) |
 | DAC / RAMDAC | Digital-to-analog converter / DAC with palette RAM. The Bt481 turns pixel data into analog red, green and blue. [Video](06-video.md#bt481-color-chip) |
-| CRTC / FIFO | CRT timing controller / first-in, first-out buffer. [OTI-087 registers](reference/oti087-registers.md) |
+| CRTC / FIFO | CRT timing controller / first-in, first-out buffer. [OTI-087X registers](reference/oti087-registers.md) |
 | VT / VBS / VRS | Vertical total / vertical blank start / vertical retrace start, timing fields in the CRTC extensions ([OTI-087 databook](sources.md#s02) p39-40). |
 | HSYNC / VSYNC / XSYNC | Horizontal sync / vertical sync / U12's composite-sync output. [Glue logic](07-glue-logic.md#u12-applecolor-rgb-timing) |
 | PLCC / ZIP | Plastic leaded chip carrier / zigzag inline package. Pin positions depend on the part. [Netlist sources](../data/netlist/SOURCES.md) |
-| BOM / refdes | Bill of materials / reference designator: a part's number on the schematic, such as U7 or R32. The production board prints each chip's number under the chip, so a fitted chip hides it. U7 is the Lattice chip, U18 the Z180, U28 the Oak OTI-087, U31 the Bt481. [Netlist](../data/netlist/README.md) |
+| BOM / refdes | Bill of materials / reference designator: a part's number on the schematic, such as U7 or R32. The production board prints each chip's number under the chip, so a fitted chip hides it. U7 is the Lattice chip, U18 the Z180, U28 the Oak OTI-087X, U31 the Bt481. [Netlist](../data/netlist/README.md) |
 | Strap | A board connection or resistor that sets a configuration input. An open jumper can still read high through a pull-up. [Board](02-board.md#jumpers) |
 
 ---

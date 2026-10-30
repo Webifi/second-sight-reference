@@ -9,7 +9,7 @@ registers. One access can move data and acknowledge an event at the same time.
   are at `$00-$3F`.
 - The card's ports decode only the low 8 address bits, so `$00A0` and `$01A0` reach the
   same port.
-- The OTI-087 decodes its own full I/O address. U4's VGAIO_SEL output does not select it.
+- The OTI-087X decodes its own full I/O address. U4's VGAIO_SEL output does not select it.
 
 Sources: the [netlist](../../data/netlist/README.md), U7's [design source](lattice-source.md),
 the firmware's accesses, the [Z8S180 specification](../sources.md#s62), and the port
@@ -55,14 +55,14 @@ $A4-$A7**: U7 and the Z180 drive the same data lines. Both follow from the wirin
 | [$AC](#apple-irq) | AIRQ0 low: raise Apple IRQ | AIRQ0 low: raise Apple IRQ | Never used by the firmware |
 | [$AD](#apple-irq) | AIRQ0 high: release Apple IRQ | AIRQ0 high: release Apple IRQ | Written once at reset |
 | $AE, $AF | Undriven bus | No effect | Nothing decodes them |
-| [$3B0-$3DF, $46E8, $102](#vga-ports) | OTI-087 registers | OTI-087 registers | The Oak decodes the full address itself |
+| [$3B0-$3DF, $46E8, $102](#vga-ports) | OTI-087X registers | OTI-087X registers | The Oak decodes the full address itself |
 
 ## Notes on individual ports
 
 ### Access limits and aliasing
 
 Card ports repeat every 256 I/O addresses. U4 receives only HA0-HA7, and U7 receives only
-HA0-HA2 plus U4's AX; neither can tell $00A0 from $01A0. The OTI-087 sees the full
+HA0-HA2 plus U4's AX; neither can tell $00A0 from $01A0. The OTI-087X sees the full
 address, so its VGA ports do not repeat this way. Source: [netlist](../../data/netlist/README.md).
 
 U7 cannot tell a read from a write. So a read of $A1 is a configuration write, and a write
@@ -161,7 +161,7 @@ The firmware uses `$3C0-$3DF`, plus the `$46E8/$102` add-on enable sequence. Sta
 ports span `$3B0-$3DF`; Oak extended registers use index `$3DE` and data `$3DF`.
 Sources: [ROM_BEEF.asm](../sources.md#s27); [OTI-087 databook](../sources.md#s02) p30.
 
-U4's VGAIO_SEL goes only to U15. The OTI-087 receives every I/O strobe with the full
+U4's VGAIO_SEL goes only to U15. The OTI-087X receives every I/O strobe with the full
 address and decodes its own registers. Source: [netlist](../../data/netlist/README.md).
 
 ### Internal registers
@@ -192,7 +192,7 @@ Sources: [Z8S180 specification](../sources.md#s62); [ROM_BEEF.asm](../sources.md
 | $AC | any read or write | U4 | [Port-pair pattern](#port-pairs-a8-ad); schematic U4 AIRQ0 and U8 gate B |
 | $AD | any read or write | U4 | [ROM_BEEF.asm:56-57](../sources.md#s27); schematic U4 output AIRQ0 |
 | $AE, $AF | none | nothing | U4 pin list (all six outputs accounted for) |
-| $3B0-$3DF, $46E8, $102 | read/write | OTI-087 itself | [netlist](../../data/netlist/README.md) (U28 IORD/IOWR, ENVGA = VCC); [ROM_BEEF.asm](../sources.md#s27) throughout; [OTI-087 databook](../sources.md#s02) p18, p30 |
+| $3B0-$3DF, $46E8, $102 | read/write | OTI-087X itself | [netlist](../../data/netlist/README.md) (U28 IORD/IOWR, ENVGA = VCC); [ROM_BEEF.asm](../sources.md#s27) throughout; [OTI-087 databook](../sources.md#s02) p18, p30 |
 | $00-$3F | read/write | Z8S180 internal | [Z8S180 specification](../sources.md#s62); [ROM_BEEF.asm](../sources.md#s27) |
 
 ## Band flag layout
@@ -230,7 +230,7 @@ Sources: [Z8S180 specification](../sources.md#s62); [ROM_BEEF.asm](../sources.md
 
 | Input | Wired to | Use |
 |---|---|---|
-| INT0 | OTI-087 CINT (vertical retrace interrupt) | Does not work on a stock card: the line has no pull-up ([INT0 has no pull-up](board-connections.md#int0-has-no-pull-up)). With a pull-up added it serves frame-synchronous code, page flipping and palette changes; CRTC register $11 bits 5-4 enable it in the VGA chip. |
+| INT0 | OTI-087X CINT (vertical retrace interrupt) | Does not work on a stock card: the line has no pull-up ([INT0 has no pull-up](board-connections.md#int0-has-no-pull-up)). With a pull-up added it serves frame-synchronous code, page flipping and palette changes; CRTC register $11 bits 5-4 enable it in the VGA chip. |
 | INT1 | Lattice event signal | Apple events (the firmware's handler) |
 | INT2 | Lone label at U18 pin 12, no connection | Not usable; the firmware never enables it ([connections the drawing leaves out](board-connections.md#connections-the-drawing-leaves-out)). |
 | NMI | 10 kohm pull-up (R15), nothing else | Unused |

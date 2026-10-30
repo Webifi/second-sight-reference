@@ -10,7 +10,7 @@ Pin connections, port addresses, register fields, command formats, clock selecti
 | [Z180 I/O ports](z180-io-ports.md) | What does a port access read, change, or acknowledge? |
 | [Lattice pins](lattice-pins.md) | Which ispLSI1016 pin carries each signal? |
 | [Lattice design source](lattice-source.md) | What is U7's design, every equation commented, and how is it built? |
-| [OTI-087 registers](oti087-registers.md) | What do the extended VGA registers control? |
+| [OTI-087X registers](oti087-registers.md) | What do the extended VGA registers control? |
 | [Clock selections](clocks.md) | Which frequency does each OTI-068 selection produce? |
 | [Bt481 modes](bt481-modes.md) | How do Command Register A and pixel packing select a color mode? |
 | [Host commands](host-commands.md) | Which bytes, phases, and completion values does each command use? |

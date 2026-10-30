@@ -1,18 +1,26 @@
 Index or port,Field or value,Source
 $102,Bit 0 enable VGA/palette/VRAM access,OTI-087 p30
-$00,"Bit 1 set = OTI-083, clear = OTI-087",Oak BIOS TBv1.01B/TEv1.02; OAK.TXT
+$3DE,"Read/write index. Oak's BIOS and NT driver read it, keep the byte, and write it back to restore the index they found (BIOS file offset $1BF0, NT OAK.SYS $2D50-$2DF1). Oak's NT driver finds the chip by writing $11 and checking that bits 4-0 read back $11","Oak BIOS TEv1.02; NT driver; third-party OAK.TXT (""bit 0-7 Index"", 83/87)"
+$00,"Reads 1 on the OTI-087X. Oak's DOS installers name an 087-family chip (087B, 087D, 087X, 089) only when it reads 1 (INSTALL.EXE file offset $2B8B)","Oak 87X DOS kit and 87B DOS kit; Programmer's Guide, 1994 section 25.4 and the third-party XFree86 driver also take 1 as an OTI-087"
+$00,"Bit 1 set = OTI-083, clear = OTI-087",Oak BIOS TEv1.02 and TBv1.01B; third-party OAK.TXT
+$00,"Oak's OTI-087X drivers load only when it reads 1 or 2; the OTI-087B drivers accept 1-3, the NT driver 1-4",87X drivers; 87B drivers; NT driver
+$01,"Bits 7-4 revision: 0 = 087B, 1 = 087D, 2 = 087X, 3 = 089. The OTI-087X reads $2x. Oak's DOS installers branch on these four values and title themselves ""087B"", ""087D"", ""087X"" or ""089 Driver Install"" (INSTALL.EXE file offsets $2BB1-$2C02, titles $80E7-$8146)",Oak 87X DOS kit and 87B DOS kit
+$01,Oak's 87X Windows drivers refuse to load when bits 7-4 are 0 (an 087B); Oak's hi-color drivers pick their DAC setting table from the same test,87X drivers
+$01,Bits 3-0: no Oak program reads them; every reader masks with $F0,Oak DOS and Windows kits
 $02,"Bit 0 (read only) 0 = 286 bus, 1 = 386/486","OAK.TXT; Programmer's Guide, 1994"
-$02,Bits 2-1 memory size 0=256K 1=512K 2=1MB 3=2MB,Oak BIOS TBv1.01B/TEv1.02
-$03,Bits 2-0 test mode,OTI-087 p33
-$03,Bit 4 flush write cache after each write,OTI-087 p33
-$03,"Bit 5 VSYNC test: every change of this bit, 0 to 1 or 1 to 0, toggles the VSYNC output once; it works without bit 7",OTI-087 p33
-$03,Bit 6 I/O write test,OTI-087 p33
-$03,"Bit 7 enable the test modes of bits 2-0 (""global test modes""); must be 0 in normal operation",OTI-087 p33
+$02,Bits 2-1 memory size 0=256K 1=512K 2=1MB 3=2MB,Oak BIOS TEv1.02 and TBv1.01B; Oak's VESA extension OTIVBE.COM in the 87X DOS kit
+$03,"Bits 2-0 test mode: 000 ""Test CRTC"", 010 ""Test waveform RAM"", 101 ""Scan Test Attribute Controller""; 001, 011, 100, 110 and 111 reserved. Oak describes no procedure, output or read-back for 000 and 010, and no other source found does (every OTI-087 databook copy found, VGA Museum's two downloads included, is the same scan and lacks printed pp31-32)",OTI-087 p33
+$03,"Mode 101: in text mode the font data and the attribute data come from system data bits 15-8 and 7-0 instead of video memory; in graphics mode the pixel data comes from bits 15-8. On this card SD8-SD15 are open and SD0-SD7 are the Z180 data bus, so the font and pixel data come from unconnected pins",OTI-087 p33; netlist U28
+$03,"Bit 4: flush the write cache immediately after each write. Oak's BIOS writes $10 with bit 7 = 0 (TEv1.02 file offset $1E0E; again $00 then $10 at $1E20 and $1E28 when ext $07 bit 2 is 0), and so do Oak's OS/2 mode tables",OTI-087 p33; TEv1.02
+$03,"Bit 5 VSYNC test: ""This bit will cause the Vsync to toggle when it is changed from 1 to 0 or from 0 to 1""",OTI-087 p33
+$03,Bit 6 I/O write test: an I/O write command is not clocked by MCLK. Must be 0 in normal operation,OTI-087 p33
+$03,"Bit 7: ""Enable global test modes"". Must be 0 in normal operation. Default $00",OTI-087 p33
+$03,"Oak's software writes only $00 and $10. Its Windows drivers, VDD and VESA extension read the byte and write it back unchanged (STD8_SC.DRX read at $8DC4, write-back at $8DFC; VDD87X.38X $1239 and $1437; OTIVBE.COM $497 and $4B5)",87X drivers; 87X DOS kit
 $04,Bit 0 one wait on first write,OTI-087 p33-34
 $04,Bit 1 one wait on write hit,OTI-087 p33-34
 $04,Bit 2 one wait on read hit,OTI-087 p33-34
 $04,Bit 3 486 minimum wait,OTI-087 p33-34
-$04,Bit 4 turbo local bus,OTI-087 p33-34
+$04,"Bit 4 turbo local bus; 0 required on ""OTI-087 Rev A and OTI-087 Rev B""",OTI-087 p34
 $04,Default $0F,OTI-087 p33-34
 $05,Bit 0 Oak mapping (0 = VGA A0000/B8000 windows),OTI-087 p34-35
 $05,Bit 1 DMA access disable,OTI-087 p34-35
@@ -27,14 +35,17 @@ $07,Bit 6 1 = MCLK under 44 MHz,OTI-087 p36
 $07,Bit 7 CPU clock (local bus),OTI-087 p36
 $08,Loaded at reset from the strap lines MD15-MD8. Bits 1-0 local bus type,OTI-087 p37
 $08,Bits 3-2 color chip type (00 = Bt476-style pass-through),OTI-087 p37
-$08,Bit 6 feature connector,OTI-087 p37
-$08,Bit 7 DRAM WE/CAS pin assignment,OTI-087 p37
+$08,"Bit 6 feature connector (local-bus pinouts). On the OTI-087X only bits 6, 1, 0 = 101 and 110 are listed: both put EPCLK on pin 19 and EPDATA on pin 20, and pin 99 does not apply",OTI-087 p37; OTI-087X addendum
+$08,Bit 7 reserved on the OTI-087X (the databook's DRAM WE/CAS pin choice),OTI-087X addendum; OTI-087 p37
 $09-$0B,8 scratch bits each,OTI-087 p37
+$0C,Bits 7-0 not used,OTI-087 p37
 $0D,Bits 2-0 mirror index $20,OTI-087 p38
 $0D,Bits 4-3 mirror index $21 bits 3-2,OTI-087 p38
 $0D,Bit 5 mirrors index $06 bit 2 (CSEL2),OTI-087 p38
+"$0E, $0F",Bits 7-0 not used,OTI-087 p38
 $10,Loaded at reset from the strap lines SD7-SD0,OTI-087 p38
 $11,"Bits 3-0 read segment, 7-4 write segment (compatibility alias of $23/$24)",OTI-087 p38-39
+$12,Bits 7-0 not used,OTI-087 p39
 $13,Bit 3 AT-bus zero-wait-state enable,OTI-087 p39
 $13,Bit 4 16-bit BIOS ROM,OTI-087 p39
 $13,Bit 5 disable BIOS at C0000,OTI-087 p39
@@ -43,10 +54,11 @@ $13,Bit 7 16-bit memory,OTI-087 p39
 $14,Bit 0 VT bit 10,OTI-087 p39-40
 $14,Bit 1 VBS bit 10,OTI-087 p39-40
 $14,Bit 2 VRS bit 10,OTI-087 p39-40
-$14,Bit 3 start address bit 8,OTI-087 p39-40
+$14,"Bit 3 start address bit 16, the same bit as ext $17 bit 0 (the databook calls it ""High Order Start Address Bit 8"")",OTI-087 p39-40
 $14,Bit 7 interlace,OTI-087 p39-40
 $15,Odd-field vertical retrace start in interlace (character units),OTI-087 p40
-$17,Bits 2-0 start address bits 10-8,OTI-087 p40
+$16,Bits 7-0 not used on the OTI-087,OTI-087 p40
+$17,"Bits 2-0 start address bits 18-16, above CRTC $0C/$0D (the databook's ""High Order Start Address Bit 10-8""); in packed 256-color mode the start address counts 8-byte units","OTI-087 p40; the 8-byte unit from the third-party XFree86 OAKAdjust and Programmer's Guide 25.6, which name no 087 revision"
 $18,"Bit 0 data (read from CSEL0, written to CSEL1)",OTI-087 p40
 $18,Bit 1 chip select,OTI-087 p40
 $18,Bit 2 1 = CSEL2-0 drive the EEPROM instead of the clock chip,OTI-087 p40
@@ -67,12 +79,12 @@ $22,Bit 5 CPU latch swap,OTI-087 p42
 $22,Default 0,OTI-087 p42
 $23,Bits 4-0 CPU address bits 20-16 for reads in the A0000 window,OTI-087 p42
 $24,Bits 4-0 CPU address bits 20-16 for writes,OTI-087 p42
-$25,Writes both $23 and $24,OTI-087 p42
+$25,Writes both $23 and $24; a read returns $24. The Programmer's Guide tells an OTI-087 from other Oak chips by writing $0A to $24 and reading it from $25,OTI-087 p42; Programmer's Guide listing 25.4
 $30,Bit 0 enable,OTI-087 p43
 $30,Bit 1 planar (1) / packed (0),OTI-087 p43
 $30,Bit 2 use color pattern register,OTI-087 p43
 $30,Bit 3 pixel mask enable,OTI-087 p43
-$30,Bit 4 mask bit order,OTI-087 p43
+$30,"Bit 4 mask bit order: 0 = mask bit 7 is pixel 7, 1 = mask bit 7 is pixel 0. Oak's 87X drivers set it; Oak's 87B drivers keep it 0 (X versus earlier)",OTI-087 p43; 87X drivers; 87B drivers
 $31,8 bits,OTI-087 p43
 $32,8 bits,OTI-087 p43
 $33,8 bits; bit 7 is the first pixel,OTI-087 p44
@@ -84,15 +96,15 @@ $42/$43,Pixels from the start of the display area,OTI-087 p45
 $44/$45,Starting position inside the 64x64 pattern,OTI-087 p45
 $44/$45,"The cursor always ends at 63, no wrapping",OTI-087 p45
 $44/$45,"Presets skip left/top, not right/bottom",OTI-087 p45
-$47/$48/$49,24-bit pattern address in 8-byte units (packed mode),OTI-087 p45 (address registers); OAK.TXT and Oak's later Spitfire specification p7-27 (units)
+$47/$48/$49,24-bit pattern address in 8-byte units (256-color packed mode),OTI-087 p45 (address registers); Oak 87X Windows driver STD8_HC.DRV writes $01FE80 for a pattern at $FF400 (where the driver puts it); OAK.TXT
 $47/$48/$49,"$47 = bits 23-16, $48 = bits 15-8, $49 = bits 7-0",OTI-087 p45
 $47/$48/$49,64x64 x 2-bit pattern,OTI-087 p45
 $47/$48/$49,No index $46 listed,OTI-087 p45
 $4A/$4B,8-bit color values,OTI-087 p46
-$4A/$4B,"Pattern code 00 shows $4A, code 01 shows $4B (hardware cursor)",Oak Windows driver STD8_HC.DRV
-$4C,"Bit 0 ""HC color control"": 0 = cursor off, 1 = cursor on; power-on 0",OTI-087 p46; Oak Windows driver writes $15 to show the cursor and $14 to hide it
+$4A/$4B,"Pattern code 00 shows $4A, code 01 shows $4B (hardware cursor)",Oak 87X Windows driver STD8_HC.DRV
+$4C,"Bit 0 ""HC color control"": 0 = cursor off, 1 = cursor on; power-on 0",OTI-087 p46; Oak 87X Windows driver writes $15 to show the cursor and $14 to hide it
 $4C,"Bit 1 0 = cursor in overscan mode, 1 = over the overscan",OTI-087 p46
-$4C,"Bit 2 bit order inside each byte: 0 = bit 0 is the leftmost pixel, 1 = bit 7; byte order and plane order stay the same",OTI-087 p46; Spitfire p7-27
+$4C,"Bit 2 bit order inside each byte: 0 = bit 0 is the first pixel, 1 = bit 7 is",OTI-087 p46
 $4C,Bit 3 blink enable,OTI-087 p46
 $4C,Bits 5-4 blink every 4/8/16/32 frames,OTI-087 p46
 $4C,Default $10,OTI-087 p46

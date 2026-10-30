@@ -22,20 +22,21 @@ Production changes: [Board](../../docs/02-board.md#production-changes).
 |---|---|
 | [netlist.csv](netlist.csv) | One row per part pin, with printed symbol name, net, confidence, and qualifications |
 | [nets.csv](nets.csv) | Exact inverse: net to semicolon-separated `refdes.pin` members |
-| [bom.csv](bom.csv) | All schematic parts, packages, and photo-based production identifications |
+| [bom.csv](bom.csv) | Prototype part identities and separately qualified production values; `value_or_part` is the production result, `prototype_part` preserves the drawing, and the production fields identify the photo/card and any reading limit |
 | [pinout_checks.csv](pinout_checks.csv) | All 756 pins of the 26 schematic ICs compared with datasheet package pinouts |
 | [pinout_differences.csv](pinout_differences.csv) | Every nonmatching, omitted, unnamed, or differently notated symbol pin |
 | [bt478_bt481_pin_changes.csv](bt478_bt481_pin_changes.csv) | All 44 RAMDAC positions compared between the prototype and production device families |
-| [uncertain_pins.csv](uncertain_pins.csv) | All medium- and low-confidence entries, including conventional passive numbering and hidden power |
+| [uncertain_pins.csv](uncertain_pins.csv) | All medium- and low-confidence entries, including assigned passive pin numbers and hidden power |
 | [singleton_nets.csv](singleton_nets.csv) | Named nets with just one pin; useful for locating unrepresented connections |
+| [production.json](production.json) | Values read from the production cards' photos. `build_netlist.py` applies them to `bom.csv` and appends their notes to the prototype pin rows, whose part and net fields stay the drawing's |
 | [SOURCES.md](SOURCES.md) | Datasheets used for the pinout comparison, with links and pages |
 | [audit.json](audit.json) | Machine-readable verification results and output hashes |
 
 Three scripts make these files. They use only the Python standard library and write into
 this folder:
 
-- [build_netlist.py](../../tools/netlist/build_netlist.py) holds the transcription and
-  writes the netlist.
+- [build_netlist.py](../../tools/netlist/build_netlist.py) holds the transcription,
+  applies [production.json](production.json), and writes the netlist.
 - [check_pinouts.py](../../tools/netlist/check_pinouts.py) holds datasheet pin maps,
   entered separately, and compares every IC pin with them.
 - [audit_netlist.py](../../tools/netlist/audit_netlist.py) checks the exported files and
@@ -54,6 +55,17 @@ python tools/netlist/audit_netlist.py
 Identical signal labels join across schematic sheets. A thick bus outline groups
 signals visually; each individual label defines its electrical net. Datasheets supply
 package functions for pins omitted from the drawing.
+
+`netlist.csv`, `nets.csv` and the pin-audit files remain prototype transcriptions. Their
+`part` fields are prototype labels, not production component values, and `high` means
+clear on the drawing, not verified on the production board. Use the production result
+in `bom.csv` and the documented production connections for an emulator or replica.
+An unverified production value is not permission to fall back silently to the drawing.
+Production TP1/TP2 correspond to the drawing's clock JP1/JP2; physical three-pad JP1
+beside SRAM is a different part. Production C37 must not be renamed C33 by assumption.
+The generator reads `production.json` for per-part production fields and pin-note
+appends after the prototype transcription. Update that data file with the BOM
+changes so regeneration preserves the qualified production values.
 
 - `pin_name` keeps the symbol text as printed, older names included. Blank means no name
   is printed or the pin is omitted; the datasheet name is in `pinout_checks.csv`. The CSV
@@ -175,7 +187,7 @@ The CSV files describe the prototype. What production changes:
 - [RS2 / U31.19](#rs2--u3119)
 - [CPU clock](#cpu-clock)
 - [U7 Y2 / pin 33](#u7-y2--pin-33)
-- [M2B0 bodge](#m2b0-bodge)
+- [7M rework](#7m-rework)
 - [GALs](#gals)
 - [J2 / J3](#j2--j3)
 - [U11 SRAM](#u11-sram)
@@ -202,25 +214,29 @@ four-read command sequence and ordinary pixel-mask writes ([DAC access](../../do
 
 ### CPU clock
 
-Photo markings identify Z8S18020VSC and a 36.000 MHz KXO-HC1 oscillator. X1/C1/C2/R38 are
-unfitted.
+s20/s108/s109 identify Z8S18020VSC; s128 identifies Z8S18016VSC. All four cans read
+36.0000 MHz. X1/C1/C2/R38 are unfitted. The resulting 18 MHz reset clock exceeds
+the s128 CPU's 16 MHz grade; see [processor and clock](../../docs/05-z180.md#processor-and-clock).
 
 The production oscillator feeds EXTAL; the Z180 divides it to 18 MHz after reset ([clock path](../../docs/05-z180.md#processor-and-clock)).
 
 ### U7 Y2 / pin 33
 
-The prototype shows a stub. On production it is wired to 7M
-([Lattice clocks](../../docs/04-capture-logic.md#clocks-and-phase)).
+The prototype shows a stub. The production card adds a wire from the 7M slot finger to
+the Lattice socket ([7M rework](#7m-rework),
+[Lattice clocks](../../docs/04-capture-logic.md#clocks-and-phase)).
 
-### M2B0 bodge
+### 7M rework
 
-The resistor and wire on the back are the M2B0 pull-down. Why the card needs it:
-[Copying video writes](../../docs/04-capture-logic.md#copying-video-writes). Its value:
-[production changes](../../docs/02-board.md#production-changes).
+The resistor, sleeved part and wire on the back are soldered to slot pin 36 (7M). A wire on
+the front takes 7M on to the Lattice socket:
+[production changes](../../docs/02-board.md#production-changes). The drawn M2B0 net
+(U1.35, U7.14) has no pull-down:
+[copying video writes](../../docs/04-capture-logic.md#copying-video-writes).
 
 ### GALs
 
-Production uses three AMI 18CV8s and one National GAL16V8A
+Production uses three AMI 18CV8s on s20/s108/s109 or ICT 18CV8s on s128, plus one National GAL16V8A
 ([PLD markings](../../docs/02-board.md#pld-markings),
 [what each PLD does](../../docs/07-glue-logic.md)).
 
@@ -235,8 +251,10 @@ pin: [connectors and cables](../../docs/02-board.md#connectors-and-cables).
 
 ### U11 SRAM
 
-Photo reads **TC551001FL-10**, whereas the symbol says 431000. Toshiba's 32-pin map
-agrees with the transcribed address/data/control positions.
+s20/s108/s109 read **TC551001FL-10** (100 ns), whereas the symbol says 431000.
+s128 reads **NEC D431000AGW-70L** (70 ns), with **ES** also printed. Toshiba's
+32-pin map agrees with the transcribed address/data/control positions; its
+100 ns access and 60 ns write-pulse timing are not specifications for the NEC part.
 
 ### U16 EEPROM
 
@@ -246,20 +264,47 @@ of 16 bits. What it holds and how custom code can use it:
 
 ### Logic families
 
-Photo identifies PC74HCT574T latches, 74F125, and ACT32; symbols use SN74HCT574DW, 74125, and
-7432. Pin agreement does not establish equal thresholds, drive, or delay.
+s20/s108/s109 identify PC74HCT574T latches, 74F125 and ACT32; s128 reads
+DV74HCT574A, F125 and ACT32. Symbols use SN74HCT574DW, 74125 and 7432.
+Pin agreement does not establish equal thresholds, drive or delay.
 
 ### R2 / R32 / JP1
 
-Front photo: R2 reads `SOMC1603 330G`, `DALE 9441`, a Dale 16-pin isolated network, 33 ohm, 2
-percent, versus drawn 22 ohm. R32 reads `202`, 2.0 kohm versus drawn
-10K.
+R2 reads `SOMC1603 330G`, `DALE 9441`: 33 ohm, 2 percent on s20/s108/s109,
+versus 22 ohm on the drawing. The [s128](../../docs/sources.md#s128) BI network reads
+`9544 / 8A330 / UK MADE`. BI's [marking table](../../docs/sources.md#s132)
+p4 maps 8A330 to 628A330: eight isolated 33 ohm resistors. Its standard tolerance
+is 2 percent, with optional 1 percent; the photo does not independently establish
+the individual tolerance. The six Oak-bound traces identify R2 on each card.
 
-JP1 contains an axial resistor on the production board. Source: [production photo](../../docs/sources.md#s20).
+R32 reads `202` (2.0 kohm) on [s20](../../docs/sources.md#s20) and
+[s108](../../docs/sources.md#s108), but `103` (10 kohm) on [s109](../../docs/sources.md#s109).
+Its blue face on s128 is unreadable. Keep the card identity with this value.
+
+Physical production JP1 beside SRAM has three pads. Its resistor joins the top and
+middle pads; yellow-violet-black bands on s20 read 47 ohm. The other photographs
+hide those bands. This is not the drawing's two-pad clock JP1: production clock
+positions TP1 and TP2 are open on all four cards. Do not import the drawn MS1-to-ground
+connection into the physical JP1 resistor.
 
 ### Other footprints
 
 Production footprints near the headers are absent from the [prototype schematic](../../docs/sources.md#s26).
+The no-IC U13/U14/U19 positions carry blue bypass wires. R22 is fitted and reaches
+Oak pin 24 (SWSENSE); it is not the CINT pull-up. Bulk capacitors vary by card:
+
+| Physical part | s20 | s108 | s109 | s128 |
+|---|---|---|---|---|
+| C8 | 22 uF / 20 V | 10 uF / 25 V | 22 uF / 25 V | 15 uF / 25 V |
+| C35 | 10 uF / 25 V | 10 uF / 25 V | 10 uF / 25 V | 15 uF / 25 V |
+| C37 | 10 uF / 25 V | 22 uF / 20 V | marking unreadable | 22 uF / 16 V |
+
+C13, C32, R17 and R26 have no fitted bodies where clearly visible. R18 and R33-R37
+are also empty on s128. Do not turn an empty resistor footprint into an assumed
+open circuit without checking the other routing. Small ceramic chip capacitors
+have no legible value marks; the wound-looking small axial bodies on s128 likewise
+have no readable capacitance code. The drawing's 0.1 uF and 22 pF values remain
+prototype values, not photographic identifications.
 
 ## Netlist verification
 

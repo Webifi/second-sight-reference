@@ -9,8 +9,8 @@ The images read from Sequential's card are in [`original/`](../original/README.m
 
 | File | What it is |
 |---|---|
-| [`firmware/SecondSight_firmware_v1.5-B5CB.bin`](firmware/SecondSight_firmware_v1.5-B5CB.bin) | Firmware 1.5, for a card with the original Lattice chip |
-| [`firmware/SecondSight_firmware_v2.0-1C46.bin`](firmware/SecondSight_firmware_v2.0-1C46.bin) | Firmware 2.0, for a card with Lattice v2.0 |
+| [`firmware/SecondSight_firmware_v1.5-CBFC.bin`](firmware/SecondSight_firmware_v1.5-CBFC.bin) | Firmware 1.5, for a card with the original Lattice chip |
+| [`firmware/SecondSight_firmware_v2.0-3277.bin`](firmware/SecondSight_firmware_v2.0-3277.bin) | Firmware 2.0, for a card with Lattice v2.0 |
 | [`lattice/Lattice_v2.0-BBB1_ispLSI1016.jed`](lattice/Lattice_v2.0-BBB1_ispLSI1016.jed) | Lattice v2.0 for an ispLSI1016, built by Lattice pDS 2.61 |
 | [`lattice/Lattice_original-BE8C_ispLSI1016.jed`](lattice/Lattice_original-BE8C_ispLSI1016.jed) | The original Lattice chip, for an ispLSI1016: the dump of Sequential's chip, which pDS 2.61 rebuilds fuse for fuse |
 

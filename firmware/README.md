@@ -23,6 +23,12 @@ labels and ports named, and tables written as data rows.
 Firmware 1.5 and 2.0 differ only in E15 and the version byte; a fix other than E15 goes
 into both.
 
+## Contents
+
+- [Building](#building)
+- [Changing the firmware](#changing-the-firmware)
+- [Putting it on a card](#putting-it-on-a-card)
+
 ## Building
 
 1. Install the ASxxxx assembler, version 6.10. The [download page](https://shop-pdp.net/ashtml/asxget.php)
@@ -51,8 +57,8 @@ lines resolve. The image goes to `build/firmware/<name>.bin`, 131,072 bytes. For
 For any other source it lists every byte range that differs from ROM 1.4:
 
 ```text
-SecondSight_v1_5.asm: 131072 bytes, byte sum $B5CB, SHA-256 45d6fb82...a562
-  5353 bytes differ from ROM 1.4:
+SecondSight_v1_5.asm: 131072 bytes, byte sum $CBFC, SHA-256 19e9b6f5...6846
+  5439 bytes differ from ROM 1.4:
     ...
 ```
 
@@ -93,13 +99,47 @@ Two rules keep the rest of the ROM working:
 2. **Put new code in a FREE SPACE block.** Search `src/` for `FREE SPACE`. There are
    five, all copied into SRAM at boot:
 
-| Block | Size | Notes |
-|---|---|---|
-| $0003-$0037 | 53 bytes | `src/boot.asm`. Always mapped. ROM 1.4 runs no RST here. Firmware 2.0 uses $0003-$0032 for E15 |
-| $003B-$007F | 69 bytes | `src/boot.asm`. Always mapped. Covers the NMI entry at $0066; NMI never fires on this card. Firmware 2.0 uses $003B-$0079 for E15 |
-| $1EC4-$1FFF | 316 bytes | `src/mainloop.asm`. Always mapped. Firmware 1.5 and 2.0 use $1EC4-$1ED9 for E26, $1EE6-$1EF6 for `call_in_bank0` (runs a routine in $9776-$9FFF from any memory layout), $1F00-$1FEB for E5 and E2, and $1FEC-$1FF7 for E10; 2.0 also uses $1EDA-$1EE5 for E15 |
-| $9776-$9FFF | 2,186 bytes | `src/text.asm`. Mapped only in the firmware's usual layout (BBR = 0): not from the double-hires or Super Hi-Res renderers, where logical $9xxx shows other memory; elsewhere `call_in_bank0` reaches it. Firmware 1.5 and 2.0 use $9776-$9B6D for E16, E17, E1, E19 and E8-E9, $9B6E-$9B89 and $9C75-$9CF9 for the UploadData split at 512 KB, $9B8A-$9B98 for E29, $9C00-$9C74 for E6, $9D00-$9ECC for E7 and $9ECD-$9FA4 for E10 |
-| $B025-$B1FF | 475 bytes | `src/superhires.asm`. Copied with the Super Hi-Res renderer to SRAM bank 1 and run there, so only that renderer's code can use it. Firmware 1.5 and 2.0 use $B025-$B05C for E13. E13's renderer also leaves $A3BE-$AA9C (1,759 bytes) free the same way; 2.0 uses $A3BE-$A472 of it for E15, and both use $A480-$A5A6 for E11 and $A600-$A9FF for E13's page tables. In the bank 0 copy, which nothing runs, $A600-$A9FF is ScrollScreen's buffer |
+### $0003-$0037 (53 bytes)
+
+`src/boot.asm`. Always mapped. ROM 1.4 runs no RST here. Firmware 2.0 uses $0003-$0032
+for E15.
+
+### $003B-$007F (69 bytes)
+
+`src/boot.asm`. Always mapped. Covers the NMI entry at $0066; NMI never fires on this
+card. Firmware 2.0 uses $003B-$0079 for E15.
+
+### $1EC4-$1FFF (316 bytes)
+
+`src/mainloop.asm`. Always mapped.
+
+Firmware 1.5 and 2.0 use $1EC4-$1ED9 for E26, $1EE6-$1EF6 for `call_in_bank0` (runs a
+routine in $9776-$9FFF from any memory layout), $1F00-$1FEB for E5 and E2, and
+$1FEC-$1FF7 for E10; 2.0 also uses $1EDA-$1EE5 for E15.
+
+### $9776-$9FFF (2,186 bytes)
+
+`src/text.asm`. Mapped only in the firmware's usual layout (BBR = 0): not from the
+double-hires or Super Hi-Res renderers, where logical $9xxx shows other memory;
+elsewhere `call_in_bank0` reaches it.
+
+Firmware 1.5 and 2.0 use $9776-$9B6D for E16, E17, E1, E19 and E8-E9, $9B6E-$9B89 and
+$9C75-$9CF9 for the UploadData split at 512 KB, $9B8A-$9BB1 for E29, $9C00-$9C74 for E6,
+$9D00-$9ECC for E7 and $9ECD-$9FA4 for E10.
+
+### $B025-$B1FF (475 bytes)
+
+`src/superhires.asm`. Copied with the Super Hi-Res renderer to SRAM bank 1 and run
+there, so only that renderer's code can use it.
+
+Firmware 1.5 and 2.0 use $B025-$B05C for E13.
+
+E13's renderer also leaves $A3BE-$AA9C (1,759 bytes) free the same way; 2.0 uses
+$A3BE-$A472 of it for E15, and both use $A480-$A5A6 for E11 and $A600-$A9FF for E13's
+page tables. In the bank 0 copy, which nothing runs, $A600-$A9FF is ScrollScreen's
+buffer.
+
+### Using a free-space block
 
 Each block ends with `.org`, which puts the code after it back at its fixed address.
 Write your code between the block's label and that `.org`:

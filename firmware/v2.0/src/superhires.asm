@@ -99,7 +99,7 @@ set_videomode_superhires:
                 out     (c), a
                 call    build_320_tables
                 call    build_640_tables
-                ;; Read segment $C, chain 4 with extended memory, Oak $22 = $38, the pixel
+                ;; Read segment $C, chain 4 with extended memory, Oak $22 = $38 (read cache off), the pixel
                 ;; mask on and all pixels enabled, graphics mode $51 (write mode 1).
                 ld      a, #0x23
                 ld      bc, #OAK_INDEX
@@ -116,7 +116,7 @@ set_videomode_superhires:
                 ld      a, #0x22        ; Oak Feature Select Register
                 ld      bc, #OAK_INDEX
                 out     (c), a
-                ld      a, #0x38        ; Enable 64-bit graphics latch / read+write cache / swap latch
+                ld      a, #0x38        ; 64-bit graphics latch, write cache, CPU latch swap; read cache off
                 ld      bc, #OAK_DATA
                 out     (c), a
                 ld      a, #0x30        ; Select Color Expansion Control Register
@@ -242,8 +242,8 @@ shr_exit:
 ;; ld a,(bc) / ld h,#0x3C+n / ld l,a / add hl,hl / add hl,hl / ldd: 42 clocks a byte,
 ;; and tables at $F000 + n x $400 + 4 x b. This version takes 30.5 clocks a byte, and
 ;; the page table in B lets one copy of the code serve all 16 palettes, so the per-call
-;; palette dispatch goes too. A full screen takes about 68 ms instead of at least
-;; 92 ms. docs/reference/errata.md, E13.
+;; palette dispatch goes too. A full screen takes about 75 ms instead of about
+;; 99 ms. docs/reference/errata.md, E13.
 ;; ----------------------------------------------------------------------------------------
 ;; While converting: band_source = where the source continues when SP is the firmware's
 ;; own stack again; main_sp = the firmware's stack pointer while SP walks the source.
@@ -1017,8 +1017,8 @@ fill_line_buffer:
 ;; builds the tables, so a program that used the space while the renderer was off loses
 ;; nothing. The tables must start on a page: the converter's ld h,(hl) step reads an
 ;; entry's page from them with L = the source byte. In bank 0 the same 1 KB is
-;; ScrollScreen's buffer (scroll_buffer, src/text.asm): setup copies it over before it
-;; builds the tables, so the two never meet.
+;; command_buffer (src/text.asm), used by ScrollScreen and SetPalette: setup copies it
+;; over before it builds the tables, so they never meet.
                 .org    0xA600
 converter_page_tables:
                 .ds     0x400

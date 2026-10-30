@@ -941,20 +941,18 @@ for row in rows:
     key = (row["refdes"], int(row["pin_number"]))
     if key in pin_notes:
         row["confidence"], row["note"] = pin_notes[key]
-for ref in ["U2", "U3", "U5", "U6"]:
-    parts[ref]["production_part"] = "PC74HCT574T (Philips)"
-parts["R2"]["production_part"] = "Dale SOMC1603 330G resistor array (photo)"
-parts["R2"][
-    "notes"
-] = "SOMC 16-pin isolated network, 330 = 33 ohms, G = 2 percent, versus 22 ohms on the schematic; not measured."
-parts["R32"]["production_part"] = "SMD resistor marked 202 (photo)"
-parts["R32"][
-    "notes"
-] = "202 = 2.0K, versus 10K on the schematic; not measured."
-parts["JP1"]["production_part"] = "Axial resistor fitted in jumper position (photo)"
-parts["JP1"][
-    "notes"
-] = "Value and electrical endpoints not measured; do not model as a closed zero-ohm shunt."
+# Production values read from the photographed cards, kept apart from the prototype
+# transcription above. production.json sets bom.csv fields per part and appends notes to
+# the prototype pin rows; the rows' part and net fields stay the drawing's.
+PRODUCTION_FIELDS = {"value_or_part", "production_part", "notes"}
+production = json.loads((ROOT / "production.json").read_text(encoding="utf-8"))
+for ref, fields in production["parts"].items():
+    assert set(fields) <= PRODUCTION_FIELDS, (ref, set(fields) - PRODUCTION_FIELDS)
+    parts[ref].update(fields)
+for entry in production["pin_notes"]:
+    for row in rows:
+        if row["refdes"] in entry["refdes"]:
+            row["note"] = (row["note"] + " " + entry["text"]).strip()
 
 
 def write_csv(name, data, fields):

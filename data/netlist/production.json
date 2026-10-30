@@ -1,0 +1,418 @@
+{
+  "parts": {
+    "U2": {
+      "production_part": "Philips PC74HCT574T (s20/s108/s109). s128: fitted; DV74HCT574A / AVG9512 DDI; 74HCT574A marking",
+      "value_or_part": "PC74HCT574T (s20/s108/s109); DV74HCT574A (s128)"
+    },
+    "U3": {
+      "production_part": "Philips PC74HCT574T (s20/s108/s109). s128: fitted; DV74HCT574A / AVG9512 DDI; 74HCT574A marking",
+      "value_or_part": "PC74HCT574T (s20/s108/s109); DV74HCT574A (s128)"
+    },
+    "U5": {
+      "production_part": "Philips PC74HCT574T (s20/s108/s109). s128: fitted; DV74HCT574A / AVG9512 DDI; 74HCT574A marking",
+      "value_or_part": "PC74HCT574T (s20/s108/s109); DV74HCT574A (s128)"
+    },
+    "U6": {
+      "production_part": "Philips PC74HCT574T (s20/s108/s109). s128: fitted; DV74HCT574A / AVG9512 DDI; 74HCT574A marking",
+      "value_or_part": "PC74HCT574T (s20/s108/s109); DV74HCT574A (s128)"
+    },
+    "R2": {
+      "production_part": "s20/s108/s109: Dale SOMC1603 330G, eight isolated 33-ohm resistors, 2 percent. s128: BI 9544 / 8A330 / UK MADE, decoded by BI marking table as 628A330, eight isolated 33-ohm resistors. Standard tolerance 2 percent, optional 1 percent; individual tolerance not proved from the photo.",
+      "notes": "Dale SOMC1603 330G on s20/s108/s109 is 33 ohm, 2 percent. BI 8A330 on s128 is 628A330, eight isolated 33 ohm resistors per manufacturer marking table. Standard 2 percent, optional 1 percent; individual tolerance not proved. Prototype 22 ohm remains historical.",
+      "value_or_part": "33ohm (all four cards)"
+    },
+    "R32": {
+      "production_part": "R32 reads 202 (2.0 kohm) on s20/s108 and 103 (10 kohm) on s109; all are production cards. s128: fitted; NO legible numeric code on exposed blue face; Unknown; neither 2K nor 10K established on this card",
+      "notes": "Own R32 silk identifies 202 (2.0 kohm) on s20/s108 and 103 (10 kohm) on s109. s128 is fitted but unreadable. Do not use a drawing value or another card as an unlabeled fallback.",
+      "value_or_part": "2K (s20/s108); 10K (s109); UNVERIFIED (s128)"
+    },
+    "JP1": {
+      "production_part": "Drawing JP1 corresponds to production clock footprint TP1, open in the photos. Physical three-pad JP1 beside SRAM is a different component position. s128: TP1 two-pad clock strap open; associated pull-up reads 103.",
+      "notes": "Prototype clock strap corresponds to production TP1, open. Physical production JP1 beside SRAM has three pads and a 47-ohm nominal resistor across top/middle on s20; it must not inherit this row's MS1/GND nets.",
+      "value_or_part": "OPEN (production TP1)"
+    },
+    "R1": {
+      "value_or_part": "22ohm (s128, probable); other cards unverified",
+      "production_part": "Fitted at R1; marking blurred in s20/s108/s109. The drawn 22 ohm is not photo-verified. s128: fitted; apparent 220; 22 ohm probable, medium confidence"
+    },
+    "R3": {
+      "value_or_part": "10K (s128; probable s109); s20/s108 unreadable",
+      "production_part": "Physical R3 appears marked 103 on s109; partly covered on s20/s108. Code confidence medium; production SETUP endpoint is not independently traced here. s128: fitted; 103 (upside-down); 10 kohm"
+    },
+    "R4": {
+      "value_or_part": "22ohm (probable)",
+      "production_part": "Fitted; apparent 220 (22 ohm) on s20, medium optical confidence. s128: fitted; apparent 220; 22 ohm probable, low-medium confidence"
+    },
+    "R12": {
+      "value_or_part": "22ohm (probable)",
+      "production_part": "Fitted; apparent 220 (22 ohm) on s20, medium optical confidence. s128: fitted; apparent 220; 22 ohm probable, low-medium confidence"
+    },
+    "R13": {
+      "value_or_part": "22ohm (s20/s108/s109 probable); UNVERIFIED (s128)",
+      "production_part": "Fitted; apparent 220 (22 ohm) on s20, medium optical confidence. s128: fitted; unreadable"
+    },
+    "R6": {
+      "value_or_part": "10K",
+      "production_part": "SMD resistor marked 103; 10 kohm (production photo). s128: fitted; 103; 10 kohm"
+    },
+    "R14": {
+      "value_or_part": "10K",
+      "production_part": "SMD resistor marked 103; 10 kohm (production photo). s128: fitted; 103; 10 kohm"
+    },
+    "R15": {
+      "value_or_part": "10K",
+      "production_part": "SMD resistor marked 103; 10 kohm (production photo). s128: fitted; 103; 10 kohm"
+    },
+    "R16": {
+      "value_or_part": "10K",
+      "production_part": "SMD resistor marked 103; 10 kohm (production photo). s128: fitted; 103; 10 kohm"
+    },
+    "R19": {
+      "value_or_part": "10K",
+      "production_part": "SMD resistor marked 103; 10 kohm (production photo). s128: fitted; 103; 10 kohm"
+    },
+    "R27": {
+      "value_or_part": "10K",
+      "production_part": "SMD resistor marked 103; 10 kohm (production photo). s128: fitted; 103; 10 kohm"
+    },
+    "R7": {
+      "value_or_part": "22ohm",
+      "production_part": "SMD resistor marked 220; 22 ohm (s20). s128: fitted; 220; 22 ohm"
+    },
+    "R9": {
+      "value_or_part": "75ohm group (s20/s108/s109); two 75R0 bodies, third hidden (s128)",
+      "production_part": "Three analog-output axial resistors read 75 ohm, 2 percent; individual R9/R10/R11-to-body assignments are obscured. s128: group-only; 75R0 printed on two blue axial bodies; 75 ohm on the two marked bodies; third body value face hidden"
+    },
+    "R10": {
+      "value_or_part": "75ohm group (s20/s108/s109); two 75R0 bodies, third hidden (s128)",
+      "production_part": "Three analog-output axial resistors read 75 ohm, 2 percent; individual R9/R10/R11-to-body assignments are obscured. s128: group-only; 75R0 printed on two blue axial bodies; 75 ohm group evidence, not individual mapping"
+    },
+    "R11": {
+      "value_or_part": "75ohm group (s20/s108/s109); two 75R0 bodies, third hidden (s128)",
+      "production_part": "Three analog-output axial resistors read 75 ohm, 2 percent; individual R9/R10/R11-to-body assignments are obscured. s128: group-only; Third blue body exposes other code, not value face; Do not separately certify third body value"
+    },
+    "R17": {
+      "value_or_part": "UNFITTED",
+      "production_part": "No resistor body fitted at the labeled production footprint. s128: no body"
+    },
+    "R26": {
+      "value_or_part": "UNFITTED",
+      "production_part": "No resistor body fitted at the labeled production footprint. s128: no body"
+    },
+    "R38": {
+      "value_or_part": "UNFITTED",
+      "production_part": "No resistor body fitted at the labeled production footprint. s128: no body"
+    },
+    "R20": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Brown DALE axial part in the DAC reference area; R20 mapping and 147-ohm value are not photographically proved. s128: fitted; Brown-yellow-violet-[obscured multiplier]-brown bands; First three digits suggest 147; multiplier not certified"
+    },
+    "R21": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Red upright resistor network; value-bearing face hidden in all supplied photographs. Drawn 10K is not a photo reading. s128: fitted network; marked face hidden"
+    },
+    "R39": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Red upright resistor network; value-bearing face hidden in all supplied photographs. Drawn 10K is not a photo reading. s128: fitted network; marked face hidden"
+    },
+    "R31": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted chip resistor at R31; code unreadable in the available photographs. s128: fitted; unreadable blue face"
+    },
+    "C1": {
+      "value_or_part": "UNFITTED",
+      "production_part": "Unfitted production footprint (s20/s108/s109). s128: Unfitted: exposed pads beside empty X1."
+    },
+    "C2": {
+      "value_or_part": "UNFITTED",
+      "production_part": "Unfitted production footprint (s20/s108/s109). s128: Unfitted: exposed pads beside empty X1."
+    },
+    "C3": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted dipped ceramic; capacitance marking not readable. Drawn 22 pF is not photo-verified. s128: Fitted axial wound/striped-looking body; no legible capacitance code. Different body style from s20/s108/s109; do not decode visible internal bands as a resistor code."
+    },
+    "C4": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted dipped ceramic; capacitance marking not readable. Drawn 22 pF is not photo-verified. s128: Fitted axial wound/striped-looking body; no legible capacitance code. Different body style from s20/s108/s109; do not decode visible internal bands as a resistor code."
+    },
+    "C5": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted dipped ceramic; capacitance marking not readable. Drawn 22 pF is not photo-verified. s128: Fitted axial wound/striped-looking body; no legible capacitance code. Different body style from s20/s108/s109; do not decode visible internal bands as a resistor code."
+    },
+    "C6": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted dipped ceramic; capacitance marking not readable. Drawn 22 pF is not photo-verified. s128: Fitted axial wound/striped-looking body; no legible capacitance code. Different body style from s20/s108/s109; do not decode visible internal bands as a resistor code."
+    },
+    "C7": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted dipped ceramic; capacitance marking not readable. Drawn 22 pF is not photo-verified. s128: Fitted axial wound/striped-looking body; no legible capacitance code. Different body style from s20/s108/s109; do not decode visible internal bands as a resistor code."
+    },
+    "C11": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted dipped ceramic; capacitance marking not readable. Drawn 22 pF is not photo-verified. s128: Fitted axial wound/striped-looking body; no legible capacitance code. Different body style from s20/s108/s109; do not decode visible internal bands as a resistor code."
+    },
+    "C12": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted dipped ceramic; capacitance marking not readable. Drawn 22 pF is not photo-verified. s128: Fitted axial wound/striped-looking body; no legible capacitance code. Different body style from s20/s108/s109; do not decode visible internal bands as a resistor code."
+    },
+    "C8": {
+      "value_or_part": "22uF (s20/s109); 10uF (s108); 15uF (s128)",
+      "production_part": "C8: s20 226/20K (22 uF 20 V); s108 106/25K (10 uF 25 V); s109 22/25V (22 uF 25 V). s128: 15 / 25V = 15 uF, 25 V."
+    },
+    "C13": {
+      "value_or_part": "UNFITTED",
+      "production_part": "C13 through-hole footprint has no capacitor body; adjacent C23 is a separate part. s128: Unfitted: exposed pad pair, no body."
+    },
+    "C14": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C15": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C16": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C17": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C18": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C19": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C21": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C22": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C23": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C25": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C26": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C27": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C28": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C29": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C30": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C31": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C34": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted ceramic; no capacitance marking visible. Drawn .1uF is not photo-verified. s128: Fitted unmarked ceramic chip; capacitance, tolerance and voltage not optically readable."
+    },
+    "C20": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Production body mapping not established; drawn .1uF is not a verified production value. s128: Production counterpart not independently located; no value assigned."
+    },
+    "C24": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Production body mapping not established; drawn .1uF is not a verified production value. s128: Production counterpart not independently located; no value assigned."
+    },
+    "C32": {
+      "value_or_part": "UNFITTED",
+      "production_part": "C32 footprint is unfitted on s20/s108/s109. s128: Unfitted: exposed pad pair, no body."
+    },
+    "C33": {
+      "value_or_part": "UNVERIFIED (production refdes mapping)",
+      "production_part": "Drawn C33 not independently mapped; physical C37 is 10 uF on s20 and 22 uF on s108. See data/netlist/README.md for per-card C8/C35/C37 markings. s128: Drawing reference only; physical bulk capacitor is labeled C37 and recorded separately."
+    },
+    "U1": {
+      "value_or_part": "Apple II 50-contact card edge",
+      "production_part": "Apple II 50-contact card edge. s128: 50-contact card edge."
+    },
+    "U4": {
+      "value_or_part": "GAL16V8A-15LVC (s20/s108/s128); s109 suffix partly obscured",
+      "production_part": "s20: GAL16V8A-15LVC; s108: GAL16V8A-15LVC; s109: GAL16V8A (suffix partly obscured).  s128: GAL16V8A / -15LVC / 7001A. See docs/02-board.md#pld-markings."
+    },
+    "U12": {
+      "value_or_part": "18CV8-10 (AMI s20/s108); 18CV8-15 (AMI s109, ICT s128)",
+      "production_part": "s20: 18CV8-10; s108: 18CV8-10; s109: 18CV8-15.  s128: ICT 18CV8 / 06771 / 631FA-15. See docs/02-board.md#pld-markings."
+    },
+    "U15": {
+      "value_or_part": "18CV8-10 (AMI s20/s108); 18CV8-15 (AMI s109, ICT s128)",
+      "production_part": "s20: 18CV8-10; s108: 18CV8-10; s109: 18CV8-15.  s128: ICT / PEEL18CV8J / CTQ05067BG / 628FA / -15. See docs/02-board.md#pld-markings."
+    },
+    "U17": {
+      "value_or_part": "18CV8-15 (s20/s128); -10 (s108); speed unknown (s109)",
+      "production_part": "s20: AMI 18CV8-15; s108: AMI 18CV8-10; s109: AMI 18CV8, speed obscured; s128: ICT PEEL18CV8J-15. See docs/02-board.md#pld-markings.",
+      "notes": "s109 marking 9327VA? / 18CV8 has its speed suffix hidden by paint. Same-board parts and the 1993 date do not establish its grade. See docs/02-board.md#pld-markings."
+    },
+    "U7": {
+      "value_or_part": "pLSI1016-60LJ (s108/s109); s20/s128 hidden",
+      "production_part": "pLSI 1016-60LJ is marked on s108/s109; s20 device and speed are hidden by its label. s128: fitted; Lattice logo; sticker ZORRO / BE8C / W6; Exact device/speed hidden",
+      "notes": "s20 and s128 stickers hide device/speed; s108/s109 read pLSI 1016-60LJ. Dump filenames and source-code PART declarations do not identify hidden markings."
+    },
+    "U8": {
+      "value_or_part": "74F125D (s20/s108/s109); F125 marking (s128)",
+      "production_part": "S20/S108/S109: Philips 74F125D. W: too small for independent suffix read. s128: fitted; F125; upper lot line 62AD39T (soft); Family F125 readable; do not add unprinted full suffix"
+    },
+    "U10": {
+      "value_or_part": "EPROM (exact device hidden)",
+      "production_part": "All: DIP-32 EPROM, exact part number covered. S20/W label rev.1.4-BEEF; S108 rev.1.1; S109 rev.A. s128: fitted; EPROM sticker rev.1.4BEEF; side marking faint; Exact type not independently read"
+    },
+    "U11": {
+      "value_or_part": "TC551001FL-10 (s20/s108/s109); D431000AGW-70L (s128)",
+      "production_part": "S20/S108/S109: TOSHIBA TC551001FL-10. W: same body, soft lettering. s128: fitted; NEC JAPAN ES / D431000AGW-70L / 9035K9301; D431000AGW-70L; ES also printed",
+      "notes": "Toshiba -10 is 100 ns on s20/s108/s109; NEC -70L is nominally 70 ns on s128, also marked ES. Do not transfer Toshiba write timing or guarantees to the NEC part."
+    },
+    "U16": {
+      "value_or_part": "93C46 family",
+      "production_part": "S20/S108: ST 93C466, 9518. S109: ST 93C46M6, 0720. W: unreadable. s128: fitted; C46CM1 / ST logo / 495; Literal abbreviated marking only; expansion not proved here"
+    },
+    "U18": {
+      "value_or_part": "Z8S18020VSC (s20/s108/s109); Z8S18016VSC (s128)",
+      "production_part": "S20/S108/S109/W: Z8S18020VSC; dates/lots differ. s128: fitted; Z8S18016VSC / Z180 MPU / 9509 ZB; Z8S18016VSC",
+      "notes": "s128 has a 16 MHz grade with the same 36 MHz oscillator. Reset division gives 18 MHz, above that grade; this is not a timing-compliance measurement."
+    },
+    "U28": {
+      "value_or_part": "OTI087X",
+      "production_part": "S20/S108/S109/W: OTI087X. Lot/date suffixes differ. s128: fitted; OTI087X / T9429 / OAK TECHNOLOGY INC / AA4058EBT0B; OTI087X",
+      "notes": "Prototype SA19=HA19 and SA20=VGAIO are historical drawing labels. Production half-switch/linear-flag behavior and the rework are documented in docs/06-video.md; a photo does not prove all buried continuity."
+    },
+    "U29": {
+      "value_or_part": "74ACT32",
+      "production_part": "S20/S108/S109: ACT32 / H9014; W too small. s128: fitted; ACT32 / H 9314; ACT32 marking"
+    },
+    "U30": {
+      "value_or_part": "OTI068",
+      "production_part": "S20/S108/S109: OTI068 308A; differing date/lot lines. W type visible, suffix soft. s128: fitted; OTI068 308A / OAK TECH / M9533 D1-16; OTI068"
+    },
+    "U31": {
+      "value_or_part": "Bt481AKPJ (s20/s108); Bt481AKPJ80 (s109); Bt481AKPJ110 (s128)",
+      "production_part": "S20/S108/W: Bt481AKPJ / 9320 / PROTO 2. S109: Bt481AKPJ80. s128: fitted; Bt481AKPJ110 / 653 9331; Bt481AKPJ110",
+      "notes": "Production Bt481 pin 20 is TRUECOL, not drawn Bt478 VAA. Grounded RS2 follows from the firmware's mask/command access sequence; see docs/06-video.md."
+    },
+    "U20": {
+      "value_or_part": "256Kx4 ZIP DRAM (exact part hidden)",
+      "production_part": "Fitted ZIP DRAM; individual marking hidden. 256K x 4 organization is established by the eight-chip 1-MB architecture, not by a readable package code. s128: ZIP DRAM fitted; marked face hidden by neighboring body/socket. No vendor/speed read."
+    },
+    "U21": {
+      "value_or_part": "256Kx4 ZIP DRAM (exact part hidden)",
+      "production_part": "Fitted ZIP DRAM; individual marking hidden. 256K x 4 organization is established by the eight-chip 1-MB architecture, not by a readable package code. s128: ZIP DRAM fitted; marked face hidden by neighboring body/socket. No vendor/speed read."
+    },
+    "U22": {
+      "value_or_part": "256Kx4 ZIP DRAM (exact part hidden)",
+      "production_part": "Fitted ZIP DRAM; individual marking hidden. 256K x 4 organization is established by the eight-chip 1-MB architecture, not by a readable package code. s128: ZIP DRAM fitted; marked face hidden by neighboring body/socket. No vendor/speed read."
+    },
+    "U23": {
+      "value_or_part": "256Kx4 ZIP DRAM (exact part hidden)",
+      "production_part": "Fitted ZIP DRAM; individual marking hidden. 256K x 4 organization is established by the eight-chip 1-MB architecture, not by a readable package code. s128: ZIP DRAM fitted; marked face hidden by neighboring body/socket. No vendor/speed read."
+    },
+    "U24": {
+      "value_or_part": "256Kx4 ZIP DRAM (exact part hidden)",
+      "production_part": "Fitted ZIP DRAM; individual marking hidden. 256K x 4 organization is established by the eight-chip 1-MB architecture, not by a readable package code. s128: ZIP DRAM fitted; marked face hidden by neighboring body/socket. No vendor/speed read."
+    },
+    "U25": {
+      "value_or_part": "256Kx4 ZIP DRAM (exact part hidden)",
+      "production_part": "Fitted ZIP DRAM; individual marking hidden. 256K x 4 organization is established by the eight-chip 1-MB architecture, not by a readable package code. s128: ZIP DRAM fitted; marked face hidden by neighboring body/socket. No vendor/speed read."
+    },
+    "U26": {
+      "value_or_part": "256Kx4 ZIP DRAM (exact part hidden)",
+      "production_part": "Fitted ZIP DRAM; individual marking hidden. 256K x 4 organization is established by the eight-chip 1-MB architecture, not by a readable package code. s128: ZIP DRAM fitted; marked face hidden by neighboring body/socket. No vendor/speed read."
+    },
+    "U27": {
+      "value_or_part": "256Kx4 ZIP DRAM (exact part hidden)",
+      "production_part": "Fitted ZIP DRAM; individual marking hidden. 256K x 4 organization is established by the eight-chip 1-MB architecture, not by a readable package code. s128: ZIP DRAM fitted; marked face hidden by neighboring body/socket. No vendor/speed read."
+    },
+    "X1": {
+      "value_or_part": "UNFITTED",
+      "production_part": "Unfitted production footprint. s128: Unfitted."
+    },
+    "X2": {
+      "value_or_part": "14.31818MHz (functional nominal)",
+      "production_part": "Fitted OTI-068 reference crystal. Nominal 14.31818 MHz follows the synthesizer frequency table; package frequency/tolerance is unreadable in the photos. s128: fitted; not legible; Unknown optical frequency"
+    },
+    "JP2": {
+      "value_or_part": "OPEN (production TP2)",
+      "production_part": "Drawing JP2 corresponds to production clock footprint TP2, open in the photos. Physical three-pad JP1 beside SRAM is a different component position. s128: TP2 two-pad clock strap open; associated pull-up reads 103."
+    },
+    "JP3": {
+      "value_or_part": "TP3 (jumper fitted in photos)",
+      "production_part": "Production TP3 header/jumper; drawing calls it JP3. S109 shows the fitted bridge. Monitor setting is user-selectable. s128: TP3 jumper fitted."
+    },
+    "D1": {
+      "value_or_part": "UNVERIFIED",
+      "production_part": "Fitted reference semiconductor at D1; type/value marking not visible. Drawn 1.2V Zener is not a photo identification. s128: Fitted blue body; type/value marking not visible."
+    },
+    "L6": {
+      "value_or_part": "Ferrite/filter (part number unverified)",
+      "production_part": "Fitted black axial/filter body; exact ferrite material/impedance and part number not marked visibly. s128: Fitted black axial/filter body; no impedance/material marking."
+    },
+    "J1": {
+      "value_or_part": "VGA 2x8 header",
+      "production_part": "Production J1 VGA 2x8 header, with separate J2 RGB header. s128: VGA 2x8 header fitted."
+    }
+  },
+  "pin_notes": [
+    {
+      "refdes": [
+        "R32"
+      ],
+      "text": "Prototype value only. Production R32 is 2.0 kohm on s20/s108, 10 kohm on s109, unreadable on s128; see bom.csv."
+    },
+    {
+      "refdes": [
+        "R2"
+      ],
+      "text": "Prototype value only. Production Dale R2 is 33 ohm, 2 percent on s20/s108/s109; s128 BI 8A330 is 628A330, eight isolated 33 ohm resistors, individual tolerance unverified; see bom.csv."
+    },
+    {
+      "refdes": [
+        "R17",
+        "R26",
+        "C13",
+        "C32"
+      ],
+      "text": "Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection."
+    },
+    {
+      "refdes": [
+        "JP1"
+      ],
+      "text": "Prototype clock strap; production counterpart is TP1. Physical three-pad JP1 beside SRAM is a different part and must not inherit these nets."
+    },
+    {
+      "refdes": [
+        "JP2"
+      ],
+      "text": "Prototype clock strap; production counterpart is TP2, open on s20/s108/s109/s128."
+    },
+    {
+      "refdes": [
+        "C33"
+      ],
+      "text": "Prototype C33. Physical production C37 has separately recorded values; do not silently substitute its refdes here."
+    }
+  ]
+}

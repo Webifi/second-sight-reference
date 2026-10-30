@@ -9,6 +9,14 @@ events and RDY, and shares four Z180 data lines for status and configuration.
 Sources: schematic sheet 1, the [netlist](../../data/netlist/README.md), and U7's
 [design source](lattice-source.md).
 
+## Contents
+
+- [Pin table](#pin-table)
+- [Notes on individual signals](#notes-on-individual-signals)
+- [Capture bank terms](#capture-bank-terms)
+- [Capture bank cases](#capture-bank-cases)
+- [Machine-readable copy](#machine-readable-copy)
+
 ## Pin table
 
 Directions come from the fuse map, except for the supply and programming pins.
@@ -29,7 +37,7 @@ Directions come from the fuse map, except for the supply and programming pins.
 | 11 | Y0 | CLK | clock | Softswitch clock, falling edge; 7M or Q3 both meet its timing ([clocks](../04-capture-logic.md#clocks-and-phase)) |
 | 12 | VCC | VCC | power | Logic supply |
 | 13 | ISPEN | (no connection) | programming | In-system programming enable, not connected on the drawing |
-| 14 | IN0 | M2B0 | input | IIgs Mega II bank bit, from slot pin 35. Needs a pull-down ([bank input and pull-down](#bank-input-and-pull-down)). |
+| 14 | IN0 | M2B0 | input | IIgs Mega II bank bit, from slot pin 35. Must read low during the data phase ([bank input](#bank-input)). |
 | 15 | IO0 | AA08 | input | Apple address A8 |
 | 16 | IO1 | AA09 | input | Apple address A9 |
 | 17 | IO2 | AA10 | input | Apple address A10 |
@@ -48,7 +56,7 @@ Directions come from the fuse map, except for the supply and programming pins.
 | 30 | IO13 | HD3 | bidirectional | Z180 data bit 3 |
 | 31 | IO14 | HA01 | input | Z180 address A1 |
 | 32 | IO15 | HD1 | bidirectional | Z180 data bit 1 |
-| 33 | Y2 | (stub on prototype) | clock | Bank-window clock for M2B0, falling edge: 7M, wired on production ([TN #68](../sources.md#s43), [clocks](../04-capture-logic.md#clocks-and-phase)) |
+| 33 | Y2 | (stub on prototype) | clock | Bank-window clock for M2B0, falling edge: needs 7M ([TN #68](../sources.md#s43)). A production rework wire brings 7M to the socket; its end is hidden under the socket ([production changes](../02-board.md#production-changes), [clocks](../04-capture-logic.md#clocks-and-phase)) |
 | 34 | VCC | VCC | power | Logic supply |
 | 35 | Y1/RESET | RESET | input | Y1 clock input, unused; not the global reset ([reset](../04-capture-logic.md#reset-and-power-on)) |
 | 36 | IN2 | AD4 | input | Apple data bit 4; loaded into RAMWRT from $C068 bit 4 ([AD6 and AD4](#ad6-and-ad4)) |
@@ -69,11 +77,11 @@ On `$C068` accesses the fuse map loads PAGE2 from pin 2. STATEREG bit 6 is PAGE2
 blurred label is AD6. Pin 36 supplies AD4, which loads RAMWRT from bit 4.
 Source: [design source](../../data/lattice/Lattice_original-BE8C.ldf), block B5 and the I/O cells.
 
-### Bank input and pull-down
+### Bank input
 
 M2B0 arrives at pin 14 from slot pin 35. The CATCH equation needs it low during the data
-phase, after the Apple stops driving it. The resistor photographed near the slot fingers
-is the production pull-down that holds it low. Source: [TN #68](../sources.md#s43).
+phase, after the Apple stops driving it ([TN #68](../sources.md#s43)). The drawing has no
+pull-down on it ([copying video writes](../04-capture-logic.md#copying-video-writes)).
 
 ### AX and port selection
 

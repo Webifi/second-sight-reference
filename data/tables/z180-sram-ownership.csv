@@ -4,7 +4,7 @@ Bank,Address,Used by,Free for a program
 0,$0C00-$1FFF,Firmware: command and interrupt handlers,Never
 0,$2000-$5FFF,The copy: main hires pages,With the copy off
 0,$6000-$CFFF,"Firmware: renderers, fonts, tables, mode records",Never
-0,$D000-$FFFF,"SetPalette's buffer at $F000-$F2FF; in firmware 1.5 and 2.0, SetTextFont's user font at $F000-$FFFF while font 3 is chosen","With the copy off, apart from those buffers"
+0,$D000-$FFFF,"SetPalette's buffer at $F000-$F2FF; in firmware 1.5 and 2.0, SetTextFont's user font at $F000-$FFFF while font 3 is chosen, and SetPalette then uses firmware memory instead","With the copy off, apart from those buffers"
 1,$0000-$03FF,Nothing,Always
 1,$0400-$0BFF,The copy: auxiliary text pages,With the copy off
 1,$0C00-$0FFF,Nothing,Always

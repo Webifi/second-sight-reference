@@ -7,11 +7,41 @@ The Z180's program, in EPROM U10.
 > [!WARNING]
 > **Preliminary research, provided as is with no warranty. It may contain errors.**
 
-| Version | For a card with | What it is | Image and SHA-256 |
-|---|---|---|---|
-| **1.4-BEEF** | any Lattice chip | Sequential's last release, the 1995 "v1.1" update: the EPROM labeled "rev. 1.4-BEEF", the only revision that survives ([others](08-firmware.md#other-rom-revisions)) | [`original/ROM_BEEF.bin`](../original/ROM_BEEF.bin) `bd29e30ebf004e205609112a3c21a26eb28504115e047862fbd27f641f784d61` |
-| **1.5-B5CB** | the original Lattice chip ([BE8C](lattice-versions.md)) | ROM 1.4 with every erratum firmware can fix (E1-E11, E13, E16, E17, E26, E27 and E29, and E19 and E25 in part), and uploads across 512 KB split on the card | [`SecondSight_firmware_v1.5-B5CB.bin`](../prebuilt/firmware/SecondSight_firmware_v1.5-B5CB.bin) `45d6fb82f92b5e9ca2c5d9e03b1f9d0b8faaf0a73f7c2d52c9a3743ab06aa562` |
-| **2.0-1C46** | [Lattice v2.0](lattice-versions.md) | Version 1.5 plus E15, the IIgs border color, which only Lattice v2.0 makes possible | [`SecondSight_firmware_v2.0-1C46.bin`](../prebuilt/firmware/SecondSight_firmware_v2.0-1C46.bin) `675f38252930c0cfef3e5d20de5358df07f433386066150d7e0dd74014be7337` |
+## Contents
+
+- [Versions and images](#versions-and-images)
+- [Which firmware goes with which Lattice chip](#which-firmware-goes-with-which-lattice-chip)
+- [What each version fixes](#what-each-version-fixes)
+- [Putting a version on a card](#putting-a-version-on-a-card)
+- [Building a version yourself](#building-a-version-yourself)
+
+## Versions and images
+
+### 1.4-BEEF
+
+**For a card with:** any Lattice chip.
+
+Sequential's last release, the 1995 "v1.1" update: the EPROM labeled "rev. 1.4-BEEF", the only revision that survives ([others](08-firmware.md#other-rom-revisions)).
+
+Image and SHA-256: [`original/ROM_BEEF.bin`](../original/ROM_BEEF.bin) `bd29e30ebf004e205609112a3c21a26eb28504115e047862fbd27f641f784d61`.
+
+### 1.5-CBFC
+
+**For a card with:** the original Lattice chip ([BE8C](lattice-versions.md)).
+
+ROM 1.4 with every erratum firmware can fix (E1-E11, E13, E16, E17, E26, E27, E29 and E30, and E19 and E25 in part), and uploads across 512 KB split on the card.
+
+Image and SHA-256: [`SecondSight_firmware_v1.5-CBFC.bin`](../prebuilt/firmware/SecondSight_firmware_v1.5-CBFC.bin) `19e9b6f5dbbb50378c026a09e7e0ea39d4cc90463de70fb926038563021b6846`.
+
+### 2.0-3277
+
+**For a card with:** [Lattice v2.0](lattice-versions.md).
+
+Version 1.5 plus E15, the IIgs border color, which only Lattice v2.0 makes possible.
+
+Image and SHA-256: [`SecondSight_firmware_v2.0-3277.bin`](../prebuilt/firmware/SecondSight_firmware_v2.0-3277.bin) `f5e252bb5704694bacc6319116f2344b3543c657181906baadec95ba1706831f`.
+
+### Version names and reported values
 
 Each version is named by its number and its image's 16-bit byte sum, as Sequential
 labeled its EPROM. GetStatus reports the number as Sequential's
@@ -43,7 +73,7 @@ v1.1 or greater", which both new versions meet.
 | [E9](reference/errata.md#e9-scrollscreen-toward-a-higher-address-copies-the-wrong-bytes) ScrollScreen toward a higher address copies the wrong bytes | fault | fixed | fixed |
 | [E10](reference/errata.md#e10-settextfont-is-missing) SetTextFont is missing | fault | fixed | fixed |
 | [E11](reference/errata.md#e11-super-hi-res-color-fill-mode-is-ignored) Super Hi-Res color fill mode is ignored | fault | fixed | fixed |
-| [E13](reference/errata.md#e13-fast-animation-is-choppy) Fast animation is choppy | 92 ms a full Super Hi-Res screen | about 68 ms | about 68 ms |
+| [E13](reference/errata.md#e13-fast-animation-is-choppy) Fast animation is choppy | about 99 ms a full Super Hi-Res screen | about 75 ms | about 75 ms |
 | [E15](reference/errata.md#e15-the-iigs-border-color-does-not-show) The IIgs border color does not show | fault | fault | fixed with Lattice v2.0 |
 | [E16](reference/errata.md#e16-library-mode-files-run-at-the-wrong-clock) Library mode files run at the wrong clock | fault | fixed | fixed |
 | [E17](reference/errata.md#e17-the-true-color-mode-file-shows-palette-colors) The true-color mode file shows palette colors | fault | fixed | fixed |
@@ -52,6 +82,7 @@ v1.1 or greater", which both new versions meet.
 | [E26](reference/errata.md#e26-flashing-text-ignores-the-c022-colors) Flashing text ignores the $C022 colors | fault | fixed | fixed |
 | [E27](reference/errata.md#e27-four-language-characters-sit-one-row-low-in-the-8x16-font) Four language characters sit one row low | fault | fixed | fixed |
 | [E29](reference/errata.md#e29-apple-display-switches-reset-a-native-vga-mode) Apple display switches reset a native VGA mode | fault | fixed | fixed |
+| [E30](reference/errata.md#e30-double-hires-on-the-applecolor-rgb-monitor-runs-at-70-hz) Double hires on the AppleColor RGB monitor runs at 70 Hz | fault | fixed | fixed |
 
 1.5 and 2.0 also split an UploadData phase that crosses video $80000, which Sequential's
 documentation forbids programs to send

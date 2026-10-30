@@ -85,8 +85,8 @@ def apple(c, address, write=True, bank=0, m2sel=0, ad4=0, ad6=0):
           **{f"AA{i}": (address >> i) & 1 for i in range(16)})
     y2_edge(c)
     y2_edge(c)
-    # the IIgs drives M2B0 only early in the address phase; the card's pull-down holds it
-    # low for the rest of the cycle
+    # the IIgs drives M2B0 only early in the address phase; the copy needs it low for the
+    # rest of the cycle
     c.set(M2B0=0)
     c.set(CPU=1)
     seen = {p: c.get(p) for p in OUTPUT_PINS}

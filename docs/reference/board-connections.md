@@ -5,33 +5,49 @@
 The parts on the production card, the cable pins, and the connections the prototype
 drawing leaves out. The Prototype part column uses the schematic's names.
 
-Sources: [production photos](../sources.md#s20), [`Second Sight - Pinouts.doc`](../sources.md#s13).
+Sources: production cards [s20](../sources.md#s20), [s108](../sources.md#s108), [s109](../sources.md#s109), [s128](../sources.md#s128), and [`Second Sight - Pinouts.doc`](../sources.md#s13).
+
+## Contents
+
+- [Production parts](#production-parts)
+- [VGA cable](#vga-cable)
+- [AppleColor RGB cable](#applecolor-rgb-cable)
+- [Connections the drawing leaves out](#connections-the-drawing-leaves-out)
+- [Logic roles](#logic-roles)
 
 ## Production parts
 
 | Ref (schematic) | Production part and marking | Prototype part | Notes |
 |---|---|---|---|
-| U18 | Zilog Z8S18020VSC "Z180 MPU 9233" | Z180 PLCC | 20 MHz grade, run at 18 MHz |
-| (none) | Kyocera KXO-HC1-TS 36.0000 MHz oscillator | not drawn | Z180 clock source on production |
+| U18 | Z8S18020VSC on s20/s108/s109; Z8S18016VSC "9509 ZB" on s128 | Z180 PLCC | 20 MHz and 16 MHz grades respectively; each card has a 36 MHz can, giving 18 MHz after reset. That exceeds the s128 CPU grade. |
+| (none in drawing) | Kyocera KXO-HC1-TS on s20/s108/s128; KXO-01-1 on s109; each marked 36.0000 MHz | not drawn | Production Z180 clock source; reset divide-by-two gives 18 MHz. |
 | X1, C1, C2 | not fitted | 20 MHz crystal, 22 pF | |
-| R38 | not fitted | 1 ohm, MCLK to Z180 EXTAL | prototype ran the Z180 from the 40 MHz memory clock |
+| R38 | not fitted on s20/s108/s109 | MCLK-to-EXTAL link | Production uses the separate 36 MHz oscillator. No fitted R38 value enters production clock timing. |
 | U10 | 27C1000 EPROM, label "Sequential Systems copyright (c) 1995 rev. 1.4-BEEF" | 27C1000 | dumped: [`ROM_BEEF.bin`](../sources.md#s25) |
-| U11 | Toshiba TC551001FL-10 (128K x 8 SRAM, 100 ns) | "431000" | |
-| U7 | Lattice ispLSI1016 in a PLCC-44 socket, sticker "BE8C" with a red "2" | pLSI1016 | dumped: [`isplsi1016_BE8C.bin`](../sources.md#s24) |
-| U4, U12, U15, U17 | Three AMI 18CV8 parts and one National GAL16V8A | GAL16V8A x 4 | PLCC-20, soldered ([PLD markings](../02-board.md#pld-markings)) |
-| U2, U3, U5, U6 | Philips PC74HCT574T | SN74HCT574DW | octal D flip-flops |
-| U8 | Philips 74F125D | 74125 | quad tri-state buffer |
+| U11 | Toshiba TC551001FL-10 on s20/s108/s109; NEC "ES / D431000AGW-70L / 9035K9301" on s128 | "431000" | 128K x 8 SRAM; marked 100 ns and 70 ns grades respectively. NEC package also says ES; do not apply Toshiba timing guarantees to it. |
+| U7 | Lattice 1016 in a PLCC-44 socket; s20 sticker "BE8C" with a red "2" hides its type; s128 label "ZORRO / BE8C / W6" also hides type/speed; s108/s109 read "pLSI 1016-60LJ" | pLSI1016 | The photos do not establish an ispLSI1016-90LJ on s20. The dump is [`isplsi1016_BE8C.bin`](../sources.md#s24); its filename is not a package-marking read. |
+| U4, U12, U15, U17 | Three AMI 18CV8 on s20/s108/s109 or ICT 18CV8 on s128, plus National GAL16V8A | GAL16V8A x 4 | PLCC-20, soldered; per-card speed grades in [PLD markings](../02-board.md#pld-markings). |
+| U2, U3, U5, U6 | Philips PC74HCT574T on s20/s108/s109; DV74HCT574A on s128 | SN74HCT574DW | Octal D flip-flops; preserve the actual part marking when selecting timing data. |
+| U8 | Philips 74F125D on s20/s108/s109; F125 marking on s128 | 74125 | Quad tri-state buffer; s128 full manufacturer/package suffix not established. |
 | U29 | 74ACT32 | 7432 | quad OR |
 | U28 | Oak OTI087X "AA4058EBT0B T9429" | OAK087 | VGA controller |
 | U30 | Oak OTI068 "308A M9438 D1-16" | OTI068 | clock synthesizer |
-| X2 | 14.31818 MHz crystal | same | OTI-068 reference |
-| U31 | Brooktree Bt481AKPJ "9320 PROTO 2" | Bt478 | color chip (RAMDAC), engineering sample |
-| U16 | ST serial EEPROM marked "93C466 9518" | NM93C46 | ST93C46, temperature grade 6. ROM 1.4 and the library never use it, so custom code can ([the serial EEPROM](../06-video.md#the-serial-eeprom)). |
+| X2 | Fitted crystal; 14.31818 MHz functional nominal | 14.318 MHz | The OTI-068 frequency table requires this nominal reference. The crystal's frequency/tolerance marking is not readable in s20, s108 or s109. |
+| U31 | Bt481AKPJ "9320 PROTO 2" on s20/s108; Bt481AKPJ80 on s109; Bt481AKPJ110 on s128 | Bt478 | Production color chip (RAMDAC). The PROTO 2 marking belongs to the photographed chip, not to a prototype PCB classification. |
+| U16 | ST "93C466 9518" on s20/s108; ST "93C46M6 0720" on s109; ST "C46CM1 / 495" on s128 | NM93C46 | 93C46-family serial EEPROM. Keep the literal package markings with their photos. ROM 1.4 and the library never use it, so custom code can ([the serial EEPROM](../06-video.md#the-serial-eeprom)). |
 | U20-U27 | eight ZIP DRAMs | 44256Z | 256K x 4 each, 1 MB total. The card came with 512 KB and takes 1 MB ([Second.Sight.Info.txt](../sources.md#s40)). Super Hi-Res needs the full 1 MB: ROM 1.4 builds its tables in the upper 512 KB (`build_320_tables`, `build_640_tables` in [superhires.asm](../../firmware/v1.4/src/superhires.asm)). |
-| R2 | Dale "SOMC1603 330G", "DALE 9441" | 22 ohm array | 16-pin isolated network, 33 ohm, 2 percent; series resistors on the DRAM control lines ([production front photo](../sources.md#s20)) |
-| R32 | chip resistor marked "202" | 10K | IOCHRDY pull-up, 2.0 kohm on production ([production front photo](../sources.md#s20)) |
+| R2 | Dale "SOMC1603 330G", "DALE 9441" on s20/s108/s109; BI "9544 / 8A330 / UK MADE" on s128 | 22 ohm array | Dale: 33 ohm, 2 percent. BI 628A330: eight isolated 33 ohm resistors; the [BI marking table](../sources.md#s132) p4 maps 8A330 to that part. Standard tolerance is 2 percent, optional 1 percent; individual tolerance is not proved by the photo. The six Oak-bound traces and two unused lower terminals establish R2 identity on each card. |
+| R32 | "202" on s20/s108; "103" on s109; unreadable blue face on s128 | 10K | IOCHRDY pull-up: 2.0 kohm on the [mirror](../sources.md#s20) and [2021](../sources.md#s108) cards; 10 kohm on [s109](../sources.md#s109); unverified on [s128](../sources.md#s128). Use the value for the card being modeled. |
+| R3 | Apparent `103` on s109; covered on s20/s108 | [Value] | The marking beside the R3 silk supports 10 kohm on s109, at medium optical confidence. It is not the separate R22. |
+| R22 | Fitted; `103` on s109, consistent but softer on s20 | not drawn | 10 kohm. Its lower pad visibly reaches Oak pin 24, SWSENSE; the opposite terminal enters a via whose destination is not visible. |
+| JP1 (production silk) | Axial resistor across top and middle of a three-pad footprint; 47 ohm bands on s20 | not the clock JP1 | Beside SRAM. Other cards hide the bands; do not assign the drawing's MS1/GND endpoints to it. |
+| TP1, TP2 | Open on s20/s108/s109; R19/R6 marked `103` | JP1, JP2 | Memory-clock straps; both high select 40 MHz. |
+| C8 | s20: 22 uF/20 V; s108: 10 uF/25 V; s109: 22 uF/25 V | 22 uF | Own C8 silk beside the capacitor below X2; these are production variations. |
+| C35 | 10 uF/25 V on s20/s108/s109 | not drawn | Bulk capacitor below the Lattice socket. |
+| C37 | s20: 10 uF/25 V; s108: 22 uF/20 V; s109 marking unreadable | C33 is the drawn DAC reservoir, not a proved refdes match | Own C37 silk at lower-left bulk capacitor; do not silently relabel it C33. |
+| R17, R26, C13, C32 | No bodies fitted where clearly visible | 22 ohm, 10K, .1uF, .1uF respectively | No body does not prove an electrically open route; do not populate these from the drawing alone. |
 | J1, J2 | 2-row headers labeled VGA and RGB | one BERG16 header | cables to DB-15 connectors |
-| J3 | 2 x 13 header near the OTI-087 | not drawn | VGA feature connector, mentioned in the [manual](../sources.md#s16) (pp20, 28); no software uses it |
+| J3 | 2 x 13 header near the OTI-087X | not drawn | VGA feature connector, mentioned in the [manual](../sources.md#s16) (pp20, 28); no software uses it |
 
 ## VGA cable
 
@@ -74,7 +90,7 @@ Source: [netlist](../../data/netlist/README.md).
 | R3 | Pull-up on the color chip's pin 23 |
 | U16 | 93C46, 64 words of 16 bits |
 | +5V and VCC | One supply; VAA is filtered through L6 |
-| U13, U14, U19 | Unfitted footprints |
+| U13, U14, U19 | No ICs fitted; short blue wires bridge the center pads across these footprints on the photographed production cards. |
 
 ### INT0 has no pull-up
 
@@ -106,9 +122,12 @@ retrace bit ($3DA bit 3) gives the same timing with no change to the card.
     connects to pin 9 (NMI), as drawn.
   - At the Oak, no trace leaves pin 90 outward. The net runs inward under the chip, where
     the board without chips shows the footprint full of vias, and on to the back.
-  - The back carries no parts except the M2B0 pull-down by the slot fingers.
-  - Every fitted resistor near either end belongs to another drawn net (R14 ZEROWS, R15
-    NMI, R16 RES, R32 IOCHRDY), and the footprints R22 and R33-R37 are empty.
+  - The back carries no parts except the 7M rework at the slot fingers
+    ([production changes](../02-board.md#production-changes)).
+  - R14 is ZEROWS, R15 NMI, R16 RES and R32 IOCHRDY. R22 is fitted: the front trace
+    from its lower pad runs around C18 to Oak pin 24, SWSENSE, not CINT at pin 90.
+    R22 reads `103` (10 kohm) on s109; its other end enters a via whose supply route
+    is not shown. The R33-R37 footprints are empty where visible.
 
   Sources: [production front photo](../sources.md#s20) and
   [the board without chips](../sources.md#s21).

@@ -16,14 +16,14 @@ Pin,Signal,What the card does with it,Connected to (prototype drawing)
 30,/IRQ,"Can be driven low, but the 1.4 firmware never does (RDY and /IRQ).",U8 gate B output
 31,/RESET,Read. An Apple reset restarts the card's Z180.,U17 (reset logic)
 32,/INH,Not used.,No connection drawn
-33,-12 V,Not used; only a 0.1 uF decoupling capacitor (C32) to ground.,C32
+33,-12 V,"The drawing shows C32 to ground. The C32 footprint is unfitted on s20, s108 and s109; do not list a fitted 0.1 uF production capacitor here.",C32 on prototype
 34,-5 V,Not used.,No connection drawn
 35,M2B0 (IIgs),Read. Tells which 64 KB bank a IIgs write goes to (M2B0).,U7
-36,7M (7 MHz clock),"Clocks the Lattice's bank-sampling window on the production board (board clock connections, Lattice clocks).",Signal label with no connected part
+36,7M (7 MHz clock),"Clocks the Lattice's bank-sampling window; the production card adds a wire for it (production changes, Lattice clocks).",Signal label with no connected part
 37,Q3,No use drawn. It can clock Lattice Y0 instead of 7M (Lattice clocks).,No connection drawn
 38,PHASE 1,Not used.,No connection drawn
 39,/M2SEL (IIgs) or SYNC (IIe),Read. Marks a bus cycle the card should look at (pin 39).,U7
 40,PHASE 0,"The Lattice's ""data phase"" input on the production board (Lattice clocks).",Signal label with no connected part
 41,/DEVSELECT,Not used.,No connection drawn
 42-49,D7-D0,"Read (latch U2) and driven (latch U3, only on reads of $C0B0-$C0BF).","U2, U3; D4 and D6 also go to U7"
-50,+12 V,Not used; only a 0.1 uF decoupling capacitor (C34) to ground.,C34
+50,+12 V,"The drawing shows C34 to ground. A ceramic is fitted at C34, but its capacitance is unmarked in the photos; 0.1 uF is a drawing value.",C34 on prototype

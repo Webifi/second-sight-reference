@@ -64,15 +64,15 @@
     "Production differences do not change the prototype CSV"
   ],
   "sha256": {
-    "bom.csv": "33007de6167cff6f81c4ad42a1ac45b7789201fc7235f2599a0f9e1945827e3c",
+    "bom.csv": "ea1a9520ba1247324e99d72005cc0dde4a7f6c957e0dc44431141959559ceac2",
     "bt478_bt481_pin_changes.csv": "49ccdc18c99508a89a63fc51559dc55f7336815e377362051bdf265e1eda27e0",
-    "netlist.csv": "dfdbc7eefc2e65fc81bb7d505193d622f94a21097124f92fb4466a02edec1494",
+    "netlist.csv": "1a7702075e1ebdce9439affd194a4e68e3ad576206664fff29fba97eed08a714",
     "nets.csv": "08ef9deb97e913585be9c6c934999ee605a429190100c26fcf29076606155a1c",
     "pinout_checks.csv": "b131aa30e5662bd37b2d729ec31798f942ace201f8f9762992fe08df8c8c3294",
     "pinout_differences.csv": "603fea17415bc9daf251f5b48c8d4c98b6cdfb2aac104320ffcd9296e6f4a8c2",
     "singleton_nets.csv": "e51b8a06907d79ce0418999671963cfb5ad62ec402589dd9500b203f2b2f3578",
-    "uncertain_pins.csv": "83c6d399e83b16688e240fa463594bb3b6e3aa1b313c10801ccce19bf90e4fdc",
-    "README.md": "c0dfacf65174f5a1fe917300c3d998e5f95512d4fe9388c210729b9d15d8f141",
-    "SOURCES.md": "04bf73df33e32a7cd85fda9f5b3f9ddb0c41ad6add5e0ef3a78dc09488bdbaa3"
+    "uncertain_pins.csv": "fd3769e8ee8c6d434b5686b6611db46ad7e562ac7c78afd68a042bfd682f93d7",
+    "README.md": "c3110615694cdc78ddac822c65d0cccc65fdfe357ad469600b4c84bc7acee189",
+    "SOURCES.md": "c9866350d51d015894d549ff048dc4bec20f0c1bb4e719a4a99874deabd04735"
   }
 }

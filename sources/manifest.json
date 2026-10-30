@@ -468,27 +468,39 @@
   },
   {
    "id": "oak/bios-paradise-TBv1.01B",
-   "title": "Oak VGA BIOS for the OTI-087, Paradise TBv1.01B (10 Mar 1993), 32 KB. Reads extended index 00 bit 1 (087 vs 083) and index 02 bits 2:1 (memory size). Download is a zip; the inner ROM oakoti087wdparadise.BIN has SHA-256 9df355978ca8de7786b6368cd6802fe2de776f4686d8ef55330c1f535ec58c4a",
-   "kind": "link",
-   "url": "https://web.archive.org/web/20241110191423id_/https://vgamuseum.info/index.php/companies/item/download/1570_5b330f99f81a6a6b3b0efc7d603cf672"
+   "title": "Oak VGA BIOS TBv1.01B for the OTI-087 (10 Mar 1993), zip holding oakoti087wdparadise.BIN (SHA-256 9df35597...)",
+   "kind": "primary",
+   "url": "https://web.archive.org/web/20241110191423id_/https://vgamuseum.info/index.php/companies/item/download/1570_5b330f99f81a6a6b3b0efc7d603cf672",
+   "local": "oak/paradise.zip",
+   "size": 16740,
+   "sha256": "703c466f280b8c310c27a0b2147e5f7320d0235ed1970613e97c576e233a4904"
   },
   {
    "id": "oak/bios-TEv1.02",
-   "title": "Oak VGA87 BIOS TEv1.02 (30 Apr 1993), 32 KB, same index 00/02 code. Download is a zip; the inner ROM OTI087X.VBI has SHA-256 c7d4508f28465ea226bd132c7028731cb05af11d9f96b91a25cdd92654c60b27",
-   "kind": "link",
-   "url": "https://web.archive.org/web/20241107152017id_/http://www.vgamuseum.info/index.php/home/item/download/1875_094ce2e92b88976b1c472af2ef15d881"
+   "title": "Oak VGA87 BIOS TEv1.02 (30 Apr 1993), zip holding OTI087X.VBI (SHA-256 c7d4508f...)",
+   "kind": "primary",
+   "url": "https://web.archive.org/web/20241107152017id_/http://www.vgamuseum.info/index.php/home/item/download/1875_094ce2e92b88976b1c472af2ef15d881",
+   "local": "oak/te102.zip",
+   "size": 16415,
+   "sha256": "306f861ffb4c2437b820774841db9f76997436cb01b54d3466fd250bdcbe80ad"
   },
   {
    "id": "oak/oti087-product-overview-1992",
-   "title": "Oak OTI-087 Product Overview, August 1992, 16 pages (straps, pins, modes; no extended-register chapter). SHA-256 93c1a266f0bd7d804ab7b08d9c21bf6c635527df67c1611d452d5eda9e6d0909",
-   "kind": "link",
-   "url": "https://web.archive.org/web/20260616122232id_/https://vgamuseum.info/index.php/companies/item/download/449_8328689f263e5a3135bb9d36ef57beaa"
+   "title": "Oak OTI-087 Product Overview, August 1992, 16 pages",
+   "kind": "primary",
+   "url": "https://web.archive.org/web/20260616122232id_/https://vgamuseum.info/index.php/companies/item/download/449_8328689f263e5a3135bb9d36ef57beaa",
+   "local": "oak/OTI-087_Product_Overview_Aug1992.pdf",
+   "size": 648236,
+   "sha256": "93c1a266f0bd7d804ab7b08d9c21bf6c635527df67c1611d452d5eda9e6d0909"
   },
   {
    "id": "oak/vidfaq-1998",
-   "title": "Oak Technology video FAQ (1998): BIOS 1.0x = OTI-87B, 2.0x = OTI-87X",
-   "kind": "link",
-   "url": "https://web.archive.org/web/19981202060820id_/http://poppy.oaktech.com/vidfaq.html"
+   "title": "Oak Technology video FAQ (archived 1998)",
+   "kind": "primary",
+   "url": "https://web.archive.org/web/19981202060820id_/http://poppy.oaktech.com/vidfaq.html",
+   "local": "oak/vidfaq.html",
+   "size": 8816,
+   "sha256": "61dfbd5227c1814d7c04e1f0c63e6299b30307bc2f482a591356403deb57b70b"
   },
   {
    "id": "book/ferraro-1994",
@@ -498,9 +510,282 @@
   },
   {
    "id": "zilog/z8s180-product-spec",
-   "title": "Zilog Z8S180 product specification (PLCC-68 pinout used by the netlist check)",
+   "title": "Zilog Z8S180 product specification",
+   "kind": "primary",
+   "url": "https://www.zilog.com/docs/z180/z8s180ps.pdf",
+   "local": "zilog/z8s180ps.pdf",
+   "size": 2179906,
+   "sha256": "28def0b0a458d34e3e4b924a33953298895477ba3021132351e1687018124459"
+  },
+  {
+   "id": "oak/graptech-1997",
+   "title": "Oak Technology graphics drivers page (archived June 1997)",
+   "kind": "primary",
+   "url": "https://web.archive.org/web/19970616130518id_/http://www.oaktech.com/graptech.html",
+   "local": "oak/graptech.html",
+   "size": 10945,
+   "sha256": "d6df3fd462ee5767ecc849e47118dfd8a02dbc2f6663a8cd6c22e24e9ff0323d"
+  },
+  {
+   "id": "oak/87xwin.zip",
+   "title": "Oak Windows 3.1 drivers for the OTI-087X (87xwin.zip, 1993)",
+   "kind": "primary",
+   "url": "https://web.archive.org/web/19961112200047id_/http://www.oaktech.com:80/zipfiles/87xwin.zip",
+   "local": "oak/87xwin.zip",
+   "size": 901172,
+   "sha256": "6db15c87142c0dcc33076f589e25e3d3210c9e00363062c0e0b31d5e2a325dfe"
+  },
+  {
+   "id": "oak/87bwin.zip",
+   "title": "Oak Windows 3.1 drivers for the OTI-087B (87bwin.zip, 1993)",
+   "kind": "primary",
+   "url": "https://web.archive.org/web/1997id_/http://www.oaktech.com/zipfiles/87bwin.zip",
+   "local": "oak/87bwin.zip",
+   "size": 813109,
+   "sha256": "8842bb788cee569e20accf1e0c8edfc153fc6ba32e21792d61c7d49a2dbeb5df"
+  },
+  {
+   "id": "oak/87winnt.zip",
+   "title": "Oak Windows NT 3.1 driver for the OTI-087 (87winnt.zip, 1993)",
+   "kind": "primary",
+   "url": "https://web.archive.org/web/1997id_/http://www.oaktech.com/zipfiles/87winnt.zip",
+   "local": "oak/87winnt.zip",
+   "size": 97799,
+   "sha256": "a94e5e1c565b46ba405e1588b3d47f49c7c165f2530702efec6429f2914dc58b"
+  },
+  {
+   "id": "oak/87xdos.zip",
+   "title": "Oak OTI-087X DOS driver kit (87xdos.zip, 1993-94), with OTIVBE.COM and INSTALL.EXE",
+   "kind": "primary",
+   "url": "https://web.archive.org/web/1997id_/http://www.oaktech.com/zipfiles/87xdos.zip",
+   "local": "oak/87xdos.zip",
+   "size": 1282132,
+   "sha256": "298550040f81b72d5f988459ec23f88e914102f678c9c8bcda84dde5c1126dd3"
+  },
+  {
+   "id": "oak/87bdos.zip",
+   "title": "Oak OTI-087B DOS driver kit (87bdos.zip, 1993-94)",
+   "kind": "primary",
+   "url": "https://web.archive.org/web/1997id_/http://www.oaktech.com/zipfiles/87bdos.zip",
+   "local": "oak/87bdos.zip",
+   "size": 1282020,
+   "sha256": "b83707fc3d6d1d7e3ebc21605d7d736f6b7af1111d544ea4901d266052fa346b"
+  },
+  {
+   "id": "oak/spitfire-1994",
+   "title": "Oak OTI-64107/64105 Spitfire Preliminary Specification (September 1994): a later, different chip",
+   "kind": "primary",
+   "url": "https://ftp.mirrorservice.org/sites/www.bitsavers.org/components/oakTechnology/OTI-64107_64105_Spitfire_Preliminary_Specification_199409.pdf",
+   "local": "oak/OTI-64107_64105_Spitfire_Preliminary_Specification_199409.pdf",
+   "size": 7940365,
+   "sha256": "273bc8eaff274a3f61b34c26aace988b7cf337232d534570fb540bd912589057"
+  },
+  {
+   "id": "ibm/vga-xga-trm-1992",
+   "title": "IBM VGA XGA Technical Reference Manual, Video Subsystem (preliminary draft, 19 May 1992)",
+   "kind": "primary",
+   "url": "https://www.bitsavers.org/pdf/ibm/pc/cards/IBM_VGA_XGA_Technical_Reference_Manual_May92.pdf",
+   "local": "ibm/IBM_VGA_XGA_Technical_Reference_Manual_May92.pdf",
+   "size": 1756350,
+   "sha256": "8e78ac530c53ebdba59008e000b318a04ff6c4bed3d70518a088f415d148dd1d"
+  },
+  {
+   "id": "ibm/ps2-hitr-video-1990",
+   "title": "IBM PS/2 Hardware Interface Technical Reference, Video Subsystem (October 1990): VGA sync polarity and 400/480-line timing, pp108-111",
+   "kind": "primary",
+   "url": "http://www.mcamafia.de/pdf/ibm_hitrc10.pdf",
+   "local": "ibm/IBM_PS2_HITR_Video_Subsystem_Oct1990.pdf",
+   "size": 2761797,
+   "sha256": "bc600a44a8dd03a1015e611079196cd671dfa0ad863249b6fea14dc23dab6d2a"
+  },
+  {
+   "id": "vesa/dmt-1.0-rev10",
+   "title": "VESA Display Monitor Timing Standard, version 1.0 revision 10: 800 x 600 at 56 and 60 Hz, pp14-15",
+   "kind": "primary",
+   "url": "https://glenwing.github.io/docs/VESA-DMT-1.10.pdf",
+   "local": "vesa/VESA-DMT-1.10.pdf",
+   "size": 490644,
+   "sha256": "f0ff1e4d821a63678534f26e2c14b435470c34f46e8d3b1194bb6019eff0d08a"
+  },
+  {
+   "id": "xfree86/X336src-1.tgz",
+   "title": "XFree86 3.3.6 source part 1, holding the third-party Oak driver (Jorge Delgado, 1994)",
+   "kind": "secondary",
+   "url": "http://ftp.xfree86.org/pub/XFree86/3.3.6/source/X336src-1.tgz",
+   "local": "xfree86/X336src-1.tgz",
+   "size": 17388037,
+   "sha256": "87231766bf967c0e6174e28c6bdf50e42c0f3f6c732489e455f4c405cfc43844"
+  },
+  {
+   "id": "vgadoc/WHATVGA.DOC",
+   "title": "WHATVGA 2.00 documentation (Finn Thoegersen, 29 September 1995)",
+   "kind": "secondary",
+   "url": "https://raw.githubusercontent.com/achernya/iap-6.828-website/master/readings/hardware/vgadoc/WHATVGA.DOC",
+   "local": "vgadoc/WHATVGA.DOC",
+   "size": 46120,
+   "sha256": "142e77398f013e49273781179fffaacf30c343c1d05ac02ac3779dcb72a7812d"
+  },
+  {
+   "id": "vgadoc/AVANCE.TXT",
+   "title": "VGADOC register notes for Avance Logic chips",
+   "kind": "secondary",
+   "url": "https://raw.githubusercontent.com/achernya/iap-6.828-website/master/readings/hardware/vgadoc/AVANCE.TXT",
+   "local": "vgadoc/AVANCE.TXT",
+   "size": 16136,
+   "sha256": "ddd28c645be534f9adf698e4faa391a19bc6b4a2e5d17772b4b5b19e257b650a"
+  },
+  {
+   "id": "hitachi/HD64180_Users_Manual_Oct85.pdf",
+   "title": "Hitachi HD64180 User's Manual (October 1985)",
+   "kind": "primary",
+   "url": "https://ftp.mirrorservice.org/sites/www.bitsavers.org/components/hitachi/64180/HD64180_Users_Manual_Oct85.pdf",
+   "local": "hitachi/HD64180_Users_Manual_Oct85.pdf",
+   "size": 6636164,
+   "sha256": "d29399fb923882d27a4ff83c3b4ed4057adc500249139608daf6ed3200c02401"
+  },
+  {
+   "id": "apple/TIL01930.pdf",
+   "title": "Apple TIL01930: AppleColor RGB Monitor specifications",
+   "kind": "primary",
+   "url": "https://savagetaylor.com/TIL/TIL01930.pdf",
+   "local": "apple/TIL01930.pdf",
+   "size": 5133,
+   "sha256": "0424636d2000d8c02d4ad7807c3a9a899d96b5cb9c35a7bba02084123b2f523e"
+  },
+  {
+   "id": "lattice/pDS+_Fitter_Users_Manual_199412.pdf",
+   "title": "Lattice pDS+ Fitter User Manual (December 1994)",
+   "kind": "primary",
+   "url": "https://ftpmirror.your.org/pub/misc/bitsavers/components/latticeSemiconductor/Lattice_pDS+_Fitter_Users_Manual_199412.pdf",
+   "local": "lattice/Lattice_pDS+_Fitter_Users_Manual_199412.pdf",
+   "size": 5437738,
+   "sha256": "570a388633fc3293a9efe8cb45329fe0d595bba87080627c559b1b2b11b284cb"
+  },
+  {
+   "id": "lattice/1992_Data_Book_Supplement.pdf",
+   "title": "Lattice pLSI and ispLSI Data Book Supplement (September 1992)",
+   "kind": "primary",
+   "url": "http://bitsavers.informatik.uni-stuttgart.de/components/latticeSemiconductor/_dataBooks/1992_Lattice_pLSI_and_ispLSI_Data_Book_Supplement.pdf",
+   "local": "lattice/1992_Lattice_pLSI_and_ispLSI_Data_Book_Supplement.pdf",
+   "size": 22557438,
+   "sha256": "09b015f332147ba39698544a06ed3c414dbc006f253deea13695c082cdf63a0a"
+  },
+  {
+   "id": "text/secondsight.rgb",
+   "title": "secondsight.rgb display note (Iowa archive)",
+   "kind": "secondary",
+   "url": "https://mirrors.apple2.org.za/ground.icaen.uiowa.edu/MiscInfo/Video/secondsight.rgb",
+   "local": "text/secondsight.rgb",
+   "size": 2628,
+   "sha256": "a37e3fc99799f57dfdd0f9ef3ca04cd6aa6f87d19d72156f1febd4c4946a51f2"
+  },
+  {
+   "id": "text/GenieLamp_a2.zip",
+   "title": "GenieLamp A2 issues, including December 1995: \"NEW SECONDSIGHT ROM\"",
+   "kind": "secondary",
+   "url": "https://mirrors.apple2.org.za/ftp.apple.asimov.net/documentation/magazines/misc/GenieLamp_a2.zip",
+   "local": "text/GenieLamp_a2.zip",
+   "size": 17930732,
+   "sha256": "1a61dbcc8ab4f06ce963f3da60d3feebe44c1ffcbb857fc75ac7bdab2b0befb0"
+  },
+  {
+   "id": "software/gs.flicss.shk",
+   "title": "GS FlicSS 0.7 (Neon Software, Michael Searl, 1996)",
+   "kind": "secondary",
+   "url": "https://mirrors.apple2.org.za/apple2.caltech.edu/graphics/animprogs/gs.flicss.shk",
+   "local": "software/gs.flicss.shk",
+   "size": 29583,
+   "sha256": "1df19608cf4d70c2affbb98c0c618b25bab10f9eedfd7f2f0d80252b41cad3af"
+  },
+  {
+   "id": "crt-terminator/RNG.CPP-02d7048",
+   "title": "CRT Terminator RNG.CPP (commit 02d7048): the light-pen readback test",
+   "kind": "secondary",
+   "url": "https://raw.githubusercontent.com/juj/crt_terminator/02d70480301747a7d7cde260ae8a52ad96eac969/DOS/RNG/RNG.CPP",
+   "local": "crt-terminator/RNG.CPP",
+   "size": 6610,
+   "sha256": "78fd2303276ae458a7bf48a1f08148808e4d5751fa8aead9fa8751beb7109f3f"
+  },
+  {
+   "id": "book/pc-underground-1995",
+   "title": "PC Underground (Abacus, 1995): line counting from $3DA bit 0 for copper bars",
+   "kind": "secondary",
+   "url": "https://www.phatcode.net/res/225/files/pc_underground.pdf",
+   "local": "book/pc_underground.pdf",
+   "size": 5205631,
+   "sha256": "f3c335386e301ad7347c59fdbbd3678c4f0f63f6b0895789ac0f093328cbf8e3"
+  },
+  {
+   "id": "vogons/crt-terminator-rng-2023",
+   "title": "VOGONS report: CRT Terminator RNG test on an OTI 087x card (22 August 2023)",
    "kind": "link",
-   "url": "https://www.zilog.com/docs/z180/z8s180ps.pdf"
+   "url": "https://www.vogons.org/viewtopic.php?p=1187912#p1187912"
+  },
+  {
+   "id": "wdc/w65c816s",
+   "title": "WDC W65C816S data sheet: 65816 instruction cycle counts",
+   "kind": "primary",
+   "url": "https://www.westerndesigncenter.com/wdc/documentation/w65c816s.pdf",
+   "local": "wdc/w65c816s.pdf",
+   "size": 1532025,
+   "sha256": "b9177e1b045d2c8a801d1b23619abb4e5b29b88868fa491df7296dbc0b13447e"
+  },
+  {
+   "id": "text/twgs-appleworks-forum-1991",
+   "title": "Accelerate Your TransWarp GS (AppleWorks Forum, March 1991): IIgs screen memory runs at 1 MHz",
+   "kind": "secondary",
+   "url": "https://mirrors.apple2.org.za/ftp.apple.asimov.net/documentation/hardware/accelerators/Accelerate%20your%20TransWarp%20GS%20Card.pdf",
+   "local": "text/Accelerate_your_TransWarp_GS_Card.pdf",
+   "size": 15312726,
+   "sha256": "7f821c417f1e69c4c651cfc3b79e611f08f2abd9f3a4a719c25193afb56c5680"
+  },
+  {
+   "id": "retrocomputing/pei-timing-21745",
+   "title": "PEI timing on a real IIgs (Ian Brumby, 2021)",
+   "kind": "link",
+   "url": "https://retrocomputing.stackexchange.com/questions/228/inserting-nops-to-improve-iigs-shadow-copy-performance/21745"
+  },
+  {
+   "id": "zilog/z180qa.pdf",
+   "title": "Zilog Z180 Family Questions and Answers, AN971800100 (March 1994): /WAIT not sampled during bus release, p6-3",
+   "kind": "primary",
+   "url": "https://www.zilog.com/docs/z180/appnotes/z180qa.pdf",
+   "local": "zilog/z180qa.pdf",
+   "size": 123213,
+   "sha256": "3f3a502dfc9d25ecebb7afba5116b12d3d94edd4f5a4fd476c4ea4c8b94f6a81"
+  },
+  {
+   "id": "google-groups/second-sight-features-1995",
+   "title": "\"Second Sight Features\", Jawaid Bazyar, comp.sys.apple2, 8 May 1995",
+   "kind": "link",
+   "url": "https://groups.google.com/g/comp.sys.apple2/c/OU04c1gWiuc"
+  },
+  {
+   "id": "ami/peel18cv8-1993.pdf",
+   "title": "AMI PEEL18CV8 data sheet (February 1993): speed grades p20, DC levels and capacitance p19",
+   "kind": "primary",
+   "url": "https://datasheet.datasheetarchive.com/originals/scans/Scans-091/DSAHI00040370.pdf",
+   "local": "ami/peel18cv8-1993.pdf",
+   "size": 919513,
+   "sha256": "11eb0ab02206e583e2d5502404bd7754a9fb0a4c5b79cbd1b000f93139d49f89"
+  },
+  {
+   "id": "bi/627-628-series.pdf",
+   "title": "BI Technologies 627/628 series resistor networks (January 2008): 8A330 marking p4",
+   "kind": "primary",
+   "url": "https://www.farnell.com/datasheets/1850686.pdf",
+   "local": "bi/627-628-series.pdf",
+   "size": 270081,
+   "sha256": "41876fb399819384f9926d884f9b1e86e124b0d4517a779489bca422c9b82fc5"
+  },
+  {
+   "id": "oak/oti-037.pdf",
+   "title": "Oak OTI-037 VGA controller data sheet, 27 pages: refresh count p2-12, DRAM timing p2-24",
+   "kind": "primary",
+   "url": "https://peel.dk/Archive/-%20PC%20cards%2C%20manuals%2C%20BIN%20files%2C%20etc/Oak%20OTI-037C/oti-037.pdf",
+   "local": "oak/oti-037.pdf",
+   "size": 1017964,
+   "sha256": "a6e643ac13fc8cbc4f564c9f32ebb2af6d2c7cd60ea58ec8e41d6a97fbd7cf34"
   }
  ]
 }

@@ -342,9 +342,16 @@ gs_regs_FA:
 
                 .db     0x0F, 0x00, 0x06 ; Sequencer regs
 
-                .db     0x60, 0x45, 0x54, 0x9F, 0x51, 0x1D, 0xDC, 0x10 ; CRT regs $00-$07
+;; CHANGE (E30): the vertical counts. Was CRTC $06 = $DC, $07 = $10, $10 = $C5, $11 = $4A,
+;; $15 = $C8, $16 = $C9 (bytes $C3D8, $C3D9, $C3E2, $C3E3, $C3E7, $C3E8): 222 lines at
+;; 70.2 Hz. Now 260 lines ($06 = $02 with $07 bit 0 = 1), 59.9 Hz at this record's
+;; 15.58 kHz lines, with the 192-line blanking and sync of the RGB 80-column record $FD:
+;; blanking from line 213 ($15 = $D5) to 216 ($16 = $D8), vertical sync from line 219
+;; ($10 = $DB) to 230 ($11 low bits = 6). The clock, the line timing, the 560 shown pixels
+;; and the memory layout stay as they were.
+                .db     0x60, 0x45, 0x54, 0x9F, 0x51, 0x1D, 0x02, 0x11 ; CRT regs $00-$07
                 .db     0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ; $08-$0F
-                .db     0xC5, 0x4A, 0xBF, 0x28, 0x00, 0xC8, 0xC9, 0xE3 ; $10-$17
+                .db     0xDB, 0x46, 0xBF, 0x28, 0x00, 0xD5, 0xD8, 0xE3 ; $10-$17
                 .db     0xFF            ; $18
 
                 .db     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x0F ; Graphics Regs

@@ -89,7 +89,8 @@ into Z180 memory. The firmware allows three ways:
    bank 0 at $4000-$5FFF. The firmware never runs code there. RunCode with BBR = 0 and
    address $4000 runs it. If hires page 2 is on screen, the bytes show.
 2. **SetPalette.** The 768 bytes land at SRAM $0F000 before they go to the DAC. RunCode at
-   $F000 runs them. The palette shows garbage meanwhile.
+   $F000 runs them. The palette shows garbage meanwhile. In firmware 1.5 and 2.0 this works
+   while SetTextFont's user font is not chosen.
 3. **UploadData with flag 1 and bank $10-$13.** The firmware uses banks 8 and up as given.
    The Z180's DMA memory address register keeps only address bits 19-16 (Zilog
    [UM0050](sources.md#s39)). So bank $10 lands in SRAM $0xxxx, $11 in $1xxxx, and $12/$13

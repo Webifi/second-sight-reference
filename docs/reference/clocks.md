@@ -15,6 +15,16 @@ Sources: the [OTI-068 databook](../sources.md#s01) frequency table; firmware and
 values decoded by `tools/mode_files.py`; the [production photo](../sources.md#s20) for the
 memory-clock straps.
 
+## Contents
+
+- [Frequency table](#frequency-table)
+- [Notes on individual selections](#notes-on-individual-selections)
+- [Board clock connections](#board-clock-connections)
+- [Z180 automatic waits](#z180-automatic-waits)
+- [VGA bus timing](#vga-bus-timing)
+- [Timing at 18 and 36 MHz](#timing-at-18-and-36-mhz)
+- [Machine-readable copy](#machine-readable-copy)
+
 ## Frequency table
 
 <!-- csv: data/tables/oti068-clocks.csv -->
@@ -63,9 +73,10 @@ record, not the name in the monitor list, sets that path.
 
 ### Memory-clock straps
 
-Both MS1-MS0 jumper positions are open on the [production photo](../sources.md#s20). Their
-10K pull-ups (R19 and R6) hold both inputs high, so the selection is binary 11: 40 MHz.
-Source: [OTI-068 databook](../sources.md#s01).
+Production TP1 and TP2 are open on [s20](../sources.md#s20), [s108](../sources.md#s108),
+[s109](../sources.md#s109) and [s128](../sources.md#s128). Their R19/R6 pull-ups are marked `103` (10 kohm), so
+MS1-MS0 is binary 11: 40 MHz. The drawing calls the straps JP1/JP2; the three-pad
+production JP1 beside SRAM is a separate resistor position. Source: [OTI-068 databook](../sources.md#s01).
 
 ## Board clock connections
 
@@ -74,12 +85,12 @@ Sources: [production photo](../sources.md#s20), [Z8S180 specification](../source
 | Clock | Source | Goes to | Value |
 |---|---|---|---|
 | Z180 EXTAL | 36 MHz oscillator | Z8S180 | 36 MHz; the CPU divides by 2 after reset and the firmware never changes it, so PHI = **18 MHz** |
-| HCLK | Z180 PHI through R1 (22 ohm) | GALs U15, U17 (registered) | 18 MHz |
+| HCLK | Z180 PHI through R1 | PLDs U15, U17 (registered) | 18 MHz; R1 is series damping, not a divider. Apparent `220` on s128 supports 22 ohm at medium confidence; older photographs are too blurred to certify the drawing's value. |
 | Reference | X2 14.31818 MHz | OTI-068 | |
-| VCLK | OTI-068, selected by Oak CSEL3-0 | OTI-087, Bt481 (directly for VGA, through U12 for AppleColor RGB) | 16 choices ([frequency table](#frequency-table)) |
-| MCLK | OTI-068, selected by MS1-MS0 jumpers | OTI-087 memory clock | jumpers open, pull-ups fitted: **40 MHz** |
+| VCLK | OTI-068, selected by Oak CSEL3-0 | OTI-087X, Bt481 (directly for VGA, through U12 for AppleColor RGB) | 16 choices ([frequency table](#frequency-table)) |
+| MCLK | OTI-068, selected by MS1-MS0 jumpers | OTI-087X memory clock | jumpers open, pull-ups fitted: **40 MHz** |
 | Lattice Y0 ("CLK") | 7M or Q3 | U7 softswitch flip-flops | either meets the timing |
-| Lattice Y2 | 7M (slot pin 36) | U7 bank-window flip-flops | 7M ([TN #68](../sources.md#s43)) |
+| Lattice Y2 | 7M (slot pin 36), through a rework wire ([production changes](../02-board.md#production-changes)) | U7 bank-window flip-flops | 7M ([TN #68](../sources.md#s43)) |
 
 ## Z180 automatic waits
 
@@ -101,10 +112,18 @@ Source: [Zilog UM0050](../sources.md#s39), DCNTL tables 3 and 4.
 | Read at 18 MHz | Two waits give +22 ns command-width margin; one gives -33 ns | [PS0140](../sources.md#s62) Table 8 and [OTI-087 p47](../sources.md#s02) |
 | Write at 18 MHz | Three waits meet worst case; two are short by 6 ns | [PS0140](../sources.md#s62) Table 8 and [OTI-087 p47](../sources.md#s02) |
 
+These are the waits the Oak's timing needs, not the count U15 forces: U15 cannot tell
+reads from writes, and its count is not recovered
+([U15](../07-glue-logic.md#u15-memory-decode-boot-overlay-half-switch-waits)).
+
 ## Timing at 18 and 36 MHz
 
-The Z180 can be switched to 36 MHz ([Clock](../14-custom-code.md#clock)). These are the
-limits the board's parts set at each speed.
+The Z180 can be switched to 36 MHz ([Clock](../14-custom-code.md#clock)). The SRAM
+rows below use the Toshiba -10 part and the existing decode-delay assumptions;
+[PLD speed grades vary](../02-board.md#pld-markings). The [s128 card](../sources.md#s128)
+has NEC D431000AGW-70L marked ES, ICT -15 PLDs and a 16 MHz CPU grade. Its 18 MHz
+reset clock exceeds that CPU grade. These Toshiba calculations and CPU timing
+guarantees must not be presented as validated limits for s128.
 
 | Access or limit | At 18 MHz | At 36 MHz | Source |
 |---|---|---|---|
@@ -112,7 +131,7 @@ limits the board's parts set at each speed.
 | VGA memory command, 165 ns minimum | At least two waits; writes need three at worst case | Read needs five waits; write six; only three programmable memory waits | [OTI-087 p47](../sources.md#s02) |
 | VGA address setup, 25 ns minimum | Typical half-clock is 27.8 ns; worst-case setup is not guaranteed | Half-clock is only 13.9 ns; waits occur too late to fix setup | [OTI-087 p47](../sources.md#s02); [PS0140](../sources.md#s62) |
 | EPROM opcode fetch, even a 120 ns part | One wait suffices; reset uses three | Needs four or more waits | [PS0140](../sources.md#s62) |
-| U17 SRAM copy write, minimum 60 ns | At least two HCLK periods = 111 ns | Two periods = 55.6 ns; needs three | [Toshiba SRAM databook](../../data/netlist/SOURCES.md#package-pinouts-used) B-38 |
+| SRAM copy write pulse, 60 ns minimum (Toshiba -10) | Two whole clocks = 111 ns is the shortest registered pulse; U17's actual pulse is not recovered | Two clocks = 55.6 ns; three needed | [Toshiba SRAM databook](../../data/netlist/SOURCES.md#package-pinouts-used) B-38 |
 
 ## Machine-readable copy
 

@@ -32,7 +32,10 @@ main_loop:
 main_loop_no_change:
                 ;; SetMode's $A5 is owed only when emulation was turned back on;
                 ;; set_native_mode sends its own reply.
-                ld      a, (setmode_reply_owed)
+;; CHANGE (E29): was ld a, (setmode_reply_owed). setmode_reply_check (src/text.asm, $9776
+;; block; main_loop runs with BBR = 0) decides whether to send the $A5 now. The instructions
+;; after the JP are never run.
+                jp      setmode_reply_check
                 cp      #0
                 jr      Z, main_loop_render
                 ld      a, #0xA5
@@ -242,6 +245,14 @@ call_in_bank0:
 
 call_hl:
                 jp      (hl)
+
+;; CHANGE (E10): where SetPalette (src/commands.asm) passes its 768 bytes: the BBR value
+;; that maps the buffer, its physical address in SRAM bank 0, and its logical address
+;; under that BBR. The values here are ROM 1.4's, SRAM $0F000. set_text_font
+;; (src/text.asm) switches them to command_buffer while the user font is chosen.
+palette_bbr:    .db     0x0D
+palette_dest:   .dw     0xF000
+palette_src:    .dw     0x2000
 
                 .org    0x1F00
 ;; ----------------------------------------------------------------------------------------

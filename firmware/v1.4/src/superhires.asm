@@ -96,7 +96,7 @@ set_videomode_superhires:
                 out     (c), a
                 call    build_320_tables
                 call    build_640_tables
-                ;; Read segment $C, chain 4 with extended memory, Oak $22 = $38, the pixel
+                ;; Read segment $C, chain 4 with extended memory, Oak $22 = $38 (read cache off), the pixel
                 ;; mask on and all pixels enabled, graphics mode $51 (write mode 1).
                 ld      a, #0x23
                 ld      bc, #OAK_INDEX
@@ -113,7 +113,7 @@ set_videomode_superhires:
                 ld      a, #0x22        ; Oak Feature Select Register
                 ld      bc, #OAK_INDEX
                 out     (c), a
-                ld      a, #0x38        ; Enable 64-bit graphics latch / read+write cache / swap latch
+                ld      a, #0x38        ; 64-bit graphics latch, write cache, CPU latch swap; read cache off
                 ld      bc, #OAK_DATA
                 out     (c), a
                 ld      a, #0x30        ; Select Color Expansion Control Register
@@ -222,7 +222,7 @@ shr_exit:
 ;; group, 16 bytes lower. This entry handles screen bytes $xxF9 down to $xx86.
 ;;
 ;; BUG (E13): a step takes 42 clocks, 24 of them building the table address, so a full
-;; screen redraw takes at least 92 ms (about 10 a second) and fast animation is choppy.
+;; screen redraw takes about 99 ms (about 10 a second) and fast animation is choppy.
 ;; docs/reference/errata.md, E13.
 ;; ----------------------------------------------------------------------------------------
 shr_convert_high:

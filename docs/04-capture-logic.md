@@ -61,6 +61,17 @@ With MODE_D3 set, a cycle that does not assert /M2SEL is ignored completely. On 
 that drops fast-side cycles, whose addresses are not valid Apple II addresses (Apple
 [TN #68](sources.md#s43)). On a IIe, pin 39 is SYNC, so the rule drops only opcode fetches.
 
+A valid cycle affects the card in only four ways:
+- it is a copied write ([below](#copying-video-writes));
+- it is an event ([event addresses](reference/z180-io-ports.md#apple-event-addresses));
+- it updates a [tracked softswitch](#tracked-softswitches);
+- it is a read of $C0B0-$C0BF, which the card answers from U3.
+
+The only other thing a cycle touches is the bank bit B, and a slow cycle sets B again
+from its own M2B0 ([bank tracking](#bank-tracking)), so B carries nothing into a later
+copy. Every other access, at any address, leaves the card unchanged whether or not it is
+a slow cycle. That includes reads of $C071-$C07F and slot ROM areas set to Internal ROM.
+
 ## Copying video writes
 
 ```
@@ -77,10 +88,14 @@ CATCH_pin = !(CAPTURE & CPU & !M2B0)     (physical pin: low while copying)
   RAMWRT selects. On a IIgs that means a write to bank $E1, or a shadowed write through
   bank $01, with RAMWRT off. This is the upper part of the Super Hi-Res screen, which lives
   at $E1/2000-$E1/9FFF. Writes to main memory $6000-$9FFF are not copied.
-- **M2B0 must be low during the data phase.** Apple drives M2B0 only in the address phase
-  and tri-states it otherwise. So the card needs M2B0 pulled low, or it never copies.
-  The production board has a resistor bodged onto the slot fingers near pin 35; it is
-  that pull-down. Source: [TN #68](sources.md#s43).
+- **M2B0 must read low during the data phase.** Apple drives M2B0 for only 140 ns early in
+  the cycle and leaves it undriven otherwise ([TN #68](sources.md#s43)). A write whose data
+  phase sees M2B0 high is not copied.
+  - The [prototype drawing](sources.md#s26) has no pull-down on M2B0: its net joins only slot
+    pin 35 and Lattice pin 14.
+  - The resistor soldered to the production card's slot fingers is on pin 36 (7M), not pin
+    35 ([production changes](02-board.md#production-changes)).
+  - What holds M2B0 low on a production card is not known.
 
 What happens next is outside U7 (see [Glue logic](07-glue-logic.md)):
 
@@ -143,8 +158,8 @@ Two edge cases follow from the equations:
 
 ### Bank without M2B0
 
-If M2B0 is never driven (a ROM 01 IIgs outside slot 3, or a IIe), the pull-down keeps
-B = 0. Then:
+If M2B0 is never driven (a ROM 01 IIgs outside slot 3, or a IIe), copying works only while
+the line reads low. B then stays 0, and:
 
 - text, lores and hires copies still work, banked by the tracked softswitches;
 - the $6000-$9FFF Super Hi-Res term needs `B xor RAMWRT`, which reduces to RAMWRT. IIgs
@@ -250,11 +265,12 @@ not on a fixed count.
 - Why copies also stall: U2 still holds the pending event's data byte, which the Z180 has
   not read yet. ADIN is gated by RUN so a copy cannot overwrite it.
 - CATCH is not gated by RUN. During a stall the held cycle repeats: each repeated data
-  phase relatches the same address into U5/U6 while U2 keeps the event byte, and U17
-  copies that event byte to the address, because nothing tells U17 about the stall
-  ([U17](07-glue-logic.md#u17-the-copy-controller-and-resets)). When the cycle finally
-  completes, U2 latches the right byte and U17 copies it over the same address. SRAM
-  ends correct; a renderer read of that address during the stall sees the event byte.
+  phase relatches the same address into U5/U6 while U2 keeps the event byte. U17 has no
+  RUN or RDY input, so it cannot tell a repeated phase from the final one. Whether each
+  repeated CATCH makes a write depends on U17's busy-state logic, which is not recovered
+  ([U17](07-glue-logic.md#u17-the-copy-controller-and-resets)). A write made during the
+  stall stores the event byte at the held address; the final phase latches the right
+  byte into U2, and its copy stores it over the same address.
 - Copies alone never stall: they do not set IRQ_PENDING.
 - For a softswitch event the INT1 handler reads ports $A7, $A6 and then $A0. The $A0 read
   acknowledges the event; the next low and high CPU phases restore RUN and release RDY.
@@ -267,7 +283,8 @@ not on a fixed count.
 - **Y2** (pin 33), falling edge: CPU_DELAY and BANK_WINDOW. BANK_WINDOW is high for one Y2
   period after CPU falls, the time M2B0 is valid (about 140 ns, [Apple TN #68](sources.md#s43)). That fixes
   Y2 at 7M (slot pin 36), whose period is about 140 ns. The [prototype drawing](sources.md#s26) leaves pin 33
-  a stub; a production rework wire reaches the Lattice socket.
+  a stub. On the production card a rework wire carries 7M from the slot finger to the
+  Lattice socket; its end is hidden under the socket ([production changes](02-board.md#production-changes)).
 - **Y0** (pin 11), falling edge: HIRES, PAGE2, RAMWRT, STORE80. PAGE2, RAMWRT and STORE80
   load only while CPU is high; HIRES needs only the address. Any slot clock that falls in
   each phase meets that, so 7M and Q3 both work; a replica uses 7M.
@@ -282,12 +299,14 @@ power-up, so they start at 0, with 80STORE off. Source: [Lattice 1992 Data Book]
 
 Pin 35 is the global reset input only if the design leaves Lattice's `Y1_AS_RESET` option
 on; otherwise it is the Y1 clock input and no register can be reset after power-up.
-Source: [Lattice pDS+ Fitter User Manual](sources.md#s76) p3-22. On the drawn board pin 35
-shares a net with the OTI-087's active-high reset. In reset mode that net would always
-hold one of the two chips in reset (high resets the Oak, low resets the Lattice), but the
-card runs both. The fuse map agrees: BE8C's reset multiplexer takes the constant, not
-pin 35, which is what pDS 2.61 writes for `OPTION Y1_AS_RESET OFF`, the option the
-recovered [source](../data/lattice/Lattice_original-BE8C.ldf) has.
+Source: [Lattice pDS+ Fitter User Manual](sources.md#s76) p3-22.
+
+On the drawn board pin 35 shares a net with the OTI-087X's active-high reset. In reset
+mode that net would always hold one of the two chips in reset (high resets the Oak, low
+resets the Lattice), but the card runs both. The fuse map agrees: BE8C's reset multiplexer
+takes the constant, not pin 35, which is what pDS 2.61 writes for `OPTION Y1_AS_RESET
+OFF`, the option the recovered [source](../data/lattice/Lattice_original-BE8C.ldf) has.
+
 So pin 35 is the Y1 clock input, unused, and an Apple reset leaves the Lattice registers
 alone. The IIgs reset code rewrites HIRES, PAGE2 and RAMWRT itself.
 Sources: [netlist](../data/netlist/README.md); [OTI-087 databook](sources.md#s02) p18.

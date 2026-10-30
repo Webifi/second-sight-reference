@@ -23,7 +23,7 @@ and $C0B8 ([Host protocol](09-host-protocol.md)), and use its own 256-color and
                             U3 data-out latch      |  then writes the caught byte into
            ^                                       v  SRAM at the same address
            |               +--------------------------------+
-  RDY <----+-- U7 Lattice  |  Z8S180 CPU, 18 MHz            |      OTI-087 VGA controller
+  RDY <----+-- U7 Lattice  |  Z8S180 CPU, 18 MHz            |      OTI-087X VGA controller
   (stall)      ispLSI1016  |  27C1000 EPROM (firmware)      |----> 1 MB DRAM (8 x 44256)
                decides     |  128 KB SRAM (copies of the    |      OTI-068 clock synthesizer
                what to     |    Apple screens, code)        |      Bt481 color chip (DAC)
@@ -41,7 +41,7 @@ and $C0B8 ([Host protocol](09-host-protocol.md)), and use its own 256-color and
    static RAM at boot. The same SRAM holds the copies of the Apple screens. Three small
    PLDs (U4, U15, U17) decode its memory and I/O and run the bus hand-off; a fourth, U12,
    makes the AppleColor RGB timing.
-3. **Video** ([Video](06-video.md)). An Oak OTI-087 VGA controller with 1 MB of DRAM, an
+3. **Video** ([Video](06-video.md)). An Oak OTI-087X VGA controller with 1 MB of DRAM, an
    Oak OTI-068 clock synthesizer and a Brooktree Bt481 color chip produce the picture, on
    a VGA header and an AppleColor RGB header.
 
@@ -87,7 +87,7 @@ clear, poke VGA registers and even run Z180 code ([Host protocol](09-host-protoc
 
 The only schematic is a **1994 prototype**, titled "discQUEST VGA Board". The surviving
 photos show the **1995 production board**. They differ: a Bt481 replaces the drawn Bt478,
-a 36 MHz oscillator clocks the Z180, the four GALs became three AMI 18CV8 parts and one
+a 36 MHz oscillator clocks the Z180, the four GALs became three AMI or ICT 18CV8 parts and one
 GAL16V8A, and there are rework wires. See [Board](02-board.md).
 
 ---

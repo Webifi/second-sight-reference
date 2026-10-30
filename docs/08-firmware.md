@@ -14,6 +14,9 @@ comments are its author's reading of the code, not Sequential's source.
 - [Main loop](#main-loop)
 - [The event handler (INT1)](#the-event-handler-int1)
 - [Renderers](#renderers)
+  - [Text](#text-40-and-80-columns), [lores](#lores-and-mixed-mode) and [hires](#hires)
+  - [Double hires](#double-hires) and [Super Hi-Res](#super-hi-res)
+  - [Redraw speed](#redraw-speed)
 - [Known defects and oddities](#known-defects-and-oddities): [double hires](#double-hires-setup-defect), [SHR band pointer](#super-hi-res-band-pointer), [mixed text colors](#mixed-mode-text-colors), [border color](#border-color), [mode $13](#mode-13-packed-pixel-note)
 - [Changing and building the firmware](#changing-and-building-the-firmware)
 - [Other ROM revisions](#other-rom-revisions)
@@ -111,23 +114,29 @@ HIRES, double width (AN3 off, $C05E) and 80-column video are all on, and NEWVIDE
 In ROM 1.4 this mode does not work: its setup routine hangs the card
 ([Double hires setup defect](#double-hires-setup-defect)).
 
-**How a row is drawn.** Lookup tables (`dhr_table_*`) repack each row's seven-dot Apple
+#### How a row is drawn
+
+Lookup tables (`dhr_table_*`) repack each row's seven-dot Apple
 bytes, auxiliary and main in turn, into eight-dot bytes; the leftmost dot becomes bit 7,
 the VGA's leftmost pixel. In monochrome each eight-dot byte is written to all four VGA
-planes, so a lit dot is color 15 (white) and an unlit dot color 0. In color the
-eight-dot byte X selects one of 256 entries of `colour_dhr_lookup_table`, which the setup
-copies into VGA memory as one 256-byte page per plane in segment 1. The renderer reads
-VGA address X, which loads entry X's four plane bytes into the VGA latches, then writes
-the screen in write mode 1, which stores the latches: eight 16-color pixels per byte
-([`ROM_BEEF.asm:7169-7190, 7437-7540, 7596-7640, 11397`](sources.md#s27)). In the
-firmware source the color path is `colour_dhires_line` and the monochrome path
-`mono_dhires_line` ([`src/dhires.asm`](../firmware/v1.4/src/dhires.asm)); the s27 disassembly
-has the two labels the other way round (`dhires_scan_mono` is its color path).
+planes, so a lit dot is color 15 (white) and an unlit dot color 0.
 
-**The color rule, and how it differs from the IIgs.** The table works on groups of eight
-dots counted from the left edge of the line, each group two 4-dot cells. A cell's color
-number is its four dots read left to right as 8, 4, 2 and 1, Apple's numbering
-([IIgs Hardware Reference](sources.md#s78) Table 4-16, p88). For all 256 entries:
+In color the eight-dot byte X selects one of 256 entries of `colour_dhr_lookup_table`,
+which the setup copies into VGA memory as one 256-byte page per plane in segment 1. The
+renderer reads VGA address X, which loads entry X's four plane bytes into the VGA latches,
+then writes the screen in write mode 1, which stores the latches: eight 16-color pixels
+per byte ([`ROM_BEEF.asm:7169-7190, 7437-7540, 7596-7640, 11397`](sources.md#s27)).
+
+In the firmware source the color path is `colour_dhires_line` and the monochrome path
+`mono_dhires_line` ([`src/dhires.asm`](../firmware/v1.4/src/dhires.asm)); the s27
+disassembly has the two labels the other way round (`dhires_scan_mono` is its color path).
+
+#### The color rule, and how it differs from the IIgs
+
+The table works on groups of eight dots counted from the left edge of the line, each group
+two 4-dot cells. A cell's color number is its four dots read left to right as 8, 4, 2 and
+1, Apple's numbering ([IIgs Hardware Reference](sources.md#s78) Table 4-16, p88). For all
+256 entries:
 
 1. When both cells of a group hold the same pattern, all eight dots show that color.
 2. Otherwise each lit dot shows its own cell's color, and each unlit dot is black.
@@ -193,26 +202,35 @@ color fill mode, bit 5 ([E11](reference/errata.md#e11-super-hi-res-color-fill-mo
 during each frame, because the card's display does not follow the IIgs beam
 ([E12](reference/errata.md#e12-palettes-rewritten-during-each-frame-show-wrong-colors)).
 
-**Redraw speed.** Each source byte runs `LD A,(BC)` / `LD H,n` / `LD L,A` / `ADD HL,HL` /
+#### Redraw speed
+
+Each source byte runs `LD A,(BC)` / `LD H,n` / `LD L,A` / `ADD HL,HL` /
 `ADD HL,HL` / `LDD`: 42 clocks, plus the waits of the two VGA accesses `LDD` makes through
-the latch (the pixel loops at $A15C and $A5B2). With two waits per VGA access and none
-for SRAM, one 4 KB band takes at least 212,000 Z180 clocks (11.8 ms at 18 MHz) and the
-whole screen (seven 4 KB bands and the 3,328-byte $9000 band, 32,000 bytes) at least
-1.66 million clocks (92 ms); more waits and interrupt service only add
-([wait states](05-z180.md#wait-states)). So the card redraws the whole Super Hi-Res
-screen at most about 10 times a second, and at most one changed band fits in one IIgs
-frame (1/60 s, 300,000 clocks).
-Source: [Zilog UM0050](sources.md#s39) instruction states.
+the latch (the pixel loops at $A15C and $A5B2). Drawing runs with ext $22 = $38, read cache
+off and write cache on, so each `LDD` makes a read the Oak must fetch from its DRAM and a
+cached write: 5 and 3 waits with the reference's
+[fixed counts](05-z180.md#a-functional-timing-estimate). SRAM adds none. One 4 KB band
+then takes about 228,000 Z180 clocks (12.7 ms at 18 MHz), and the whole screen (seven 4 KB
+bands and the 3,328-byte $9000 band, 32,000 bytes) about 1.79 million clocks (99 ms).
+Display fetch, refresh and interrupt service only add
+([wait states](05-z180.md#wait-states)).
+
+So the card redraws the whole Super Hi-Res screen at most about 10 times a second, and at
+most one changed band fits in one IIgs frame (1/60 s, 300,000 clocks). Source: [Zilog
+UM0050](sources.md#s39) instruction states.
 
 The time goes into the conversion, not into memory speed. Each source byte becomes four
 VGA bytes: the 640 x 200 screen of 8-bit pixels is 128,000 bytes, against the IIgs's
 32,000. Of each byte's 42 clocks, the 8-bit Z180 spends 24 finding the byte's table
 entry before `LDD` makes the two VGA accesses. The IIgs's own video hardware does that
-conversion without using its processor. The [manual](sources.md#s16) (June 1995, p28)
-says the card "can only do 15 full-screen updates per second". ROM 1.4's loop cannot
-reach that even at 20 MHz: at least 83 ms per screen, about 12 a second. So the manual's
-figure does not describe this ROM's renderer. A renderer that takes about 68 ms a screen
-is in [E13](reference/errata.md#e13-fast-animation-is-choppy).
+conversion without using its processor.
+
+The [manual](sources.md#s16) (June 1995, p28) says the card "can only do 15 full-screen
+updates per second". ROM 1.4's loop cannot reach that even at 20 MHz: the same clock count
+takes at least 89 ms per screen there, about 11 a second, and the waits only grow in clocks
+at the faster clock. So the manual's figure does not describe this ROM's renderer. A
+renderer that takes about 75 ms a screen is in
+[E13](reference/errata.md#e13-fast-animation-is-choppy).
 
 ## Known defects and oddities
 
@@ -324,14 +342,15 @@ The card never shows the IIgs border color on its own:
 
 The `vga_regs_13` record (mode $13; `vga_320x200x256` in s27, line 10282) is IBM's
 standard mode 13h register set plus Oak ext $21 = $04 (packed pixel), a mix no Oak source
-uses ([mode $13 addressing registers](reference/video-modes.md#mode-13-addressing-registers)).
-Sources: [Oak VGA87 BIOS TEv1.02](sources.md#s58), standard table at BIOS offset $1172,
+or other driver uses ([mode $13 addressing registers](reference/video-modes.md#mode-13-addressing-registers)).
+Sources: Oak's [VGA87 BIOS TEv1.02](sources.md#s58), standard table at BIOS offset $1172,
 packed tables at $1472 and $1B72, extended-register entries at $2C4A and later (byte 6 =
 ext $21); [Paradise TBv1.01B](sources.md#s57) BIOS matches.
 
 - The [OTI-087 databook](sources.md#s02) (printed p41) defines ext $21 bits 3-2 = 01 as packed pixel, and
-  Oak's packed modes use offset $28 for 640 pixels: 16 bytes per offset unit in byte
-  mode. Source: [Oak BIOS](sources.md#s58).
+  Oak's TEv1.02 BIOS packed modes use offset $28 for 640 pixels: 16 bytes per
+  offset unit in byte mode, as ROM 1.4's 640-wide modes do on this card's OTI-087X.
+  Sources: [Oak BIOS](sources.md#s58); [Video mode records](reference/video-modes.md).
 - [GView 0.25c's README](sources.md#s04) (February 1996), under "Known Errors", reports that 320x200x256
   "does not work" on the card, so 8-bit pictures need 640 x 480 or 640 x 400. The ROM
   version is not named.
@@ -359,14 +378,18 @@ ready-built image: [Firmware versions](firmware-versions.md).
 | [`firmware/v1.5`](../firmware/v1.5/SecondSight_v1_5.asm) | Firmware 1.5: the errata fixes firmware alone can make, each marked `CHANGE (En)` |
 | [`firmware/v2.0`](../firmware/v2.0/SecondSight_v2_0.asm) | Firmware 2.0: the same plus E15, the IIgs border color, which needs [Lattice v2.0](lattice-versions.md) |
 
-The two changed sources differ only in E15; a fix other than E15 goes into both.
+The two changed sources differ only in E15 and the version byte; a fix other than E15 goes
+into both.
 
-**Building.** `tools/build_rom.py` assembles a source with the ASxxxx assembler (`asz80`,
+### Building
+
+`tools/build_rom.py` assembles a source with the ASxxxx assembler (`asz80`,
 whose `.hd64` mode adds the Z180 instructions `IN0`, `OUT0` and `MLT`, then `aslink`) into
 the 128 KB EPROM image and lists every byte range that differs from ROM 1.4.
 `python tools/build_rom.py --check` builds all three sources, checks their SHA-256, and
 checks that the ready-built images equal fresh builds. Installing the assembler, the
 source layout and the free space: [firmware/README.md](../firmware/README.md).
+
 The program is the disassembly [`ROM_BEEF.asm`](sources.md#s27) with names, comments and
 plain data rows; the mode records, the double hires tables and the language glyphs come
 from files on the disk image [`ss.source.082395.po`](sources.md#s06). The header of the
@@ -374,18 +397,22 @@ source's `ROM_BEEF.asm` lists every change from the disassembly, none of which a
 byte. ZMAC on that disk is a plain Z80 assembler and lacks the Z180 instructions. Source:
 ASxxxx Z80/Z180 assembler, <https://shop-pdp.net/ashtml/asz80.htm>.
 
-**Putting it on a card.** Program the image into a 27C1000 (128 KB) EPROM for socket U10
+### Putting it on a card
+
+Program the image into a 27C1000 (128 KB) EPROM for socket U10
 ([Firmware versions](firmware-versions.md)). Nothing in the firmware checks a checksum:
 the image's 16-bit sum only names the build ($BEEF for ROM 1.4). GetStatus reports the
 version: $14 for ROM 1.4, $15 for 1.5, $20 for 2.0.
 
-**Addresses.** In the low 64 KB, the EPROM offset, the SRAM address in bank 0 and the
+### Addresses
+
+In the low 64 KB, the EPROM offset, the SRAM address in bank 0 and the
 firmware's logical address are the same number. All addresses in the errata are of this
 kind. Data the firmware reads straight from the EPROM at run time is not in SRAM:
 `set_video_mode` copies the built-in mode records by DMA from physical $6xxxx (the EPROM)
 into its buffer at $0D2E, so a changed record needs a new EPROM.
 
-**Room for added code.**
+### Room for added code
 
 - The 316 bytes $1EC4-$1FFF are zero, follow the last command handler, and nothing in
   ROM 1.4 refers to them. They are copied at boot and always mapped.
@@ -407,8 +434,10 @@ into its buffer at $0D2E, so a changed record needs a new EPROM.
 - In a new EPROM that code can sit in the unused upper 64 KB (all $00, physical
   $70000-$7FFFF), copied into bank 1 by one more DMA transfer in the boot code.
 
-**Checking a build on a card.** GetStatus answers with the build's version, and each
-fixed erratum behaves as its entry describes.
+### Checking a build on a card
+
+GetStatus answers with the build's version, and each fixed erratum behaves as its entry
+describes.
 
 ## Other ROM revisions
 

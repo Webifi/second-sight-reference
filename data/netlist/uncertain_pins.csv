@@ -59,8 +59,8 @@ sheet,refdes,part,pin_number,pin_name,net,confidence,note
 2,U4,GAL16V8A,20,,VCC,medium,"Power pin hidden in symbol; name/number from datasheet, rail inferred."
 2,X1,20MHz,1,,N_U18_3,medium,Pad numbers not printed; transcription convention: first endpoint.
 2,X1,20MHz,2,,EXTAL,medium,Pad numbers not printed; transcription convention: second endpoint.
-3,R26,10K,1,,MD9,medium,Pad numbers not printed; transcription convention: first endpoint.
-3,R26,10K,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+3,R26,10K,1,,MD9,medium,Pad numbers not printed; transcription convention: first endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
+3,R26,10K,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
 3,R27,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
 3,R27,10K,2,,MD8,medium,Pad numbers not printed; transcription convention: second endpoint.
 3,U20,44256Z,5,,GND,medium,"Ground pin hidden in symbol; name/number from datasheet, rail inferred."
@@ -95,18 +95,18 @@ sheet,refdes,part,pin_number,pin_name,net,confidence,note
 4,C4,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
 4,C8,22uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
 4,C8,22uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
-4,JP1,SHUNT,1,,N_U30_11,medium,Pad numbers not printed; transcription convention: first endpoint.
-4,JP1,SHUNT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
-4,JP2,SHUNT,1,,N_U30_9,medium,Pad numbers not printed; transcription convention: first endpoint.
-4,JP2,SHUNT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,JP1,SHUNT,1,,N_U30_11,medium,Pad numbers not printed; transcription convention: first endpoint. Prototype clock strap; production counterpart is TP1. Physical three-pad JP1 beside SRAM is a different part and must not inherit these nets.
+4,JP1,SHUNT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint. Prototype clock strap; production counterpart is TP1. Physical three-pad JP1 beside SRAM is a different part and must not inherit these nets.
+4,JP2,SHUNT,1,,N_U30_9,medium,"Pad numbers not printed; transcription convention: first endpoint. Prototype clock strap; production counterpart is TP2, open on s20/s108/s109/s128."
+4,JP2,SHUNT,2,,GND,medium,"Pad numbers not printed; transcription convention: second endpoint. Prototype clock strap; production counterpart is TP2, open on s20/s108/s109/s128."
 4,R14,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
 4,R14,10K,2,,-ZEROWS,medium,Pad numbers not printed; transcription convention: second endpoint.
-4,R17,22ohm,1,,VCLK,medium,Pad numbers not printed; transcription convention: first endpoint.
-4,R17,22ohm,2,,VCLK1,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R17,22ohm,1,,VCLK,medium,Pad numbers not printed; transcription convention: first endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
+4,R17,22ohm,2,,VCLK1,medium,Pad numbers not printed; transcription convention: second endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
 4,R19,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
 4,R19,10K,2,,N_U30_11,medium,Pad numbers not printed; transcription convention: second endpoint.
-4,R32,10K,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
-4,R32,10K,2,,IOCHRDY,medium,Pad numbers not printed; transcription convention: second endpoint.
+4,R32,10K,1,,VCC,medium,"Pad numbers not printed; transcription convention: first endpoint. Prototype value only. Production R32 is 2.0 kohm on s20/s108, 10 kohm on s109, unreadable on s128; see bom.csv."
+4,R32,10K,2,,IOCHRDY,medium,"Pad numbers not printed; transcription convention: second endpoint. Prototype value only. Production R32 is 2.0 kohm on s20/s108, 10 kohm on s109, unreadable on s128; see bom.csv."
 4,R38,10ohm,1,,EXTAL,medium,Pad numbers not printed; transcription convention: first endpoint.
 4,R38,10ohm,2,,MCLK,medium,Pad numbers not printed; transcription convention: second endpoint.
 4,R4,22ohm,1,,PCLK,medium,Pad numbers not printed; transcription convention: first endpoint.
@@ -130,8 +130,8 @@ sheet,refdes,part,pin_number,pin_name,net,confidence,note
 5,C11,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
 5,C12,22pF,1,,HSYNC,medium,Pad numbers not printed; transcription convention: first endpoint.
 5,C12,22pF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
-5,C13,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
-5,C13,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C13,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
+5,C13,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
 5,C14,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
 5,C14,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
 5,C15,.1uF,1,,VCC,medium,Pad numbers not printed; transcription convention: first endpoint.
@@ -166,10 +166,10 @@ sheet,refdes,part,pin_number,pin_name,net,confidence,note
 5,C30,.1uF,2,,N_U31_31,medium,Pad numbers not printed; transcription convention: second endpoint.
 5,C31,.1uF,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
 5,C31,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
-5,C32,.1uF,1,,-12V,medium,Pad numbers not printed; transcription convention: first endpoint.
-5,C32,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
-5,C33,10uF TANT,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint.
-5,C33,10uF TANT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
+5,C32,.1uF,1,,-12V,medium,Pad numbers not printed; transcription convention: first endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
+5,C32,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint. Prototype population only. No body is fitted at the labeled production footprint; an absent resistor body does not prove no alternate connection.
+5,C33,10uF TANT,1,,VAA,medium,Pad numbers not printed; transcription convention: first endpoint. Prototype C33. Physical production C37 has separately recorded values; do not silently substitute its refdes here.
+5,C33,10uF TANT,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint. Prototype C33. Physical production C37 has separately recorded values; do not silently substitute its refdes here.
 5,C34,.1uF,1,,+12V,medium,Pad numbers not printed; transcription convention: first endpoint.
 5,C34,.1uF,2,,GND,medium,Pad numbers not printed; transcription convention: second endpoint.
 5,C5,22pF,1,,RED,medium,Pad numbers not printed; transcription convention: first endpoint.

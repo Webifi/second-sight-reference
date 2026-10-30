@@ -9,6 +9,8 @@ source, [`firmware/v1.5`](../firmware/v1.5/SecondSight_v1_5.asm) and
 change is not an erratum fix:
 [UploadData across 512 KB](#uploaddata-across-512-kb), marked `CHANGE (512 KB)`.
 
+## Contents
+
 - [E1](#e1-mode-13-shows-a-broken-picture) Mode $13 shows a broken picture
 - [E2](#e2-double-hires-hangs) Double hires hangs
 - [E3](#e3-super-hi-res-lines-102-127-use-the-wrong-palette) Super Hi-Res lines 102-127 use the wrong palette
@@ -29,6 +31,7 @@ change is not an erratum fix:
 - [E26](#e26-flashing-text-ignores-the-c022-colors) Flashing text ignores the $C022 colors
 - [E27](#e27-four-language-characters-sit-one-row-low-in-the-8x16-font) Four language characters sit one row low in the 8x16 font
 - [E29](#e29-apple-display-switches-reset-a-native-vga-mode) Apple display switches reset a native VGA mode
+- [E30](#e30-double-hires-on-the-applecolor-rgb-monitor-runs-at-70-hz) Double hires on the AppleColor RGB monitor runs at 70 Hz
 
 ## E1. Mode $13 shows a broken picture
 
@@ -110,13 +113,13 @@ at $1348 $11 instead of $0C.
 
 The fault: [E5](reference/errata.md#e5-runcode-never-reports-completion).
 
-`run_code` ($1C2D) saves the MMU registers, calls the user
-code, restores the registers and returns, without sending the completion code $A5.
-The change puts a small routine around it instead of rewriting it: nine bytes at $1F00,
-`CD 2D 1C 3E A5 ED 39 A0 C9` (`CALL $1C2D` / `LD A,$A5` / `OUT0 ($A0),A` / `RET`), and
-the RunCode entry of the command table at $1C21 changes from `2D 1C` to `00 1F` so the
-command reaches the new routine. User code that already writes $A5 itself still works:
-the second $A5 changes nothing. A user routine that never returns still never reports.
+`run_code` ($1C2D) saves the MMU registers, calls the user code, restores the registers
+and returns, without sending the completion code $A5. The change puts a small routine
+around it instead of rewriting it: nine bytes at $1F00, `CD 2D 1C 3E A5 ED 39 A0 C9`
+(`CALL $1C2D` / `LD A,$A5` / `OUT0 ($A0),A` / `RET`), and the RunCode entry of the command
+table at $1C21 changes from `2D 1C` to `00 1F` so the command reaches the new routine.
+User code that already writes $A5 itself still works: the second $A5 changes nothing. A
+user routine that never returns still never reports.
 
 ## E6. Mixed-hires text ignores the $C022 colors
 
@@ -227,6 +230,9 @@ Fixed for the built-in and user fonts. The fault: [E10](reference/errata.md#e10-
    SRAM $00F000: 256 glyphs indexed by VGA character code, 16 bytes each on a VGA monitor
    and 8 on AppleColor RGB, into plane 2 the way it loads the built-in font. Any other
    number loads the built-in font.
+4. While font $03 is chosen, SetPalette passes its 768 bytes through the firmware's 1 KB
+   command buffer at SRAM $0A600 instead of $0F000, so the user font survives a palette
+   change. With any other font it uses $0F000, as ROM 1.4 does.
 
 ROM 1.4 holds one built-in font, so $01 (alternate ROM font) and $02 (PC ANSI font) show
 the standard font: neither font exists in the ROM, and there is no room for 4 KB fonts.
@@ -238,13 +244,15 @@ The fault: [E11](reference/errata.md#e11-super-hi-res-color-fill-mode-is-ignored
 
 The control bytes and pixels already reach SRAM; only the renderer ignored bit 5. The
 converter reads each line left to right but cannot carry a color from pixel to pixel.
+
 `select_line` first calls `fill_line_check` in the renderer's free space. For a
 320-pixel line with bit 5 set, it copies the line's 160 bytes into a buffer in the
 renderer's own block ($1A507), left to right, replacing every 0 pixel with the last nonzero pixel before it
 on the same line, and points the converter's source at the buffer for that line. A line
 that a 4 KB band starts part way through is copied from its real start, so the fill
-color carries across the band boundary. Lines without bit 5 keep the existing path. The
-copy costs about 0.9 ms per fill line and runs with interrupts on. The renderer runs from
+color carries across the band boundary. Lines without bit 5 keep the existing path.
+
+The copy costs about 0.9 ms per fill line and runs with interrupts on. The renderer runs from
 its copy at $1A000-$1BFFF, refreshed from $0A000-$0BFFF at each Super Hi-Res entry, so the
 change is in the $0A000 copy.
 
@@ -252,20 +260,29 @@ change is in the $0A000 copy.
 
 The fault: [E13](reference/errata.md#e13-fast-animation-is-choppy).
 
-The new renderer draws a full screen in about 68 ms, against at least 92 ms for ROM 1.4;
-60 new full screens a second stays out of reach. It cannot redraw less: the band flags say only which 4 KB band was written, and finding
+The new renderer draws a full screen in about 75 ms, against about 99 ms for ROM 1.4;
+60 new full screens a second stays out of reach.
+
+It cannot redraw less: the band flags say only which 4 KB band was written, and finding
 the changed bytes by comparing each one with a kept copy (`LD A,(BC)` / `CP (HL)` /
 `JR NZ` / `INC BC` / `INC HL`, 26 clocks) costs most of what converting it does.
+
 Nor can it beat the IIgs side: the IIgs needs about 31 ms just to write 32,000 bytes
 through its slow bus, and copying them costs the card 12-18 ms of its own bus time, so a
 full new screen every 16.7 ms is impossible.
-- **What the chip allows** ([Pixel formats the chip displays](06-video.md#pixel-formats-the-chip-displays)):
-the OTI-087X has no 4-bit packed format, so every 320-mode pixel must be converted
-before it reaches video memory.
-- **The new renderer:** ROM 1.4 spends 24 of its 42 clocks per byte
-building the table address (`LD H,n` / `LD L,A` / `ADD HL,HL` / `ADD HL,HL`), and calls
-one of eight 32-byte routines per half line after testing the palette number. The new
-renderer changes three things:
+
+### What the chip allows
+
+The OTI-087X has no 4-bit packed format, so every 320-mode pixel must be converted
+before it reaches video memory
+([Pixel formats the chip displays](06-video.md#pixel-formats-the-chip-displays)).
+
+### The new renderer
+
+ROM 1.4 spends 24 of its 42 clocks per byte building the table address (`LD H,n` / `LD
+L,A` / `ADD HL,HL` / `ADD HL,HL`), and calls one of eight 32-byte routines per half line
+after testing the palette number. The new renderer changes three things:
+
 1. A read of video memory loads the latch with the whole 4-byte word that holds its
    address, so the low two address bits only pick the byte the read returns
    ([lane rule](06-video.md#the-64-bit-latch-lane-rule); Oak's
@@ -276,6 +293,7 @@ renderer changes three things:
    clocks.
 3. Register B holds the line's page table, so one copy of the code serves all 16
    palettes and the palette test goes.
+
 ```
 pop  hl        ;  9  L = byte b0, H = byte b1
 ld   a,h       ;  4  keep b1
@@ -287,33 +305,45 @@ ld   h,b       ;  4
 ld   h,(hl)    ;  6
 ldi            ; 12
 ```
+
 That is 61 clocks for two bytes, 30.5 a byte. Each byte's entry sits at word
 `(b AND $FC)` of page `$F0 + 4n + (b AND 3)` in each 4 KB piece of video memory, the same
 4 KB per palette group as before; the four page tables take 1 KB in the renderer's own
-block ($1A600), built again at each Super Hi-Res entry. A full screen takes 68.1 ms when every line has the same control byte and
-69.5 ms when every line has its own, against at least 92 ms for ROM 1.4: about 14.7 full
-screens a second instead of 10.8. Source: every instruction counted with
-[UM0050](sources.md#s39) states and two waits per video access.
-- **Where those 38.3 clocks a byte go:** 16 are the two video accesses of `LDI` with
-their waits, 14.5 fetch the source and find the table page, 4 keep the second source byte
-(`ld a,h` and `ld l,a`), 1.5 move the screen address
-every four bytes (each store fills four pixels picked by address bit 0 and bits 3 and
-up, so four bytes go to window offsets 6, 7, 8 and 9 of each 16), and 2.3 are line,
+block ($1A600), built again at each Super Hi-Res entry.
+
+A full screen takes 75.2 ms when every line has the same control byte and
+76.6 ms when every line has its own, against 99 ms for ROM 1.4: about 13.3 full screens a
+second instead of 10.1. Source: every instruction counted with [UM0050](sources.md#s39)
+states, and the reference's [fixed waits](05-z180.md#a-functional-timing-estimate) for
+drawing with ext $22 = $38: 5 for each video read (read cache off) and 3 for each cached
+video write.
+
+### Where those 42.3 clocks a byte go
+
+20 are the two video accesses of `LDI` with their waits, 14.5 fetch the source and find
+the table page, 4 keep the second source byte (`ld a,h` and `ld l,a`), 1.5 move the screen
+address every four bytes (each store fills four pixels picked by address bit 0 and bits 3
+and up, so four bytes go to window offsets 6, 7, 8 and 9 of each 16), and 2.3 are line,
 page and band bookkeeping. Every source byte needs one read to load the latch and one
-write to store it, so those 16 clocks stay in any table conversion.
-- **Interrupts:** an interrupt would push its return address into the Apple screen copy
+write to store it, so those 20 clocks stay in any table conversion.
+
+### Interrupts
+
+An interrupt would push its return address into the Apple screen copy
 while the stack pointer walks it, so each line runs with interrupts off. At each line
 end the renderer restores its stack and lets a waiting interrupt in, so an event waits
 at most one line, about 0.35 ms; meanwhile the Lattice holds the Apple's next copy or
 event ([RDY](04-capture-logic.md#rdy-no-lost-events)).
 
-**Cost of comparing the $9000 band.** The $9000 band flag also sets on
-palette and control-byte writes ($9D00-$9FFF), so a program that only cycles colors has
-lines 179-199 redrawn every pass ([E13](reference/errata.md#e13-fast-animation-is-choppy)).
-Firmware could keep a copy of $9000-$9CFF and compare before redrawing, but a pass that
-changes pixels there would then take up to 5.6 ms longer, to save 2.6 ms on a pass that
-changes only palettes. [Lattice v2.0](lattice-versions.md#what-v20-changes) leaves the flag as the
-factory chip has it, for the same reason.
+### Cost of comparing the $9000 band
+
+The $9000 band flag also sets on palette and control-byte writes ($9D00-$9FFF), so a
+program that only cycles colors has lines 179-199 redrawn every pass
+([E13](reference/errata.md#e13-fast-animation-is-choppy)). Firmware could keep a copy of
+$9000-$9CFF and compare before redrawing, but a pass that changes pixels there would then
+take up to 5.6 ms longer, to save 2.6 ms on a pass that changes only palettes. [Lattice
+v2.0](lattice-versions.md#what-v20-changes) leaves the flag as the factory chip has it,
+for the same reason.
 
 ## E15. The IIgs border color does not show
 
@@ -375,16 +405,21 @@ Partly fixed. The fault: [E19](reference/errata.md#e19-uploads-of-whole-64-kb-bl
 
 The old library ends each 64 KB block by waiting for $00 at $C0B8, then waits for a
 ready handshake ($01) and for $00 again for a remainder phase that does not exist.
+
 `upload_data`'s remainder test ($12E8) calls `upload_check_remainder` in free
 memory. When the length is whole 64 KB blocks with no remainder, it supplies that phase:
 after the $00 that ends the last block, it waits about 1 ms so the program sees it,
 writes $01 to port $A0, waits about 1 ms, then writes $00. Both waits are counting
-loops. The first wait matters: a $01 that follows the block's $00 at
+loops.
+
+The first wait matters: a $01 that follows the block's $00 at
 once can reach the program before it has read the $00, and it then takes the $01 for
-part of the last block and waits forever for another. The card cannot see the IIgs
-reading $C0B8 (those reads are not events), so a program held up for longer than a wait
-can still miss a step and hang; the August 1996 library or the two-byte padding is the
-reliable fix. Source: [VGALOW.ASM](sources.md#s29) (1995) `_UploadData`.
+part of the last block and waits forever for another.
+
+The card cannot see the IIgs reading $C0B8 (those reads are not events), so a program held
+up for longer than a wait can still miss a step and hang; the August 1996 library or the
+two-byte padding is the reliable fix. Source: [VGALOW.ASM](sources.md#s29) (1995)
+`_UploadData`.
 
 ## E25. Very large pictures may hang the card
 
@@ -421,6 +456,37 @@ The fault: [E29](reference/errata.md#e29-apple-display-switches-reset-a-native-v
 emulation off, it returns `set_native_mode` only when SetMode asked for the change
 (`setmode_reply_owed` = 1). A change an Apple switch asked for goes straight back to the
 main loop, which draws nothing.
+
+`main_loop_no_change` ($1E1B) jumps to `setmode_reply_check` ($9B99), which sends
+SetMode's $A5 only when no mode change is pending. SetMode runs inside INT1, so it can
+arrive between the main loop's test of `mode_change_pending` and its test of
+`setmode_reply_owed`. The pending change then runs first, and `set_native_mode` sends the
+$A5 after it has set the mode. The flag is cleared before the $A5 goes out, so a SetMode
+that follows the $A5 keeps its own flag.
+
+## E30. Double hires on the AppleColor RGB monitor runs at 70 Hz
+
+The fault: [E30](reference/errata.md#e30-double-hires-on-the-applecolor-rgb-monitor-runs-at-70-hz).
+
+Six bytes of the RGB record for mode $FA (`gs_regs_FA`, [`src/modes.asm`](../firmware/v1.5/src/modes.asm))
+change; nothing else in the record does:
+
+| CRTC | ROM byte | Was | Now | Meaning |
+|---|---|---|---|---|
+| $06 | $C3D8 | $DC | $02 | Vertical total, low 8 bits |
+| $07 | $C3D9 | $10 | $11 | Bit 0 = vertical total bit 8: 258 + 2 = 260 lines |
+| $10 | $C3E2 | $C5 | $DB | Vertical sync starts at line 219 |
+| $11 | $C3E3 | $4A | $46 | Vertical sync ends at line 230 (low bits 6) |
+| $15 | $C3E7 | $C8 | $D5 | Vertical blanking starts at line 213 |
+| $16 | $C3E8 | $C9 | $D8 | Vertical blanking ends at line 216 |
+
+260 lines at the record's 15.58 kHz line rate give 59.9 frames per second. The blanking
+and sync lines are those of the RGB 80-column record $FD, the other 192-line RGB mode.
+The clock (25.175 MHz on the VGA clock path, set by the misc byte), the line timing, the
+560 shown pixels and the memory layout stay as they were, so the double-hires renderer
+writes the same bytes.
+Source: [`firmware/v1.4/src/modes.asm`](../firmware/v1.4/src/modes.asm) `gs_regs_FA` and
+`gs_regs_FD`.
 
 ## UploadData across 512 KB
 

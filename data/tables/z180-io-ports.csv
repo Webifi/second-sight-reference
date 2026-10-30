@@ -15,4 +15,4 @@ $AB,Set linear-window flag,Set linear-window flag,Used before Oak register 5 = $
 $AC,AIRQ0 low: raise Apple IRQ,AIRQ0 low: raise Apple IRQ,Never used by the firmware
 $AD,AIRQ0 high: release Apple IRQ,AIRQ0 high: release Apple IRQ,Written once at reset
 "$AE, $AF",Undriven bus,No effect,Nothing decodes them
-"$3B0-$3DF, $46E8, $102",OTI-087 registers,OTI-087 registers,The Oak decodes the full address itself
+"$3B0-$3DF, $46E8, $102",OTI-087X registers,OTI-087X registers,The Oak decodes the full address itself

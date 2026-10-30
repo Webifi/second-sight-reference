@@ -17,6 +17,13 @@ Sources: the [prototype schematic](../sources.md#s26) sheet 1 ([netlist](../../d
 connector U1) for the connections; the [comp.sys.apple2 FAQ part 13](../sources.md#s42) and
 [Apple IIgs Technical Note #68](../sources.md#s43) for the pin meanings.
 
+## Contents
+
+- [Pin table](#pin-table)
+- [Notes on individual pins](#notes-on-individual-pins)
+- [Machine and slot compatibility](#machine-and-slot-compatibility)
+- [Machine-readable copy](#machine-readable-copy)
+
 ## Pin table
 
 Pins 1-25 are on the component side of the card edge and 26-50 on the solder side; pin 1
@@ -42,17 +49,17 @@ faces pin 50 and pin 25 faces pin 26.
 | 30 | /IRQ | **Can be driven low**, but the 1.4 firmware never does ([RDY and /IRQ](#rdy-and-irq)). | U8 gate B output |
 | 31 | /RESET | Read. An Apple reset restarts the card's Z180. | U17 (reset logic) |
 | 32 | /INH | Not used. | No connection drawn |
-| 33 | -12 V | Not used; only a 0.1 uF decoupling capacitor (C32) to ground. | C32 |
+| 33 | -12 V | The drawing shows C32 to ground. The C32 footprint is unfitted on s20, s108 and s109; do not list a fitted 0.1 uF production capacitor here. | C32 on prototype |
 | 34 | -5 V | Not used. | No connection drawn |
 | 35 | M2B0 (IIgs) | Read. Tells which 64 KB bank a IIgs write goes to ([M2B0](#m2b0-pin-35)). | U7 |
-| 36 | 7M (7 MHz clock) | Clocks the Lattice's bank-sampling window on the production board ([board clock connections](clocks.md#board-clock-connections), [Lattice clocks](../04-capture-logic.md#clocks-and-phase)). | Signal label with no connected part |
+| 36 | 7M (7 MHz clock) | Clocks the Lattice's bank-sampling window; the production card adds a wire for it ([production changes](../02-board.md#production-changes), [Lattice clocks](../04-capture-logic.md#clocks-and-phase)). | Signal label with no connected part |
 | 37 | Q3 | No use drawn. It can clock Lattice Y0 instead of 7M ([Lattice clocks](../04-capture-logic.md#clocks-and-phase)). | No connection drawn |
 | 38 | PHASE 1 | Not used. | No connection drawn |
 | 39 | /M2SEL (IIgs) or SYNC (IIe) | Read. Marks a bus cycle the card should look at ([pin 39](#pin-39-m2sel-or-sync)). | U7 |
 | 40 | PHASE 0 | The Lattice's "data phase" input on the production board ([Lattice clocks](../04-capture-logic.md#clocks-and-phase)). | Signal label with no connected part |
 | 41 | /DEVSELECT | Not used. | No connection drawn |
 | 42-49 | D7-D0 | Read (latch U2) and driven (latch U3, only on reads of $C0B0-$C0BF). | U2, U3; D4 and D6 also go to U7 |
-| 50 | +12 V | Not used; only a 0.1 uF decoupling capacitor (C34) to ground. | C34 |
+| 50 | +12 V | The drawing shows C34 to ground. A ceramic is fitted at C34, but its capacitance is unmarked in the photos; 0.1 uF is a drawing value. | C34 on prototype |
 
 ## Notes on individual pins
 
@@ -84,14 +91,12 @@ On a IIgs, M2B0 is the low bit of the bank for slow (Mega II) cycles: 1 for bank
 shadowed write through bank $01. The Apple drives it only for about 140 ns early in each
 cycle and leaves it floating the rest of the time ([TN #68](../sources.md#s43)).
 
-- The card needs it **low** when not driven, or it never copies anything. The production
-  board has a resistor soldered to the slot fingers near this pin; it is that
-  pull-down. Source: [TN #68](../sources.md#s43).
+- The card copies a write only if M2B0 reads **low** during the data phase, after the
+  Apple stops driving it ([copying video writes](../04-capture-logic.md#copying-video-writes)).
 - Which slots have it: a ROM 03 IIgs in slots 1-6; a ROM 01 IIgs in slot 3 only. That is
   why the manual requires slot 3 on a ROM 01 machine.
-- On a IIe, slots 2-6 leave pin 35 unused, so the pull-down holds it low.
-- On a IIe, slot 1's pin 35 is the active-low keyboard enable, which the pull-down leaves
-  enabled; slot 7's is the driven color reference: [IIe slots](../03-apple-interface.md#iie-differences).
+- On a IIe, pin 35 is unused in slots 2-6, the active-low keyboard enable in slot 1 and
+  the driven color reference in slot 7: [IIe slots](../03-apple-interface.md#iie-differences).
 
 ### Pin 39: /M2SEL or SYNC
 

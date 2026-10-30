@@ -43,7 +43,7 @@ host machine (IIgs or IIe emulator)
 [2] Z180 at 18 MHz running ROM_BEEF.bin (05, 08)
    |  I/O and memory window
    v
-[3] OTI-087 + OTI-068 + Bt481 (06, 14)    -->  picture
+[3] OTI-087X + OTI-068 + Bt481 (06, 14)    -->  picture
 ```
 
 ## 1. Hook the host bus
@@ -85,8 +85,8 @@ original chip (BE8C), true for Lattice v2.0 (BBB1). Each v2.0 difference is mark
 its erratum. The full equations of both versions:
 [`Lattice_original-BE8C.ldf`](../data/lattice/Lattice_original-BE8C.ldf) and
 [`Lattice_v2.0.ldf`](../data/lattice/Lattice_v2.0.ldf); `tools/lattice/ldfsim.py`
-evaluates either file as written, for checking a model against it. U17's timing is in
-[wait states](05-z180.md#wait-states).
+evaluates either file as written, for checking a model against it. U17's timing is in the
+[copy timing budget](07-glue-logic.md#copy-timing-budget).
 
 `is_event` uses the [event table](04-capture-logic.md#events-telling-the-z180-about-softswitch-accesses).
 State updates use the [tracked-softswitch table](04-capture-logic.md#tracked-softswitches);
@@ -138,7 +138,8 @@ on_bus_cycle(addr, data, is_write, m2sel_low, m2b0):
                 or (not B and not STORE80 and RAMWRT)
                 or (not B and MODE_D3 and RAMWRT and not HIRES)
         u2_data = data                         # ADIN clocks U2 on copies too
-        sram[bank * $10000 + addr] = data      # U17 uses a Z180 bus request
+        sram[bank * $10000 + addr] = data      # U17, once the Z180 frees its bus:
+                                               # see the copy timing budget
         if in(addr, $2000, $9FFF):
             flags[(addr - $2000) >> 12] = 1
 
@@ -157,6 +158,21 @@ on_bus_cycle(addr, data, is_write, m2sel_low, m2b0):
 A pending event delays a later copy rather than discarding it. U2 takes data on both
 memory captures and write events; a read event leaves it unchanged.
 
+For copies that can be lost as on the card, keep U5/U6 as address latches that every
+CATCH overwrites and U2 as a data latch that ADIN overwrites (RUN can block ADIN while the
+address still changes). Do the SRAM write after the Z180 ends the machine cycle it is
+running, waits included, and replace the latches' contents whenever a CATCH comes first.
+A model that writes the byte at capture, or queues every captured byte, hides copy loss.
+Advance the CPU through machine cycles and waits, then perform the copy with the chosen
+U17 timing. /WAIT does not extend the CPU's bus-release state. Check bus return and
+readiness for the next request as well as the first write: two captures 980 ns apart
+must both survive the normal ROM 1.4 renderer workload. A controller can finish the
+first write in time and still lose the second request by rearming too late.
+The U17 step timing and U15 forced count used by the emulator are model choices until
+identified by evidence; record them and test the combined model against the
+[copy timing budget](07-glue-logic.md#copy-timing-budget) and
+[wait-state logic](05-z180.md#wait-states).
+
 Why v2.0 differs, equation by equation:
 [Correcting the capture logic](12-lattice-fix.md#what-the-corrected-map-changes).
 
@@ -165,6 +181,16 @@ Why v2.0 differs, equation by equation:
 Connect a Z8S180 core to the [memory map](reference/z180-memory-map.md),
 [interrupt inputs](reference/z180-io-ports.md#z180-interrupt-inputs) and
 [wait-state logic](05-z180.md#wait-states).
+
+Video memory waits come from the Oak's DRAM timeline, not a fixed count: model display
+fetch, refresh and both caches, and run the Oak's 40 MHz MCLK and the Z180's 18 MHz clock
+as separate clocks
+([how long IOCHRDY holds an access](05-z180.md#how-long-iochrdy-holds-an-access)).
+The two crystals are not locked, so the card has no fixed phase between them. At the
+nominal 40 and 18 MHz, MCLK's offset at successive Z180 clock edges steps through nine
+values 2.78 ns apart, covering the whole 25 ns memory clock every 500 ns. A fixed starting
+phase therefore moves any result by less than 2.78 ns; starting both clocks on a rising
+edge at reset is as good as any other choice and keeps runs repeatable.
 
 The [boot sequence](05-z180.md#boot) maps the overlay and sets up memory. Implement both
 ASCI channels, CSI/O, the timers, the clock controls, the MMU and DMA, and show ASCI0's
@@ -181,7 +207,7 @@ both command handshakes and data transfers.
 
 ## 5. The video side
 
-Implement standard VGA and all documented [OTI-087 extensions](reference/oti087-registers.md),
+Implement standard VGA and all documented [OTI-087X extensions](reference/oti087-registers.md),
 including the cursor, CRT interrupt and EEPROM interface. Connect the
 [video address window](06-video.md#the-video-ram-window) and implement the
 [latch lane rule](06-video.md#the-64-bit-latch-lane-rule).
@@ -231,7 +257,14 @@ Before diagnosing a rendering mismatch as a hardware-model fault, check the ROM'
 | Capture and event backpressure | U2 changes on captured writes and written events; a second event/copy waits for acknowledgment. [Capture logic](04-capture-logic.md) |
 | Banking and shadowing | Captured bytes follow the decoded bank equation; unshadowed fast-side writes do not reach the card. [Apple interface](03-apple-interface.md) |
 | Palette and mode loading | 8-bit palette components, mode-record write order, and the RGB $FA clock override match [Video](06-video.md). |
+| Text font load | Every font row lands at its own address, and Apple text shows intact. See [text font loading](#text-font-loading). |
 | Features beyond the ROM | Exercise all chip registers/peripherals, cursor, CRT interrupt, EEPROM, and color modes against their databooks and [custom-code inventory](14-custom-code.md). |
+
+### Text font loading
+
+The ROM writes the font into plane 2 with sequencer map mask 4, memory mode 6 (odd/even off) and graphics mode 0, and leaves graphics register 6 as the text mode set it ([`textsetup.asm`](../firmware/v1.4/src/textsetup.asm) `copy_font`, `copy_font_applecolor_rgb`). With odd/even off in the sequencer, CPU addresses reach the plane in sequence, and graphics register 6's chain odd/even does not change them ([IBM](sources.md#s68) p2-54).
+
+Every font row lands at its own address, and Apple text shows intact. In firmware 1.5 and 2.0, SetTextFont loads its font through the same routine ([`text.asm`](../firmware/v1.5/src/text.asm) `set_text_font`).
 
 ---
 

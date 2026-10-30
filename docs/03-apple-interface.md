@@ -2,6 +2,10 @@
 
 [Reference index](../README.md) | [Glossary](glossary.md) | [Reference tables](reference/README.md)
 
+How the card watches the Apple slot bus, exchanges commands with the host, and pauses or
+interrupts the Apple processor. Pin assignments are in the
+[slot reference](reference/slot-pins.md).
+
 ## Contents
 
 - [What the card does on the slot](#what-the-card-does-on-the-slot)
@@ -57,13 +61,23 @@ The IIgs runs its slots from the 1 MHz "slow side" (the Mega II chip). The key s
 from Apple IIgs Technical Note #68:
 
 - **PHASE 0** (pin 40): the 1 MHz slot clock. The data phase is PHASE 0 high. A slow cycle
-  is 980 ns when cycles run back to back.
+  is 980 ns when cycles run back to back. It is 14 periods of the IIgs's 14.318 MHz master
+  clock, PH0 low then PH0 high, each at least 480 ns (7 periods). Every 65th cycle is
+  "stretched" by 140 ns, two master-clock periods, for NTSC color, and the extra time is in
+  its PH0 low phase; its high phase is normal. A scan line is 64 x 14 + 16 = 912 periods,
+  so slow-cycle edges do not fall on a fixed 14-period grid. Sources:
+  [IIgs Hardware Reference](sources.md#s78) p14, Figure 2-2 (p15); Table 8-8 (p195).
+- **Setup before the PH0 fall** for RDY, /IRQ and /NMI: [TN #68](sources.md#s43) gives
+  60 ns, from the CPU's 30 ns setup to its PH2 fall plus up to 25 ns of PH2-to-PH0 skew. The
+  [Hardware Reference](sources.md#s78) Table 8-8 (p195) lists 140 ns minimum "control signal
+  setup time", the margin Apple asks cards to meet.
 - **/M2SEL** (pin 39): low when the processor is synchronized to the slow side and the
   address on the bus is a valid Apple II address in the 128 KB main or auxiliary space.
   [TN #68](sources.md#s43): "/M2SEL can be viewed as an extension of the address bus on the expansion slots."
   - Low for: shadowed video writes, internal I/O and slot accesses, all of banks $E0/$E1.
-  - Not low for: fast-side registers $C035, $C036, $C037, and **reads** of $C02D and
-    $C068. The card never sees those.
+  - Not low for: fast-side registers $C035, $C036, $C037, **reads** of $C02D and $C068,
+    and slot ROM areas ($Cn00-$CnFF) that the Slot register ($C02D) sets to Internal
+    ROM; those run at 2.8 MHz. The card never sees them as slow cycles.
 - **M2B0** (pin 35): the low bit of the bank. [TN #68](sources.md#s43): it "is normally tri-stated and goes
   active for 140 nanoseconds, starting 140 nanoseconds after the PH0 clock falls". It is
   high for bank $E1 and for shadowed writes and I/O through bank $01. It does not follow
@@ -78,7 +92,7 @@ from Apple IIgs Technical Note #68:
  PHASE0  ~~\_________________________/~~~~~~~~~~~~~~~~~~~~~~~~~~~~\___
               address phase              data phase ("CPU" high)
  M2B0    ------<=140 ns=>------------------------------------------   driven 140-280 ns after PH0 falls,
-                                                                      tri-stated (pulled low) otherwise
+                                                                      tri-stated otherwise (must read low then)
  /M2SEL  ~~~~~~~~~\________________________________________________   low = valid slow access
                   ^ Lattice samples M2B0         ^ latches take address and data (end of data phase)
 ```
@@ -131,7 +145,7 @@ copy. Source: [TN #68](sources.md#s43).
 
 - Slot /RESET (pin 31) goes into GAL U17 as ARES. U17's RES output drives the Z180's
   /RESET, restarting its firmware.
-- The drawing joins the OTI-087's active-high RSET input ([databook p18](sources.md#s02)) and Lattice pin 35
+- The drawing joins the OTI-087X's active-high RSET input ([databook p18](sources.md#s02)) and Lattice pin 35
   on the net RESET; U17's RESN is a separate lone label. How the Lattice responds to
   reset: [Reset and power-on](04-capture-logic.md#reset-and-power-on).
 - On a IIgs, Control-Reset makes the system assert RESET, which is slot pin 31, so the
@@ -144,10 +158,9 @@ On a IIe the same pins carry different signals ([FAQ part 13](sources.md#s42)):
 - Pin 39 is the 6502's **SYNC**, high during an opcode fetch. The Lattice reads it as
   /M2SEL. Low means "not an opcode fetch", which is true for every data read and write,
   so copies and events still qualify.
-- Pin 35 is unused in slots 2-6 (so the card's pull-down holds it low), the active-low
-  keyboard enable ENKBD' in slot 1 (the pull-down leaves the keyboard enabled) and the
-  color reference in slot 7. With M2B0 low the bank comes only
-  from the tracked softswitches, which is correct on a IIe.
+- Pin 35 is unused in slots 2-6, the active-low keyboard enable ENKBD' in slot 1 and the
+  color reference in slot 7. While it reads low, the bank comes only from the tracked
+  softswitches, which is correct on a IIe ([M2B0](reference/slot-pins.md#m2b0-pin-35)).
 - The firmware sets the same mode bit (MODE_D3) on both machines; it does not tell a IIe
   from a IIgs. Source: [ROM_BEEF.asm:58-59](sources.md#s27).
 

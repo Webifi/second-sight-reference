@@ -12,7 +12,7 @@ PLCC pin,Lattice pin name,Net on drawing,Direction,Meaning
 11,Y0,CLK,clock,"Softswitch clock, falling edge; 7M or Q3 both meet its timing (clocks)"
 12,VCC,VCC,power,Logic supply
 13,ISPEN,(no connection),programming,"In-system programming enable, not connected on the drawing"
-14,IN0,M2B0,input,"IIgs Mega II bank bit, from slot pin 35. Needs a pull-down (bank input and pull-down)."
+14,IN0,M2B0,input,"IIgs Mega II bank bit, from slot pin 35. Must read low during the data phase (bank input)."
 15,IO0,AA08,input,Apple address A8
 16,IO1,AA09,input,Apple address A9
 17,IO2,AA10,input,Apple address A10
@@ -31,7 +31,7 @@ PLCC pin,Lattice pin name,Net on drawing,Direction,Meaning
 30,IO13,HD3,bidirectional,Z180 data bit 3
 31,IO14,HA01,input,Z180 address A1
 32,IO15,HD1,bidirectional,Z180 data bit 1
-33,Y2,(stub on prototype),clock,"Bank-window clock for M2B0, falling edge: 7M, wired on production (TN #68, clocks)"
+33,Y2,(stub on prototype),clock,"Bank-window clock for M2B0, falling edge: needs 7M (TN #68). A production rework wire brings 7M to the socket; its end is hidden under the socket (production changes, clocks)"
 34,VCC,VCC,power,Logic supply
 35,Y1/RESET,RESET,input,"Y1 clock input, unused; not the global reset (reset)"
 36,IN2,AD4,input,Apple data bit 4; loaded into RAMWRT from $C068 bit 4 (AD6 and AD4)

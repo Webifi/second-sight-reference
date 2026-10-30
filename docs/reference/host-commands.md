@@ -159,6 +159,9 @@ repeat data ([E9](errata.md#e9-scrollscreen-toward-a-higher-address-copies-the-w
 
 SetPalette takes 256 RGB entries of three 8-bit components. The firmware buffers the 768
 bytes at SRAM `$0F000`, then loads the DAC. It ignores the IIgs address parameter.
+Firmware 1.5 and 2.0 do the same, except while SetTextFont's user font is chosen: that
+font lives at `$0F000`, so the bytes go through firmware memory instead
+([SetTextFont](#settextfont)).
 Sources: firmware `set_palette`; [VGALOW.ASM](../sources.md#s29) `_SetPalette`.
 
 SetPaletteEntry writes one index and its red, green and blue values. The components are
