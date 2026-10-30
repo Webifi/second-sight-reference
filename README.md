@@ -12,6 +12,10 @@ a VGA or AppleColor RGB monitor. A Zilog Z180 with 128 KB of RAM on the card kee
 of the Apple's video memory and redraws it through an Oak VGA chip, and gives IIgs
 programs new 256-color and 15-bit-color modes.
 
+![Front of a 1995 production Second Sight card](docs/images/second-sight-front.jpg)
+
+*Front of a 1995 production card. Photo: [Apple II Documentation Project](docs/sources.md#s20).*
+
 ## Start here
 
 | To | Read |
@@ -60,6 +64,7 @@ programs new 256-color and 15-bit-color modes.
 ```
 docs/            the reference, numbered in reading order
 docs/reference/  readable pin, port, register, command, clock and mode tables
+docs/images/     photos shown in the docs
 data/tables/     CSV tables: ports, memory map, registers, clocks, pins, commands, modes
 data/lattice/    the Lattice chip's design source (ispLSI1016), and the original fuse map
 data/netlist/    pin-level netlist, parts list and pinout checks
@@ -72,7 +77,12 @@ sources/         download list for the tools (the documents themselves are not c
 
 ## Credits
 
-- Card, firmware and library: Sequential Systems ([manual](docs/sources.md#s16)).
+- Second Sight card, firmware and library: Sequential Systems.
+  - Andrew Vogan: Lattice gate-array design, Z180 subsystem and Apple interface.
+  - Joseph A. Yandrofski: VGA subsystem and the analog video output.
+  - Jawaid Bazyar: firmware, IIgs application software and toolbox.
+  - Tim Courtney: more firmware.
+  - Petar Puskarich: named the card.
 - Preserved documents: the [Apple II Documentation Project](https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Interface%20Cards/Video/Sequential%20Systems%20Second%20Sight/),
   [Brutal Deluxe](https://www.brutaldeluxe.fr/documentation/secondsight.html),
   [bitsavers](http://bitsavers.informatik.uni-stuttgart.de/components/) and the

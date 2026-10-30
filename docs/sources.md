@@ -55,7 +55,7 @@ Browse key sources by topic:
 | [s37](#s37) | ispLSI1016_datasheet.pdf: Lattice ispLSI1016 datasheet (architecture, pinouts) |
 | [s38](#s38) | 1994_Lattice_Handbook.pdf: Lattice 1994 handbook: ispLSI 1000 family architecture, GLB, clock distribution |
 | [s39](#s39) | um0050.pdf: Zilog Z8018x Family MPU User Manual UM0050 (UM005004-0918): Z8S180 registers, DMA, wait states (DCNTL tables 3 and 4), MMU |
-| [s40](#s40) | Second.Sight.Info.txt: "SecondSight SVGA Board Specifications & Features" with "Common Questions and Answers", from Sequential Systems, about 1994-95 |
+| [s40](#s40) | Second.Sight.Info.txt: "SecondSight SVGA Board Specifications & Features" with "Common Questions and Answers", posted by Jawaid Bazyar, about 1994-95 |
 | [s41](#s41) | SecondSight.Card.INFO.txt: "SecondSight Card INFO": owners' messages "Compiled from the A2 Delphi forum", 10/8/98 |
 | [s42](#s42) | comp.sys.apple2-faq-part13.txt: comp.sys.apple2 FAQ part 13: Apple II slot pin meanings per machine |
 | [s43](#s43) | tn-iigs-068.html: Apple IIgs Technical Note #68: M2SEL, M2B0 timing, RDY and DMA on IIgs slots |
@@ -542,7 +542,7 @@ Zilog Z8018x Family MPU User Manual UM0050 (UM005004-0918): Z8S180 registers, DM
 ### Second.Sight.Info.txt
 
 "SecondSight SVGA Board Specifications & Features" with "Common Questions and Answers",
-from Sequential Systems, about 1994-95
+posted by Jawaid Bazyar, about 1994-95. It names the card's hardware and firmware designers.
 
 - **Kind:** original document.
 - **Public source:** <http://apple2.org.za/gswv/a2zine/GS.WorldView/v1999/Sep/A2.Best.of.Usenet/Second.Sight.Info.txt>.
