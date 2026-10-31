@@ -354,6 +354,7 @@ Each of these replaces drawing with one to three register writes per frame.
 - [Horizontal pixel panning](#horizontal-pixel-panning)
 - [Split screen](#split-screen)
 - [A scrolling ring buffer with no double drawing](#a-scrolling-ring-buffer-with-no-double-drawing)
+- [Scrolling sideways through a long playfield](#scrolling-sideways-through-a-long-playfield)
 - [Page flipping](#page-flipping)
 - [Bands that start anywhere](#bands-that-start-anywhere)
 - [Line doubling](#line-doubling)
@@ -368,6 +369,13 @@ picks the first byte shown. In packed 256-color mode it counts 8-byte units: the
 third-party XFree86 driver sets it to (y x pitch + x) / 8 (`OAKAdjust`); in unchained mode it
 counts 4-pixel groups. Three register writes scroll the whole screen vertically by any
 number of lines, or horizontally in 8- or 4-pixel steps.
+
+The display address has no 64K limit: it counts on past bit 15, from one row to the next
+and inside a row. Oak's 16-color modes 56h (1024 x 768) and 58h (1280 x 1024 interlaced)
+(databook p2) use byte mode with CRTC $13 = $40 and $50 ([TEv1.02](sources.md#s58) mode
+tables at file offsets $16B2 and $17F2), so their rows are 128 and 160 addresses long. A
+frame from address 0 then needs 96K or 160K addresses in each plane, and row 409 of the
+1280 mode runs from address 65,440 to 65,599.
 
 The shown page stays inside $00000-$FFFFF: the chip strobes the second megabyte with RASHn
 (pin 125, databook p22), which is open on this card
@@ -395,12 +403,20 @@ Oak's VESA extension writes the 9-dot encoding in every mode, 8 when X mod 8 is 
 otherwise (X mod 8) - 1 ([87X DOS kit](sources.md#s79) `OTIVBE.COM` $3A5-$3EC), so in
 packed mode it shows the picture from pixel X - 1 whenever X mod 8 is 1-7.
 
+IBM latches only the start address, at the start of vertical retrace
+([Page flipping](#page-flipping)), and describes no latch for attribute $13 (p2-95). So
+write the start address during the active display, then attribute $13 right after vertical
+sync starts, as Abrash's page-flip code does: "Set horizontal panning now, just as new
+start address takes effect" ([Abrash](sources.md#s134), Listing 23.1). A delay before the
+$13 write leaves the start address and the pan mismatched.
+
 ### Split screen
 
 CRTC $18 (line compare, bit 8 in CRTC $07 bit 4, bit 9 in CRTC $09
 bit 6) restarts the display at address 0 below a chosen line: a fixed status bar under
-a scrolling playfield. Attribute $10 bit 5 keeps the bar out of the pixel panning
-([IBM](sources.md#s68) pp2-77, 2-103).
+a scrolling playfield. The fixed part can only be at the bottom: rows above the line follow
+the start address, and rows below it always start at address 0. Attribute $10 bit 5 keeps
+the bar out of the pixel panning ([IBM](sources.md#s68) pp2-77, 2-92, 2-103).
 
 ### A scrolling ring buffer with no double drawing
 
@@ -410,6 +426,23 @@ buffer that starts at address 0 can therefore wrap: the top of the screen shows 
 from the start address down to its end, and line compare, moved each frame, continues it
 from address 0. Only a buffer at address 0 can wrap this way, so this suits one shown
 buffer, not two pages.
+
+### Scrolling sideways through a long playfield
+
+A playfield too wide to store whole still scrolls with one new column drawn per step. The
+display address never wraps ([Hardware scrolling](#hardware-scrolling)), so the layout
+moves forward through memory instead:
+
+- Store column X of row r at base + r x P + X. A column is one start-address step (4
+  pixels in unchained mode, 8 in packed mode), and P is the row pitch in columns
+  (2 x CRTC $13).
+- Show the playfield from column X0 with start address base + X0. Each step adds or
+  subtracts 1 and draws the one new column in every row.
+- Make P at least W + 2, where W is the screen width in columns: a nonzero pan shows one
+  more column, and the new column is drawn before the start address moves. Each row's new
+  column then overwrites only columns of the rows above and below that are off the screen.
+- Memory used is rows x P plus the distance scrolled right, not rows x the playfield
+  width. It must stay inside the 1 MB.
 
 ### Page flipping
 
@@ -422,9 +455,11 @@ page.
 ### Bands that start anywhere
 
 "Each subsequent row address is determined by the 16-bit addition of the start-of-line
-latch and the Offset register" (IBM p2-103). A new CRTC $13 written between two rows,
-timed from PRT1, moves where the following rows start: bands of the screen taken from
-different parts of memory, or, with $13 = 0, one row shown again and again.
+latch and the Offset register" (IBM p2-103). IBM's VGA has 64 KB per plane; on the Oak the
+addition carries past bit 15 ([Hardware scrolling](#hardware-scrolling)). A new CRTC $13
+written between two rows, timed from PRT1, moves where the following rows start: bands of
+the screen taken from different parts of memory, or, with $13 = 0, one row shown again and
+again.
 
 ### Line doubling
 

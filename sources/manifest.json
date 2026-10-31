@@ -786,6 +786,12 @@
    "local": "oak/oti-037.pdf",
    "size": 1017964,
    "sha256": "a6e643ac13fc8cbc4f564c9f32ebb2af6d2c7cd60ea58ec8e41d6a97fbd7cf34"
+  },
+  {
+   "id": "github/abrash-black-book-chapter-23",
+   "title": "Michael Abrash, Graphics Programming Black Book, chapter 23 \"Bones and Sinew\": start address and pel panning order, Listing 23.1",
+   "kind": "link",
+   "url": "https://github.com/jagregory/abrash-black-book/blob/master/src/chapter-23.md"
   }
  ]
 }

@@ -147,6 +147,7 @@ Browse key sources by topic:
 | [s131](#s131) | AMI PEEL18CV8 data sheet (February 1993) |
 | [s132](#s132) | BI Technologies 627/628 series resistor networks (January 2008) |
 | [s133](#s133) | Oak OTI-037 VGA controller data sheet |
+| [s134](#s134) | Michael Abrash, Graphics Programming Black Book, chapter 23 "Bones and Sinew" |
 
 ## Documents
 
@@ -1619,6 +1620,16 @@ DRAM timing figures show a RAS precharge between display and CPU memory cycles (
 
 - **Kind:** original document.
 - **Public source:** <https://peel.dk/Archive/-%20PC%20cards%2C%20manuals%2C%20BIN%20files%2C%20etc/Oak%20OTI-037C/oti-037.pdf>.
+
+<a id="s134"></a>
+
+### Michael Abrash, Graphics Programming Black Book, chapter 23 "Bones and Sinew"
+
+Abrash's VGA page-flipping code. Listing 23.1 gives the order of the start address and
+attribute $13 writes around vertical sync.
+
+- **Kind:** another author's account.
+- **Public source:** <https://github.com/jagregory/abrash-black-book/blob/master/src/chapter-23.md>.
 
 ## Additional component datasheets
 
