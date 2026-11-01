@@ -375,10 +375,15 @@ keeps the time and the card tells it how far off it is.
    - Run PRT0 with a reload of one frame, started at a vertical retrace and kept in step
      with it ([A retrace interrupt on a stock card](#a-retrace-interrupt-on-a-stock-card)).
      Its count then tells where the card's beam is in the frame.
-   - Read the count in the INT1 handler, at the event the IIgs makes when a frame's data
-     is complete. Read TMDR0L first: that read holds TMDR0H for the read that follows
-     ([Zilog UM0050](sources.md#s39) p158). A count read later, in the drawing loop,
-     includes the drawing time, which changes from frame to frame.
+   - Read the count when the frame's data starts to arrive. If the CPU takes the events,
+     its INT1 handler for the first one reads it. If DMA1 takes the bytes, no INT1 marks
+     that moment ([In through event bytes and DMA1](#in-through-event-bytes-and-dma1)), so
+     the Z180 reads the count when it sees DMA1's byte count (BCR1) first change. That
+     reading is exact only while the Z180 is watching, for example while it waits for the
+     retrace; one taken later, in the drawing loop, includes the drawing time, which
+     changes from frame to frame.
+   - Read TMDR0L first: that read holds TMDR0H for the read that follows
+     ([Zilog UM0050](sources.md#s39) p158).
 4. **Draw each picture within one frame.** A start address written after the retrace it
    was meant for takes effect one frame late, so the previous picture shows twice. No
    timer correction can make up for that.
@@ -490,6 +495,14 @@ bytes to $C0B1. A 16-bit store writes $C0B1 and $C0B2, two bytes. RDY holds the 
 whenever DMA1 has not taken the previous byte, so nothing is lost, and the Z180 runs
 between transfers, Oak work included. The cost is 0.39 us of bus time per byte and IIgs
 waits whenever the Z180 is slow to free the bus.
+
+Keep INT1 off (ITC bit 1, ITE1 = 0) while DMA1 is armed. INT1 and DREQ1 are one line. DMA1
+starts on the line's falling edge, and its read of $A0 acknowledges the event and releases
+the line, usually before the CPU samples INT1 at the end of its instruction
+([Zilog UM0050](sources.md#s39) p107). So INT1 cannot mark a byte's arrival, and an INT1
+handler that does run and touches $A0 can take a byte meant for DMA1. DMA1's own
+end-of-transfer interrupt (DSTAT DIE1) marks the last byte. Its handler must clear DIE1,
+because the request lasts while DE1 = 0 (UM0050 pp95, 114).
 
 #### Signals between the two programs
 
