@@ -15,7 +15,7 @@ through the stock host commands.
 - [Video resources](#video-resources)
   - [Modes](#modes-beyond-the-firmwares-tables), [building a mode](#building-a-mode) and [24-bit width](#24-bit-mode-width)
   - [Drawing with the Oak](#drawing-with-the-oti-087x) and [Bt481](#bt481-features-the-firmware-does-not-use)
-  - [Matching the IIgs frame](#matching-the-iigs-frame) and [per-line palette effects](#per-line-palette-effects)
+  - [Matching the IIgs frame](#matching-the-iigs-frame), [per-line palette effects](#per-line-palette-effects) and [game timing](#game-timing)
 - [Apple-side resources](#apple-side-resources)
   - [Protocol](#your-own-command-protocol) and [bulk data](#moving-bulk-data)
   - [Events](#watching-the-apple), [IRQ](#interrupting-the-iigs) and [limits](#what-the-iigs-cannot-do)
@@ -347,6 +347,41 @@ All 16 colors on every line, a full 3200-color display, needs about 1,000 clocks
 writes per line (one entry selection, then 48 writes) against about 228 clocks of blank,
 so it does not fit. Sources: [Zilog UM0050](sources.md#s39) instruction table; [OTI-087
 databook](sources.md#s02) CRTC and interrupt registers.
+
+### Game timing
+
+A game shown on the card should make one game frame for each picture the card shows. When
+the two rates differ, a picture shows twice or a game frame never shows, and motion
+stutters. No hardware ties the card's picture to the IIgs
+([Outputs and the monitor type](06-video.md#outputs-and-the-monitor-type)), so the IIgs
+keeps the time and the card tells it how far off it is.
+
+1. **Pick a mode near the game's own rate.** The game runs at the mode's frame rate, not
+   at the rate it was written for, so the two must be close. The rate follows from the
+   pixel clock and the CRTC totals ([Building a mode](#building-a-mode), step 4). For
+   example, NTSC NES games run at 60.0988 Hz. A 40 MHz clock with the sequencer's divide
+   by 2 and lines of 80 eight-dot characters gives 60.0962 Hz: 520 lines on VGA, or 260
+   lines on AppleColor RGB, where U12 halves the clock.
+2. **Run the game and its sound from a IIgs timer at that rate.**
+3. **Correct the timer from the card.** The rate computed from the mode is not the card's
+   real rate: each OTI-068 output can be 0.5% off its listed frequency
+   ([clock selections](reference/clocks.md)), and the card's crystal is not the IIgs's. At
+   60 Hz, 0.5% slips one frame every 3.3 seconds. So Z180 code measures where in its own
+   frame each IIgs frame's data arrives, and returns that in a status byte
+   ([Signals between the two programs](#signals-between-the-two-programs)). The IIgs moves
+   its timer earlier or later to keep the data arriving a little before the card's
+   vertical retrace, which frees the page the card draws into next
+   ([Page flipping](15-oak-drawing.md#page-flipping)). The measurement:
+   - Run PRT0 with a reload of one frame, started at a vertical retrace and kept in step
+     with it ([A retrace interrupt on a stock card](#a-retrace-interrupt-on-a-stock-card)).
+     Its count then tells where the card's beam is in the frame.
+   - Read the count in the INT1 handler, at the event the IIgs makes when a frame's data
+     is complete. Read TMDR0L first: that read holds TMDR0H for the read that follows
+     ([Zilog UM0050](sources.md#s39) p158). A count read later, in the drawing loop,
+     includes the drawing time, which changes from frame to frame.
+4. **Draw each picture within one frame.** A start address written after the retrace it
+   was meant for takes effect one frame late, so the previous picture shows twice. No
+   timer correction can make up for that.
 
 ## Apple-side resources
 

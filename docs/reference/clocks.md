@@ -10,10 +10,13 @@ mode files use it.
 - **MCLK** is the video-memory clock, picked separately by the MS1-MS0 jumpers.
 - Both come from a 14.31818 MHz crystal. The Z180's clock is a separate 36 MHz oscillator,
   so no OTI-068 selection changes the CPU speed.
+- Each output can be up to 0.5% off its listed frequency (the databook's "Frequency
+  Error"). A frame rate computed from this table can be off by as much
+  ([Game timing](../14-custom-code.md#game-timing)).
 
-Sources: the [OTI-068 databook](../sources.md#s01) frequency table; firmware and mode-file
-values decoded by `tools/mode_files.py`; the [production photo](../sources.md#s20) for the
-memory-clock straps.
+Sources: the [OTI-068 databook](../sources.md#s01) frequency table (p7) and frequency
+error (p5); firmware and mode-file values decoded by `tools/mode_files.py`; the
+[production photo](../sources.md#s20) for the memory-clock straps.
 
 ## Contents
 
@@ -37,7 +40,7 @@ memory-clock straps.
 | VCLK | FS3-FS0 = $4 | 28.322 | Several RGB mode files, after the misc-output override ([clock selection](#clock-selection-and-overrides)) |
 | VCLK | FS3-FS0 = $5 | 36.000 | AppleColor 40-column text and 280x192 in the firmware tables |
 | VCLK | FS3-FS0 = $6 | 40.000 | None |
-| VCLK | FS3-FS0 = $7 | 36.000 | None |
+| VCLK | FS3-FS0 = $7 | 36.000 | `M800X600.36M` |
 | VCLK | FS3-FS0 = $8 | 25.175 | None |
 | VCLK | FS3-FS0 = $9 | 28.322 | None |
 | VCLK | FS3-FS0 = $A | 78.000 | `M640X48016M`, whose DAC setting leaves true color off ([24-bit mode width](../14-custom-code.md#24-bit-mode-width)) |
