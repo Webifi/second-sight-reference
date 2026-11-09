@@ -2,7 +2,7 @@
 
 [Reference index](../README.md) | [Glossary](glossary.md) | [Reference tables](reference/README.md)
 
-The IIgs talks to the card through four addresses: WR_CMD ($C0B0), WR_DATA ($C0B1),
+The IIgs communicates with the card through four addresses: WR_CMD ($C0B0), WR_DATA ($C0B1),
 RD_DATA ($C0B2) and HANDSHAKE ($C0B8) ([host registers](reference/host-commands.md#host-registers)).
 Sequential's library does the transfers ([VGALOW.ASM](sources.md#s29),
 [VGALIB.C](sources.md#s31)).
@@ -48,9 +48,9 @@ Transfer details:
   accumulator, then `iny iny`). Each store writes $C0B1 and then $C0B2. Both raise an
   event, so both are data bytes. The Lattice holds the 65816 with RDY until the card takes
   each byte.
-- **Reading results.** Each IIgs read of $C0B0-$C0B7 makes the DMA write the next byte to
-  port $A0. So the first read after the $01 handshake returns the old handshake value. The
-  library reads $C0B2 once and throws that value away (GetStatus, GetVGAReg).
+- Each IIgs read of $C0B0-$C0B7 makes DMA write the next result byte to port $A0. The
+  first read after the $01 handshake therefore returns the old handshake value. The
+  library reads $C0B2 once and discards that value (GetStatus, GetVGAReg).
 - ROM 1.4 ignores command $0F and up after the command byte. Firmware 1.5 and 2.0 also
   accept $0F, SetTextFont ([E10](reference/errata.md#e10-settextfont-is-missing)).
 - Writes to $C0B1-$C0B7 outside a command are acknowledged and dropped.
@@ -81,20 +81,20 @@ in all. Source: [Programmer's Library Documentation](sources.md#s14) p1.
 
 ## Loading Z180 code
 
-RunCode calls any Z180 address, with the MMU set as the IIgs asks. The code must first get
-into Z180 memory. The firmware allows three ways:
+RunCode calls any Z180 address using the MMU settings supplied by the IIgs. First, load
+the code into Z180 memory by one of these methods:
 
 1. **Screen copy.** With copying on, every byte the IIgs writes to its main hires page 2
    ($00/$4000-$5FFF or $E0/$4000-$5FFF, directly or through shadowing) is copied into SRAM
    bank 0 at $4000-$5FFF. The firmware never runs code there. RunCode with BBR = 0 and
    address $4000 runs it. If hires page 2 is on screen, the bytes show.
-2. **SetPalette.** The 768 bytes land at SRAM $0F000 before they go to the DAC. RunCode at
-   $F000 runs them. The palette shows garbage meanwhile. In firmware 1.5 and 2.0 this works
-   while SetTextFont's user font is not chosen.
+2. **SetPalette.** The firmware buffers the 768 bytes at SRAM $0F000 before sending them
+   to the DAC. RunCode at $F000 runs them. The palette shows garbage in the meantime. In
+   firmware 1.5 and 2.0 this works while SetTextFont's user font is not chosen.
 3. **UploadData with flag 1 and bank $10-$13.** The firmware uses banks 8 and up as given.
    The Z180's DMA memory address register keeps only address bits 19-16 (Zilog
-   [UM0050](sources.md#s39)). So bank $10 lands in SRAM $0xxxx, $11 in $1xxxx, and $12/$13
-   in the mirror $2xxxx/$3xxxx. Flag 0 does not work: it always writes bank $08.
+   [UM0050](sources.md#s39)). Bank $10 therefore writes SRAM $0xxxx, $11 writes $1xxxx,
+   and $12/$13 write the mirror $2xxxx/$3xxxx. Flag 0 does not work: it always writes bank $08.
 
 **Free space.** The screen copy never writes bank 1 $A000-$FFFF (24 KB), but not all of it
 is free while the firmware draws:
@@ -107,7 +107,7 @@ is free while the firmware draws:
 
 Source: [Firmware documentation](sources.md#s15) pp9-10.
 
-Code that runs alongside the firmware has more limits:
+Code running alongside the firmware has further limits; see
 [Beyond the firmware: Memory](14-custom-code.md#memory).
 
 ### Calling and returning

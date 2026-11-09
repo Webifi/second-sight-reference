@@ -2,11 +2,11 @@
 
 [Reference tables](README.md) | [Glossary](../glossary.md) | [Firmware](../08-firmware.md)
 
-Every known fault of ROM 1.4, the card logic (U7), the IIgs library, the mode files and
-the programs written for the card. Each entry gives the symptom, the cause, a workaround
-for a card as shipped, and the fix: [firmware 1.5 and 2.0](../firmware-versions.md)
-([how](../firmware-fixes.md)) or [Lattice v2.0](../lattice-versions.md). Workarounds use only
-the card's own host commands ([Reaching the card from the IIgs](../14-custom-code.md#reaching-the-card-from-the-iigs)).
+ROM 1.4, the card logic (U7), the IIgs library, the mode files and some programs have the
+faults described below. Some are corrected by [firmware 1.5 and
+2.0](../firmware-versions.md) ([how](../firmware-fixes.md)) or [Lattice
+v2.0](../lattice-versions.md). Workarounds use only the card's own host commands
+([Reaching the card from the IIgs](../14-custom-code.md#reaching-the-card-from-the-iigs)).
 
 ## Contents
 
@@ -260,8 +260,8 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 
 ### E10. SetTextFont is missing
 
-- Sequential's [firmware documentation](../sources.md#s15) documents command $0F, SetTextFont; ROM 1.4 ignores
-  commands $0F and above.
+- ROM 1.4 ignores command $0F, SetTextFont, and all higher command numbers. SetTextFont
+  is described in the [firmware documentation](../sources.md#s15).
 
 - **Workaround:** none in ROM 1.4.
 
@@ -294,8 +294,8 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   incompatible, because the card cannot keep pace with its palette updates. Source: [manual](../sources.md#s16) p25. Owners reported it in 1996: the card "doesn't support 3200
   mode because it doesn't support scan-line interrupts". Source: [comp.sys.apple2, June 1996](../sources.md#s72).
 
-- **Cause:** the card's VGA display runs on its own timing, not the IIgs beam, and the
-  renderer compares palette memory only between its own passes:
+- **Cause:** the card's VGA display runs independently of the IIgs beam. The renderer
+  compares palette memory only between its own passes:
   [Super Hi-Res](../08-firmware.md#super-hi-res).
 
 - **Workaround:** show the picture in one of the card's own 15-bit modes instead of
@@ -467,17 +467,32 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
   ([how this was checked](../04-capture-logic.md#how-this-was-checked)).
 
 - **Rastan hits it:** Rastan is the IIgs version of Taito's 1987 arcade game, a
-  side-scrolling sword fighter. It runs with $C068 = $3C (RAMRD and RAMWRT on). Its screen
-  pixels go through bank $00 and are copied, but it stores its scan-line control bytes and
-  palettes straight to $E1/$01 (`STA $019D18,X` at $02:153C, `STA $019D00,X` at $02:2939,
-  an `MVN` into $E1:9E20-$9E3F at $02:20FF). On the card those stay stale, so the
-  background shows black or in the title screen's colors, matching the owner's report of
-  a blank background. Found in the game's code.
-  Source: [secondsight.rgb](../sources.md#s73).
+  side-scrolling sword fighter. It runs with $C068 = $3C (RAMRD and RAMWRT on). It draws
+  some of its screen through bank $00, which the card copies, and writes the rest
+  straight to $01/$E1, which the card loses. Its direct writes include:
+  - Between the title, story and high-score screens it clears the whole screen area,
+    $01:2000-$9FFF, palettes and scan-line control bytes included. Four stores do it,
+    `STA $012000,X` to `STA $018000,X` at $02:2948-$02:2954. The routine at $02:297B
+    clears palette 1 (`STA $019E20,X` at $02:2972) and then $01:2F00-$9CFF
+    (`STA $012F00,X` at $02:2984).
+  - One routine at $03:C140 draws all its text, 8 pixels wide and 8 lines tall per
+    character, with `STA $01xxxx,X` stores ($03:C14D-$03:C1CD). That covers the story
+    text, the PLAYER/HIGH SCORE header and the high-score screen.
+  - Scan-line control bytes: `STA $019D18,X` at $02:153C, `STA $019D00,X` at $02:2939,
+    and `STA $019DB0` to `STA $019DB6` at $02:0BF2-$02:0BFE.
+  - Palettes: `MVN` block copies from bank $02 into $01 at $02:0558 and $02:10BD, and into
+    $E1 at $02:0C55, $02:0C61 and $02:20FF; `STA $E19E24` at $02:0C66.
+  - Pixels: `STA $019310,X` at $02:0CFB.
+  - None of these writes reaches SRAM bank 1, which holds the card's screen copy. The
+    title picture remains visible during the story screen; the story text, score header
+    and high-score screen do not appear. Pictures drawn through bank $00 do appear. The
+    scan-line control bytes and palettes retain their old values, leaving the background
+    black or in an earlier screen's colors. An owner reported a blank background
+    ([secondsight.rgb](../sources.md#s73)).
 
-- **Rastan's code is correct IIgs code, not a game bug.** RAMWRT redirects only writes
-  aimed at bank $00, so on a IIgs a long store to $01 or $E1 always lands there. The game
-  turns RAMRD and RAMWRT on so that its bank $00 direct-page and stack writes land in
+- **Rastan's memory writes:** RAMWRT redirects only writes aimed at bank $00, so on a
+  IIgs a long store to $01 or $E1 always writes to that bank. These writes are valid IIgs
+  code. The game turns RAMRD and RAMWRT on so that its bank $00 direct-page and stack writes land in
   bank $01, the Super Hi-Res buffer: `PEI` copies into a relocated stack ($03:69F1),
   `PHA` tile copies ($03:E79D) and direct-page shifts. That is the fastest way to draw a
   IIgs screen. Only the card's B xor RAMWRT rule treats the long stores differently.
@@ -525,13 +540,12 @@ the card's own host commands ([Reaching the card from the IIgs](../14-custom-cod
 
 - **Cause:** a $C034 write reaches the slot like every access to the IIgs's internal I/O
   (/M2SEL is low; [TN #68](../sources.md#s43)), with the new value on the slot's data bus.
-  The card learns such a value only when U7 treats the access as an event: U7 then
-  latches the byte into U2 and interrupts the Z180, which reads it from port $A0. U7's
-  event decode does not include $C034, so the byte is never latched and the Z180 never
-  learns the value. Lattice's pDS 2.61 builds the recovered source, every `EVENT_DECODE`
-  term included, into BE8C with every fuse equal. Sources:
-  `EVENT_DECODE` in the [design source](../../data/lattice/Lattice_original-BE8C.ldf) (block B7);
-  [event addresses](z180-io-ports.md#apple-event-addresses).
+  U7 latches the byte into U2 and interrupts the Z180 only for an event. The Z180 then
+  reads the byte from port $A0. The event decode does not include $C034, so the byte is
+  never latched and the Z180 cannot read it. Lattice's pDS 2.61 builds the recovered
+  source, every `EVENT_DECODE` term included, into BE8C with every fuse equal. Sources:
+  `EVENT_DECODE` in the [design source](../../data/lattice/Lattice_original-BE8C.ldf)
+  (block B7); [event addresses](z180-io-ports.md#apple-event-addresses).
 
 - **Workaround:** SetBorder ($08) after every change of display mode, with a palette index
   whose color matches the IIgs border. A CDA of the time did this ([GEnie message](../sources.md#s74)).
@@ -667,8 +681,7 @@ Sequential's "Second Sight Firmware Update v1.1" notes ([`SECOND/SVIEW/SS.NOTES`
 ### E22. GView 0.25c leaves out the rightmost pixel column
 
 - **Symptom:** GView 0.25c uploads each row of a 640-pixel picture as 639 bytes, so
-  column 639 on the card keeps whatever video memory held before. Found in the program's
-  code.
+  column 639 on the card retains its previous video-memory value.
 
 - **Cause:** the display routine decrements the picture width before it builds the
   source rectangle: `LDA $1869` / `DEC A` / `STA $1869`, bytes `AD 69 18 3A 8D 69 18` at
@@ -683,7 +696,7 @@ Sequential's "Second Sight Firmware Update v1.1" notes ([`SECOND/SVIEW/SS.NOTES`
 ### E23. SecondView 1.0a6 zeroes the first pixel of rows 2, 4, 6 in interlaced GIFs
 
 - **Symptom:** in an interlaced GIF, counting rows from 0, the first pixel of rows 2, 4, 6
-  and so on shows color 0. Found in the program's code.
+  and so on shows color 0.
 
 - **Cause:** the GIF decoder stores each pixel with a 16-bit accumulator (`sta [<row],Y`)
   but advances one byte (`iny`): [`SECOND/SVIEW/IQGIF.ASM`](../sources.md#s06) loops xloop2 and xloop3, bytes

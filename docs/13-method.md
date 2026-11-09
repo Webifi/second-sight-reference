@@ -2,8 +2,8 @@
 
 [Reference index](../README.md) | [Glossary](glossary.md) | [Reference tables](reference/README.md)
 
-How to rebuild the reference tables, the [netlist](../data/netlist/README.md) and the U7
-source from the original files.
+The reference tables, [netlist](../data/netlist/README.md) and U7 source can be rebuilt
+from the original files.
 
 ## Contents
 
@@ -18,9 +18,8 @@ source from the original files.
 ## Before you start
 
 Run the commands from the repository root. You need Python 3, Pillow for `pdf_pages.py`,
-and network access to download the sources. Building the Lattice fuse map needs Lattice's own tools
-([What you need](../tools/lattice/README.md#what-you-need)). Every tool and its options:
-[tool index](../tools/README.md).
+and network access to download the sources. Building the Lattice fuse map needs Lattice's own tools ([What you need](../tools/lattice/README.md#what-you-need)). The
+[tool index](../tools/README.md) lists each tool and its options.
 
 ## 1. Get the sources
 

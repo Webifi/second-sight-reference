@@ -29,36 +29,36 @@ wiring and parts. Every prototype pin connection is in the [netlist](../data/net
 
 ## Production parts
 
-The fitted parts: [production parts](reference/board-connections.md#production-parts).
+For the fitted parts, see [production parts](reference/board-connections.md#production-parts).
 
 ### PLD markings
 
-Production cards use the following PLDs. Positions are established by the labeled
-resistors and the blank-board layout before reading each package.
+Labeled resistors and the bare-board layout identify the PLD positions on the
+photographed production cards.
 
-| Position | [s20](sources.md#s20) | [s108](sources.md#s108) | [s109](sources.md#s109) | [s128](sources.md#s128) |
+| Position | [1995 production card (s20)](sources.md#s20) | [Photo posted 2021 (s108)](sources.md#s108) | [Photo posted 2026 (s109)](sources.md#s109) | [ReactiveMicro scan (s128)](sources.md#s128) |
 |---|---|---|---|---|
 | U12, beside R17 | AMI 9409VAA 18CV810 (-10) | AMI 18CV8-10 | AMI 9504VPR 18CV815 (-15) | ICT 18CV8, 06771 / 631FA-15 |
 | U15, red dot between SRAM/latches and oscillator | AMI 9409VAA 18CV810 (-10) | AMI 18CV8-10 | AMI 9504VPR 18CV815 (-15) | ICT PEEL18CV8J-15 |
 | U17, beside R1/R16/R15 | AMI 9504VPR 18CV815 (-15) | AMI 18CV8-10 | AMI 9327VA? / 18CV8; speed suffix under white paint | ICT PEEL18CV8J-15 |
 | U4, reworked GAL below oscillator | National GAL16V8A-15LVC | National GAL16V8A-15LVC | GAL16V8A; suffix partly obscured | National GAL16V8A-15LVC |
 
-The two s109 parts from lot 9504VPR do not identify U17's different 9327VA? lot.
-Mixed grades are directly demonstrated on s20. AMI's [February 1993 PEEL18CV8
-datasheet](sources.md#s131)
-(printed pp11, 20-21) documents 5, 7.5, 10, 15 and 25 ns grades; its PREVIEW table
-is specification evidence, not a sales/shipment record. It does not support a
-15-ns-or-slower bound from 9327, and gives no decoder tying the lot suffix to speed.
-U17's s109 speed remains unresolved. Keep each card's grade with its timing model.
+The s20 card has PLDs of different speed grades. On s109, U12 and U15 are from lot
+9504VPR, while U17 is from a different lot, marked 9327VA?. U17's speed grade is
+unknown. The [AMI PEEL18CV8 datasheet](sources.md#s131) (February 1993, printed
+pp11, 20-21) specifies 5, 7.5, 10, 15 and 25 ns grades, but does not relate the lot
+suffix to speed. Whether U17 is a 15 ns or slower part is unknown. The PREVIEW table
+lists specifications rather than shipments. Use the grades for the particular card when
+modeling its timing.
 
 U12 and U17 must be 18CV8s, as drawn ([why](07-glue-logic.md#the-parts)). Resistor
 positions identify U12 beside R17 and U17 beside R1/R16; use the per-card speed
 grades above. Source: [netlist](../data/netlist/README.md).
 
-The reworked GAL16V8A is U4: one of its wires reaches the clock of the 74HCT574 marked
-723770ME on s20. The remaining red-dot 18CV8 is U15; its grade varies by card. The rework wires run from U4 to that
-latch's clock, from U15 to Oak pin 70 (the half switch), and from the 7M slot finger to
-the Lattice socket: [The parts](07-glue-logic.md#the-parts), [video window](06-video.md#the-video-ram-window),
+The reworked GAL16V8A is U4. One wire connects it to the clock of the 74HCT574 marked
+723770ME on s20. The remaining red-dot 18CV8 is U15; its grade varies by card. Other
+rework wires connect U15 to Oak pin 70 (the half switch) and the 7M slot finger to the
+Lattice socket: [The parts](07-glue-logic.md#the-parts), [video window](06-video.md#the-video-ram-window),
 [Lattice clocks](04-capture-logic.md#clocks-and-phase).
 
 ## Production changes
@@ -78,8 +78,8 @@ the Lattice socket: [The parts](07-glue-logic.md#the-parts), [video window](06-v
        card. A blue wire runs from them to a via at that end of the card.
      - On the front, a blue wire runs from that via along the side of the Lattice socket
        that faces the end of the card. It goes under the socket's rim beside pins 25-27,
-       near the corner where the pin 29-39 side begins. No photo shows where it is
-       soldered under the socket.
+       near the corner where the pin 29-39 side begins. The solder point is hidden under
+       the socket in the photographs.
 
    Sources: production photos [back](sources.md#s18) and [front](sources.md#s20), the
    [2021 owner's photos](sources.md#s108), the [2026 Applefritter photo](sources.md#s109).
@@ -108,12 +108,11 @@ production board runs at 18 MHz.
 - **TP3 (monitor type):** the manual says "set jumper TP3 appropriately. For an AppleColor
   RGB monitor, the jumper should be removed. For a VGA monitor, the jumper should be in
   place." On the [prototype drawing](sources.md#s26), TP3 grounds the color chip's SETUP pin (blank pedestal).
-  The firmware learns the monitor type from bit 4 of $3C2 (the OTI-087X sense input), and the
-  manual says the card detects which cable is attached: the cable header sets the sense
-  input ([monitor type](06-video.md#outputs-and-the-monitor-type)).
+  The firmware reads the monitor type from $3C2 bit 4, the OTI-087X sense input. The
+  cable header sets this input, allowing the card to detect which cable is attached ([monitor type](06-video.md#outputs-and-the-monitor-type)).
 - **Memory clock select:** TP1 and TP2 beside the OTI-068 drive MS1 and MS0. R19 and R6
   are marked `103` (10 kohm). Both clock straps are open on the s20, s108, s109 and s128 cards,
-  selecting 40 MHz. The drawing calls these straps JP1 and JP2. The production JP1
+  selecting 40 MHz. On the prototype schematic the straps are JP1 and JP2. The production JP1
   beside the SRAM is a separate three-pad footprint with a resistor across its top
   and middle pads; it is not a memory-clock shunt.
 
@@ -121,21 +120,22 @@ production board runs at 18 MHz.
 
 - The prototype has one 16-pin header J1 (BERG16): red, green and blue on pins 5, 3 and 1,
   HSYNC and VSYNC near pins 10/12, the rest ground. Source: schematic sheet 5.
-- Production has two headers labeled VGA and RGB. The manual: "do NOT attach both types of
+- Production has two headers labeled VGA and RGB. The manual warns: "do NOT attach both types of
   cables simultaneously".
+- The production board adds J3, a right-angle 2 x 13 header on the bottom edge below the
+  OTI-087X. It is a VGA feature connector with IBM's standard pinout
+  ([J3 feature connector](reference/board-connections.md#j3-feature-connector)).
 - Cable wiring, from [`Second Sight - Pinouts.doc`](sources.md#s13): the
   [VGA cable](reference/board-connections.md#vga-cable), header pin to DB-15HD pin, and the
   [AppleColor RGB cable](reference/board-connections.md#applecolor-rgb-cable), a straight
   ribbon crimped to a DB-15.
-- The slot pins the card uses: [Apple slot pins](reference/slot-pins.md).
+- The card's slot connections are listed in [Apple slot pins](reference/slot-pins.md).
 
 ## Pin-level netlist
 
 [`data/netlist/`](../data/netlist/README.md) holds every pin of all five prototype
 sheets: 91 parts, 970 pin positions, 319 nets, each IC pin checked against its datasheet.
 The drawing leaves out [17 connections](reference/board-connections.md#connections-the-drawing-leaves-out).
-
-The connections that explain how the card works:
 
 - **Bus hand-off:** BACK (Z180 BUSACK) enables U5/U6 onto the Z180 address bus and goes to
   U4, U15 and U17. U17 drives BREQ and the write strobe HWR.

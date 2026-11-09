@@ -792,6 +792,54 @@
    "title": "Michael Abrash, Graphics Programming Black Book, chapter 23 \"Bones and Sinew\": start address and pel panning order, Listing 23.1",
    "kind": "link",
    "url": "https://github.com/jagregory/abrash-black-book/blob/master/src/chapter-23.md"
+  },
+  {
+   "id": "epanorama/vga-feature-connector",
+   "title": "ePanorama, \"VGA Feature Connector\": IBM's Y1-Y13/Z1-Z13 feature connector pins",
+   "kind": "link",
+   "url": "https://www.epanorama.net/documents/pc/vga_feature.html"
+  },
+  {
+   "id": "allpinouts/vesa-feature",
+   "title": "AllPinouts, \"VESA Feature\": VESA Feature Connector (VFC), EVIDEO/ESYNC/EDCLK",
+   "kind": "link",
+   "url": "https://allpinouts.org/pinouts/connectors/computer_video/vesa-feature/"
+  },
+  {
+   "id": "apple/A2M6014-schematic.pdf",
+   "title": "Apple A2M6014 (AppleColor RGB Monitor) schematic diagram, 3 sheets",
+   "kind": "primary",
+   "url": "https://archive.org/download/apple-a-2-m-6014-rgb-monitor-schematic-diagram/Apple%20A2M6014%20RGB%20Monitor%20-%20Schematic%20diagram.pdf",
+   "local": "apple/A2M6014-schematic.pdf",
+   "size": 6068173,
+   "sha256": "a15468caebb22623d82124ae9e3d16f13272e7d02a49bf5732389c6377487eda"
+  },
+  {
+   "id": "apple/A2M6014-timing-chart.pdf",
+   "title": "Apple A2M6014 timing chart (fv = 60 Hz)",
+   "kind": "primary",
+   "url": "https://archive.org/download/apple-a-2-m-6014-rgb-monitor-schematic-diagram/Apple%20A2M6014%20RGB%20Monitor%20-%20Timing%20chart.pdf",
+   "local": "apple/A2M6014-timing-chart.pdf",
+   "size": 726226,
+   "sha256": "9335a1fa2bee812a184fa62c24dab4db10c3bce95c41d05e2a0652fdc7d1acf8"
+  },
+  {
+   "id": "alldatasheet/sanyo-la7822",
+   "title": "Sanyo LA7822 data sheet, No. 1337B: Color TV Synchronization, Deflection Circuit",
+   "kind": "link",
+   "url": "https://www.alldatasheet.com/datasheet-pdf/pdf/89561/SANYO/LA7822.html"
+  },
+  {
+   "id": "alldatasheet/sanyo-la7824",
+   "title": "Sanyo LA7824 data sheet, No. 1643B: Color CRT Display Synchronization, Deflection Circuit",
+   "kind": "link",
+   "url": "https://www.alldatasheet.com/datasheet-pdf/pdf/40348/SANYO/LA7824.html"
+  },
+  {
+   "id": "archive.org/apple-072-0229-vol2",
+   "title": "Apple Service Technical Procedures, Apple II Family vol. 2 (072-0229, March 1992): AppleColor RGB Monitor adjustments, leaves 357-359 and 372",
+   "kind": "link",
+   "url": "https://archive.org/details/Apple_Service_Technical_Procedures_Apple_II_Family_Volume_Two_1992-03_Apple_PN_072-0229"
   }
  ]
 }

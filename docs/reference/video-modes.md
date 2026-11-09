@@ -2,9 +2,9 @@
 
 [Reference tables](README.md) | [Glossary](../glossary.md)
 
-The clock, timing and register values of every mode record in ROM 1.4 and the
-`ss.source.082395.po` mode files, as the 1.4 mode loader programs them. A file's name says
-the mode it was meant to set; the values say what it sets.
+The ROM 1.4 mode loader programs clock, timing and register values from its own mode
+records and the `ss.source.082395.po` mode files. A file name describes the intended
+mode; the programmed values determine the actual mode.
 
 - The firmware uses its VGA list when `$3C2` bit 4 is 1, otherwise its AppleColor RGB list
   ([mode codes](#built-in-mode-codes)).
@@ -328,16 +328,16 @@ Built-in RGB `$FA` selects the VGA path and its ext06 `$01` is overridden by mis
 Its final 25.175 MHz clock, sequencer division, and timing counts give 15.58 kHz lines ([Video: built-in modes](../06-video.md#built-in-modes)).
 Its vertical counts are fault [E30](errata.md#e30-double-hires-on-the-applecolor-rgb-monitor-runs-at-70-hz); the clock path is not.
 
-The same holds for files in [`SECOND/MISC/RGB/`](../sources.md#s06): the feature byte
-chooses the path, not the directory or the file name.
+For files in [`SECOND/MISC/RGB/`](../sources.md#s06), the feature byte chooses the
+path regardless of the directory or file name.
 
 ### Names and clock overrides
 
 The 1.4 firmware writes misc output after extended register 6. So a file with an
 override runs at the clock after the override, whatever frequency its name says.
 
-Names can also mislead about lines: `M640X200.14M` and `M640X200.18M` turn interlace on,
-so they show 400 lines, not 200.
+`M640X200.14M` and `M640X200.18M` turn interlace on and show 400 lines, although their
+names say 200.
 
 ### True-color file
 

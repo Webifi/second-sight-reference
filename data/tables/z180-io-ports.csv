@@ -1,7 +1,7 @@
 Port,Read,Write,Notes
 $00-$3F,Z8S180 internal registers,Z8S180 internal registers,
 $A0,U2 input latch; acknowledge event,Load U3 output latch; acknowledge event,U7's ACK_A0 acknowledges on either
-$A1,Reloads configuration from bus bits 2-3; never read,"COPY_INHIBIT in bit 2, MODE_D3 in bit 3",U7 has no read/write input
+$A1,Reloads configuration from bus bits 2-3; never read,"COPY_INHIBIT in bit 2, MODE_D3 in bit 3",U7 has no Z180 read/write input
 $A2,Undriven bus,No effect,No U7 equation uses it
 $A3,Undriven bus,No effect,No U7 equation uses it
 $A4,"Lower four band flags, then clear",Bus contention; flags still clear; never write,The read returns the flags before the clear

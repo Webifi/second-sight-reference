@@ -1,7 +1,6 @@
 # Sources
 
-Every document this reference cites, with a public link. A quoted title is the document's
-own.
+Quoted titles below are the documents' own.
 
 Browse key sources by topic:
 
@@ -148,6 +147,13 @@ Browse key sources by topic:
 | [s132](#s132) | BI Technologies 627/628 series resistor networks (January 2008) |
 | [s133](#s133) | Oak OTI-037 VGA controller data sheet |
 | [s134](#s134) | Michael Abrash, Graphics Programming Black Book, chapter 23 "Bones and Sinew" |
+| [s135](#s135) | ePanorama, "VGA Feature Connector" |
+| [s136](#s136) | AllPinouts, "VESA Feature" |
+| [s137](#s137) | Apple A2M6014 (AppleColor RGB Monitor) schematic diagram |
+| [s138](#s138) | Apple A2M6014 timing chart |
+| [s139](#s139) | Sanyo LA7822 data sheet, No. 1337B |
+| [s140](#s140) | Sanyo LA7824 data sheet, No. 1643B |
+| [s141](#s141) | Apple Service Technical Procedures, Apple II Family vol. 2 (072-0229, March 1992): AppleColor RGB Monitor |
 
 ## Documents
 
@@ -823,7 +829,8 @@ says it supports "the OTI-087 (all variants)".
 IBM's register reference for the standard VGA. Used for the standard behavior the OTI-087
 copies: sequencer memory mode and chain-4 map selection (p2-54), CRTC doubleword and
 count-by-4 (p2-72), word/byte mode (p2-74), and the CRT memory address mapping figure
-(p2-75).
+(p2-75). Pages 2-107 to 2-111 describe the video extension signals a feature connector
+carries (pixel bits, dot clock, blanking, syncs, EVIDEO, ESYNC, EDCLK) and their timing.
 
 - **Public source:** bitsavers: <https://www.bitsavers.org/pdf/ibm/pc/cards/IBM_VGA_XGA_Technical_Reference_Manual_May92.pdf>.
 
@@ -1378,8 +1385,8 @@ $90BD-$90E5). It has no hardware-cursor drivers. Read by disassembly only.
 
 ### Oak Windows NT 3.1 driver for the OTI-087 (87winnt.zip, 1993)
 
-Oak's NT miniport, listed for both the OTI-087x and the OTI-087B. Its README says it
-works with all of Oak's OTI-087 chips. `OAKisPresent` (`OAK.SYS` file offsets
+Oak's NT miniport is listed for both the OTI-087x and the OTI-087B, and its README
+states that it works with all OTI-087 chips. `OAKisPresent` (`OAK.SYS` file offsets
 $2D40-$2DF7) writes index $11 to port $3DE, requires bits 4-0 of $3DE to read back $11,
 then reads ext $00 and records a chip type for the values 1, 2, 3 and 4.
 
@@ -1560,7 +1567,6 @@ describe this card only.
 - **Public archive:** [ReactiveMicro SecondSite_VGA/Pics](https://downloads.reactivemicro.com/Apple%20II%20Items/Hardware/SecondSite_VGA/Pics/).
 - **Front:** [600-dpi PNG](https://downloads.reactivemicro.com/Apple%20II%20Items/Hardware/SecondSite_VGA/Pics/SecondSight%20VGA%20-%20Front%20-%20600DPI.png), 4686 x 1902 pixels.
 - **Back:** [600-dpi PNG](https://downloads.reactivemicro.com/Apple%20II%20Items/Hardware/SecondSite_VGA/Pics/SecondSight%20VGA%20-%20Back%20-%20600DPI.png), 4670 x 1964 pixels.
-- **Local originals:** `second-sight-private/photos/originals/reactivemicro-600dpi/front-600dpi.png` and `back-600dpi.png`.
 - **SHA256 front:** `c174b22ef86b6d05f1a485c6406369af0201c6bf7ed5d21eba161fd3aea5e0b4`.
 - **SHA256 back:** `9583ee08649baa24409e74b12be9fe23407362f79b4ec089a0325b8db5bc0f18`.
 
@@ -1630,6 +1636,89 @@ attribute $13 writes around vertical sync.
 
 - **Kind:** another author's account.
 - **Public source:** <https://github.com/jagregory/abrash-black-book/blob/master/src/chapter-23.md>.
+
+<a id="s135"></a>
+
+### ePanorama, "VGA Feature Connector"
+
+A page collecting notes on the 26-pin VGA feature connector. It lists IBM's pins by row:
+Y1-Y8 are the pixel bits, Y9 the DAC clock, Y10 blanking, Y11 and Y12 the syncs, and Z4-Z6
+the three control inputs (Z4 and Z5 with 4.7 kohm pull-ups); the rest are ground or
+unused. It also has ATI's note that ATI boards key the header by leaving out Z13, and a
+1993 Usenet table that numbers the same pins 1-26. The
+[J3 feature connector](reference/board-connections.md#j3-feature-connector) layout uses it.
+
+- **Kind:** another author's account.
+- **Public source:** <https://www.epanorama.net/documents/pc/vga_feature.html>.
+
+<a id="s136"></a>
+
+### AllPinouts, "VESA Feature"
+
+The 26-pin VESA Feature Connector (VFC) uses IBM's names for its three control pins:
+EVIDEO, ESYNC and EDCLK.
+
+- **Kind:** another author's account.
+- **Public source:** <https://allpinouts.org/pinouts/connectors/computer_video/vesa-feature/>.
+
+<a id="s137"></a>
+
+### Apple A2M6014 (AppleColor RGB Monitor) schematic diagram
+
+Apple's three-sheet schematic of the AppleColor RGB Monitor. Sheet 1 shows the 15-pin input
+connector, with pin 3, the composite sync, going through R6H2 (2.2 kohm) to the transistor
+Q605. It also shows the sync and horizontal chip, an LA7822 (IC501), with H-HOLD VR502,
+and the vertical chip, an LA7824 (IC401), with V-HOLD VR401.
+
+- **Kind:** original document.
+- **Public source:** <https://archive.org/download/apple-a-2-m-6014-rgb-monitor-schematic-diagram/Apple%20A2M6014%20RGB%20Monitor%20-%20Schematic%20diagram.pdf>.
+
+<a id="s138"></a>
+
+### Apple A2M6014 timing chart
+
+Apple's 60 Hz timing chart for the signal the AppleColor RGB Monitor is set up with, filed
+with the schematic: 63.695 us lines and 262 lines per frame, with a 4-line vertical sync and
+200 picture lines between top and bottom borders. The people who scanned it added a first
+page correcting one value: the front porch (the gap between the right border and HSYNC)
+is 0.978 us, not 6.978 us.
+
+- **Kind:** original document.
+- **Public source:** <https://archive.org/download/apple-a-2-m-6014-rgb-monitor-schematic-diagram/Apple%20A2M6014%20RGB%20Monitor%20-%20Timing%20chart.pdf>.
+
+<a id="s139"></a>
+
+### Sanyo LA7822 data sheet, No. 1337B
+
+Sanyo's title is "Color TV Synchronization, Deflection Circuit". The chip separates the
+sync from the video and runs the horizontal and vertical oscillators. It is IC501 in the
+AppleColor RGB Monitor.
+
+- **Kind:** original document.
+- **Public source:** <https://www.alldatasheet.com/datasheet-pdf/pdf/89561/SANYO/LA7822.html>.
+
+<a id="s140"></a>
+
+### Sanyo LA7824 data sheet, No. 1643B
+
+The LA7824 is IC401 in the AppleColor RGB Monitor. It takes a TTL input and pulls in
+over a 20 Hz range, so it needs no adjustment between 50 Hz and 60 Hz vertical sync.
+The data sheet is titled "Color CRT Display Synchronization, Deflection Circuit".
+
+- **Kind:** original document.
+- **Public source:** <https://www.alldatasheet.com/datasheet-pdf/pdf/40348/SANYO/LA7824.html>.
+
+<a id="s141"></a>
+
+### Apple Service Technical Procedures, Apple II Family vol. 2 (072-0229, March 1992): AppleColor RGB Monitor
+
+The AppleColor RGB Monitor's adjustment pages: the vertical controls and the back panel
+(Adjustments 3.6), H-HOLD VR502 (3.7), the width and centering controls inside the case,
+H-WIDTH L552 and H-CENTER VR501 (3.8), and the geometry checks (Troubleshooting 4.5).
+
+- **Kind:** original document.
+- **Public source:** <https://archive.org/details/Apple_Service_Technical_Procedures_Apple_II_Family_Volume_Two_1992-03_Apple_PN_072-0229>
+  (leaves 357-359 and 372).
 
 ## Additional component datasheets
 

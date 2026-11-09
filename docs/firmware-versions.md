@@ -2,7 +2,7 @@
 
 [Reference index](../README.md) | [Lattice chip versions](lattice-versions.md) | [08 Firmware](08-firmware.md) | [Errata](reference/errata.md)
 
-The Z180's program, in EPROM U10.
+The Z180 firmware is stored in EPROM U10.
 
 > [!WARNING]
 > **Preliminary research, provided as is with no warranty. It may contain errors.**
@@ -21,7 +21,8 @@ The Z180's program, in EPROM U10.
 
 **For a card with:** any Lattice chip.
 
-Sequential's last release, the 1995 "v1.1" update: the EPROM labeled "rev. 1.4-BEEF", the only revision that survives ([others](08-firmware.md#other-rom-revisions)).
+Sequential's last release was the 1995 "v1.1" update. Its EPROM is labeled "rev. 1.4-BEEF";
+it is the only revision that survives ([others](08-firmware.md#other-rom-revisions)).
 
 Image and SHA-256: [`original/ROM_BEEF.bin`](../original/ROM_BEEF.bin) `bd29e30ebf004e205609112a3c21a26eb28504115e047862fbd27f641f784d61`.
 
@@ -29,7 +30,9 @@ Image and SHA-256: [`original/ROM_BEEF.bin`](../original/ROM_BEEF.bin) `bd29e30e
 
 **For a card with:** the original Lattice chip ([BE8C](lattice-versions.md)).
 
-ROM 1.4 with every erratum firmware can fix (E1-E11, E13, E16, E17, E26, E27, E29 and E30, and E19 and E25 in part), and uploads across 512 KB split on the card.
+Firmware 1.5 fixes the firmware-correctable errata in ROM 1.4 (E1-E11, E13, E16, E17,
+E26, E27, E29 and E30, and E19 and E25 in part). It also splits uploads that cross 512 KB
+on the card.
 
 Image and SHA-256: [`SecondSight_firmware_v1.5-CBFC.bin`](../prebuilt/firmware/SecondSight_firmware_v1.5-CBFC.bin) `19e9b6f5dbbb50378c026a09e7e0ea39d4cc90463de70fb926038563021b6846`.
 
@@ -37,7 +40,7 @@ Image and SHA-256: [`SecondSight_firmware_v1.5-CBFC.bin`](../prebuilt/firmware/S
 
 **For a card with:** [Lattice v2.0](lattice-versions.md).
 
-Version 1.5 plus E15, the IIgs border color, which only Lattice v2.0 makes possible.
+Version 1.5 plus the E15 fix for IIgs border color, which requires Lattice v2.0.
 
 Image and SHA-256: [`SecondSight_firmware_v2.0-3277.bin`](../prebuilt/firmware/SecondSight_firmware_v2.0-3277.bin) `f5e252bb5704694bacc6319116f2344b3543c657181906baadec95ba1706831f`.
 

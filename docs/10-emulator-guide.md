@@ -2,8 +2,8 @@
 
 [Reference index](../README.md) | [Glossary](glossary.md) | [Reference tables](reference/README.md)
 
-What an emulator of the whole card needs, the hardware ROM 1.4 never uses included:
-custom Z180 and IIgs programs use it.
+An emulator of the complete card must include hardware that ROM 1.4 never uses, because
+custom Z180 and IIgs programs can use it.
 
 ## Reading route
 
@@ -82,7 +82,7 @@ cannot stall the CPU, run the Z180 forward until it acknowledges, inside the bus
 
 Run it once per slow-side bus cycle. `V2` picks the Lattice version: false for the
 original chip (BE8C), true for Lattice v2.0 (BBB1). Each v2.0 difference is marked with
-its erratum. The full equations of both versions:
+its erratum. The full equations are in
 [`Lattice_original-BE8C.ldf`](../data/lattice/Lattice_original-BE8C.ldf) and
 [`Lattice_v2.0.ldf`](../data/lattice/Lattice_v2.0.ldf); `tools/lattice/ldfsim.py`
 evaluates either file as written, for checking a model against it. U17's timing is in the
@@ -173,8 +173,8 @@ identified by evidence; record them and test the combined model against the
 [copy timing budget](07-glue-logic.md#copy-timing-budget) and
 [wait-state logic](05-z180.md#wait-states).
 
-Why v2.0 differs, equation by equation:
-[Correcting the capture logic](12-lattice-fix.md#what-the-corrected-map-changes).
+[Correcting the capture logic](12-lattice-fix.md#what-the-corrected-map-changes)
+explains the v2.0 equation changes.
 
 ## 3. The Z180
 
@@ -182,9 +182,8 @@ Connect a Z8S180 core to the [memory map](reference/z180-memory-map.md),
 [interrupt inputs](reference/z180-io-ports.md#z180-interrupt-inputs) and
 [wait-state logic](05-z180.md#wait-states).
 
-Video memory waits come from the Oak's DRAM timeline, not a fixed count: model display
-fetch, refresh and both caches, and run the Oak's 40 MHz MCLK and the Z180's 18 MHz clock
-as separate clocks
+Video memory waits depend on the Oak's DRAM activity. Model display fetch, refresh and
+both caches, and run the Oak's 40 MHz MCLK and the Z180's 18 MHz clock separately
 ([how long IOCHRDY holds an access](05-z180.md#how-long-iochrdy-holds-an-access)).
 The two crystals are not locked, so the card has no fixed phase between them. At the
 nominal 40 and 18 MHz, MCLK's offset at successive Z180 clock edges steps through nine

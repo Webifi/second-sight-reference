@@ -2,8 +2,6 @@
 
 [Reference index](../README.md) | [Reference tables](reference/README.md) | [Sources](sources.md)
 
-The number notation, signal names and terms these pages use.
-
 ## Contents
 
 - [Addresses and numbers](#addresses-and-numbers)
@@ -21,10 +19,10 @@ The number notation, signal names and terms these pages use.
 | Apple bank/offset | $E1/2000 | Bank $E1, offset $2000 on the Apple side. [Apple interface](03-apple-interface.md) |
 | Z180 logical address | $A000 | A 16-bit CPU address, translated by MMU registers before reaching the bus. [Z180 MMU](05-z180.md#mmu) |
 | Z180 physical address | $1A000 | Address on the 20-bit Z180 bus after translation. [Memory map](reference/z180-memory-map.md) |
-| Z180 I/O port | $A0 or $3C2 | An I/O-cycle address, not a memory address. [Port table](reference/z180-io-ports.md) |
+| Z180 I/O port | $A0 or $3C2 | An address used for an I/O cycle. Memory addresses occupy a separate space. [Port table](reference/z180-io-ports.md) |
 | Oak bus address | $100000 | Address presented to the VGA chip; board logic supplies high bits beyond the Z180 window. [Video window](06-video.md#the-video-ram-window) |
 | VRAM offset | $080000 | Byte position within the video RAM, separate from the bus aperture used to reach it. [Video window](06-video.md#the-video-ram-window) |
-| Firmware mode code | $FE | A mode-list key, not a memory address or a VGA register number. [Modes](06-video.md#built-in-modes) |
+| Firmware mode code | $FE | A mode-list key; memory addresses and VGA register numbers use separate spaces. [Modes](06-video.md#built-in-modes) |
 
 The same SRAM can appear at more than one Z180 address. A **mirror** is another mapping to
 the same bytes; an **overlay** switches which device appears at an address
@@ -39,7 +37,7 @@ In linear mode it picks the 512 KB half; for the standard $A0000 window it must 
 
 | Notation or name | Meaning |
 |---|---|
-| `/NAME`, `NAME_n`, or a schematic overbar | Active low: asserted means a low level. Plain [netlist](../data/netlist/README.md) text can leave the polarity out; the drawing shows it ([how to read the data](../data/netlist/README.md#how-to-read-the-data)). |
+| `/NAME`, `NAME_n`, or a schematic overbar | Active low: asserted means a low level. The schematic shows polarity with bubbles and overbars; plain [netlist](../data/netlist/README.md) text can omit it ([how to read the data](../data/netlist/README.md#how-to-read-the-data)). |
 | AA / AD | Apple address / data bus. [Lattice pins](reference/lattice-pins.md) |
 | HA / HD | Z180 address / data bus on this board. [Lattice pins](reference/lattice-pins.md) |
 | CPU | U7's bus-phase input, PHASE 0; not the name of a second processor. |
@@ -94,6 +92,7 @@ OR. A name on both sides of an equation can be a feedback latch, not a clocked r
 | CRTC / FIFO | CRT timing controller / first-in, first-out buffer. [OTI-087X registers](reference/oti087-registers.md) |
 | VT / VBS / VRS | Vertical total / vertical blank start / vertical retrace start, timing fields in the CRTC extensions ([OTI-087 databook](sources.md#s02) p39-40). |
 | HSYNC / VSYNC / XSYNC | Horizontal sync / vertical sync / U12's composite-sync output. [Glue logic](07-glue-logic.md#u12-applecolor-rgb-timing) |
+| Feature connector / VFC | A VGA card's 26-pin header carries the pixel bus, dot clock, blanking and syncs to an add-on board. VESA calls it the VESA Feature Connector. The standard inputs EVIDEO, ESYNC and EDCLK let the add-on drive those lines. J3 is this card's feature connector; whether an add-on can replace its pixel data is unknown. [J3 feature connector](reference/board-connections.md#j3-feature-connector) |
 | PLCC / ZIP | Plastic leaded chip carrier / zigzag inline package. Pin positions depend on the part. [Netlist sources](../data/netlist/SOURCES.md) |
 | BOM / refdes | Bill of materials / reference designator: a part's number on the schematic, such as U7 or R32. The production board prints each chip's number under the chip, so a fitted chip hides it. U7 is the Lattice chip, U18 the Z180, U28 the Oak OTI-087X, U31 the Bt481. [Netlist](../data/netlist/README.md) |
 | Strap | A board connection or resistor that sets a configuration input. An open jumper can still read high through a pull-up. [Board](02-board.md#jumpers) |

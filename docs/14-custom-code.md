@@ -2,8 +2,8 @@
 
 [Reference index](../README.md) | [Glossary](glossary.md) | [Reference tables](reference/README.md)
 
-The hardware ROM 1.4 leaves unused, and how to reach it: from Z180 code started with
-RunCode ([Loading Z180 code](09-host-protocol.md#loading-z180-code)), or from IIgs code
+Custom code can use hardware that ROM 1.4 leaves unused. It can run on the Z180 through
+RunCode ([Loading Z180 code](09-host-protocol.md#loading-z180-code)), or on the IIgs
 through the stock host commands.
 
 ## Contents
@@ -58,13 +58,13 @@ divider and the Apple-side clocks do not change with CCR.
 
 ### Memory
 
-Which SRAM is free, and when: the
-[SRAM ownership map](reference/z180-memory-map.md#sram-ownership). Two separate switches
-decide it: SetShadow 4 stops the copy of the Apple's video writes, and SetMode with flag
-1 stops the firmware's emulation of the Apple screen. All of bank 1 is free only with
-both off. RunCode's [MMU settings](reference/host-commands.md#runcode) keep the command handler
-mapped while custom code runs. The EPROM overlay and the video controls are in the
-[physical memory map](reference/z180-memory-map.md#memory-map).
+The [SRAM ownership map](reference/z180-memory-map.md#sram-ownership) shows which memory
+is free. Two separate switches control its use: SetShadow 4 stops the copy of the Apple's
+video writes, and SetMode with flag 1 stops the firmware's emulation of the Apple screen.
+All of bank 1 is free only with both off. RunCode's [MMU
+settings](reference/host-commands.md#runcode) keep the command handler mapped while custom
+code runs. The EPROM overlay and the video controls are in the [physical memory
+map](reference/z180-memory-map.md#memory-map).
 
 ### DMA
 
@@ -169,15 +169,15 @@ Source: [netlist](../data/netlist/README.md).
 
 ### Modes beyond the firmware's tables
 
-The firmware's mode tables are not a limit. Z180 code started with RunCode, or the IIgs
-alone through SetVGAReg ([the stock commands](#what-the-stock-commands-reach)),
-writes every register of the Oak, the OTI-068 clock select and the Bt481. So any timing
-those chips allow is available without firmware support; SetUserMode is just one way to
-deliver the same register values. Turn Apple emulation off first (SetMode with flag 1).
+Z180 code started with RunCode, or IIgs code using SetVGAReg
+([the stock commands](#what-the-stock-commands-reach)), can write every Oak register,
+the OTI-068 clock select and the Bt481. These commands allow any timing supported by the
+chips, including timings beyond the firmware mode tables. SetUserMode is another way to
+write the same register values. Turn Apple emulation off first (SetMode with flag 1).
 In ROM 1.4 an Apple display switch can still reprogram the mode
 ([E29](reference/errata.md#e29-apple-display-switches-reset-a-native-vga-mode)).
 
-What limits a mode is the hardware and the monitor:
+The hardware and monitor limit the available modes:
 
 - **Pixel clock:** 16 [OTI-068 frequencies](reference/clocks.md#frequency-table), up to
   78 MHz.
@@ -192,10 +192,20 @@ What limits a mode is the hardware and the monitor:
     composite sync, 4.0 +/- 1.0 V; video flat to 6.5 MHz, 3 dB down at 8 MHz; vertical
     size, vertical hold and horizontal hold on the back panel
     ([TIL01930](sources.md#s110)).
-  - Owners drive it with 240p and 480i at 60 Hz and with 50 Hz PAL timing (which needs the
-    vertical size and hold adjusted). It shows nothing at 31 kHz. Shifting the picture far
-    right with the horizontal control makes it lose sync and whine on mode changes
-    ([2026 adapter guide](sources.md#s111)).
+  - Inside, a Sanyo LA7822 separates the sync and locks the horizontal oscillator to it;
+    H-HOLD trims that oscillator. A Sanyo LA7824 runs the vertical oscillator; V-HOLD trims
+    it ([A2M6014 schematic](sources.md#s137)). The LA7824 pulls in over a 20 Hz range,
+    so it needs no adjustment between 50 Hz and 60 Hz
+    ([LA7824 data sheet](sources.md#s140)). H-HOLD is "a fine adjustment control". Turning
+    it too far in either direction shuts the monitor down
+    ([service manual](sources.md#s141), Adjustments 3.7).
+  - The monitor setup uses 63.695 us lines (15.700 kHz) and 262 lines per frame: 4
+    lines of vertical sync, 15 blank, 19 of top border, 200 of picture, 21 of bottom border
+    and 3 blank ([timing chart](sources.md#s138)).
+  - Owners run it from game consoles at 240 lines progressive and 480 lines interlaced at
+    60 Hz, and at 50 Hz PAL timing after adjusting the vertical size, and possibly the
+    vertical hold. If the horizontal control shifts the picture far to the right, a mode
+    change makes the monitor lose sync and whine ([2026 adapter guide](sources.md#s111)).
   - The firmware's own RGB modes, used by every owner of this monitor, run at 15.58-16.54
     kHz and 60-70 Hz ([AppleColor RGB records](reference/video-modes.md#built-in-applecolor-rgb-records)).
 - **VGA monitor:** a fixed 31.5 kHz monitor shows 480 lines. An SVGA monitor also takes
@@ -233,8 +243,9 @@ five choices:
    interlace, and ext $15 sets the odd field's vertical sync; ROM 1.4's AppleColor RGB mode
    $61 uses it for 640 x 400 ([video modes](reference/video-modes.md#built-in-mode-codes)).
    Misc output bits 6 and 7 set
-   the HSYNC and VSYNC polarity (1 = negative); the RGB connector's composite sync needs
-   both negative.
+   the HSYNC and VSYNC polarity (1 = negative). For the RGB connector, use HSYNC negative
+   and VSYNC positive, as every ROM 1.4 RGB mode does
+   ([U12](07-glue-logic.md#u12-applecolor-rgb-timing)).
 5. **Pixels in memory.** Ext $21 bits 3-2 = 01 selects packed pixels, one byte per pixel
    for 256 colors. Adding ext $21 bit 0 and a 15- or 16-bit Bt481 mode (feature byte bits
    7-4 become Command Register A) gives 32K or 64K colors at two bytes per pixel. In packed
@@ -257,8 +268,11 @@ input of a SCART television:
 - 312 lines per frame (CRTC $06 = $36 with CRTC $07 bit 0 set): 50.08 Hz. 256 lines shown
   (CRTC $12 = $FF), 640 x 256 in all.
 - 625-line interlace instead: ext $14 bit 7 on, with ext $15 placing the odd field's sync.
-- PAL RGB inputs expect black at 0 V, which JP3 fitted gives (no 7.5 IRE pedestal). U12's
-  composite sync has no serration pulses; PAL RGB monitors generally accept that.
+- PAL RGB inputs expect black at 0 V, which JP3 fitted gives (no 7.5 IRE pedestal). Use the
+  firmware's sync polarity: misc output bit 7 = 0 and bit 6 = 1. Whichever logic U12 uses,
+  its composite sync has no half-line equalizing pulses
+  ([U12](07-glue-logic.md#u12-applecolor-rgb-timing)); PAL RGB monitors generally accept
+  that.
 
 The card cannot produce PAL composite or S-video: the Bt481 outputs only RGB, and the card
 has no color encoder.
@@ -279,23 +293,21 @@ Writing them from the host:
 
 ### Drawing with the OTI-087X
 
-Every drawing and display assist the Oak has, how each behaves on this card's 8-bit bus,
-and what it costs: latch copies, the pixel mask, color expansion, latch-register fills,
-the VGA graphics controller, the caches, hardware scrolling, split screen, page flipping,
-the hardware cursor and palette tricks
-([Drawing with the OTI-087X](15-oak-drawing.md)).
+The OTI-087X supports latch copies, pixel masking, color expansion, latch-register fills,
+VGA graphics operations, caching, hardware scrolling, split screen, page flipping, a
+hardware cursor and palette effects. [Drawing with the OTI-087X](15-oak-drawing.md)
+describes how each works on the card's 8-bit bus and what it costs.
 
 ### Bt481 features the firmware does not use
 
-Color modes, Command Register B and the overlay registers:
-[Bt481 controls](reference/bt481-modes.md). The overlay inputs OL0-OL3 are grounded, so no
-pixel can select an overlay color; the overlay registers can still be read and written.
+The [Bt481 controls](reference/bt481-modes.md) include color modes, Command Register B
+and overlay registers. The overlay inputs OL0-OL3 are grounded, so no pixel can select an
+overlay color. The overlay registers can still be read and written.
 Source: [netlist](../data/netlist/README.md).
 
 ### Matching the IIgs frame
 
-The card's frame rate is set by its mode, not by the IIgs. Custom code can lock the two
-frames together:
+The card's mode sets its frame rate. Custom code can synchronize it with the IIgs:
 
 1. **Run at the IIgs rate.** A mode record sets the pixel clock (one of the 16 OTI-068
    frequencies, from ext $06 and misc output) and the CRTC horizontal and vertical totals,
@@ -350,11 +362,11 @@ databook](sources.md#s02) CRTC and interrupt registers.
 
 ### Game timing
 
-A game shown on the card should make one game frame for each picture the card shows. When
-the two rates differ, a picture shows twice or a game frame never shows, and motion
-stutters. No hardware ties the card's picture to the IIgs
-([Outputs and the monitor type](06-video.md#outputs-and-the-monitor-type)), so the IIgs
-keeps the time and the card tells it how far off it is.
+For smooth motion, the game should produce one frame for each frame displayed by the card.
+If the rates differ, the display repeats or skips frames. The card's video timing is
+independent of the IIgs ([Outputs and the monitor
+type](06-video.md#outputs-and-the-monitor-type)). The IIgs can use a timer for the game
+while Z180 code measures the timing difference.
 
 1. **Pick a mode near the game's own rate.** The game runs at the mode's frame rate, not
    at the rate it was written for, so the two must be close. The rate follows from the
@@ -374,11 +386,11 @@ keeps the time and the card tells it how far off it is.
    ([Page flipping](15-oak-drawing.md#page-flipping)). The measurement:
    - Run PRT0 with a reload of one frame, started at a vertical retrace and kept in step
      with it ([A retrace interrupt on a stock card](#a-retrace-interrupt-on-a-stock-card)).
-     Its count then tells where the card's beam is in the frame.
+     Its count indicates the card's position within the frame.
    - Read the count when the frame's data starts to arrive. If the CPU takes the events,
      its INT1 handler for the first one reads it. If DMA1 takes the bytes, no INT1 marks
      that moment ([In through event bytes and DMA1](#in-through-event-bytes-and-dma1)), so
-     the Z180 reads the count when it sees DMA1's byte count (BCR1) first change. That
+     the Z180 reads the count when DMA1's byte count (BCR1) first changes. That
      reading is exact only while the Z180 is watching, for example while it waits for the
      retrace; one taken later, in the drawing loop, includes the drawing time, which
      changes from frame to frame.
@@ -405,7 +417,7 @@ keeps the time and the card tells it how far off it is.
 
 ### Moving bulk data
 
-Three ways carry data in, one carries it out:
+Three paths transfer data to the card; one transfers it back to the IIgs:
 
 | Path | Direction | Z180 work per byte | IIgs work per byte | Flow control |
 |---|---|---|---|---|
@@ -455,7 +467,7 @@ count only when the IIgs shadows them to $E0/$E1 (shadow register $C035): a shad
 write still makes one slow cycle on the slot. Sources: [Apple IIgs Hardware
 Reference](sources.md#s78) pp19-21; [Apple TN #68](sources.md#s43).
 
-Set the card and the IIgs up as follows:
+Before a transfer:
 
 - **Card:** Apple emulation off (SetMode with flag 1), so the firmware does not draw the
   windows; copying on (SetShadow 0). The two switches are separate
@@ -478,7 +490,7 @@ can stretch that cycle while the Oak holds IOCHRDY
 ([Copy timing budget](07-glue-logic.md#copy-timing-budget)). A later write then
 replaces the earlier one before it is copied.
 
-So **while the IIgs is writing a block, the Z180 and its DMA make no Oak access**. Work in
+**While the IIgs is writing a block, the Z180 and its DMA must make no Oak access.** Work in
 SRAM runs normally: the copy only borrows the bus. A coprocessor program that never
 touches the Oak meets this rule all the time, so the IIgs can send block after block
 without waiting.
@@ -510,12 +522,13 @@ because the request lasts while DE1 = 0 (UM0050 pp95, 114).
 |---|---|---|
 | Z180 to IIgs: a status byte | The Z180 writes port $A0; the IIgs polls $C0B8, which reads U3 without an event | Any Z180 access to port $A0 also acknowledges a pending event. Write a status byte only when the IIgs is waiting for it |
 | Z180 to IIgs: interrupt | The Z180 accesses port $AC to raise the IIgs IRQ, $AD to release it ([Apple IRQ](reference/z180-io-ports.md#apple-irq)) | The line stays low until the card releases it. A IIgs handler must check that the card raised it |
-| IIgs to Z180: doorbell | An access to $C0B0-$C0B7: INT1, the low address byte at ports $A6/$A7 (so the address itself can carry a code), and for a write the data byte at $A0 | After a screen-copy block, ring with a **read**: a write event replaces U2, which can still hold the last byte waiting to be copied |
-| IIgs to Z180: what changed | Band flags, ports $A4/$A5: one bit per 4 KB block of $2000-$9FFF that had a copied write | Set when a write qualifies, before the copy lands. Both banks share them. Reading clears them. A hint, not proof of completion |
+| IIgs to Z180: notification | An access to $C0B0-$C0B7: INT1, the low address byte at ports $A6/$A7 (so the address itself can carry a code), and for a write the data byte at $A0 | After a screen-copy block, signal with a **read**: a write event replaces U2, which can still hold the last byte waiting to be copied |
+| IIgs to Z180: what changed | Band flags, ports $A4/$A5: one bit per 4 KB block of $2000-$9FFF that had a copied write | Set when a write qualifies, before the copy finishes. Both banks share them. Reading clears them. They indicate activity rather than completion |
 
-The doorbell and the copy take separate paths, so the doorbell does not prove that the
-block's last byte has landed. End each block with a commit byte that the Z180 clears before
-it opens the window and the IIgs writes last; after the doorbell, the Z180 waits for it.
+The notification and copy use separate paths, so the notification can arrive before the
+block's last byte is copied. End each block with a commit byte. The Z180 clears it before
+opening the window, and the IIgs writes it last. After the notification, the Z180 waits
+for the commit byte.
 
 #### A block protocol
 
@@ -533,8 +546,8 @@ header (length, sequence number) and ends with its commit byte.
    value, and polls $C0B8. The Z180 sees the event, reads $A0 to acknowledge it, and waits for the
    commit byte.
 5. **Accept.** The Z180 checks the header, writes "accepted + token" to port $A0, and may
-   use the Oak again. "Accepted" means the data arrived, not that the buffer is free:
-   the next grant for that buffer gives it back.
+   use the Oak again. "Accepted" confirms that the data arrived. The IIgs may reuse the
+   buffer after its next grant.
 
 While the IIgs fills B, the Z180 can process A in SRAM. If processing A needs the Oak, do
 it between grants. One request is outstanding at a time, and each side waits for the
@@ -576,7 +589,7 @@ synchronize ([Apple TN #68](sources.md#s43)). The slot therefore carries at most
 | Out: 16-bit `LDA $B2` with D = $C000, `STA abs` to fast RAM | 4.93 us | 406 KB/s | 2.5 ms |
 | Out: `PEI $B2` with D = $C000, onto the stack in unshadowed bank $00 RAM | 3.88 us | 515 KB/s | 2.0 ms |
 
-These count the instructions only, not loop overhead or RAM refresh. A logic-analyzer test
+These rates count instruction time; loop overhead and RAM refresh add time. A logic-analyzer test
 of `PEI` on a real IIgs measured 4.46 us per word, about 450 KB/s
 ([PEI measurement](sources.md#s126)). `PEI` stores each word below the last, so the data
 must be laid out for that, and both `PEI` methods borrow the stack: turn interrupts off and
@@ -585,9 +598,9 @@ slot stay at 1 MHz ([TransWarp GS article](sources.md#s127)).
 
 ### Watching the Apple
 
-Z180 code sees the Apple's display changes as
-[events](reference/z180-io-ports.md#state-observable-by-z180-software), and which screen
-regions changed from the [band flags](reference/z180-io-ports.md#band-flag-layout).
+Z180 code receives the Apple's display changes as
+[events](reference/z180-io-ports.md#state-observable-by-z180-software). The
+[band flags](reference/z180-io-ports.md#band-flag-layout) identify changed screen regions.
 
 Keep MODE_D3 set on a IIgs: clearing it turns off the /M2SEL check, so invalid slow-side
 accesses would count

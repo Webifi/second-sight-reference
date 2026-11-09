@@ -1,10 +1,10 @@
 # Second Sight schematic pin-level reference
 
-Every pin on all five sheets of the [prototype schematic](../../docs/sources.md#s26): 91
-parts, 970 pin positions and 319 nets, with hidden supplies, omitted pins and the DRAM key
-position. The drawing leaves out
+This netlist covers every pin on all five sheets of the [prototype schematic](../../docs/sources.md#s26):
+91 parts, 970 pin positions and 319 nets. It includes hidden supplies, omitted pins and
+the DRAM key position. The drawing omits
 [17 connections](../../docs/reference/board-connections.md#connections-the-drawing-leaves-out).
-Production changes: [Board](../../docs/02-board.md#production-changes).
+For production changes, see [Board](../../docs/02-board.md#production-changes).
 
 ## Contents
 
@@ -57,8 +57,8 @@ signals visually; each individual label defines its electrical net. Datasheets s
 package functions for pins omitted from the drawing.
 
 `netlist.csv`, `nets.csv` and the pin-audit files remain prototype transcriptions. Their
-`part` fields are prototype labels, not production component values, and `high` means
-clear on the drawing, not verified on the production board. Use the production result
+`part` fields contain prototype labels. A `high` rating means the connection is clear
+on the drawing; production-board connections require separate verification. Use the production result
 in `bom.csv` and the documented production connections for an emulator or replica.
 An unverified production value is not permission to fall back silently to the drawing.
 Production TP1/TP2 correspond to the drawing's clock JP1/JP2; physical three-pad JP1
@@ -80,7 +80,7 @@ changes so regeneration preserves the qualified production values.
   label reading, a hidden supply rail, a photo reading, or an assigned passive pin number.
   `low` is an unresolved connection. The totals are 763 high, 190 medium and 17 low.
 - Two-terminal passives and jumpers have no printed pad numbers. Their `1`/`2` are
-  assigned here, not read from the board. Polarized C8/C33 use `1` for positive; D1 uses
+  assigned for the netlist. Polarized C8/C33 use `1` for positive; D1 uses
   `1` for the cathode. Crystal pin numbers are arbitrary.
 - Hidden digital supplies use `VCC`/`GND`; hidden DAC supplies use `VAA`/`GND`, all at
   medium confidence. `+5V` and `VCC` are separate printed names; they are one supply
@@ -108,10 +108,12 @@ reading. Connections the drawing leaves out entirely:
 | U17.15 | HA19 | The scan's last digit is blurred; the [copy path](../../docs/07-glue-logic.md#u17-the-copy-controller-and-resets) requires HA16 |
 | U28.71 | VGAIO | Matches U15.19 |
 
-Thirteen named nets have only one endpoint. What they connect to on the card:
-[connections the drawing leaves out](../../docs/reference/board-connections.md#connections-the-drawing-leaves-out).
+Thirteen named nets have only one endpoint. Their production-board connections are
+described in [connections the drawing leaves out](../../docs/reference/board-connections.md#connections-the-drawing-leaves-out).
 
-Render the schematic with `tools/pdf_pages.py` (see [13 Method](../../docs/13-method.md)). The `source` column in `pinout_checks.csv` names local copies of the datasheets; [SOURCES.md](SOURCES.md) maps each name to its download address.
+Render the schematic with `tools/pdf_pages.py` (see [13 Method](../../docs/13-method.md)).
+The `source` column in `pinout_checks.csv` names the datasheets. [SOURCES.md](SOURCES.md)
+gives their download addresses.
 
 ## Datasheet comparison and every type of disagreement
 
@@ -122,12 +124,12 @@ The pin comparison contains 469 normalized matches, 179 aliases/notation differe
 | U30.6, OTI-068 | Symbol says `STROBE`; April 1993 pinout says `NC`. The drawing leaves the stub open. |
 | U18.65 | Prototype Z180 symbol says `LIR`; Z8S180 PLCC pinout says `M1`. The drawing leaves it open. |
 | U28.19, .20, .23 | Symbol `SSA(19)/GA20`, `SSA(18)/SRDY1`, `SSA(17)/-LBSEL` differs from the checked OTI-087 descriptions `EPCLK/GA20`, `EPDATA/SRDYI`, `MXPCLK/LBSEL`. The active function depends on the selected bus mode. |
-| U28.47 | Symbol alternate text is read `-EEPCS/-ATDEN`; databook says `EEPCS/ATOEH`. The alternate text is blurred, so it is not evidence of a different chip. |
+| U28.47 | The symbol's alternate text reads `-EEPCS/-ATDEN`; the databook gives `EEPCS/ATOEH`. The blurred alternate text cannot identify a different chip. |
 | U28.68-74 | Schematic calls these `SA17`-`SA23`; ISA pin diagram calls them `LA17`-`LA23`. They are the same numbered high-address inputs. |
 | U2/U3/U5/U6.1 | `OC` versus `OE`, same active-low output-enable pin. |
-| U7.14, .24, .33, .36 | Symbol uses IN0, IN1, Y2, IN2; datasheet also lists SDI, SDO, SCLK, MODE alternate functions respectively. |
+| U7.14, .24, .33, .36 | The symbol uses IN0, IN1, Y2 and IN2. Their alternate functions are SDI, SDO, SCLK and MODE, respectively. |
 | U18.33, .50, .54, .62, .63 | A18/TOUT, CKA0/DREQ0, CKA1/TEND0, IORQ, MREQ versus shortened A18, DREQ0, TEND0, IOE, ME. |
-| U4/U12/U15/U17 | I0/CK, I1-I9, F0-F7 versus datasheet I/CLK, I, I/OE, I/O/Q. Same numbered GAL16V8 package positions. This does not establish AMI fuse or timing equivalence. |
+| U4/U12/U15/U17 | I0/CK, I1-I9, F0-F7 versus datasheet I/CLK, I, I/OE, I/O/Q. Same numbered GAL16V8 package positions. AMI fuse and timing equivalence are unknown. |
 | U10 data pins | `IO0`-`IO7` versus Macronix `Q0`-`Q7`. Checked **27C1000**, not 27C1001/27C010: OE is pin 2 and A16 is pin 24. |
 | U11 data/control | Symbol `431000`, IO0-IO7 and WE; checked production-compatible Toshiba TC551001FL has IO1-IO8 and R/W on the same ordered pins. |
 | U20-U27 data/control | Schematic IO0-IO3 and WE versus Toshiba IO1-IO4 and WRITE. ZIP position 10 is NC/key. |
@@ -179,8 +181,8 @@ Unstrapped bits get no default value here.
 
 ## Production differences
 
-The schematic is the 1994 prototype; the photograph shows the later production board.
-The CSV files describe the prototype. What production changes:
+The CSV files describe the 1994 prototype shown in the schematic. The photographed
+production board differs from it; see
 [Board](../../docs/02-board.md#production-changes).
 
 - [RAMDAC U31](#ramdac-u31)
@@ -198,8 +200,9 @@ The CSV files describe the prototype. What production changes:
 
 ### RAMDAC U31
 
-Photo: **Bt481AKPJ PROTO2**, replacing the drawn Bt478. Datasheet pin 1 changes from NC to
-SENSE*; pin 20 changes from VAA to TRUECOL*.
+The photographed card has a **Bt481AKPJ PROTO2** in place of the Bt478 in the drawing.
+On the Bt481, datasheet pin 1 is SENSE* instead of NC, and pin 20 is TRUECOL* instead
+of VAA.
 
 A replica with a Bt481 must not tie pin 20 to VAA as the prototype drawing says: on the
 Bt481 that pin is TRUECOL*. The other pins have the same functions
@@ -242,12 +245,12 @@ Production uses three AMI 18CV8s on s20/s108/s109 or ICT 18CV8s on s128, plus on
 
 ### J2 / J3
 
-Production has an additional RGB header J2 (2x8 in photo) and a 2x13 J3 header. Neither is
-drawn.
+The production board has two headers the drawing does not show: J2, a 2 x 8 header for
+the RGB cable, and J3, a 2 x 13 VGA feature connector.
 
-The VGA and RGB outputs: [outputs and the monitor type](../../docs/06-video.md#outputs-and-the-monitor-type).
-J3: [production parts](../../docs/reference/board-connections.md#production-parts). Pin by
-pin: [connectors and cables](../../docs/02-board.md#connectors-and-cables).
+- How the VGA and RGB outputs work: [outputs and the monitor type](../../docs/06-video.md#outputs-and-the-monitor-type).
+- J3's pins: [J3 feature connector](../../docs/reference/board-connections.md#j3-feature-connector).
+- How the cables are wired: [connectors and cables](../../docs/02-board.md#connectors-and-cables).
 
 ### U11 SRAM
 
@@ -258,15 +261,15 @@ s128 reads **NEC D431000AGW-70L** (70 ns), with **ES** also printed. Toshiba's
 
 ### U16 EEPROM
 
-Photo reads **93C466**, ST logo, and **9518**: an ST93C46, temperature grade 6, 64 words
-of 16 bits. What it holds and how custom code can use it:
-[the serial EEPROM](../../docs/06-video.md#the-serial-eeprom).
+The photographed chip is marked **93C466**, with an ST logo and **9518**. It is an
+ST93C46, temperature grade 6, with 64 words of 16 bits. Its contents and use by custom
+code are described in [the serial EEPROM](../../docs/06-video.md#the-serial-eeprom).
 
 ### Logic families
 
 s20/s108/s109 identify PC74HCT574T latches, 74F125 and ACT32; s128 reads
 DV74HCT574A, F125 and ACT32. Symbols use SN74HCT574DW, 74125 and 7432.
-Pin agreement does not establish equal thresholds, drive or delay.
+Whether the parts have equal thresholds, drive or delay is unknown.
 
 ### R2 / R32 / JP1
 
@@ -303,8 +306,8 @@ C13, C32, R17 and R26 have no fitted bodies where clearly visible. R18 and R33-R
 are also empty on s128. Do not turn an empty resistor footprint into an assumed
 open circuit without checking the other routing. Small ceramic chip capacitors
 have no legible value marks; the wound-looking small axial bodies on s128 likewise
-have no readable capacitance code. The drawing's 0.1 uF and 22 pF values remain
-prototype values, not photographic identifications.
+have no readable capacitance code. The 0.1 uF and 22 pF values come from the prototype
+drawing; the photographs do not identify those values.
 
 ## Netlist verification
 

@@ -2,9 +2,9 @@
 
 [Reference index](../README.md) | [Glossary](glossary.md) | [Reference tables](reference/README.md)
 
-What a replica of the whole card needs, the hardware ROM 1.4 never uses included: custom
-Z180 and IIgs programs use it. Pins: [prototype netlist](../data/netlist/README.md).
-Production parts: [Board connections](reference/board-connections.md#production-parts).
+A complete replica needs hardware that ROM 1.4 never uses, because custom Z180 and IIgs
+programs can use it. Pin connections are in the [prototype netlist](../data/netlist/README.md),
+and production parts are listed in [Board connections](reference/board-connections.md#production-parts).
 
 ## Reading route
 
@@ -41,8 +41,8 @@ ispLSI1016.
 A replica must match three interfaces:
 
 1. **The Apple slot**, electrically and in timing ([Apple interface](03-apple-interface.md)).
-2. **The Z180's view of the world**: the memory map, the ports, the boot overlay, INT1 and
-   DMA behavior ([Z180 computer](05-z180.md)), because the firmware is unchanged.
+2. **The Z180 interface**: the memory map, the ports, the boot overlay, INT1 and DMA
+   behavior ([Z180 computer](05-z180.md)), because the firmware is unchanged.
 3. **The complete video register set** ([Video](06-video.md)): standard VGA, all documented
    Oak extensions, the Bt481 registers and color modes, and every OTI-068 clock selection.
    Custom code can program these directly, including features never used by the ROM.
@@ -69,8 +69,8 @@ Option B: one FPGA
                                  OTI-087X, palette, clocks --> DAC --> VGA / RGB
 ```
 
-- **Option A** keeps the processor real, with its DMA edge sense, MMU and I/O waits. A
-  5 V CPLD removes most level shifting on the slot side.
+- **Option A** uses a physical processor, including its DMA edge sense, MMU and I/O
+  waits. A 5 V CPLD removes most level shifting on the slot side.
 - **Option B** is smaller but needs a Z180 core that implements the MMU (CBR, BBR, CBAR),
   both DMA channels including edge-sensed DREQ1 and I/O-to-memory modes, vectored INT1, and
   the ASCI0 control register bit used for the boot overlay. Those are the ROM's immediate
@@ -84,8 +84,8 @@ Option B: one FPGA
 - **RDY and /IRQ** must be pull-down-only (open-collector style) drivers. The original uses a
   74F125 with its input grounded and the enable as the control.
 - **M2B0** needs a pull-down: Apple drives it only for about 140 ns per cycle, and the card
-  must see it low the rest of the time. [Apple TN #68](sources.md#s43) asks for no more than one LS TTL load
-  on M2B0.
+  must read it low the rest of the time. M2B0 supports at most one LS TTL load
+  ([Apple TN #68](sources.md#s43)).
 - **Timing to meet** ([TN #68](sources.md#s43) and the decode):
   - take the address and data at the end of the data phase (PHASE 0 high);
   - sample M2B0 140-280 ns after PHASE 0 falls (the original uses a one-period window;
@@ -168,7 +168,7 @@ emulated video chip.
 
 The bridge is multiplexed: the FPGA reads the slot signals in turns and writes the
 control outputs back through the same 8 lines. A RDY change made through it must still
-land while PHASE 0 is high and stay stable 60 ns before PHASE 0 falls
+occur while PHASE 0 is high and stay stable 60 ns before PHASE 0 falls
 ([slot timing](#the-slot-side)).
 
 ### What has to be written
@@ -239,7 +239,7 @@ land while PHASE 0 is high and stay stable 60 ns before PHASE 0 falls
 
 ## Decisions the sources leave to the builder
 
-Details the sources do not fix, and where each is discussed:
+These design details remain open:
 
 | Design detail | Reference |
 |---|---|

@@ -2,15 +2,11 @@
 
 [Reference index](../README.md) | [Glossary](glossary.md) | [Reference tables](reference/README.md)
 
-U7 controls the Apple-side interface. On every slot bus cycle it decides three things:
-
-1. Is this a write to Apple video memory that the card should **copy** into its own RAM?
-2. Is this an access to a video softswitch or to the card's own registers that the Z180
-   must be **told about** (an "event")?
-3. Must the Apple **wait** (RDY low) because the Z180 has not caught up?
-
-It also gives the Z180 eight read-only status bits ("band flags") and two configuration
-bits.
+U7 controls the Apple-side interface. On each slot bus cycle, it selects writes to Apple
+video memory for copying into the card's RAM and reports accesses to video softswitches
+and card registers to the Z180 as an "event". It can hold RDY low to make the Apple wait
+for the Z180. U7 also provides eight read-only status bits ("band flags") and two
+configuration bits.
 
 The equations are U7's recovered source, [`Lattice_original-BE8C.ldf`](../data/lattice/Lattice_original-BE8C.ldf).
 Lattice's pDS 2.61 builds it back into the chip's fuse map, `isplsi1016_BE8C.bin`, with
@@ -95,24 +91,26 @@ CATCH_pin = !(CAPTURE & CPU & !M2B0)     (physical pin: low while copying)
     pin 35 and Lattice pin 14.
   - The resistor soldered to the production card's slot fingers is on pin 36 (7M), not pin
     35 ([production changes](02-board.md#production-changes)).
-  - What holds M2B0 low on a production card is not known.
+  - The production circuit that holds M2B0 low is unknown.
 
-What happens next is outside U7 (see [Glue logic](07-glue-logic.md)):
+After U7 selects a write, the latches capture its address and data, and U17 writes the
+byte to SRAM ([Glue logic](07-glue-logic.md)):
 
 1. CATCH goes low during the data phase of the write and returns high at its end. The
    rising edge clocks the Apple address into U5/U6.
 2. ADIN does the same for U2, so the data byte is captured at the same moment:
    `ADIN_pin = !((CAPTURE & RUN & CPU) | (EVENT_LATCH & CPU & write))`.
-3. GAL U17 sees CATCH, requests the Z180 bus (BUSREQ), and when granted writes the byte
-   into SRAM at bank CATCH_BANK, offset = the 16-bit Apple address. The Z180 firmware never
-   handles the copy itself.
+3. GAL U17 responds to CATCH by requesting the Z180 bus (BUSREQ). Once the Z180 grants
+   it, U17 writes the byte to SRAM bank CATCH_BANK, using the 16-bit Apple address as
+   the offset. The Z180 firmware does not handle the copy itself.
 
 ## Bank tracking
 
-The copied byte must land in the right 64 KB SRAM bank: 0 for main memory (IIgs bank $E0),
-1 for auxiliary memory ($E1). U7 works this out in two layers.
+U7 selects the 64 KB SRAM bank for the copy: bank 0 for main memory (IIgs bank $E0),
+or bank 1 for auxiliary memory ($E1). It samples M2B0 and combines the result with the
+tracked softswitches.
 
-**Layer 1, the IIgs bank bit B.** Early in each address phase, the Apple drives M2B0 for
+Early in each address phase, the Apple drives the IIgs bank bit M2B0 for
 about 140 ns. U7 opens a window one Y2 period long, starting at the first falling Y2 edge
 after CPU falls, and copies M2B0 into B during it (only while /M2SEL is low). B then holds
 its value through the data phase.
@@ -123,9 +121,9 @@ BANK_WINDOW <= CPU_DELAY & !CPU       (flip-flop, falling Y2)
 B = MODE_D3 & ( (B & M2B0) | (B & !BANK_WINDOW) | (BANK_WINDOW & M2B0 & !M2SEL_n) )
 ```
 
-**Layer 2, the softswitches.** Writes through bank $00 can also go to auxiliary memory,
-through RAMWRT, or through 80STORE plus PAGE2 for the text and hires pages. M2B0 does not
-reflect those switches ([TN #68](sources.md#s43)), so U7 [tracks them itself](#tracked-softswitches) and combines:
+Writes through bank $00 can also go to auxiliary memory, through RAMWRT, or through
+80STORE plus PAGE2 for the text and hires pages. M2B0 does not reflect those switches ([TN
+#68](sources.md#s43)), so U7 [tracks them itself](#tracked-softswitches) and combines:
 
 ```
 CATCH_BANK <= (B & MODE_D3 & !RAMWRT)                 flip-flop, clocked when CAPTURE & CPU falls
@@ -134,21 +132,20 @@ CATCH_BANK <= (B & MODE_D3 & !RAMWRT)                 flip-flop, clocked when CA
             | (!B & MODE_D3 & RAMWRT & !HIRES)
 ```
 
-Bank 1 if any term is true, otherwise bank 0. Every case:
-[capture bank terms](reference/lattice-pins.md#capture-bank-terms), and for IIgs mode the
+If any term is true, the selected bank is 1; otherwise it is 0. See
+[capture bank terms](reference/lattice-pins.md#capture-bank-terms) and the IIgs
 [capture bank cases](reference/lattice-pins.md#capture-bank-cases).
 
-Why "B xor RAMWRT": a bank $00 write that RAMWRT redirects to auxiliary memory arrives with
-M2B0 low, because M2B0 does not show RAMWRT ([TN #68](sources.md#s43)). The xor turns that case into a bank 1
-copy. The case it gets wrong is a direct write to $E1 or $01 while RAMWRT is on: B = 1
-always means the auxiliary bank, so B or RAMWRT would have been the correct rule
+When RAMWRT redirects a bank $00 write to auxiliary memory, M2B0 remains low because it
+does not reflect RAMWRT ([TN #68](sources.md#s43)). The `B xor RAMWRT` term selects
+bank 1 for this write. It selects the wrong bank for a direct write to $E1 or $01 while
+RAMWRT is on. B = 1 always means auxiliary memory, so the correct rule is `B or RAMWRT`
 ([E14](reference/errata.md#e14-direct-e1-writes-with-ramwrt-on-are-not-copied-above-6000)).
 The [corrected fuse map](12-lattice-fix.md) makes that change.
 
-Two edge cases follow from the equations:
-
 - With B and RAMWRT both set (a write to $E1 or $01 while RAMWRT is on), the copy goes to
-  bank 0, and $6000-$9FFF is not copied. The IIgs game Rastan does this with its palettes
+  bank 0, and $6000-$9FFF is not copied. The IIgs game Rastan writes this way when it
+  clears its screen and draws its text, scan-line control bytes and palettes
   ([E14](reference/errata.md#e14-direct-e1-writes-with-ramwrt-on-are-not-copied-above-6000)).
 - With B = 0, MODE_D3 = 1, 80STORE on, HIRES on, PAGE2 off and RAMWRT on, writes to
   $4000-$9FFF are copied into bank 0. For $6000-$9FFF that overwrites the firmware's own
@@ -164,9 +161,9 @@ the line reads low. B then stays 0, and:
 - text, lores and hires copies still work, banked by the tracked softswitches;
 - the $6000-$9FFF Super Hi-Res term needs `B xor RAMWRT`, which reduces to RAMWRT. IIgs
   Super Hi-Res writes arrive in bank $E1 without RAMWRT, so the lower half of the SHR
-  screen ($2000-$5FFF) lands in bank 0 and the upper half is not copied at all.
+  screen ($2000-$5FFF) is copied into bank 0, and the upper half is not copied at all.
 
-That is why the manual says a ROM 01 IIgs must use slot 3.
+A ROM 01 IIgs therefore requires slot 3, as stated in the manual.
 
 ## Tracked softswitches
 
@@ -174,12 +171,12 @@ Four flip-flops follow the Apple's own softswitches on falling Y0 edges. HIRES l
 a qualifying $C056/$C057 address (C0_VALID), without a CPU/data-phase term; PAGE2, RAMWRT
 and STORE80 require CPU high as well. Source: [design source](../data/lattice/Lattice_original-BE8C.ldf), blocks A7, B5 and B7.
 
-The address is stable through a normal bus cycle, so the missing data-phase term does not
-change what HIRES ends up holding. Every switch:
-[tracked softswitches](reference/z180-io-ports.md#tracked-softswitches).
+The address remains stable through a normal bus cycle, so HIRES holds the same value
+without the data-phase term. See [tracked
+softswitches](reference/z180-io-ports.md#tracked-softswitches).
 
-- Reads of $C068 run on the IIgs fast side and do not assert /M2SEL ([TN #68](sources.md#s43)), so in
-  practice only **writes** to $C068 reach these bits.
+- Reads of $C068 run on the IIgs fast side and do not assert /M2SEL ([TN
+  #68](sources.md#s43)), so in practice only **writes** to $C068 reach these bits.
 - RAMRD and ALTZP are not tracked; they only affect reads.
 - These bits clear at power-up and keep their values through an Apple reset; later
   softswitch accesses update them ([Reset and power-on](#reset-and-power-on)).
@@ -193,7 +190,7 @@ No event for: $C000/$C001 (80STORE is tracked in U7 instead; the firmware's hand
 them is never called), $C054/$C055 while 80STORE is on (they switch memory, not the
 display), $C0B8-$C0BF, $C068.
 
-What happens on an event:
+When an access qualifies as an event, U7 records its address and raises INT1:
 
 1. During the data phase, EVENT_LATCH sets (if no earlier event is still pending).
 2. Its rising edge stores the low address byte AA0-AA7 in eight flip-flops. The Z180 reads
@@ -225,7 +222,8 @@ last read them. See [band flag layout](reference/z180-io-ports.md#band-flag-layo
 
 ## The Z180's view of U7 (ports $A0-$A7)
 
-U7 sees Z180 address bits 0-2 plus AX from U4 ([port table](reference/z180-io-ports.md#port-table)).
+U7 receives Z180 address bits 0-2 plus AX from U4 ([port
+table](reference/z180-io-ports.md#port-table)).
 
 U7 drives HD0-HD3 whenever `AX & HA2` selects ports $A4-$A7, including on a write.
 The Z180 then drives the same lines, losing the write data in bus contention. On reads,
@@ -281,10 +279,11 @@ not on a fixed count.
 - **CPU** (pin 37) is PHASE 0 (slot pin 40): the equations need a signal that is high during
   the data phase and falls at its end, and PHASE 0 is that signal.
 - **Y2** (pin 33), falling edge: CPU_DELAY and BANK_WINDOW. BANK_WINDOW is high for one Y2
-  period after CPU falls, the time M2B0 is valid (about 140 ns, [Apple TN #68](sources.md#s43)). That fixes
-  Y2 at 7M (slot pin 36), whose period is about 140 ns. The [prototype drawing](sources.md#s26) leaves pin 33
-  a stub. On the production card a rework wire carries 7M from the slot finger to the
-  Lattice socket; its end is hidden under the socket ([production changes](02-board.md#production-changes)).
+  period after CPU falls, the time M2B0 is valid (about 140 ns, [Apple TN
+  #68](sources.md#s43)). That fixes Y2 at 7M (slot pin 36), whose period is about 140 ns.
+  The [prototype drawing](sources.md#s26) leaves pin 33 a stub. On the production card a
+  rework wire carries 7M from the slot finger to the Lattice socket; its end is hidden
+  under the socket ([production changes](02-board.md#production-changes)).
 - **Y0** (pin 11), falling edge: HIRES, PAGE2, RAMWRT, STORE80. PAGE2, RAMWRT and STORE80
   load only while CPU is high; HIRES needs only the address. Any slot clock that falls in
   each phase meets that, so 7M and Q3 both work; a replica uses 7M.

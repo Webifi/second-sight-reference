@@ -2,11 +2,12 @@
 
 [Reference index](../README.md) | [Glossary](glossary.md) | [Reference tables](reference/README.md)
 
-The Z180 firmware is one 27C1000 EPROM labeled "Sequential Systems copyright (c) 1995
-rev. 1.4-BEEF". The dump [`ROM_BEEF.bin`](sources.md#s25) sums to $BEEF and GetStatus reports version $14.
+The Z180 firmware is stored in a 27C1000 EPROM labeled "Sequential Systems copyright (c)
+1995 rev. 1.4-BEEF". The dump [`ROM_BEEF.bin`](sources.md#s25) sums to $BEEF, and
+GetStatus reports version $14.
 
 Line references are to the annotated disassembly [`ROM_BEEF.asm`](sources.md#s27). Its
-comments are its author's reading of the code, not Sequential's source.
+comments contain the disassembler's interpretation; Sequential's source is unavailable.
 
 ## Contents
 
@@ -25,8 +26,8 @@ comments are its author's reading of the code, not Sequential's source.
 
 The EPROM's low 64 KB holds the code and data; its high 64 KB is zero. The boot code
 copies selected ranges into SRAM bank 0 and runs from there ([Boot](05-z180.md#boot)).
-Where each routine and table sits:
-[ROM layout](reference/z180-memory-map.md#rom-14-routine-and-data-locations). Sources:
+The [ROM layout](reference/z180-memory-map.md#rom-14-routine-and-data-locations) lists
+the routines and tables. Sources:
 [ROM_BEEF.bin](sources.md#s25); [ROM_BEEF.asm:100-204](sources.md#s27).
 
 ## Main loop
@@ -185,7 +186,7 @@ The VGA runs at 640 x 200, double-scanned. The 16 Apple palettes at $E1/9E00 bec
 is multiplied by $11 for the 8-bit DAC.
 
 The renderer reads band flags at ports $A4/$A5 and redraws only changed 4 KB bands
-([`ROM_BEEF.asm:9036-9160`](sources.md#s27)); it skips unchanged bands. The $9000 band's
+([`ROM_BEEF.asm:9036-9160`](sources.md#s27)). The $9000 band's
 flag also sets on writes to the control bytes and palettes at $9D00-$9FFF, so a program
 that only changes palettes still has lines 179-199 redrawn on every pass
 ([band flags](04-capture-logic.md#band-flags-ports-a4-a5)).
@@ -219,11 +220,11 @@ So the card redraws the whole Super Hi-Res screen at most about 10 times a secon
 most one changed band fits in one IIgs frame (1/60 s, 300,000 clocks). Source: [Zilog
 UM0050](sources.md#s39) instruction states.
 
-The time goes into the conversion, not into memory speed. Each source byte becomes four
-VGA bytes: the 640 x 200 screen of 8-bit pixels is 128,000 bytes, against the IIgs's
-32,000. Of each byte's 42 clocks, the 8-bit Z180 spends 24 finding the byte's table
-entry before `LDD` makes the two VGA accesses. The IIgs's own video hardware does that
-conversion without using its processor.
+The conversion accounts for much of the time. Each source byte becomes four VGA bytes: the
+640 x 200 screen of 8-bit pixels is 128,000 bytes, against the IIgs's 32,000. Of each
+byte's 42 clocks, the 8-bit Z180 spends 24 finding the byte's table entry before `LDD`
+makes the two VGA accesses. The IIgs's own video hardware does that conversion without
+using its processor.
 
 The [manual](sources.md#s16) (June 1995, p28) says the card "can only do 15 full-screen
 updates per second". ROM 1.4's loop cannot reach that even at 20 MHz: the same clock count
@@ -234,7 +235,7 @@ renderer that takes about 75 ms a screen is in
 
 ## Known defects and oddities
 
-Workarounds from the IIgs side: [Errata](reference/errata.md).
+IIgs-side workarounds are listed in [Errata](reference/errata.md).
 
 In `upload_chunk` ([`ROM_BEEF.asm:1807-1840`](sources.md#s27), ROM $1342) the flag-0 ("Z180 memory")
 path jumps to the add-8 step while the A register still holds the flag (0), so every
@@ -263,7 +264,7 @@ addresses. Owners saw it at once: a December 1995 report says that with the new
 | $A000-$BFFF | $12000-$13FFF (bank 1) | Auxiliary double-hires data |
 | $C000-$FFFF | $A0000-$A3FFF | Video memory |
 
-**Where the code actually is.** The firmware's code from $9000 up sits in bank 0, so
+The firmware's code from $9000 up is stored in bank 0, so
 under this layout every instruction at logical $9000 or above is fetched from the tables
 in bank 1 instead:
 
@@ -280,8 +281,7 @@ soon as double hires is selected. Nothing in the hardware hides the fault: SRAM 
 wired to HA16, so $11000 is a different SRAM cell from $09000, and the Z180 MMU applies
 a new mapping from the next memory cycle. Source: [netlist](../data/netlist/README.md) U11 and U15.
 
-The disassembly says the same: "This code is buggy and hangs the card" (disassembler
-comment, line 7090).
+The disassembler also noted: "This code is buggy and hangs the card" (line 7090).
 
 Sequential's [v1.1 notes](sources.md#s06) announce double-hires support in color and monochrome, yet the
 shipped v1.1 EPROM (rev 1.4-BEEF) freezes in double hires:
@@ -314,11 +314,11 @@ Source: [Apple IIgs Hardware Reference](sources.md#s78), Screen Color register.
 
 ### Border color
 
-The card never shows the IIgs border color on its own:
+The original card does not automatically show the IIgs border color:
 
 - The IIgs sets its border with the low nibble of $C034. That address is not one of the
   card's [event addresses](reference/z180-io-ports.md#apple-event-addresses), and the
-  capture logic copies only screen memory, so the card never learns the value
+  capture logic copies only screen memory, so the card cannot read the value
   ([E15](reference/errata.md#e15-the-iigs-border-color-does-not-show)). Firmware alone
   cannot change this. With [Lattice v2.0](lattice-versions.md), a $C034 write is an event:
   U7 latches the byte the IIgs writes into U2 and interrupts the Z180, as for $C022, and
@@ -351,9 +351,9 @@ ext $21); [Paradise TBv1.01B](sources.md#s57) BIOS matches.
   Oak's TEv1.02 BIOS packed modes use offset $28 for 640 pixels: 16 bytes per
   offset unit in byte mode, as ROM 1.4's 640-wide modes do on this card's OTI-087X.
   Sources: [Oak BIOS](sources.md#s58); [Video mode records](reference/video-modes.md).
-- [GView 0.25c's README](sources.md#s04) (February 1996), under "Known Errors", reports that 320x200x256
-  "does not work" on the card, so 8-bit pictures need 640 x 480 or 640 x 400. The ROM
-  version is not named.
+- [GView 0.25c's README](sources.md#s04) (February 1996), under "Known Errors", reports
+  that 320x200x256 "does not work" on the card, so 8-bit pictures need 640 x 480 or 640 x
+  400. The ROM version is not named.
 - The disassembly marks the ext $21 value "should be 00", which matches Oak's own mode 13h.
 - On the AppleColor RGB monitor, ROM 1.4 refuses mode $13: its RGB table holds only $01,
   $03, $61 and $FA-$FE ([`ROM_BEEF.asm:862`](sources.md#s27) onward, `set_video_mode` lines 900-933).
@@ -368,9 +368,9 @@ top half of the screen. Source: Oak's packed-mode tables.
 ROM 1.4 is the last firmware Sequential shipped, and no source code for it survives. This
 repository holds it as assembly source that builds the dump byte for byte, and two changed
 versions of that source that fix the [errata](reference/errata.md) firmware can fix:
-firmware 1.5 for a card with the original Lattice chip, and 2.0 for a card with Lattice v2.0. Every fix
-is a change to the source, and the firmware is built from it. Each version's fixes and
-ready-built image: [Firmware versions](firmware-versions.md).
+firmware 1.5 for a card with the original Lattice chip, and 2.0 for a card with Lattice
+v2.0. The firmware is built from these sources. [Firmware versions](firmware-versions.md)
+lists each version's fixes and ready-built image.
 
 | Source | Builds |
 |---|---|

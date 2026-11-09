@@ -2,8 +2,8 @@
 
 [Reference tables](README.md) | [Glossary](../glossary.md)
 
-Every host command in ROM 1.4: its bytes and its transfer phases. How one command runs,
-step by step: [Host protocol](../09-host-protocol.md). Command $0F (SetTextFont) is
+This reference lists the bytes and transfer phases for each ROM 1.4 host command.
+[Host protocol](../09-host-protocol.md) describes a command step by step. Command $0F (SetTextFont) is
 documented but missing from ROM 1.4; firmware 1.5 and 2.0 have it
 ([E10](errata.md#e10-settextfont-is-missing)).
 
@@ -112,9 +112,8 @@ Flag 0 turns on Apple display emulation; flag 1 selects native VGA mode. The fir
 applies the mode at the next vertical blank, from the mode list the monitor-sense bit
 picks. Sources: firmware `set_mode`, main loop; [VGALOW.ASM](../sources.md#s29) `_SetMode`.
 
-The mode codes, and what each means on each monitor:
-[Video modes](video-modes.md#built-in-mode-codes). Mode `$FF` uses the record that
-SetUserMode loaded.
+[Video modes](video-modes.md#built-in-mode-codes) lists the mode codes for each monitor.
+Mode `$FF` uses the record loaded by SetUserMode.
 
 Flag 1 stops the firmware drawing the Apple screen, but not U7's copy of the Apple's
 video writes ([SetShadow](#setshadow)). In ROM 1.4 an Apple display switch also runs
@@ -165,7 +164,7 @@ font lives at `$0F000`, so the bytes go through firmware memory instead
 Sources: firmware `set_palette`; [VGALOW.ASM](../sources.md#s29) `_SetPalette`.
 
 SetPaletteEntry writes one index and its red, green and blue values. The components are
-full 8-bit values, not the 6-bit values of an ordinary VGA DAC
+full 8-bit values; an ordinary VGA DAC uses 6-bit values
 ([Bt481 color chip](../06-video.md#bt481-color-chip)).
 
 ### RunCode
@@ -179,9 +178,9 @@ With Sequential's `_RunCode` wrapper, the called code must write `$A5` to port `
 it returns: the wrapper waits for `$A5/$A6`, and the ROM never sends it.
 Sources: `run_code`; [VGALOW.ASM](../sources.md#s29) `_RunCode`.
 
-Ways to load code, and an MMU example:
-[Loading Z180 code](../09-host-protocol.md#loading-z180-code). Memory the firmware uses,
-and the rest of the hardware: [Beyond the firmware](../14-custom-code.md).
+[Loading Z180 code](../09-host-protocol.md#loading-z180-code) describes how to load code
+and gives an MMU example. [Beyond the firmware](../14-custom-code.md) covers memory used
+by the firmware and the rest of the hardware.
 
 ### SetShadow
 

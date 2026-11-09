@@ -4,8 +4,8 @@
 
 The Lattice chip is the card's capture logic ([04 Capture logic](04-capture-logic.md)): the
 square 44-pin chip in a socket at the right end of the card, just above the slot
-connector, with a white sticker reading BE8C. The schematic calls it U7. Its program is a
-fuse map. A replacement must be an ispLSI1016, not an ispLSI1016E
+connector, with a white sticker reading BE8C. It is U7 on the schematic and is programmed
+with a fuse map. A replacement must be an ispLSI1016, not an ispLSI1016E
 ([Do not buy](#do-not-buy)).
 
 > [!WARNING]
@@ -43,10 +43,9 @@ is on [Firmware versions](firmware-versions.md#which-firmware-goes-with-which-la
 
 ## What v2.0 changes
 
-The Lattice chip copies nothing itself. It watches each IIgs bus cycle and decides two things: whether
-the card copies a write into its SRAM, and in which SRAM bank; and whether the Z180 is
-interrupted to hear about a softswitch access. Latches U5/U6 (the address), U2 (the data
-byte) and GAL U17 (the SRAM write) carry out every copy
+The Lattice chip monitors IIgs bus cycles. It selects writes to copy, chooses the SRAM
+bank and signals the Z180 when a softswitch is accessed. Latches U5/U6 (the address),
+U2 (the data byte) and GAL U17 (the SRAM write) perform the copy
 ([Copying video writes](04-capture-logic.md#copying-video-writes)). v2.0 changes three
 equations and adds one output; every other output keeps the original's equation, and the
 pins are unchanged:
@@ -71,7 +70,7 @@ Everything else stays as the factory chip has it, the $9000 band flag included
 ([E13](reference/errata.md#e13-fast-animation-is-choppy): changing it would save a few
 milliseconds a pass, and only for programs that change palettes without drawing).
 
-The equations: [Correcting the capture logic](12-lattice-fix.md#what-the-corrected-map-changes).
+The equations are in [Correcting the capture logic](12-lattice-fix.md#what-the-corrected-map-changes).
 142 of the 15,360 fuses differ from BE8C, all in the four blocks that changed (A2 with
 the new HIRES1_ADDR, A4 with CAPTURE, B0 with CATCH_BANK, B7 with EVENT_DECODE) and the
 six routing-pool connections they add or drop; the other blocks keep every fuse of the
@@ -173,8 +172,8 @@ Lattice's download cable while the chip sits in a [programming socket](#the-prog
   through its sales offices, and used ones are sold online. Sources:
   [Lattice answer 6212](sources.md#s88); [Lattice cable guides](sources.md#s87).
 - **The software:** Lattice's ispVM System, the programming program for its cables, a
-  download from Lattice's web site; Lattice describes it as generating the programming
-  signals for every Lattice device from the JEDEC file. It also comes with ispLEVER
+  download from Lattice's web site. It generates the programming signals for every
+  Lattice device from the JEDEC file, according to Lattice. It also comes with ispLEVER
   Classic, whose installation notice lists the ispLSI 1000 family and the USB cable
   drivers. Sources: [Lattice cable guides](sources.md#s87);
   [ispLEVER Classic 1.6 installation notice](sources.md#s93).

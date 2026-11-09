@@ -2,9 +2,8 @@
 
 [Reference index](../README.md) | [Glossary](glossary.md) | [Reference tables](reference/README.md)
 
-How the card watches the Apple slot bus, exchanges commands with the host, and pauses or
-interrupts the Apple processor. Pin assignments are in the
-[slot reference](reference/slot-pins.md).
+The card monitors the Apple slot bus, exchanges commands with the host, and can pause or
+interrupt the Apple processor. Pin assignments are in the [slot reference](reference/slot-pins.md).
 
 ## Contents
 
@@ -20,7 +19,7 @@ interrupts the Apple processor. Pin assignments are in the
 
 ## What the card does on the slot
 
-- It **listens** to every bus cycle: address, data, read/write, and three IIgs timing and
+- It monitors every bus cycle: address, data, read/write, and three IIgs timing and
   bank signals.
 - It **drives** the Apple data bus only when the Apple reads $C0B0-$C0BF.
 - It **drives RDY low** to pause the Apple's processor when the card has not yet handled
@@ -29,12 +28,12 @@ interrupts the Apple processor. Pin assignments are in the
 - It has **no slot ROM** and ignores the slot's own select lines (/IOSELECT, /DEVSELECT,
   /IOSTROBE). It decodes full 16-bit addresses itself.
 
-Pin by pin: [Apple slot pins](reference/slot-pins.md).
+See [Apple slot pins](reference/slot-pins.md) for the pin assignments.
 
 ## The host registers
 
-The card's command interface sits at the same addresses in every slot, because the
-Lattice decodes the full address instead of using the slot's DEVSELECT
+The card's command interface uses the same addresses in every slot. The Lattice decodes
+the full address rather than using the slot's DEVSELECT
 ([host registers](reference/host-commands.md#host-registers)). Source: [VGALOW.ASM](sources.md#s29).
 
 - Every read of $C0B0-$C0BF returns one 8-bit latch (U3). The Z180 loads it by writing
@@ -47,11 +46,12 @@ Lattice decodes the full address instead of using the slot's DEVSELECT
   in slot 3 would clash with them. The manual puts the Second Sight itself in slot 3 on
   a ROM 01 IIgs, which keeps that range free.
 
-The command protocol built on them: [Host protocol](09-host-protocol.md).
+The command protocol is described in [Host protocol](09-host-protocol.md).
 
 ## Which machine, which slot
 
-Which machines and slots work: [machine and slot compatibility](reference/slot-pins.md#machine-and-slot-compatibility).
+See [machine and slot compatibility](reference/slot-pins.md#machine-and-slot-compatibility)
+for supported machines and slots.
 Without M2B0 the card cannot tell a write to bank $E1 from one to bank $E0, so it loses
 Super Hi-Res, which lives in $E1 ([bank without M2B0](04-capture-logic.md#bank-without-m2b0)).
 
@@ -82,9 +82,9 @@ from Apple IIgs Technical Note #68:
   active for 140 nanoseconds, starting 140 nanoseconds after the PH0 clock falls". It is
   high for bank $E1 and for shadowed writes and I/O through bank $01. It does not follow
   RAMRD, RAMWRT, ALTZP, 80STORE or PAGE2.
-- **RDY** (pin 21): the 65816 holds the current cycle while RDY is low. [TN #68](sources.md#s43): assert or
-  release RDY only while /M2SEL is low and PH0 is high, stable 60 ns before PH0 falls,
-  with an open-collector driver.
+- **RDY** (pin 21): the 65816 holds the current cycle while RDY is low. [TN
+  #68](sources.md#s43): assert or release RDY only while /M2SEL is low and PH0 is high,
+  stable 60 ns before PH0 falls, with an open-collector driver.
 
 ```
  one slow cycle (about 980 ns): address phase, then data phase
@@ -108,8 +108,8 @@ How the card uses these:
 
 ## What the card needs from the IIgs: every slow-side cycle
 
-The card only sees what reaches the slot pins. On a IIgs that is every Mega II cycle,
-including:
+The card can observe only the signals present on the slot pins. On a IIgs, every Mega II
+cycle reaches those pins, including:
 
 - writes to banks $E0/$E1;
 - writes to banks $00/$01 that the IIgs **shadows** into $E0/$E1 (text, hires, double
@@ -117,7 +117,7 @@ including:
 - reads and writes of the $C0xx I/O space.
 
 Fast-side cycles (bank $00/$01 RAM that is not shadowed, fast ROM, the fast-side
-registers) never reach the card. So turning off IIgs shadowing also stops the card's
+registers) never reach the card. Turning off IIgs shadowing also stops the card's
 copy. Source: [TN #68](sources.md#s43).
 
 ## RDY: pausing the Apple
@@ -138,8 +138,9 @@ copy. Source: [TN #68](sources.md#s43).
 - GAL U4 output AIRQ0 drives the slot's /IRQ through the 74F125.
 - The 1.4 firmware never raises it. Z180 port $AC raises it and $AD clears it; the reset
   code writes $AD once.
-- Only Z180 I/O can change the IRQ latch: U4 sees HA0-HA7, /RD, /WR, /IORQ and /BUSACK.
-  The IIgs cannot clear it; it remains asserted until the Z180 clears it. Source: [netlist](../data/netlist/README.md).
+- Only Z180 I/O can change the IRQ latch: U4 receives HA0-HA7, /RD, /WR, /IORQ and
+  /BUSACK. The IIgs cannot clear it; it remains asserted until the Z180 clears it. Source:
+  [netlist](../data/netlist/README.md).
 
 ## Reset
 

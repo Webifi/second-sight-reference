@@ -2,8 +2,8 @@
 
 [Reference tables](README.md) | [Capture logic](../04-capture-logic.md) | [Correcting the capture logic](../12-lattice-fix.md)
 
-U7's design as Lattice pDS 2.61 source: every equation, register, clock and pin. pDS 2.61
-builds the original file back into the original fuse map with every fuse equal.
+U7's Lattice pDS 2.61 source describes every equation, register, clock and pin. pDS
+2.61 builds the original file into a fuse map identical to the original.
 
 ## Contents
 
@@ -23,9 +23,9 @@ checks and minimizes the logic, places and routes it, and writes the JEDEC fuse 
 programmer loads. Source: [Lattice 1996 Data Book](../sources.md#s85) pp6-7 to 6-11.
 
 Sequential built U7 with pDS 2.61 from an LDF file. pDS 2.61 builds `Lattice_original-BE8C.ldf`
-into the original fuse map with all 15,360 fuses equal. The details that takes are pDS
-2.61's own: the text order, the STRONGMIN outputs, two outputs nothing reads, and the
-router's copies of two signals.
+into the original fuse map with all 15,360 fuses equal. An identical build depends on
+pDS 2.61 details: text order, STRONGMIN outputs, two unused outputs and the router's
+copies of two signals.
 
 The LDF language, as this source uses it:
 
@@ -118,8 +118,8 @@ EVENT_DECODE (E15)
 ## Building and changing the design
 
 pDS 2.61 builds a design file and its placement file into an ispLSI1016 fuse map.
-Builds, source comparisons and design changes:
-[Building the Lattice fuse map](../../tools/lattice/README.md).
+[Building the Lattice fuse map](../../tools/lattice/README.md) covers builds, source
+comparisons and design changes.
 
 **What one logic block holds:**
 

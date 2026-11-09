@@ -2,8 +2,8 @@
 
 [Reference tables](README.md) | [Glossary](../glossary.md)
 
-Every port on the Z180's I/O bus: the card's ports, the Z180's own registers and the VGA
-registers. One access can move data and acknowledge an event at the same time.
+The Z180 I/O bus includes the card's ports, the processor's internal registers and the
+VGA registers. One access can transfer data and acknowledge an event at the same time.
 
 - The Z180 uses 16-bit I/O addresses: `out (c)` puts B on A8-A15. Its internal registers
   are at `$00-$3F`.
@@ -41,7 +41,7 @@ $A4-$A7**: U7 and the Z180 drive the same data lines. Both follow from the wirin
 |---|---|---|---|
 | [$00-$3F](#internal-registers) | Z8S180 internal registers | Z8S180 internal registers | |
 | [$A0](#data-and-acknowledge) | U2 input latch; acknowledge event | Load U3 output latch; acknowledge event | U7's ACK_A0 acknowledges on either |
-| [$A1](#configuration-and-open-reads) | Reloads configuration from bus bits 2-3; never read | COPY_INHIBIT in bit 2, MODE_D3 in bit 3 | U7 has no read/write input |
+| [$A1](#configuration-and-open-reads) | Reloads configuration from bus bits 2-3; never read | COPY_INHIBIT in bit 2, MODE_D3 in bit 3 | U7 has no Z180 read/write input |
 | [$A2](#configuration-and-open-reads) | Undriven bus | No effect | No U7 equation uses it |
 | [$A3](#configuration-and-open-reads) | Undriven bus | No effect | No U7 equation uses it |
 | [$A4](#band-flags-and-event-address) | Lower four band flags, then clear | Bus contention; flags still clear; never write | The read returns the flags before the clear |
@@ -61,13 +61,13 @@ $A4-$A7**: U7 and the Z180 drive the same data lines. Both follow from the wirin
 
 ### Access limits and aliasing
 
-Card ports repeat every 256 I/O addresses. U4 receives only HA0-HA7, and U7 receives only
-HA0-HA2 plus U4's AX; neither can tell $00A0 from $01A0. The OTI-087X sees the full
-address, so its VGA ports do not repeat this way. Source: [netlist](../../data/netlist/README.md).
+Card ports repeat every 256 I/O addresses. U4 receives only HA0-HA7, and U7 receives
+HA0-HA2 plus U4's AX, so $00A0 and $01A0 select the same port. The OTI-087X receives
+the full address, so its VGA ports do not repeat this way. Source: [netlist](../../data/netlist/README.md).
 
-U7 cannot tell a read from a write. So a read of $A1 is a configuration write, and a write
-to $A4-$A7 still makes U7 drive the low nibble. That write fights the Z180 on the data
-bus, and its data is lost. Source: [netlist](../../data/netlist/README.md).
+U7 receives the Apple's R/W signal, but no Z180 read/write signal. A read of $A1
+therefore reloads the configuration, and a write to $A4-$A7 causes U7 and the Z180
+to drive the low nibble simultaneously. The write data is lost in the bus contention. Source: [netlist](../../data/netlist/README.md).
 
 The memory bus has a similar limit: never write the EPROM area, $60000-$7FFFF, or
 $00000-$1FFFF while the boot overlay is on. U15 enables the EPROM from the address alone,
@@ -81,7 +81,7 @@ U4's BEN enables U2 on a read of `$A0`; BCLK loads U3 on a write. U2 holds the b
 copied memory write or of a written softswitch or command event; a read event leaves it
 unchanged.
 
-U3 is the byte returned on Apple reads of `$C0B0-$C0BF`, including `$C0B2` and `$C0B8`.
+U3 holds the byte returned on Apple reads of `$C0B0-$C0BF`, including `$C0B2` and `$C0B8`.
 Handshake bytes `$00/$01/$A5/$A6` and outgoing data share this latch.
 Source: [ROM_BEEF.asm](../sources.md#s27) `get_status`, `copy_api_data_chunk`.
 
@@ -97,12 +97,12 @@ Port $A1 stores two bits; bits 0 and 1 are not stored.
   Hi-Res range and the bank latch, and enables events for `$C022/$C029/$C02B` (and `$C034`
   in Lattice v2.0).
 
-The firmware writes `$08` at reset and ORs `$08` into every SetShadow value. So SetShadow
+The firmware writes `$08` at reset and ORs `$08` into every SetShadow value. SetShadow
 0 copies everything and 4 stops copying. Source: [ROM_BEEF.asm:58-59](../sources.md#s27)
 and `set_shadow`.
 
 U7 loads port $A1 on any access that AX selects, read or write. AX has to work on reads,
-because `$A0` and `$A4-$A7` are read through it. So a read of `$A1` loads whatever is on
+because `$A0` and `$A4-$A7` are read through it. A read of `$A1` loads whatever is on
 the undriven bus, which can turn copying or IIgs mode off at random.
 Source: [netlist](../../data/netlist/README.md).
 
@@ -167,8 +167,8 @@ address and decodes its own registers. Source: [netlist](../../data/netlist/READ
 ### Internal registers
 
 These include ASCI, CSI/O, timers, DMA (`$20-$32`) and MMU (`$38-$3A`) registers. The
-firmware never writes CMR (`$1E`) or CCR (`$1F`). What custom code can use:
-[Z180 resources](../14-custom-code.md#z180-resources).
+firmware never writes CMR (`$1E`) or CCR (`$1F`). See [Z180 resources](../14-custom-code.md#z180-resources)
+for their use by custom code.
 Sources: [Z8S180 specification](../sources.md#s62); [ROM_BEEF.asm](../sources.md#s27).
 
 ## Decoder and evidence table

@@ -2,7 +2,7 @@
 
 [Reference index](../README.md) | [Glossary](glossary.md) | [Errata](reference/errata.md)
 
-Lattice v2.0 fixes three faults of the capture logic that no firmware change can reach:
+Lattice v2.0 fixes three capture-logic faults that firmware cannot fix:
 
 - [E14](reference/errata.md#e14-direct-e1-writes-with-ramwrt-on-are-not-copied-above-6000):
   direct $E1 writes made with RAMWRT on are lost.
@@ -12,7 +12,7 @@ Lattice v2.0 fixes three faults of the capture logic that no firmware change can
   with 80STORE on, some writes are copied into the wrong SRAM bank, in one case over the
   card's own code.
 
-Everything else in the chip, pins included, stays as the original. Chips and programming:
+All other logic and pins remain unchanged. For chips and programming, see
 [Lattice chip versions](lattice-versions.md#getting-a-chip).
 
 ## Contents
@@ -56,16 +56,15 @@ EVENT_DECODE, one added term
 
 ### 1. Direct $E1 writes (E14)
 
-With the two RAMWRT conditions gone, U7 picks a write whose bank bit is 1 for copying and
-names SRAM bank 1 for it whatever RAMWRT says, the rule "B or RAMWRT" instead of "B xor
-RAMWRT". Writes with B = 1 always go to bank $01 or $E1 on the IIgs, so this is the bank
-they belong in.
+Removing the two RAMWRT conditions lets U7 capture writes with bank bit B = 1 and
+select SRAM bank 1 regardless of RAMWRT. The rule becomes "B or RAMWRT" instead of
+"B xor RAMWRT". On the IIgs, writes with B = 1 always go to bank $01 or $E1.
 
-U7 only makes that decision: it pulls CATCH and ADIN low and sets CATCH_BANK, and U5/U6,
-U2 and U17 copy the byte as they copy every screen write ([Copying video
-writes](04-capture-logic.md#copying-video-writes)). The game Rastan's palettes and
-scan-line control bytes then reach the card. Only writes with B = 1 made while RAMWRT is
-on change; every other write meets the same terms as in the original map.
+U7 pulls CATCH and ADIN low and sets CATCH_BANK. U5/U6, U2 and U17 then copy the byte,
+as they do for other screen writes ([Copying video
+writes](04-capture-logic.md#copying-video-writes)). This captures the writes Rastan uses
+to clear its screen and draw text, palettes and scan-line control bytes. Only writes with
+B = 1 while RAMWRT is on are affected. All other writes use the original terms.
 
 ### 2. Border writes (E15)
 
@@ -91,11 +90,11 @@ while HIRES is on; RAMWRT picks it for every other address. The original applied
 every address while 80STORE was on, and in IIgs mode RAMWRT too while HIRES was off. With
 80STORE off nothing changes.
 
-How it fits in the chip: CATCH_BANK's block, B0, finds text page 1 from the existing
+CATCH_BANK's block, B0, identifies text page 1 from the existing
 $0400-$0BFF decode and A10. It cannot read A13-A15, because in B0 each shares its
 routing-pool slot with a signal the block already reads
 ([the chip's limits](reference/lattice-source.md#building-and-changing-the-design)).
-So a new output in block A2, HIRES1_ADDR, decodes hires page 1 from the existing
+A new output in block A2, HIRES1_ADDR, decodes hires page 1 from the existing
 $2000-$5FFF decode and A13. It takes the output of A2_FIT, an unused output that only
 steered where pDS put block A2's terms, so those terms may sit on other OR gates. The B
 term drops MODE_D3, which frees A10's slot in B0; B is always 0 in IIe mode anyway.
@@ -145,17 +144,17 @@ has a comment on every block, signal and term:
 tools/lattice/pds261_build.sh data/lattice/Lattice_v2.0.ldf data/lattice/Lattice_v2.0.fxp build/lattice/Lattice_v2.0_ispLSI1016.jed
 ```
 
-What it needs, the steps by hand, and the checks of a built file against its source and
-the three fixes: [Building the Lattice fuse map](../tools/lattice/README.md).
+[Building the Lattice fuse map](../tools/lattice/README.md) describes the requirements,
+manual steps and checks against the source and three fixes.
 
 ## Checking it on a card
 
-- **E14:** Rastan's backgrounds, which the card shows black or in the title screen's
-  colors, show in the same colors as on the IIgs
+- **E14:** Rastan's backgrounds should match the IIgs colors. With the original chip,
+  they appear black or in the title screen's colors
   ([Rastan](reference/errata.md#e14-direct-e1-writes-with-ramwrt-on-are-not-copied-above-6000)).
   A short test, with interrupts off and a Super Hi-Res picture on screen: turn RAMWRT on
   (`STA $C005`), store a new value into palette 0, color 1 with a long store to
-  $E1:9E02, and turn RAMWRT off again (`STA $C004`). The card shows the new color.
+  $E1:9E02, and turn RAMWRT off again (`STA $C004`). The card should show the new color.
 - **E15:** the border color reaches the firmware only through the $C034 event and the
   byte U2 latches with it. With ROM 1.4 or firmware 1.5 the card looks the same as
   before; with [firmware 2.0](firmware-versions.md) the border follows the IIgs border

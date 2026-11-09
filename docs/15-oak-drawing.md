@@ -3,9 +3,8 @@
 [Reference index](../README.md) | [Glossary](glossary.md) | [Reference tables](reference/README.md)
 
 The OTI-087X is a 1993 PC graphics chip with hardware that helps the CPU draw faster.
-On this card the Z180 is that CPU. Use this chapter to choose a drawing method:
-it covers every drawing and display feature, how each works with this card's wiring,
-and its cost in Z180 clocks.
+On this card the Z180 is the CPU. The clock counts are calculated from Z180 instruction
+timings and the relevant wait states.
 
 Custom code reaches all of it: every register of the Oak, the OTI-068 and the Bt481, in
 any combination ([Beyond the firmware](14-custom-code.md)). Nothing here depends on the
@@ -44,12 +43,13 @@ Clock counts here are computed from those sources.
 
 ## The limit is the Z180's bus
 
-The chip side is fast. Video memory is 32 bits wide (eight 256K x 4 DRAMs) on a 40 MHz
-memory clock. A page-mode cycle takes two memory clocks, 50 ns for 4 bytes, about 80 MB/s,
-shared between the display refresh and the CPU. Sources: [databook](sources.md#s02) p6
-("80 Mbyte/sec Video") and pp55-56 (tPC = 2 tMP); [memory-clock straps](reference/clocks.md#memory-clock-straps).
+Video memory is 32 bits wide (eight 256K x 4 DRAMs) and runs on a 40 MHz memory clock. A
+page-mode cycle takes two memory clocks, 50 ns for 4 bytes, about 80 MB/s, shared between
+the display refresh and the CPU. Sources: [databook](sources.md#s02) p6 ("80 Mbyte/sec
+Video") and pp55-56 (tPC = 2 tMP); [memory-clock
+straps](reference/clocks.md#memory-clock-straps).
 
-The Z180 side is slow:
+The Z180 accesses video memory one byte at a time and must wait for the VGA chip:
 
 - **One byte per access.** The Z180's data bus is 8 bits wide, and the firmware's Super
   Hi-Res renderer, which runs on production cards, relies on each write storing one
@@ -84,12 +84,13 @@ At 18 MHz, with ROM 1.4's usual cache setting (write cache on, read cache off):
 
 With the write cache off, each video memory write takes 2 clocks more.
 
-So the Z180 moves about 2 MB/s, a fortieth of what the chip can take. Every feature that
-moves more pixels per access is a direct speedup.
+The Z180 moves about 2 MB/s, a fortieth of the video memory bandwidth. Moving more
+pixels per access increases drawing speed.
 
 ## Reaching video memory
 
-Two windows reach the 1 MB ([video RAM window](06-video.md#the-video-ram-window)):
+Two windows provide access to the 1 MB of video memory
+([video RAM window](06-video.md#the-video-ram-window)):
 
 - **Linear:** 512 KB at Z180 $80000-$FFFFF, plus the half switch for the other 512 KB.
   This is the Oak's linear window (ext $05 = $19). The latch, the pixel mask, the logical
@@ -106,11 +107,11 @@ destination page, `ld a,(hl)` then `ld (hl),a` copies between pages with one poi
 
 ## The latch: copying 4 pixels per access
 
-**What it is.** A VGA keeps a latch: 4 bytes, one per memory plane. A read of video
-memory fills it, and a write in write mode 1 (graphics register 5 bits 1-0 = 01) stores
-it back, ignoring the CPU's data. With ext $22 bit 4 the Oak widens it to 64 bits, two
-4-byte halves. Ext $35 picks one of the 8 latch bytes and ext $36 reads or writes it; the
-index steps by one on each $36 access. Sources: databook p1, pp42-44; [IBM](sources.md#s68).
+The VGA latch holds 4 bytes, one per memory plane. A read of video memory fills it, and a
+write in write mode 1 (graphics register 5 bits 1-0 = 01) stores it back, ignoring the
+CPU's data. With ext $22 bit 4 the Oak widens it to 64 bits, two 4-byte halves. Ext $35
+picks one of the 8 latch bytes and ext $36 reads or writes it; the index steps by one on
+each $36 access. Sources: databook p1, pp42-44; [IBM](sources.md#s68).
 
 **How it behaves on this card**, in Oak packed 256-color mode (ext $21 = $04, chain-4,
 ext $22 bit 4 = 1, pixel mask on), from Oak's drivers and the chip's register
@@ -125,8 +126,8 @@ pixels:   0 1 2 3 | 4 5 6 7 | 8 9 ...
 write at:    A=0  |   A=1   |  A=8 ...
 ```
 
-So one read and one write copy 4 pixels from anywhere in video memory to anywhere else.
-In packed mode that costs:
+One read and one write copy 4 pixels between any two video memory locations. In packed
+mode the costs are:
 
 - **Two pointers** (source in HL, stepping by 4; destination in DE, stepping +1 and +7):
   `ld a,(hl)` 8, `ld (de),a` 10, and two register steps, about 29 clocks per 4 pixels.
@@ -136,7 +137,7 @@ In packed mode that costs:
   clocks per 4 pixels.
 - Byte stores take about 64 for the same 4 pixels.
 
-Rules that follow:
+For latch copies in packed mode:
 
 - **Same alignment.** The latch holds whole aligned 4-byte words, and the swap bit only
   exchanges halves. A source must sit at the same position inside its word as its
@@ -146,7 +147,7 @@ Rules that follow:
   transfers rewrite the same group. Packed-mode latch copies need explicit or compiled
   code that steps the source by 4 and the destination by +1, +7.
   [Unchained mode](#unchained-256-color-mode-copies-with-ldi-and-dma) removes this limit.
-- **Unaligned edges** are handled by the pixel mask, not by a different routine.
+- Use the pixel mask for unaligned edges; no separate routine is needed.
 
 ## The pixel mask: transparency for latch writes
 
@@ -219,9 +220,10 @@ modes").
 
 ## Unchained 256-color mode: copies with `ldi` and DMA
 
-IBM's VGA can also hold 256-color pixels with chain 4 off. The OTI-087X supports it: Oak's
-databook says the chip "is completely compatible with the IBM VGA standard and implements
-all registers and data paths" (p1), and every register this mode uses is IBM's own.
+The OTI-087X can also display 256-color pixels with VGA chain 4 off. It implements the
+standard IBM VGA registers and data paths used by this mode
+(databook p1: "is completely compatible with the IBM VGA standard and implements
+all registers and data paths").
 
 **The layout.**
 
@@ -243,7 +245,7 @@ map mask bit       0          1          2          3
 **Why it is faster.** Four neighboring pixels share one address, so a latch copy is a read
 and a write at the next address each time, which is exactly what `ldi`, `ldir` and DMA do:
 
-- IBM describes this use: "Data scrolling operations can be enhanced by enabling all maps
+- The latches can speed scrolling: "Data scrolling operations can be enhanced by enabling all maps
   and writing the display buffer address with the data stored in the system data
   latches" (p2-51). In write mode 1 "each memory map is written with the contents of the
   system latches", which "are loaded by a system read operation" (p2-85).
@@ -293,8 +295,9 @@ byte mode each row starts 2 x CRTC $13 addresses (8 x CRTC $13 pixels) after the
 
 ## The standard VGA graphics controller
 
-The chip "implements all registers and data paths" of the IBM VGA (databook p1). The
-graphics controller can combine each written byte with the latch: set/reset and its
+The chip implements the IBM VGA registers and data paths (databook p1: "implements all
+registers and data paths"). The graphics controller can combine each written byte with
+the latch: set/reset and its
 enable (registers 0, 1), data rotate and the function (register 3: replace, AND, OR,
 XOR), the bit mask (register 8, bits taken from the latch where 0), write modes 0-3, and
 read mode 1, which compares pixels with a color (registers 2 and 7). Source:
@@ -322,10 +325,10 @@ its write ([87X drivers](sources.md#s69) `LIN8_SC.DRV` $2736-$2773).
   ([write cache](reference/oti087-registers.md#write-cache)). Ext $03 bit 4 flushes it after
   every write.
 
-The databook gives neither cache's size, which addresses the read cache holds beyond the
-next one in a block move, or what empties either cache. The 32-bit DRAM bus lets one read
-bring in 4 bytes, but that does not show the cache holds 4. The 64-bit graphics latch is
-separate from both caches.
+The size of each cache is unknown, as are the addresses the read cache holds beyond the
+next one in a block move and the conditions that empty either cache. The 32-bit DRAM bus
+can transfer 4 bytes per read; that alone does not determine the cache size. The 64-bit
+graphics latch is separate from both caches.
 
 On this card neither cache shortens an access below the waits U15 forces. They save the
 Oak's DRAM time: a read-cache hit or a cached write takes 3 waits instead of 5, and more
@@ -334,16 +337,17 @@ when the DRAM is busy with display fetch or refresh
 
 ROM 1.4's Super Hi-Res renderer sets ext $22 = $1C while it builds its conversion tables,
 which it spreads with sequential DMA block copies, then $38 for drawing
-([`superhires.asm:88-119`](../firmware/v1.4/src/superhires.asm)). $38 turns the read
-cache off and the CPU latch swap (bit 5) on; the 64-bit latch and the write cache stay on.
-The table spreading reads addresses in order, the access the read cache is built for
-(databook p5). Each drawing read fetches the table entry chosen by the next Super Hi-Res
-byte, so the reads follow the picture, not the address order; a repeated byte reads the
-same entry again. The swap lines up the latch halves when the table entry and the screen
-destination are unaligned; the databook places it on CPU writes (p42). The databook does
-not say whether a read-cache hit loads the graphics latches the way a DRAM read does, and
-no Oak document requires the read cache off with the swap, the 64-bit latch or write
-mode 1. So the register values do not show why the firmware turns the read cache off.
+([`superhires.asm:88-119`](../firmware/v1.4/src/superhires.asm)). $38 turns the read cache
+off and the CPU latch swap (bit 5) on; the 64-bit latch and the write cache stay on. The
+table spreading reads addresses in order, the access the read cache is built for (databook
+p5). Each drawing read fetches the table entry selected by the next Super Hi-Res byte. The
+reads therefore depend on the image data rather than following sequential addresses; a
+repeated byte reads the same entry again. The swap lines up the latch halves when the
+table entry and the screen destination are unaligned; the databook places it on CPU writes
+(p42). The databook does not say whether a read-cache hit loads the graphics latches the
+way a DRAM read does. Whether the swap, the 64-bit latch or write mode 1 requires the read
+cache to be off is unspecified in the Oak documents. The reason the firmware turns the
+cache off is unknown.
 
 ## Display features that cost no drawing
 
@@ -424,8 +428,8 @@ The lower part of a split always starts at address 0, and IBM notes it "can be s
 scrolled onto the display by updating the Line Compare register" (p2-103). A playfield
 buffer that starts at address 0 can therefore wrap: the top of the screen shows the buffer
 from the start address down to its end, and line compare, moved each frame, continues it
-from address 0. Only a buffer at address 0 can wrap this way, so this suits one shown
-buffer, not two pages.
+from address 0. Only a buffer at address 0 can wrap this way, so this works for one
+displayed buffer; it cannot wrap two pages.
 
 ### Scrolling sideways through a long playfield
 
@@ -441,8 +445,8 @@ moves forward through memory instead:
 - Make P at least W + 2, where W is the screen width in columns: a nonzero pan shows one
   more column, and the new column is drawn before the start address moves. Each row's new
   column then overwrites only columns of the rows above and below that are off the screen.
-- Memory used is rows x P plus the distance scrolled right, not rows x the playfield
-  width. It must stay inside the 1 MB.
+- Memory used is rows x P plus the distance scrolled right. There is no need to allocate
+  rows x the full playfield width. The allocation must stay inside the 1 MB.
 
 ### Page flipping
 
@@ -476,7 +480,7 @@ monitor ([Building a mode](14-custom-code.md#building-a-mode)).
 64 x 64, 2 colors plus transparent and invert, positioned anywhere by ext $40-$43, over
 the picture, at no drawing cost. Its pattern can sit at any 8-byte boundary in video
 memory (ext $47-$49), so animation frames switch with three register writes. It is the
-chip's only hardware sprite. The databook calls ext $4A/$4B "sprite color 0" and "sprite
+chip's only hardware sprite. Ext $4A/$4B are named "sprite color 0" and "sprite
 color 1" ([hardware cursor](06-video.md#hardware-cursor)).
 
 ### Frame timing
@@ -490,10 +494,12 @@ stand in, and PRT1 can fire at any line
 - **No overlay plane.** The Bt481's overlay inputs OL0-OL3 are tied to ground
   ([netlist](../data/netlist/README.md)).
 
-- **No known way to mix in outside pixels.** J3 is a 2 x 13 header the manual calls a VGA
-  feature connector, but its wiring is not drawn
-  ([board connections](reference/board-connections.md)), and the OTI-087X addendum drops
-  the chip's integrated feature connector support (databook addendum).
+- J3, the VGA feature connector, carries the pixel bus to an add-on. Whether the add-on
+  can replace the pixels is unknown. In the drawing, the pixel pins connect directly to
+  the Bt481 without a buffer that J3's EVIDEO input could switch off. The destinations of
+  J3's EVIDEO and EDCLK lines are unknown
+  ([J3 feature connector](reference/board-connections.md#j3-feature-connector)). The
+  OTI-087X addendum removes the chip's built-in feature connector support.
 
 - **Split-bit layers.** Give the background some bits of each pixel and the sprites the
   rest, and fill the palette so any nonzero sprite bits win. Sprites then draw and erase

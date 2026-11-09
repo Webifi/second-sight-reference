@@ -2,10 +2,10 @@
 
 [Reference index](../README.md) | [Glossary](glossary.md) | [Reference tables](reference/README.md)
 
-Four 20-pin PLDs and seven standard logic chips tie the Apple bus, the Z180 and the VGA
-chip together. No fuse dump of the four small PLDs has been found. The board wiring
-([netlist](../data/netlist/README.md), drawn from the prototype) and what the firmware
-needs fix each PLD's job, but not its exact equations or clock timing.
+Four 20-pin PLDs and seven standard logic chips connect the Apple bus, Z180 and VGA
+chip. The prototype wiring ([netlist](../data/netlist/README.md)) and firmware show what
+each PLD must do. Their exact equations and clock timing remain unknown because no fuse
+dump of the four PLDs has been found.
 
 ## Contents
 
@@ -18,8 +18,8 @@ needs fix each PLD's job, but not its exact equations or clock timing.
 
 ## The parts
 
-Each part's role and clock: [logic roles](reference/board-connections.md#logic-roles).
-Which package is which: [PLD markings](02-board.md#pld-markings).
+For the role and clock of each part, see [logic roles](reference/board-connections.md#logic-roles).
+The [PLD markings](02-board.md#pld-markings) identify the packages.
 
 U12 and U17 cannot be GAL16V8s as drawn. Their flip-flops force registered mode, in which
 pin 11 is /OE; that pin is open on both, and the GAL's pull-up would turn the outputs
@@ -46,9 +46,11 @@ Apple A8-A15 -> U6 (D) --Q--> Z180 HA8-HA15     clock CATCH (from U7), output en
 - U8 (74F125), from the [netlist](../data/netlist/README.md):
   - gate A: input grounded, enable RDY0 (U7) -> Apple RDY. RDY0 low pulls RDY low.
   - gate B: input grounded, enable AIRQ0 (U4) -> Apple /IRQ. AIRQ0 low pulls IRQ low.
-  - gate D: input VCLK0 (OTI-068), enable DIVOE (U4), output VCLK1 -> the color chip's pixel
-    clock. U12's VCLK1 output joins the same net. So the VGA path buffers VCLK directly,
-    and the RGB path turns this gate off and lets U12 drive a divided clock.
+  - gate D: input VCLK0 (OTI-068), enable DIVOE (U4), output VCLK1 -> the OTI-087X's clock
+    input (pin 106, through R17 on the drawing). U12's VCLK1 output shares this net. On the
+    VGA path this gate passes the clock straight through. On the RGB path it turns off and
+    U12 drives a halved clock. The OTI-087X supplies the color chip's clock through its
+    PCLK pin ([color chip clock](06-video.md#outputs-and-the-monitor-type)).
   - gate C: not drawn.
 - U29 (74ACT32): MRD = /MREQ OR /RD, MWR = /MREQ OR /WR, IORD = /IORQ OR /RD,
   IOWR = /IORQ OR /WR. These feed the SRAM and the OTI-087X.
@@ -58,9 +60,10 @@ Apple A8-A15 -> U6 (D) --Q--> Z180 HA8-HA15     clock CATCH (from U7), output en
 Pins: inputs HA0-HA7, /HRD, /HWR, /IOE (Z180 /IORQ), /BACK; outputs BCLK, AX, BEN, DIVOE,
 VGAIO_SEL, AIRQ0.
 
-U4 sees only the low 8 bits of the I/O address, so the card's ports repeat for every high
-byte ($00A0, $01A0, ... all hit port $A0). The VGA chip decodes its own ports fully. The
-outputs: [U4 output controls](reference/z180-io-ports.md#u4-output-controls).
+U4 decodes only the low 8 bits of the I/O address. The card's ports therefore repeat
+for every high byte: $00A0, $01A0 and so on all select port $A0. The VGA chip decodes
+its full port addresses. U4's outputs are listed in
+[U4 output controls](reference/z180-io-ports.md#u4-output-controls).
 
 Eight product terms are too few for separate set and clear strobes on each full port
 address. A feedback latch whose data is HA0 fits: the even port stores 0, the odd port 1,
@@ -68,9 +71,9 @@ and the port-pair decode is its enable, so U4 needs no clock. The firmware
 confirms the polarity with $A9 (DIVOE high), $AB (linear flag high) and $AD (IRQ released).
 Source: [netlist](../data/netlist/README.md).
 
-**Any read or write of $A8-$AD** performs the pair's action: the reset code reads $AA
-([`ROM_BEEF.asm:60`](sources.md#s27)), which only makes sense if reads act, and the latch
-takes its value from the address, not from the written byte.
+Any read or write of $A8-$AD operates the corresponding latch. The reset code reads $AA
+([`ROM_BEEF.asm:60`](sources.md#s27)); the latch takes its value from the address rather
+than the data byte.
 
 Reads of $A1-$A3 return the undriven bus, and $AE/$AF do nothing: U4 has no output left
 for them. U4's latches hold no defined value until the firmware's reset writes ($AD, $AA)
@@ -88,7 +91,7 @@ Pins: inputs HCLK (pin 1, register clock), /BACK, IOCHRDY, VGAIO_SEL, HA16-HA19,
 /ME (Z180 /MREQ); outputs ROM (EPROM /OE), RAM (SRAM /CE1), WAIT (Z180 /WAIT), VGAIO (OTI-087X
 LA20), RS1 and RS2 (not connected on the drawing).
 
-What U15 must do:
+U15 must perform these functions:
 
 ```
 ROM  low  = /ME low and ( HA19-17 = 011                      EPROM at $60000-$7FFFF
@@ -104,18 +107,19 @@ WAIT low  = for /ME low with HA19 = 1 (video memory): from the address decode, f
             fixed number of waits, then while IOCHRDY is low
 ```
 
-**Why VGAIO must be gated.** The OTI-087X sees every memory read and write (MRD and MWR
-from U29), so it answers any address that falls in its window. The firmware runs its whole
-upload loop from SRAM with the linear flag set (`upload_data` writes $AB, runs, then writes
-$AA; [`ROM_BEEF.asm:1721-1799`](sources.md#s27)). If VGAIO carried the flag for every access, each SRAM fetch
-would land in the Oak's 1 MB aperture at $100000 and collide with the SRAM. Uploads work,
+The OTI-087X receives every memory read and write strobe (MRD and MWR from U29), so it
+responds to any address in its window. The firmware runs the whole upload loop from
+SRAM with the linear flag set (`upload_data` writes $AB, runs, then writes
+$AA; [`ROM_BEEF.asm:1721-1799`](sources.md#s27)). If VGAIO carried the flag for every
+access, each SRAM fetch would address the Oak's 1 MB aperture at $100000 as well, causing
+a collision. Uploads work,
 so U15 passes the flag only for $80000-$FFFFF; gating it with HA19 is one way, and U15's
 exact equation is not recovered.
 
-**Copies must not reach video memory either.** During a copy the Oak still receives MWR,
-while the Z180's HA16-HA19 float. Holding LA19 and LA20 low during the copy keeps the
-Oak's address below its video windows, and U15 has /BACK to do it, but what the
-production card does is not traced. Floating address lines cannot be assumed low.
+During a copy the Oak still receives MWR while the Z180's HA16-HA19 float. Holding LA19
+and LA20 low would keep the Oak address below its video windows. U15 has /BACK available
+for this, but the production circuit has not been traced. Floating address lines cannot
+be assumed low.
 Sources: [OTI-087 databook](sources.md#s02) pp17-18; [netlist](../data/netlist/README.md).
 
 A replica gates LA19 the same way; the original's choice shows only to code that reads the
@@ -131,8 +135,8 @@ from U15 with fast enough parts. Wait counts and margins: [wait states](05-z180.
   ([VGA bus timing](reference/clocks.md#vga-bus-timing)). The count U15 forces is not
   recovered. Registered designs forcing 3 or 4 fit the PLD's resources, but the complete
   U15/Oak/U17 timing must also pass the consecutive-capture budget below. /WAIT may
-  follow IOCHRDY combinationally; the HCLK input alone does not prove a registered
-  /WAIT output. Source: [netlist](../data/netlist/README.md) U15.
+  follow IOCHRDY combinationally; whether /WAIT is registered is unknown. Source:
+  [netlist](../data/netlist/README.md) U15.
 - The EPROM's A16 is HA16, so all 128 KB appear in $60000-$7FFFF, and the boot overlay at
   $00000-$1FFFF shows the same 128 KB (code in the low half, zeros in the high half).
   Source: [netlist](../data/netlist/README.md).
@@ -150,7 +154,7 @@ RES (Z180 /RESET), RESN, INT_RES (no external destination), BREQ (Z180 /BUSREQ) 
 (Z180 /WR line). Pins 13 and 14 are open stubs; pin 15 is labeled "HA1?" (the last digit
 is unreadable). Source: [netlist](../data/netlist/README.md).
 
-One copy has these ordering constraints; the request can begin before CATCH rises:
+A copy must follow this sequence. The request can begin before CATCH rises:
 
 1. CATCH rising loads U5/U6 with the Apple address. ADIN rising loads U2 with the byte.
 2. U17 requests the bus. The Z180 finishes a machine cycle, including its waits, then
@@ -159,8 +163,8 @@ One copy has these ordering constraints; the request can begin before CATCH rise
    valid new latch outputs; SRAM is selected and A16 supplies the captured bank.
 4. The write ends with the SRAM's setup and hold requirements met. U17 releases its
    request; the Z180 returns the bus at a bus-exchange edge.
-5. The controller must also be ready to recognize the next capture. Completing the
-   write alone does not establish this.
+5. The controller must also be ready to recognize the next capture. It may not be ready
+   immediately after the write finishes.
 
 The Z180 does not sample /WAIT during bus release. U15's waits can delay the grant,
 but cannot stretch U17's write after grant. Source: Zilog, March 1994,
@@ -190,8 +194,8 @@ p6-3; [UM0050](sources.md#s39) pp25-28.
 U5/U6 take a new address on every CATCH and U2 new data on ADIN. U17 cannot keep an
 overwritten address and byte, and a pending copy does not stall the Apple. Two copied
 IIgs writes can arrive about 980 ns apart, one slow cycle
-([Apple TN #68](sources.md#s43)). So the first SRAM write must finish, with the SRAM's
-hold time, before the second CATCH, and U17 must be ready to take the second request.
+([Apple TN #68](sources.md#s43)). The first SRAM write and its hold time must finish
+before the second CATCH. U17 must also be ready to accept the second request.
 
 The Z180 releases its bus only at the end of its current machine cycle: 3 clocks plus
 waits for a memory or I/O cycle, or 1 clock otherwise. It samples /BUSREQ at the falling
@@ -204,7 +208,7 @@ p6-3. The firmware turns refresh off (RCR = 0), so no refresh cycle delays a cop
 
 ROM 1.4 sets no automatic memory waits (DCNTL = 0). Each `ldd` of its Super Hi-Res loop
 reads a conversion table in video memory and writes video memory in two separate machine
-cycles, so a copy waits for one of them, not the whole instruction. Text rendering writes
+cycles, so a copy waits only for the current machine cycle. Text rendering writes
 video memory between SRAM lookups. Masking interrupts does not hold off /BUSREQ. Sources:
 `firmware/v1.4/src/superhires.asm` (`shr_high_pal0`), `text.asm`
 (`render_text80_line_loop`).
@@ -223,19 +227,19 @@ where W is the total waits of the Oak access running at the first CATCH, write t
 byte in time at W = 10 but are ready only at 1000 ns and miss the second CATCH at 981 ns.
 A controller that combines finishing and re-arming saves a clock and passes that case.
 So if ten-wait Oak accesses occur during ROM 1.4's rendering, those slower designs are
-excluded; this does not by itself prove an early request.
+excluded. Whether U17 requests the bus before CATCH rises remains unknown.
 
 At the Oak's documented DRAM minimums, a video read that arrives as 3 or 5 back-to-back
 refresh cycles start takes 13-14 or 20 waits
 ([how long IOCHRDY holds an access](05-z180.md#how-long-iochrdy-holds-an-access)). With
 W = 14 the Z180 cannot grant the bus before 944 ns, past the 920 ns deadline, so with any
-U17 design a capture that lands at the start of such an access is lost if the Apple writes
-again 980 ns later. No Oak document says whether a line's refresh cycles run back to back
-ahead of a waiting CPU access. Sequential's owner manual says programs that update Super
-Hi-Res faster than the card can follow cause no "problems other than the sometimes jerky
-display" ([owner manual](sources.md#s16) p30), and no owner report of a missed copy has
-been found. So the card does not hold a waiting video access behind a whole group of
-refresh cycles: the Oak serves it between them or ahead of them, and an emulator does the
+U17 design a capture at the start of such an access is lost if the Apple writes again
+980 ns later. Whether a line's refresh cycles run back to back ahead of a waiting
+CPU access is unknown. Programs that update Super Hi-Res faster than the card can follow
+are reported to cause no "problems other than the sometimes jerky display"
+([owner manual](sources.md#s16) p30). No owner report of a missed copy has been found.
+The card therefore does not hold a waiting video access behind a whole group of refresh
+cycles: the Oak serves it between them or ahead of them, and an emulator does the
 same.
 
 An emulator keeps U5/U6 and U2 as latches that CATCH and ADIN overwrite, keeps the Z180's
@@ -252,11 +256,32 @@ its own is U17's unrecovered busy logic, so the emulator names its choice.
 Pins: VCLK0 (pin 1, register clock), DIVOE, HSYNC, VSYNC; outputs VCLK1, XSYNC.
 
 - While DIVOE selects the RGB path: VCLK1 = VCLK0 divided by 2 (a toggle flip-flop), driven
-  onto the color chip's pixel clock. U8 gate D is off.
+  onto the OTI-087X's clock input. U8 gate D is off.
 - While DIVOE selects the VGA path: VCLK1 tri-stated, so U8 gate D passes VCLK0.
-- XSYNC = composite sync for the AppleColor RGB monitor, HSYNC AND VSYNC in
-  negative logic (either low gives low). The AppleColor RGB monitor takes composite sync
-  on one pin.
+- XSYNC (pin 18) is the composite sync for the AppleColor RGB monitor. The monitor takes
+  it on DB-15 pin 3, which is pin 5 of the production RGB header J2, and Apple specifies it
+  as "negative going" ([TIL01930](sources.md#s110)). Pin 18 is unconnected in the
+  drawing. On the production board, the traces from J2 pin 5 and U12 pin 18 pass under
+  chips, obscuring the connection
+  ([AppleColor RGB cable](reference/board-connections.md#applecolor-rgb-cable)).
+  The OTI-087X has no composite sync of its own. U12's fuse map has not been read, so
+  its sync logic is unknown.
+- Every ROM 1.4 AppleColor RGB mode sets HSYNC negative and VSYNC positive, using misc
+  output $63 or $67. `set_video_mode` writes that value unchanged
+  ([ROM_BEEF.bin](sources.md#s25), [ROM_BEEF.asm](sources.md#s27)). The RGB settings in
+  Sequential's files use the same polarity: the AppleColor table in `SECOND/MISC/MODES.S`,
+  `rgb_mode_5B` and `rgb_mode_70` in `SECOND/LIB/MODES.H`, and the default in
+  `SECOND/MISC/SETREG.C`. The register tool can also flip either polarity
+  ([ss.source.082395.po](sources.md#s06)). U12's logic must work with these settings.
+- Only two ways of combining the two syncs turn that pair into a proper negative composite
+  sync:
+  - HSYNC AND NOT VSYNC: low while HSYNC is low or VSYNC is high.
+  - HSYNC XOR VSYNC: the same, except that during vertical sync it goes high briefly at
+    each HSYNC.
+- Either expression produces the same sync for every polarity used by the firmware and
+  Sequential's files. When the syncs have the same polarity (misc output bits 7-6 = 11
+  or 00), XOR produces positive sync and HSYNC AND NOT VSYNC drops the line or frame
+  pulses. When HSYNC is positive and VSYNC negative, only XOR produces a working sync.
 
 The 80-column and 640-wide RGB modes run at 63 MHz / 2 (sequencer) / 2 (U12) =
 15.75 MHz dots, 16.4 kHz lines. The 36 MHz RGB modes ($01/$FB/$FC) give 9 MHz dots

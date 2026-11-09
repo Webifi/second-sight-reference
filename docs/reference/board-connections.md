@@ -2,16 +2,20 @@
 
 [Reference tables](README.md) | [Board](../02-board.md) | [Glossary](../glossary.md)
 
-The parts on the production card, the cable pins, and the connections the prototype
-drawing leaves out. The Prototype part column uses the schematic's names.
+The prototype schematic omits some connections present on production cards. In the
+parts table, the Prototype part column uses the schematic's names.
 
-Sources: production cards [s20](../sources.md#s20), [s108](../sources.md#s108), [s109](../sources.md#s109), [s128](../sources.md#s128), and [`Second Sight - Pinouts.doc`](../sources.md#s13).
+The cards identified below appear in a [photo of a 1995 production card (s20)](../sources.md#s20),
+owner photos posted in [2021 (s108)](../sources.md#s108) and [2026 (s109)](../sources.md#s109),
+and [ReactiveMicro scans (s128)](../sources.md#s128). Cable pinouts come from
+[`Second Sight - Pinouts.doc`](../sources.md#s13).
 
 ## Contents
 
 - [Production parts](#production-parts)
 - [VGA cable](#vga-cable)
 - [AppleColor RGB cable](#applecolor-rgb-cable)
+- [J3 feature connector](#j3-feature-connector)
 - [Connections the drawing leaves out](#connections-the-drawing-leaves-out)
 - [Logic roles](#logic-roles)
 
@@ -28,15 +32,15 @@ Sources: production cards [s20](../sources.md#s20), [s108](../sources.md#s108), 
 | U7 | Lattice 1016 in a PLCC-44 socket; s20 sticker "BE8C" with a red "2" hides its type; s128 label "ZORRO / BE8C / W6" also hides type/speed; s108/s109 read "pLSI 1016-60LJ" | pLSI1016 | The photos do not establish an ispLSI1016-90LJ on s20. The dump is [`isplsi1016_BE8C.bin`](../sources.md#s24); its filename is not a package-marking read. |
 | U4, U12, U15, U17 | Three AMI 18CV8 on s20/s108/s109 or ICT 18CV8 on s128, plus National GAL16V8A | GAL16V8A x 4 | PLCC-20, soldered; per-card speed grades in [PLD markings](../02-board.md#pld-markings). |
 | U2, U3, U5, U6 | Philips PC74HCT574T on s20/s108/s109; DV74HCT574A on s128 | SN74HCT574DW | Octal D flip-flops; preserve the actual part marking when selecting timing data. |
-| U8 | Philips 74F125D on s20/s108/s109; F125 marking on s128 | 74125 | Quad tri-state buffer; s128 full manufacturer/package suffix not established. |
+| U8 | Philips 74F125D on s20/s108/s109; F125 marking on s128 | 74125 | Quad tri-state buffer; the full manufacturer and package suffix on s128 are unknown. |
 | U29 | 74ACT32 | 7432 | quad OR |
 | U28 | Oak OTI087X "AA4058EBT0B T9429" | OAK087 | VGA controller |
 | U30 | Oak OTI068 "308A M9438 D1-16" | OTI068 | clock synthesizer |
 | X2 | Fitted crystal; 14.31818 MHz functional nominal | 14.318 MHz | The OTI-068 frequency table requires this nominal reference. The crystal's frequency/tolerance marking is not readable in s20, s108 or s109. |
-| U31 | Bt481AKPJ "9320 PROTO 2" on s20/s108; Bt481AKPJ80 on s109; Bt481AKPJ110 on s128 | Bt478 | Production color chip (RAMDAC). The PROTO 2 marking belongs to the photographed chip, not to a prototype PCB classification. |
+| U31 | Bt481AKPJ "9320 PROTO 2" on s20/s108; Bt481AKPJ80 on s109; Bt481AKPJ110 on s128 | Bt478 | Production color chip (RAMDAC). PROTO 2 is a marking on the chip; the photographed PCB is a production board. |
 | U16 | ST "93C466 9518" on s20/s108; ST "93C46M6 0720" on s109; ST "C46CM1 / 495" on s128 | NM93C46 | 93C46-family serial EEPROM. Keep the literal package markings with their photos. ROM 1.4 and the library never use it, so custom code can ([the serial EEPROM](../06-video.md#the-serial-eeprom)). |
 | U20-U27 | eight ZIP DRAMs | 44256Z | 256K x 4 each, 1 MB total. The card came with 512 KB and takes 1 MB ([Second.Sight.Info.txt](../sources.md#s40)). Super Hi-Res needs the full 1 MB: ROM 1.4 builds its tables in the upper 512 KB (`build_320_tables`, `build_640_tables` in [superhires.asm](../../firmware/v1.4/src/superhires.asm)). |
-| R2 | Dale "SOMC1603 330G", "DALE 9441" on s20/s108/s109; BI "9544 / 8A330 / UK MADE" on s128 | 22 ohm array | Dale: 33 ohm, 2 percent. BI 628A330: eight isolated 33 ohm resistors; the [BI marking table](../sources.md#s132) p4 maps 8A330 to that part. Standard tolerance is 2 percent, optional 1 percent; individual tolerance is not proved by the photo. The six Oak-bound traces and two unused lower terminals establish R2 identity on each card. |
+| R2 | Dale "SOMC1603 330G", "DALE 9441" on s20/s108/s109; BI "9544 / 8A330 / UK MADE" on s128 | 22 ohm array | Dale: 33 ohm, 2 percent. BI 628A330: eight isolated 33 ohm resistors; the [BI marking table](../sources.md#s132) p4 maps 8A330 to that part. Standard tolerance is 2 percent, with 1 percent optional; the individual tolerance is unknown. The six Oak-bound traces and two unused lower terminals establish R2 identity on each card. |
 | R32 | "202" on s20/s108; "103" on s109; unreadable blue face on s128 | 10K | IOCHRDY pull-up: 2.0 kohm on the [mirror](../sources.md#s20) and [2021](../sources.md#s108) cards; 10 kohm on [s109](../sources.md#s109); unverified on [s128](../sources.md#s128). Use the value for the card being modeled. |
 | R3 | Apparent `103` on s109; covered on s20/s108 | [Value] | The marking beside the R3 silk supports 10 kohm on s109, at medium optical confidence. It is not the separate R22. |
 | R22 | Fitted; `103` on s109, consistent but softer on s20 | not drawn | 10 kohm. Its lower pad visibly reaches Oak pin 24, SWSENSE; the opposite terminal enters a via whose destination is not visible. |
@@ -44,10 +48,10 @@ Sources: production cards [s20](../sources.md#s20), [s108](../sources.md#s108), 
 | TP1, TP2 | Open on s20/s108/s109; R19/R6 marked `103` | JP1, JP2 | Memory-clock straps; both high select 40 MHz. |
 | C8 | s20: 22 uF/20 V; s108: 10 uF/25 V; s109: 22 uF/25 V | 22 uF | Own C8 silk beside the capacitor below X2; these are production variations. |
 | C35 | 10 uF/25 V on s20/s108/s109 | not drawn | Bulk capacitor below the Lattice socket. |
-| C37 | s20: 10 uF/25 V; s108: 22 uF/20 V; s109 marking unreadable | C33 is the drawn DAC reservoir, not a proved refdes match | Own C37 silk at lower-left bulk capacitor; do not silently relabel it C33. |
-| R17, R26, C13, C32 | No bodies fitted where clearly visible | 22 ohm, 10K, .1uF, .1uF respectively | No body does not prove an electrically open route; do not populate these from the drawing alone. |
+| C37 | s20: 10 uF/25 V; s108: 22 uF/20 V; s109 marking unreadable | C33 is the schematic's DAC reservoir; its relation to C37 is unknown | C37 is marked beside the lower-left bulk capacitor. Do not assume it is C33. |
+| R17, R26, C13, C32 | No bodies fitted where clearly visible | 22 ohm, 10K, .1uF, .1uF respectively | The circuit may still have another route; do not populate these from the drawing alone. |
 | J1, J2 | 2-row headers labeled VGA and RGB | one BERG16 header | cables to DB-15 connectors |
-| J3 | 2 x 13 header near the OTI-087X | not drawn | VGA feature connector, mentioned in the [manual](../sources.md#s16) (pp20, 28); no software uses it |
+| J3 | Right-angle 2 x 13 header at the lower board edge, below the OTI-087X | not drawn | VGA feature connector with IBM's pinout ([J3 feature connector](#j3-feature-connector)); the [manual](../sources.md#s16) mentions it (p28); no software uses it |
 
 ## VGA cable
 
@@ -73,6 +77,94 @@ Sources: production cards [s20](../sources.md#s20), [s108](../sources.md#s108), 
 | 3 | 2 | 8 | 12 | 13 | 7 |
 | 4 | 10 | 9 | 5 | 14 | 15 |
 | 5 | 3 | 10 | 13 | 15 | 8 |
+
+Header pin 5 carries composite sync to DB-15 pin 3. Inside the AppleColor RGB monitor,
+this signal passes through a 2.2 kohm resistor (R6H2) to sync input transistor Q605
+([A2M6014 schematic](../sources.md#s137), sheet 1). On the [ReactiveMicro card](../sources.md#s128),
+the trace from J2 pin 5 runs up the back of the board, along the top edge past the EPROM,
+and through a via just left of R39. On the front it runs under the EPROM socket. The trace
+from U12 XSYNC (pin 18) runs under U8. The copper between these points is hidden by the
+socket and U8, and the [bare-board photo](../sources.md#s21) is too blurry to resolve it.
+
+## J3 feature connector
+
+J3 is a VGA feature connector with IBM's pinout, the one VESA later adopted as the VESA
+Feature Connector (VFC). It carries the 8-bit pixel bus, dot clock, blanking and both
+syncs to an add-on board. The pixel bus also goes to the color chip. The manual
+mentions it only once, in its FAQ: an overlay product "could be added via the Second Sight
+card's 'feature connector'" (p28). The pin assignments below come from the production
+board and IBM's pinout; Sequential's documents do not list them.
+
+IBM's pinout names the two rows Y1-Y13 and Z1-Z13. On this card the Y row runs along
+the board edge. Its left-end pad, seen from the front, is square; this table calls it card
+pin 1 and gives the edge row the odd numbers, so Y13 is card pin 1 and Y1 is card pin 25,
+at the right end. The Z row takes the even numbers the same way: Z13 is card pin 2 and Z1
+is card pin 26.
+
+| Card pin | IBM pin | Signal | On this card |
+|---|---|---|---|
+| 1 | Y13 | Ground | No trace on the back |
+| 2 | Z13 | Not used | No trace on the back |
+| 3 | Y12 | VSYNC | Back trace to J1 pin 12, the VGA header's VSYNC |
+| 4 | Z12 | Not used | No trace on the back |
+| 5 | Y11 | HSYNC | No trace on the back; R13, the HSYNC resistor, sits just left of J3 |
+| 6 | Z11 | Ground | No trace on the back |
+| 7 | Y10 | Blanking | Short back trace to a via just below R4 |
+| 8 | Z10 | Ground | No trace on the back |
+| 9 | Y9 | Dot clock | Back trace through a via beside R4, the pixel-clock resistor, on toward the Bt481 |
+| 10 | Z9 | Ground | No trace on the back |
+| 11 | Y8 | Pixel bit 7 | Via under the OTI-087X |
+| 12 | Z8 | Ground | No trace on the back |
+| 13 | Y7 | Pixel bit 6 | Via under the OTI-087X |
+| 14 | Z7 | Not used | No trace on the back |
+| 15 | Y6 | Pixel bit 5 | Via under the OTI-087X |
+| 16 | Z6 | EDCLK (external dot clock) | Via under the OTI-087X |
+| 17 | Y5 | Pixel bit 4 | Via under the OTI-087X |
+| 18 | Z5 | ESYNC (external sync and blanking) | No trace on the back |
+| 19 | Y4 | Pixel bit 3 | Via under the OTI-087X |
+| 20 | Z4 | EVIDEO (external pixel data) | Via under the OTI-087X |
+| 21 | Y3 | Pixel bit 2 | Via under the OTI-087X |
+| 22 | Z3 | Ground | No trace on the back |
+| 23 | Y2 | Pixel bit 1 | Via under the OTI-087X |
+| 24 | Z2 | Ground | No trace on the back |
+| 25 | Y1 | Pixel bit 0 | Via under the OTI-087X |
+| 26 | Z1 | Ground | No trace on the back |
+
+- Every signal pin in IBM's pinout has a back trace except HSYNC and ESYNC. No ground or
+  unused pin has one. Front connections are under the header body, which hides them in
+  every photo.
+- The ten vias under the OTI-087X sit together inside its ring of pins at the lower-left
+  corner, across from pins 33-49. The chip's pixel outputs P0-P7 are pins 25-28 and 30-33
+  ([OTI-087 p24](../sources.md#s02)). In the schematic, those pins connect only to the
+  Bt481.
+- Only the photo of the bare board shows the copper under the chip, at about 0.35 mm per
+  pixel. There the solder mask looks lighter, as it does over copper, just inside pads
+  30-33, a little lighter inside pads 25-27, and dark inside the bottom pads 42-44 and
+  48-49. A via just inside pad 28 hides that pad. The photo cannot show which via joins
+  which pin.
+- The front-side destinations of the EVIDEO and EDCLK vias are unknown. The OTI-087X
+  has no inputs for them ([OTI-087 p24](../sources.md#s02)); its addendum removes the
+  chip's built-in feature connector support.
+
+IBM specifies the following signals for its video extension
+([IBM VGA XGA reference](../sources.md#s68) pp2-110, 2-111):
+
+- The pixel bits are the color chip's palette address. It latches them on the rising edge
+  of the dot clock. Blanking low makes it output black.
+- EVIDEO, ESYNC and EDCLK each enable a buffer on the VGA side and are pulled up to +5 V.
+  An add-on that pulls one low drives that group itself: the pixel bits, the syncs and
+  blanking, or the clock. An add-on that drives the clock must also drive the pixel bits.
+- Timing: dot clock period at least 28 ns, high at least 7 ns and low at least 9 ns;
+  pixel and blanking setup and hold at least 4 ns.
+
+The OTI-087X pixel pins connect directly to the Bt481 in the drawing, with no buffer
+that EVIDEO could switch off. J3's outputs follow IBM's pinout. Whether an add-on can
+replace the pixel data is unknown.
+
+Sources: back and front of [s128](../sources.md#s128); the bare board
+[s21](../sources.md#s21); the [netlist](../../data/netlist/README.md); IBM's pinout as
+quoted by [ePanorama](../sources.md#s135) and named VFC by
+[AllPinouts](../sources.md#s136).
 
 ## Connections the drawing leaves out
 
@@ -125,7 +217,7 @@ retrace bit ($3DA bit 3) gives the same timing with no change to the card.
   - The back carries no parts except the 7M rework at the slot fingers
     ([production changes](../02-board.md#production-changes)).
   - R14 is ZEROWS, R15 NMI, R16 RES and R32 IOCHRDY. R22 is fitted: the front trace
-    from its lower pad runs around C18 to Oak pin 24, SWSENSE, not CINT at pin 90.
+    from its lower pad runs around C18 to Oak pin 24, SWSENSE. CINT is at pin 90.
     R22 reads `103` (10 kohm) on s109; its other end enters a via whose supply route
     is not shown. The R33-R37 footprints are empty where visible.
 

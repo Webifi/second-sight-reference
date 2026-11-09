@@ -2,7 +2,7 @@
 
 [Reference index](../README.md) | [Glossary](glossary.md) | [Reference tables](reference/README.md)
 
-The picture comes from a standard PC VGA chain driven by the Z180 instead of a PC:
+The Z180 drives a standard PC VGA video chain:
 
 ```
  Z180 bus ---> OTI-087X VGA controller ---> 1 MB DRAM (8 x 256K x 4, 32 bits wide)
@@ -48,36 +48,36 @@ that part number:
 
 | Card | Marking | Source |
 |---|---|---|
-| Sequential's 1995 photo; a 2021 owner's card | OTI087X, OAK TECHNOLOGY, INC AA4058EBT0B, T9429 | [s20](sources.md#s20); [s108](sources.md#s108) |
-| A 2026 owner's card | OTI087X, OAK TECHNOLOGY, INC AA2569EBT0B, T9422 | [s109](sources.md#s109) |
+| Photo of a 1995 production board; owner photo posted in 2021 | OTI087X, OAK TECHNOLOGY, INC AA4058EBT0B, T9429 | [s20](sources.md#s20); [s108](sources.md#s108) |
+| Owner photo posted in 2026 | OTI087X, OAK TECHNOLOGY, INC AA2569EBT0B, T9422 | [s109](sources.md#s109) |
 
 Oak sold two versions of the OTI-087, the OTI-087B and the OTI-087X, with a separate
 driver set for each, because the 87X has "several significant enhancements"
-([Oak FAQ](sources.md#s60); [driver page](sources.md#s112)). Oak tells them apart by the
+([Oak FAQ](sources.md#s60); [driver page](sources.md#s112)). Oak identifies them by the
 video BIOS version: 1.0 to 1.03 is the 87B, 2.0 and up is the 87X. This card has no PC
 BIOS; the Z180 firmware sets the chip up itself.
 
 ### What the OTI-087X's own specification is
 
-The February 1993 [OTI-087 databook](sources.md#s02) together with its one-page OTI-087X
-addendum, which "describes changes to the OTI-087 February 1993 databook for OTI-087X
-parts". Where the addendum changes the book, the addendum wins.
+The OTI-087X is described by the February 1993 [OTI-087 databook](sources.md#s02) and
+its one-page OTI-087X addendum, which "describes changes to the OTI-087 February 1993
+databook for OTI-087X parts". The addendum supersedes the databook where they differ.
 
 ### Where the OTI-087X differs from earlier OTI-087s
 
-Oak's own DOS installers know four revisions, told apart by ext $01 bits 7-4: 087B (0),
+Oak's DOS installers distinguish four revisions by ext $01 bits 7-4: 087B (0),
 087D (1), 087X (2) and 089 (3). They install a Windows package for each: WIN31B for the
 087B, WIN31D for the 087B and 087D, WIN31E for the 087X and WIN31F for the 089. Oak's 87X
 Windows kit is "DISTev2.2, rev d, e"; its 87B kit is "DISTbv1.6, rev b, d"
 ([87X DOS kit](sources.md#s79) `INSTALL.EXE` offsets $54F1-$557C).
 
-Oak's Windows installer, `OAK.EXE` (the same file in both Windows kits), holds the lowest ext $01 value
-for each revision letter its INF files name: B 0, C 1, D 1, E 2, F 3 (file offset $7260).
-So the 087X is Oak's revision E, and the 87X drivers' "rev.C or later" means bits 7-4 are
-not 0 ([87X drivers](sources.md#s69)).
+The Windows installer `OAK.EXE` is identical in both kits. It records the lowest ext $01
+value for each revision letter in the INF files: B 0, C 1, D 1, E 2, F 3 (file offset
+$7260). The 087X is therefore revision E, and the 87X drivers' "rev.C or later" requires
+bits 7-4 to be nonzero ([87X drivers](sources.md#s69)).
 
-Every known difference, with its evidence. Nothing else in these docs is known to differ.
-Earlier OTI-087 below covers 087B, 087D, Rev A and Rev B.
+No other differences are known among the features covered here. "Earlier OTI-087"
+means 087B, 087D, Rev A and Rev B.
 
 #### DRAM
 
@@ -93,11 +93,13 @@ Source: [Addendum](sources.md#s02); [1992 overview](sources.md#s59) p1.
 #### Feature connector
 
 **OTI-087X:** No integrated feature connector support. Ext $08 bits 6, 1, 0 take only 101
-and 110, both with EPCLK on pin 19 and EPDATA on pin 20; pin 99 does not apply. Card
-header J3: [board connections](reference/board-connections.md).
+and 110, both with EPCLK on pin 19 and EPDATA on pin 20; pin 99 does not apply. The card
+still has a feature connector, J3: the board wires the pixel bus, dot clock, blanking and
+syncs to it with IBM's standard pinout
+([J3 feature connector](reference/board-connections.md#j3-feature-connector)).
 
-**Earlier OTI-087:** Oak's August 1992 overview does not list it. The February 1993
-databook lists "Integrated feature connector support" (p1) and the p37 table.
+**Earlier OTI-087:** "Integrated feature connector support" appears in the February 1993
+databook (p1, table p37), but not in the August 1992 overview.
 
 Source: [Addendum](sources.md#s02); [1992 overview](sources.md#s59) p1.
 
@@ -152,11 +154,11 @@ and `LIN8_SC.DRV`.
 #### 24-bit (true-color) pixels
 
 **OTI-087X:** Oak's true-color driver, the same file in both kits, picks the byte order of
-each 24-bit pixel from ext $01 bits 7-4, for all 13 color chips it knows.
+each 24-bit pixel from ext $01 bits 7-4, for all 13 supported color chips.
 
 With a Bt481 (its color-chip class 4) it stores R, G, B at rising addresses on later
-chips, the 087X included, and sends the same color-chip command, $F0, on both. So the 087B
-and later chips hand a pixel's three bytes to the color chip in a different order.
+chips, the 087X included, and sends the same color-chip command, $F0, on both. The 087B
+and later chips therefore send a pixel's three bytes to the color chip in a different order.
 
 For one chip (DAC ID $82, a MUSIC MU9C4910) it also writes DAC command $9F instead of $9E.
 
@@ -175,8 +177,8 @@ hardware-cursor drivers out of its list when ext $01 bits 7-4 are 0 or 1, an 087
 (`OAK.EXE` file offsets $AD6-$AF1 and $15AC-$15B9). Oak's August 1992 overview does not
 list a cursor.
 
-EDN's report of the OTI-087 launch names "a 64 x 64-pixel hardware cursor with 2
-bits/pixel", and the February 1993 databook's feature list (p1) has it.
+The OTI-087 has "a 64 x 64-pixel hardware cursor with 2
+bits/pixel". It appears in the February 1993 databook's feature list (p1).
 
 Source: [87X drivers](sources.md#s69); [87B drivers](sources.md#s113); [1992
 overview](sources.md#s59) p1; [EDN](sources.md#s115).
@@ -207,36 +209,36 @@ Register details: [OTI-087X registers](reference/oti087-registers.md).
 
 ## OTI-087X: how it is attached
 
-The OTI-087X answers Z180 memory cycles in the
-[video window](#the-video-ram-window) and I/O cycles at its ports.
-It alone drives its 1 MB of DRAM. It never requests the bus: U17's copy controller is the only
-other bus requester (the BREQ net joins only U17 and the Z180). So the OTI-087X cannot
-reach the Z180's SRAM, and the Apple capture writes only SRAM
+The Z180 accesses the OTI-087X through the [video window](#the-video-ram-window) and
+its I/O ports. The OTI-087X controls its own 1 MB of DRAM. It cannot request the bus or
+access the Z180's SRAM. U17 is the only other bus requester: the BREQ net connects only
+U17 and the Z180. Apple capture writes only SRAM
 ([Capture logic](04-capture-logic.md#copying-video-writes)).
 
-Every byte in video RAM gets there through a Z180 instruction or DMA channel 0
-([firmware DMA channels](reference/z180-io-ports.md#firmware-dma-channels)), and the
-picture changes only when the firmware redraws it from the SRAM copy
+The Z180 writes video RAM through instructions or DMA channel 0
+([firmware DMA channels](reference/z180-io-ports.md#firmware-dma-channels)). To update
+the copied Apple screen, the firmware must redraw it from SRAM
 ([Renderers](08-firmware.md#renderers)). Source: [netlist](../data/netlist/README.md).
 
-- The OTI-087X can sit on a 386/486 local bus or on the AT (ISA) bus. Straps on its memory
-  data lines, read at reset, choose. This card is strapped as an **AT-bus add-on card**
+- The OTI-087X supports the 386/486 local bus and the AT (ISA) bus. Straps on its memory
+  data lines select the bus at reset. This card is strapped as an **AT-bus add-on card**
   (Configuration Register 1 bits 2-1 = 11). Sources: schematic sheet 3; [databook p36](sources.md#s02).
 - As an add-on card the chip starts disabled. The firmware enables it with the databook's
   sequence: write $10 to I/O $46E8, $01 to $102, then $08 to $46E8 (`enable_oak_add_on_mode`,
   [databook p29-30](sources.md#s02)). An emulator must ignore VGA accesses until this is done.
-- Standard VGA I/O ports ($3B0-$3DF) and the Oak extended registers (index at $3DE, data
-  at $3DF) are reached with Z180 I/O cycles. The OTI-087X sees every I/O read and write
-  strobe with the full address and decodes its own ports (its ENVGA pin is tied high).
+- The Z180 accesses the standard VGA I/O ports ($3B0-$3DF) and Oak extended registers
+  (index at $3DE, data at $3DF) through I/O cycles. The OTI-087X receives every I/O read
+  and write strobe with the full address and decodes its ports (ENVGA is tied high).
   Source: [netlist](../data/netlist/README.md).
 - The Z180 data bus is 8 bits. The firmware sets Oak index $13 = $C8, which enables 16-bit
   memory and I/O cycles on the chip's side; on an 8-bit host the cycles stay 8-bit.
-- The strap values: [register $07](reference/oti087-registers.md#reg-07). Nothing reads
-  the unstrapped bits; their working values: [register behavior](reference/oti087-registers.md#register-behavior).
+- [Register $07](reference/oti087-registers.md#reg-07) lists the strap values. No code
+  reads the unstrapped bits; see [register behavior](reference/oti087-registers.md#register-behavior)
+  for their working values.
 
 ## The video RAM window
 
-The Z180 sees video RAM through its physical window **$80000-$FFFFF (512 KB)**. The OTI-087X
+The Z180 accesses video RAM through its physical window **$80000-$FFFFF (512 KB)**. The OTI-087X
 decodes it in one of two ways, chosen by Oak extended register 5
 ([Oak window selection](reference/z180-memory-map.md#oak-window-selection)).
 
@@ -262,8 +264,8 @@ Oak address 18-0     = Z180 A18-A0      (Z180 address $80000-$FFFFF)
   half 0 for offsets below $80000 and half 1 above ([`ROM_BEEF.asm:1807-1840`](sources.md#s27)).
 - Standard mode: the firmware always leaves the switch in half 1 and the flag clear, so
   Z180 $A0000 reaches Oak $A0000, the normal VGA window.
-- Z180 code sees 64 KB at a time, so the firmware points part of that space at the window
-  with its MMU registers and restores them afterwards ([MMU](05-z180.md#mmu)).
+- Z180 code can address 64 KB at a time. The firmware uses its MMU registers to map part
+  of that space to the window and restores them afterwards ([MMU](05-z180.md#mmu)).
 - **Speed.** Every video RAM access takes at least two wait states, and in practice 3 to 5
   or more ([wait states](05-z180.md#wait-states)). [Second.Sight.Info.txt](sources.md#s40) (1995)
   gives eight 20 MHz clocks per copied byte, about 2.5 MB/s, and about 5 MB/s when the VGA
@@ -280,8 +282,8 @@ Oak address 18-0     = Z180 A18-A0      (Z180 address $80000-$FFFFF)
 
 ## Extended registers the firmware uses
 
-Which registers the firmware sets, to what, and where:
-[register index](reference/oti087-registers.md#register-index).
+The [register index](reference/oti087-registers.md#register-index) lists the values the
+firmware writes and the code that writes them.
 
 ### Packed-pixel mode and the CRTC
 
@@ -311,19 +313,20 @@ on the pixel mask and write mode 1 for drawing. Sources: [ROM_BEEF.asm:8585-8628
 (runs on the OTI-087X); the third-party [XFree86 3.3.6 Oak driver](sources.md#s63), which
 names no 087 revision.
 
-Why four bytes: the two latch halves are the chip's 16-bit path ("true 16-bit move
-operations", [databook p6](sources.md#s02)), where one 16-bit write stores both. The Z180
-gives the chip only 8-bit cycles, so one write stores one half, four bytes; the firmware's
-renderers work on production cards this way. The prototype drawing shows the wiring: SD8-SD15
-open and -BHE (pin 100) tied to +5 V ([netlist](../data/netlist/README.md) U28). How to use the latch, the mask and color expansion, and what each
-costs: [Drawing with the OTI-087X](15-oak-drawing.md).
+The two latch halves form the chip's 16-bit path ("true 16-bit move operations",
+[databook p6](sources.md#s02)). A 16-bit write stores both halves. The Z180 supplies
+only 8-bit cycles, so one write stores one four-byte half. The firmware renderers work
+this way on production cards. The prototype drawing shows the wiring: SD8-SD15
+open and -BHE (pin 100) tied to +5 V ([netlist](../data/netlist/README.md) U28).
+[Drawing with the OTI-087X](15-oak-drawing.md) explains the latch, mask and color
+expansion and their costs.
 
 Packed-pixel modes always run with chain-4 on, so this is the packed-mode behavior
 software relies on: ROM 1.4's packed records set sequencer register 4 to $0E or $0A,
 and all 20 256-color mode tables in Oak's BIOS set $0E. No ROM, BIOS or driver combines
 packed pixels with chain-4 off. Sources: ROM mode records ([Video mode records](reference/video-modes.md));
 [Paradise TBv1.01B](sources.md#s57) BIOS, Oak's BIOS with the same tables, at $1169 and $1469-$1B69.
-Every case: [latch access rules](reference/oti087-registers.md#latch-access-rules).
+See [latch access rules](reference/oti087-registers.md#latch-access-rules) for each case.
 
 The SHR loop at ROM $A4A1 reads a source byte (`ld a,(bc)`), forms a four-byte lookup
 entry (`ld l,a; add hl,hl; add hl,hl`), then uses `ldd` with destination offsets 9, 8,
@@ -336,8 +339,8 @@ same font byte at offsets 0 and 1 (`render_text80_row`, `sub_69BD` in s27, aroun
 rule, and so do the latch accesses in the third-party [XFree86 3.3.6](sources.md#s63)
 driver's `oti87_fill.c` and `oak_colexp.s`.
 
-Accesses ROM 1.4 never makes follow the same chip: address bits 1-2 are ignored by the
-four-byte store rule, write mode 1 with the pixel mask off is standard VGA write mode 1,
+For operations ROM 1.4 does not use, address bits 1-2 are ignored by the four-byte
+store rule, write mode 1 with the pixel mask off is standard VGA write mode 1,
 and a latched read returns the addressed byte. Content-addressable operation (ext $22
 bit 4 = 0 and bit 0 = 1) lets the low CPU address bits pick the latch byte written out,
 as the latch index $35 does.
@@ -361,9 +364,9 @@ always uses mask $FF.
 
 ## Pixel formats the chip displays
 
-Which layouts of video memory the OTI-087X turns into pixels by itself, from the databook,
-Oak's 87X drivers and Oak's TEv1.02 BIOS. Anything else the Z180 must convert first, which is what
-limits the Super Hi-Res redraw ([E13](reference/errata.md#e13-fast-animation-is-choppy)).
+The OTI-087X displays the following video memory layouts without conversion, according to
+the databook, Oak's 87X drivers and Oak's TEv1.02 BIOS. The Z180 must convert other
+layouts first. This limits the Super Hi-Res redraw ([E13](reference/errata.md#e13-fast-animation-is-choppy)).
 
 | Format | Layout | Evidence |
 |---|---|---|
@@ -397,9 +400,9 @@ byte and plane order stay as above with either value.
 | 1 | 0 | Transparent: show screen |
 | 1 | 1 | Invert screen |
 
-This is how [Oak's 87X Windows driver](sources.md#s69) uses the cursor. Windows hands a driver an AND mask
-followed by an XOR mask; `STD8_HC.DRV` copies the AND mask into plane A and the XOR mask
-into plane B, and sets color 0 ($4A) to $00 (black) and color 1 ($4B) to $FF (white). For
+[Oak's 87X Windows driver](sources.md#s69) receives an AND mask followed by an XOR mask
+from Windows. `STD8_HC.DRV` copies them into planes A and B, respectively, and sets color
+0 ($4A) to $00 (black) and color 1 ($4B) to $FF (white). For
 Windows cursors to look right (AND 0/XOR 0 black, 0/1 white, 1/0 transparent, 1/1 invert),
 the chip must apply those plane-A/plane-B pixel results. Sources: Oak's own driver and the Windows 3.0 driver kit; [Oak 87X Windows driver](sources.md#s69).
 
@@ -431,8 +434,8 @@ then:
 - Y goes to ext $42/$43 as the row above the corner (top - 1) whenever that is 0 or more;
   a top of 0 or less is written unchanged, also as two's complement.
 
-So Oak's driver treats the chip as drawing the cursor's first row one line below the value
-in ext $42/$43, and as accepting negative positions. Source: [Oak 87X Windows driver](sources.md#s69),
+The driver assumes the cursor's first row appears one line below the value in ext
+$42/$43 and uses negative positions. Source: [Oak 87X Windows driver](sources.md#s69),
 `STD8_HC.DRV` offsets $56AD-$56C6 (corner = position minus hot spot) and $5537-$557A
 (register writes).
 
@@ -447,7 +450,7 @@ even negative X except -14.
 Code that keeps to those values, or to WHATVGA's multiples of 4, stays clear of the fault.
 
 WHATVGA also multiplies the cursor's Y by the mode's line repeat (`BITBLT.PAS` line 693),
-so Y counts scan lines, not doubled rows.
+so Y counts scan lines, including both copies of a doubled row.
 
 ### The only hardware sprite
 
@@ -546,8 +549,8 @@ The codes: [built-in mode codes](reference/video-modes.md#built-in-mode-codes).
 
 ## Bt481 color chip
 
-The prototype drew a Bt478 (8-bit only). Production fits a **Bt481AKPJ marked "PROTO 2"**,
-which adds 15-, 16- and 24-bit modes. Source: [Bt481A datasheet](sources.md#s36) L481A_C.
+The prototype schematic specifies a Bt478 (8-bit only). The production card uses a
+**Bt481AKPJ marked "PROTO 2"**, which adds 15-, 16- and 24-bit modes. Source: [Bt481A datasheet](sources.md#s36) L481A_C.
 
 Command-register access and pixel modes: [Bt481 reference](reference/bt481-modes.md).
 The card starts with 8-bit palette components
@@ -565,16 +568,35 @@ $3C7/$3C8/$3C9 take full 8-bit values, 256 entries. Source: [netlist](../data/ne
 
 - The color chip's analog R, G, B go to both production headers, labeled VGA and RGB. The
   manual says never to attach both cables.
-- **VGA path (port $A8):** the pixel clock goes straight to the chip. Separate HSYNC and
-  VSYNC.
-- **AppleColor RGB path (port $A9):** GAL U12 (clocked by VCLK) divides the pixel clock by 2
-  (DIVOE) and makes a composite sync (XSYNC) from HSYNC and VSYNC. The 80-column and
-  640-wide RGB modes use VCLK 63 MHz, the sequencer's divide by 2, and this divide by 2:
-  15.75 MHz dot clock, 16.4 kHz lines. Source: schematic U12 pins.
+- **VGA path (port $A8):** buffer U8 passes the video clock straight to the OTI-087X's
+  clock input (pin 106). The monitor gets separate HSYNC and VSYNC.
+- **AppleColor RGB path (port $A9):** the PLD U12 halves the video clock before it reaches
+  the OTI-087X, and makes the monitor's composite sync (XSYNC) from HSYNC and VSYNC. The
+  80-column and 640-wide RGB modes start from the 63 MHz clock and halve it twice, once in
+  U12 and once in the sequencer: a 15.75 MHz dot clock and 16.4 kHz lines. Source: U12's
+  pins on the drawing.
+- **Color chip clock:** the OTI-087X clocks the Bt481 from its PCLK pin (37), through R4.
+  R21 pulls the straps on MD10 and MD11 low, which sets the chip's palette type to Type 0
+  (register $08 bits 3-2). In Type 0, PCLK passes through and BLANK is not delayed
+  ([databook p37](sources.md#s02)). PCLK follows the chip's clock input after a delay,
+  with one pixel per clock ([databook p49](sources.md#s02)). On the RGB path, U12 halves
+  the input clock. The library's 32K-color modes, which send each pixel as two bytes on two
+  clocks, fit this.
+- **Sequencer divide:** every RGB mode also sets sequencer register 1 bit 3, which halves
+  the dot clock again. In IBM VGA, this bit divides the master clock "to generate the dot
+  clock". The DAC latches pixels using the "Dot Clock"
+  ([IBM TRM](sources.md#s68) pp2-49, 2-110). Whether this bit also halves the OTI-087X's
+  PCLK is unknown.
+- **Delay against HSYNC:** HSYNC and VSYNC reach the monitor header through 22 ohm
+  resistors only (R13, R12). Pixels and BLANK go through the Bt481, which outputs them 7
+  of its clock cycles after latching them in 256-color mode, and 8 or 9 in the
+  single-edge true-color modes ([Bt481A datasheet](sources.md#s36) Table 13). The output
+  pixels are therefore delayed by that many clocks relative to HSYNC, compared with the
+  timing indicated by the CRTC counts alone. Source: [netlist](../data/netlist/README.md).
 - **Monitor type:** the firmware reads $3C2 bit 4, the OTI-087X's sense input (SWSENSE,
-  pin 24). 1 = VGA, 0 = AppleColor RGB. The manual says the card detects which cable is
-  attached: the cable header pulls SWSENSE high for the VGA cable and low for the
-  AppleColor RGB cable. An emulator offers it as a setting.
+  pin 24). 1 = VGA, 0 = AppleColor RGB. The cable header pulls SWSENSE high for the VGA
+  cable and low for the AppleColor RGB cable, allowing the card to detect the cable as
+  described in the manual. An emulator offers it as a setting.
 - **TP3:** the manual's jumper "should be removed" for AppleColor RGB and fitted for VGA.
   On the drawing, R3 pulls the color chip's SETUP pin to +5 V and jumper JP3 grounds it.
   So fitted gives no blanking pedestal (0 IRE, VGA practice) and removed gives the 7.5 IRE
@@ -588,36 +610,37 @@ $3C7/$3C8/$3C9 take full 8-bit values, 256 entries. Source: [netlist](../data/ne
 
 ## The serial EEPROM
 
-**What it is for.** On a PC video card the VGA BIOS needs a few configuration settings at
+On a PC video card the VGA BIOS needs a few configuration settings at
 power-up, such as the monitor type. Cards usually took them from DIP switches. Oak gave
 the OTI-087X an interface to a small serial EEPROM instead, so that setup software could
 store those settings and no switches were needed ("EEPROM support provides switchless
 configurations"). Source: [databook p6](sources.md#s02).
 
-**Why this card has one.** The Second Sight copies Oak's reference circuit: the databook's
-application schematic draws the same 1,024-bit EEPROM beside the dual clock generator,
-sharing the Oak's three clock-select lines (CSEL2-0). Sources: databook application schematic; [netlist](../data/netlist/README.md) sheet 4.
+The Second Sight follows Oak's reference circuit. Its 1,024-bit EEPROM shares the
+three clock-select lines (CSEL2-0) with the dual clock generator, as in the databook
+application schematic. Sources: databook application schematic;
+[netlist](../data/netlist/README.md) sheet 4.
 
-**What uses it.** Only software: the OTI-087X never reads the EEPROM on its own ("the
-configuration is done through software", [databook p6](sources.md#s02)). On a PC, Oak's VGA BIOS does: TEv1.02 contains a 93C46 driver that switches
-the CSEL lines to EEPROM duty, reads all 64 16-bit words, accepts them only if they add
-up to zero, and takes configuration bits from word 0. Sources: [Oak VGA87 BIOS TEv1.02](sources.md#s58), offsets $05B3-$069F; [Paradise TBv1.01B](sources.md#s57) BIOS has the same code. Oak's MONITOR.EXE
-utility in the 87X DOS kit also saves the chosen refresh rates there. Source: [Oak 87XUTIL READ.ME](sources.md#s79).
+The OTI-087X does not read the EEPROM automatically. Software must read it ("the
+configuration is done through software", [databook p6](sources.md#s02)). On a PC,
+Oak's TEv1.02 VGA BIOS uses a 93C46 driver to switch the CSEL lines to EEPROM duty and
+read all 64 16-bit words. It accepts the data only if the words add up to zero, then
+takes configuration bits from word 0. The [Oak VGA87 BIOS TEv1.02](sources.md#s58)
+contains this driver at offsets $05B3-$069F; the [Paradise TBv1.01B](sources.md#s57) BIOS
+has the same code. Oak's MONITOR.EXE utility in the 87X DOS kit also saves the chosen
+refresh rates there ([Oak 87XUTIL READ.ME](sources.md#s79)).
 
 The Second Sight has no PC BIOS. The Z180 firmware takes its place and gets the monitor type from the
 SWSENSE input ($3C2 bit 4) instead. ROM 1.4 and the Sequential library never touch ext
 $18, so neither uses the EEPROM, and its contents do not affect them.
 
-**How it is wired and driven.**
-
 - Part: 93C46-type, 1,024 bits as 64 words of 16 bits (ST93C46, marked "93C466").
 - Ext $18 bit 2 = 1 switches CSEL2-0 from clock select to the EEPROM. Then bit 1 is chip
   select, bit 3 the shift clock (on CSEL2), bit 0 the data out to the EEPROM (on CSEL1);
-  reading bit 0 returns the EEPROM's data (from CSEL0). Oak says to toggle the clock no
-  faster than every 4 microseconds. Source: [databook p40](sources.md#s02).
-- The OTI-068 clock chip listens to the same lines, so the pixel clock follows the EEPROM
-  signals while they toggle: the picture glitches during an access. Clear ext $18 bit 2
-  afterwards to restore the clock.
+  reading bit 0 returns the EEPROM's data (from CSEL0). Toggle the clock no faster than
+  once every 4 microseconds ([databook p40](sources.md#s02)).
+- The OTI-068 clock chip uses the same lines. EEPROM access changes the pixel clock and
+  causes visible glitches. Clear ext $18 bit 2 afterwards to restore the clock.
 
 Custom code can use it as 128 bytes that survive power-off
 ([Beyond the firmware](14-custom-code.md#storage-the-serial-eeprom)).

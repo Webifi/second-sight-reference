@@ -2,9 +2,9 @@
 
 [Reference tables](README.md) | [Glossary](../glossary.md)
 
-How the Bt481 reads the P7-P0 pixel bus in each mode. The card's Bt481AKPJ is an
-engineering sample marked "PROTO 2" ([production photo](../sources.md#s20)). In every mode
-the firmware uses, it behaves as the Bt481A datasheet says.
+The Bt481 reads the P7-P0 pixel bus according to its selected mode. The card's Bt481AKPJ
+is an engineering sample marked "PROTO 2" ([production photo](../sources.md#s20)). In the
+modes used by the firmware, it behaves as described in the Bt481A datasheet.
 
 The built-in modes use 8-bit palette indexes, and the library's 32K-color modes use 15-bit
 color. Custom code can also select the 16- and 24-bit modes and Command Register B.
@@ -31,11 +31,11 @@ Bits A7-A4 pick the mode. Source: [Bt481A datasheet](../sources.md#s36) p7.
 
 ### Card mode files
 
-A mode record's feature byte: bit 0 picks the output (VGA or RGB), and the high nibble
-goes to Command Register A. Source: [ROM_BEEF.asm:1018-1033](../sources.md#s27).
+In a mode record's feature byte, bit 0 selects the output (VGA or RGB), and the high
+nibble is written to Command Register A. Source: [ROM_BEEF.asm:1018-1033](../sources.md#s27).
 
 `M640X48016M` programs true-color timing but leaves the DAC in palette mode. The DAC and
-CRTC values that make it a 24-bit mode:
+CRTC values needed for 24-bit color are given in
 [24-bit mode width](../14-custom-code.md#24-bit-mode-width).
 
 ### Remaining bits and power-on value

@@ -2,8 +2,8 @@
 
 [Reference tables](README.md) | [Glossary](../glossary.md) | [Apple interface](../03-apple-interface.md)
 
-Which of the 50 slot pins the card uses, and for what. Where the production board needs an
-added wire, the pin's entry names it.
+The table lists the 50 slot pins and their uses. Entries identify added wires on the
+production board.
 
 - The card **reads** the address bus, the data bus, R/W, /M2SEL, M2B0, /RESET and (on the
   production board) two clocks.
@@ -49,7 +49,7 @@ faces pin 50 and pin 25 faces pin 26.
 | 30 | /IRQ | **Can be driven low**, but the 1.4 firmware never does ([RDY and /IRQ](#rdy-and-irq)). | U8 gate B output |
 | 31 | /RESET | Read. An Apple reset restarts the card's Z180. | U17 (reset logic) |
 | 32 | /INH | Not used. | No connection drawn |
-| 33 | -12 V | The drawing shows C32 to ground. The C32 footprint is unfitted on s20, s108 and s109; do not list a fitted 0.1 uF production capacitor here. | C32 on prototype |
+| 33 | -12 V | Prototype C32 connects to ground. Its footprint is unfitted on s20, s108 and s109; a 0.1 uF capacitor cannot be assumed on production cards. | C32 on prototype |
 | 34 | -5 V | Not used. | No connection drawn |
 | 35 | M2B0 (IIgs) | Read. Tells which 64 KB bank a IIgs write goes to ([M2B0](#m2b0-pin-35)). | U7 |
 | 36 | 7M (7 MHz clock) | Clocks the Lattice's bank-sampling window; the production card adds a wire for it ([production changes](../02-board.md#production-changes), [Lattice clocks](../04-capture-logic.md#clocks-and-phase)). | Signal label with no connected part |
@@ -59,7 +59,7 @@ faces pin 50 and pin 25 faces pin 26.
 | 40 | PHASE 0 | The Lattice's "data phase" input on the production board ([Lattice clocks](../04-capture-logic.md#clocks-and-phase)). | Signal label with no connected part |
 | 41 | /DEVSELECT | Not used. | No connection drawn |
 | 42-49 | D7-D0 | Read (latch U2) and driven (latch U3, only on reads of $C0B0-$C0BF). | U2, U3; D4 and D6 also go to U7 |
-| 50 | +12 V | The drawing shows C34 to ground. A ceramic is fitted at C34, but its capacitance is unmarked in the photos; 0.1 uF is a drawing value. | C34 on prototype |
+| 50 | +12 V | Prototype C34 connects to ground. A ceramic is fitted at C34, but its capacitance is unmarked in the photos; 0.1 uF is the prototype value. | C34 on prototype |
 
 ## Notes on individual pins
 
@@ -77,8 +77,8 @@ open-collector style connection Apple requires for both lines ([TN #68](../sourc
 
 ### Daisy chains
 
-The Apple II passes interrupt priority and DMA priority from slot to slot. Each card gets
-the "chain" on its IN pin and hands it on through its OUT pin. A card that does not take
+The Apple II passes interrupt and DMA priority from slot to slot. Each card receives
+the "chain" on its IN pin and passes it through its OUT pin. A card that does not take
 part must connect IN to OUT, or every card in a lower-priority slot loses its interrupts
 or DMA.
 

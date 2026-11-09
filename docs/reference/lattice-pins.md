@@ -2,9 +2,9 @@
 
 [Reference tables](README.md) | [Glossary](../glossary.md)
 
-Every pin of U7 (PLCC-44), with its schematic net name and its job. U7 takes in the Apple
-address bus, two Apple data bits and the bank and timing signals. It drives the copy, the
-events and RDY, and shares four Z180 data lines for status and configuration.
+U7 (PLCC-44) receives the Apple address bus, two Apple data bits, and bank and timing
+signals. The pin table uses the schematic net names. It controls the
+copy, events and RDY, and shares four Z180 data lines for status and configuration.
 
 Sources: schematic sheet 1, the [netlist](../../data/netlist/README.md), and U7's
 [design source](lattice-source.md).
@@ -87,9 +87,9 @@ pull-down on it ([copying video writes](../04-capture-logic.md#copying-video-wri
 
 AX comes from U4, which selects U7 only for ports $A0-$A7
 ([the Z180's view of U7](../04-capture-logic.md#the-z180s-view-of-u7-ports-a0-a7)).
-Read and write side effects:
-[access limits and aliasing](z180-io-ports.md#access-limits-and-aliasing). What unused
-ports read back: [configuration and open reads](z180-io-ports.md#configuration-and-open-reads).
+See [access limits and aliasing](z180-io-ports.md#access-limits-and-aliasing) for read and
+write side effects, and [configuration and open reads](z180-io-ports.md#configuration-and-open-reads)
+for unused port values.
 
 ### Capture and event outputs
 

@@ -8,9 +8,9 @@
 > been sent to inform John Connor.
 
 The Second Sight (Sequential Systems, 1995) is an Apple IIgs and IIe slot card that drives
-a VGA or AppleColor RGB monitor. A Zilog Z180 with 128 KB of RAM on the card keeps a copy
-of the Apple's video memory and redraws it through an Oak VGA chip, and gives IIgs
-programs new 256-color and 15-bit-color modes.
+a VGA or AppleColor RGB monitor. The card copies Apple video memory into 128 KB of RAM,
+and a Zilog Z180 redraws it through an Oak VGA chip. IIgs programs can also use the
+card's 256-color and 15-bit-color modes.
 
 ![Front of a 1995 production Second Sight card](docs/images/second-sight-front.jpg)
 

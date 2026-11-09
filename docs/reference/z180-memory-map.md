@@ -2,8 +2,8 @@
 
 [Reference tables](README.md) | [Glossary](../glossary.md)
 
-What each Z180 memory address reaches, with the boot overlay and the video RAM half select
-([Z180 computer](../05-z180.md)).
+This map shows the Z180 memory regions, including the boot overlay and video RAM half
+select ([Z180 computer](../05-z180.md)).
 
 - The Z180 has a 20-bit physical address space. Its MMU maps 16-bit logical addresses into
   it. Every range on this page is physical ([address notation](../glossary.md#addresses-and-numbers)).
@@ -12,8 +12,8 @@ What each Z180 memory address reaches, with the boot overlay and the video RAM h
   lowers /RTS0 and puts SRAM there. The SRAM mirror at $20000 stays reachable throughout
   boot. Source: [ROM_BEEF.asm:54-204](../sources.md#s27).
 
-Sources: the firmware's accesses and the [netlist](../../data/netlist/README.md), which fix
-how the memory decoder U15 behaves ([Glue logic](../07-glue-logic.md)).
+The firmware's accesses and the [netlist](../../data/netlist/README.md) establish the
+required behavior of memory decoder U15 ([Glue logic](../07-glue-logic.md)).
 
 ## Contents
 
@@ -65,8 +65,8 @@ bytes searched for references to `$0208`.
 
 ### Video RAM half switches
 
-These regions are switches, not memory. The firmware reads them and throws the value
-away: `$4xxxx` selects half 0, and `$5xxxx` selects half 1.
+These regions select the video RAM half. The firmware reads them and discards the
+returned value: `$4xxxx` selects half 0, and `$5xxxx` selects half 1.
 Source: [ROM_BEEF.asm](../sources.md#s27) `access_softswitch0`:1667, `access_softswitch1`:1650, `upload_chunk`:1822-1827.
 
 U15 has no read/write input, so writes select the same halves. The standard VGA window
@@ -97,7 +97,7 @@ Source: [ROM_BEEF.asm:1807-1840](../sources.md#s27) and the `$AA/$AB` sites.
 
 Two separate switches decide which SRAM a program may use. Neither changes the other.
 
-- **The copy** (Sequential's manual calls it shadowing): U7 copies the Apple's video
+- **The copy** (called shadowing in Sequential's manual): U7 copies the Apple's video
   writes into the screen-copy ranges below. SetShadow 4 turns it off.
 - **Apple emulation:** the firmware's renderers draw the Apple screen from those copies
   and keep their own tables. SetMode with flag 1 turns it off, and no renderer runs.
@@ -144,7 +144,7 @@ Sources: Sequential's [firmware documentation](../sources.md#s15) pp9-10;
 | $20000-$3FFFF | An unreferenced routine at $0208 would keep a signature byte $A5 at $3FFFF (CBR=$30); nothing calls it. | [ROM_BEEF.asm:250-266](../sources.md#s27); ROM bytes searched for references to $0208 |
 | $40000-$4FFFF | The firmware only reads here (value thrown away). | [ROM_BEEF.asm](../sources.md#s27) access_softswitch0 (line 1667); U15 pin list |
 | $50000-$5FFFF | Required before using the standard VGA window at $A0000. | [ROM_BEEF.asm](../sources.md#s27) access_softswitch1 (line 1650), upload_chunk (1822-1827) |
-| $40000-$5FFFF | Read data floats; writes have the same half-selection effect as reads; the manual says do not modify $040000-$05FFFF | [netlist](../../data/netlist/README.md); [Firmware documentation](../sources.md#s15) pp9-10; U15 decode |
+| $40000-$5FFFF | Read data floats; writes select the same half as reads. Firmware documentation advises against modifying $040000-$05FFFF | [netlist](../../data/netlist/README.md); [Firmware documentation](../sources.md#s15) pp9-10; U15 decode |
 
 ## ROM 1.4 routine and data locations
 

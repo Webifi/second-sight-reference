@@ -2,12 +2,12 @@
 
 [Reference tables](README.md) | [Glossary](../glossary.md)
 
-The Oak OTI-087X's extended register fields and the values ROM 1.4 writes to them
-([Video](../06-video.md)).
+The tables list the Oak OTI-087X extended register fields and the values ROM 1.4
+writes to them ([Video](../06-video.md)).
 
 - The card's chip is marked OTI087X ([which Oak chip](../06-video.md#which-oak-chip)).
   Its specification is the February 1993 [OTI-087 databook](../sources.md#s02) with the
-  OTI-087X addendum bound into it. Where the addendum changes the book, the addendum wins.
+  OTI-087X addendum bound into it. The addendum supersedes the databook where they differ.
 - Oak's [87X Windows drivers](../sources.md#s69) and [87X DOS kit](../sources.md#s79) are
   OTI-087X software. Oak's [TEv1.02 BIOS](../sources.md#s58) serves the 087B and later chips,
   the 087X included. The Paradise [TBv1.01B BIOS](../sources.md#s57) and the
@@ -110,7 +110,7 @@ These fields identify the chip and describe its bus and memory configuration.
 | $01 | Bits 3-0: no Oak program reads them; every reader masks with $F0 | Oak DOS and Windows kits |
 | <a id="reg-02"></a>$02 | Bit 0 (read only) 0 = 286 bus, 1 = 386/486 | [OAK.TXT](../sources.md#s35); [Programmer's Guide, 1994](../sources.md#s61) |
 | $02 | Bits 2-1 memory size 0=256K 1=512K 2=1MB 3=2MB | Oak BIOS [TEv1.02](../sources.md#s58) and [TBv1.01B](../sources.md#s57); Oak's VESA extension `OTIVBE.COM` in the [87X DOS kit](../sources.md#s79) |
-| <a id="reg-03"></a>$03 | Bits 2-0 test mode: 000 "Test CRTC", 010 "Test waveform RAM", 101 "Scan Test Attribute Controller"; 001, 011, 100, 110 and 111 reserved. Oak describes no procedure, output or read-back for 000 and 010, and no other source found does (every OTI-087 databook copy found, VGA Museum's two downloads included, is the same scan and lacks printed pp31-32) | [OTI-087 p33](../sources.md#s02) |
+| <a id="reg-03"></a>$03 | Bits 2-0 test mode: 000 "Test CRTC", 010 "Test waveform RAM", 101 "Scan Test Attribute Controller"; 001, 011, 100, 110 and 111 reserved. The procedure, output and read-back for 000 and 010 are unknown. All located OTI-087 databook copies, including VGA Museum's two downloads, use the same scan and lack printed pp31-32 | [OTI-087 p33](../sources.md#s02) |
 | $03 | Mode 101: in text mode the font data and the attribute data come from system data bits 15-8 and 7-0 instead of video memory; in graphics mode the pixel data comes from bits 15-8. On this card SD8-SD15 are open and SD0-SD7 are the Z180 data bus, so the font and pixel data come from unconnected pins | [OTI-087 p33](../sources.md#s02); [netlist](../../data/netlist/netlist.csv) U28 |
 | $03 | Bit 4: flush the write cache immediately after each write. Oak's BIOS writes $10 with bit 7 = 0 (TEv1.02 file offset $1E0E; again $00 then $10 at $1E20 and $1E28 when ext $07 bit 2 is 0), and so do Oak's OS/2 mode tables | [OTI-087 p33](../sources.md#s02); [TEv1.02](../sources.md#s58) |
 | $03 | Bit 5 VSYNC test: "This bit will cause the Vsync to toggle when it is changed from 1 to 0 or from 0 to 1" | [OTI-087 p33](../sources.md#s02) |
@@ -164,7 +164,7 @@ For the mode-setting procedure, see [building a mode](../14-custom-code.md#build
 | <a id="reg-14"></a>$14 | Bit 0 VT bit 10 | [OTI-087 p39-40](../sources.md#s02) |
 | $14 | Bit 1 VBS bit 10 | [OTI-087 p39-40](../sources.md#s02) |
 | $14 | Bit 2 VRS bit 10 | [OTI-087 p39-40](../sources.md#s02) |
-| $14 | Bit 3 start address bit 16, the same bit as ext $17 bit 0 (the databook calls it "High Order Start Address Bit 8") | [OTI-087 p39-40](../sources.md#s02) |
+| $14 | Bit 3 start address bit 16, the same bit as ext $17 bit 0 ("High Order Start Address Bit 8" in the databook) | [OTI-087 p39-40](../sources.md#s02) |
 | $14 | Bit 7 interlace | [OTI-087 p39-40](../sources.md#s02) |
 | <a id="reg-15"></a>$15 | Odd-field vertical retrace start in interlace (character units) | [OTI-087 p40](../sources.md#s02) |
 | <a id="reg-16"></a>$16 | Bits 7-0 not used on the OTI-087 | [OTI-087 p40](../sources.md#s02) |
@@ -185,7 +185,7 @@ For the mode-setting procedure, see [building a mode](../14-custom-code.md#build
 ## Transfer and color expansion fields
 
 These fields control the video-memory windows, latch, caches and color expansion.
-Examples and costs: [drawing with the OTI-087X](../15-oak-drawing.md).
+[Drawing with the OTI-087X](../15-oak-drawing.md) gives examples and costs.
 
 <!-- csv: data/tables/oti087-register-bits.csv -->
 | Index or port | Field or value | Source |
@@ -213,8 +213,8 @@ Examples and costs: [drawing with the OTI-087X](../15-oak-drawing.md).
 
 ## Cursor fields
 
-These fields position the cursor and select its pattern and colors. Pattern layout,
-positioning and display-mode limits: [hardware cursor](../06-video.md#hardware-cursor).
+These fields position the cursor and select its pattern and colors. See [hardware cursor](../06-video.md#hardware-cursor)
+for pattern layout, positioning and display-mode limits.
 
 <!-- csv: data/tables/oti087-register-bits.csv -->
 | Index or port | Field or value | Source |
@@ -247,7 +247,7 @@ positioning and display-mode limits: [hardware cursor](../06-video.md#hardware-c
 | $04 | Local-bus modes only; this card is strapped for the AT bus | [OTI-087 p33-34](../sources.md#s02) |
 | $06 | A change needs a software reset | [OTI-087 p35](../sources.md#s02) |
 | $07 | Strapped: bits 1, 2, 4 = 1 and bits 3, 5 = 0. Bits 0, 6, 7 are not strapped. | [OTI-087 p36](../sources.md#s02) |
-| $08 | The drawing straps bit 0 high and bits 1, 2, 3, 7 low. Production R26 has no resistor body, so the drawing alone does not establish a fitted MD9 pull-down or bit 1's reset level on production. Bits 4-6 have no drawn straps. | [OTI-087 p37](../sources.md#s02); production photos |
+| $08 | The prototype straps bit 0 high and bits 1, 2, 3, 7 low; bits 4-6 have no drawn straps. Production R26 has no resistor body. The production MD9 pull-down and bit 1 reset level are unknown. | [OTI-087 p37](../sources.md#s02); production photos |
 | $13 | The databook scan has "1100 1000" handwritten beside this register | [OTI-087 p39](../sources.md#s02) |
 | $21 | A change needs a software reset | [OTI-087 p41](../sources.md#s02) |
 | $22 | Bit 3 write cache: [Write cache](#write-cache) | [OTI-087 p5](../sources.md#s02), p33, p42 |
@@ -284,8 +284,8 @@ The chip's zero-wait output (pin 99, -ZEROWS) goes only to pull-up R14, so the c
 each cycle through IOCHRDY and U15 ([wait states](../05-z180.md#wait-states)).
 Source: [netlist](../../data/netlist/README.md) U28.99 and R14.
 
-[Databook p42](../sources.md#s02) says not to enable the bit on an AT bus, while the
-overview on p5 describes the same cache giving zero-wait AT-bus writes.
+The cache is described as providing zero-wait AT-bus writes (p5), but its enable bit is
+marked "must not be enabled for AT-bus implementations" ([databook p42](../sources.md#s02)).
 [Oak's TEv1.02 BIOS](../sources.md#s58) and Oak's 87X Windows driver set the bit
 with no bus-type test.
 Sources: OTI-087 p5, p42; Oak BIOS TEv1.02 offset $1E31;
@@ -293,11 +293,11 @@ Sources: OTI-087 p5, p42; Oak BIOS TEv1.02 offset $1E31;
 
 ### Beyond ROM 1.4
 
-SetVGAReg, GetVGAReg and custom Z180 code reach every extended and standard VGA
-register, the hardware cursor, the CRT interrupt and the EEPROM interface, not only
-what ROM 1.4 uses ([Beyond the firmware](../14-custom-code.md)). What each drawing and
-display feature does on this card, and its cost:
-[Drawing with the OTI-087X](../15-oak-drawing.md). The cursor pixel codes
+SetVGAReg, GetVGAReg and custom Z180 code can access every extended and standard VGA
+register, the hardware cursor, the CRT interrupt and the EEPROM interface. This includes
+features ROM 1.4 does not use ([Beyond the firmware](../14-custom-code.md)).
+[Drawing with the OTI-087X](../15-oak-drawing.md) explains what each drawing and display
+feature does on this card and its cost. The cursor pixel codes
 come from [Oak's 87X Windows driver](../sources.md#s69)
 ([hardware cursor](../06-video.md#hardware-cursor)).
 

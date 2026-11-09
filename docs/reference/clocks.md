@@ -2,8 +2,8 @@
 
 [Reference tables](README.md) | [Glossary](../glossary.md)
 
-Each OTI-068 clock selection's frequency, and where ROM 1.4 and the `ss.source.082395.po`
-mode files use it.
+The frequency table lists the OTI-068 clock selections and their use in ROM 1.4 and the
+`ss.source.082395.po` mode files.
 
 - **VCLK** is the video clock. The Oak's CSEL3-CSEL0 outputs drive the OTI-068's FS3-FS0
   inputs to pick it.
@@ -62,8 +62,8 @@ Oak extended register 6 bits 1-0 share storage with misc output `$3C2` bits 3-2.
 write wins, and the 1.4 firmware writes misc output last. Register 6 supplies the upper
 selection bits. Sources: [OTI-087 databook](../sources.md#s02) p35; [ROM_BEEF.asm](../sources.md#s27) `set_video_mode`.
 
-So the mode tables show the final selection, which is not always the frequency in the file
-name. Changing the selection needs an Oak software reset; the firmware makes the change
+The mode tables show the final selection, which does not always match the frequency in
+the file name. Changing the selection needs an Oak software reset; the firmware makes the change
 inside a sequencer reset. Source: [OTI-087 databook](../sources.md#s02) p35.
 
 ### Clock dividers
@@ -71,15 +71,15 @@ inside a sequencer reset. Source: [OTI-087 databook](../sources.md#s02) p35.
 The selected frequency is not always the final dot rate. The RGB modes at 63 MHz divide by
 2 in the sequencer and again by 2 in U12, giving 15.75 MHz dots.
 
-RGB mode `$FA` is the exception: it chooses the VGA path and skips U12's divider. The mode
-record, not the name in the monitor list, sets that path.
+RGB mode `$FA` is the exception: its mode record selects the VGA path and skips U12's
+divider, despite its place in the RGB monitor list.
 
 ### Memory-clock straps
 
 Production TP1 and TP2 are open on [s20](../sources.md#s20), [s108](../sources.md#s108),
 [s109](../sources.md#s109) and [s128](../sources.md#s128). Their R19/R6 pull-ups are marked `103` (10 kohm), so
-MS1-MS0 is binary 11: 40 MHz. The drawing calls the straps JP1/JP2; the three-pad
-production JP1 beside SRAM is a separate resistor position. Source: [OTI-068 databook](../sources.md#s01).
+MS1-MS0 is binary 11: 40 MHz. The prototype schematic labels these straps JP1/JP2. On
+the production board, JP1 is a separate three-pad resistor position beside SRAM. Source: [OTI-068 databook](../sources.md#s01).
 
 ## Board clock connections
 
@@ -90,7 +90,7 @@ Sources: [production photo](../sources.md#s20), [Z8S180 specification](../source
 | Z180 EXTAL | 36 MHz oscillator | Z8S180 | 36 MHz; the CPU divides by 2 after reset and the firmware never changes it, so PHI = **18 MHz** |
 | HCLK | Z180 PHI through R1 | PLDs U15, U17 (registered) | 18 MHz; R1 is series damping, not a divider. Apparent `220` on s128 supports 22 ohm at medium confidence; older photographs are too blurred to certify the drawing's value. |
 | Reference | X2 14.31818 MHz | OTI-068 | |
-| VCLK | OTI-068, selected by Oak CSEL3-0 | OTI-087X, Bt481 (directly for VGA, through U12 for AppleColor RGB) | 16 choices ([frequency table](#frequency-table)) |
+| VCLK | OTI-068, selected by Oak CSEL3-0 | The OTI-087X's clock input (pin 106), through buffer U8 for VGA or halved by U12 for AppleColor RGB. The OTI-087X passes it on to the Bt481 from its PCLK pin (37). | 16 choices ([frequency table](#frequency-table)) |
 | MCLK | OTI-068, selected by MS1-MS0 jumpers | OTI-087X memory clock | jumpers open, pull-ups fitted: **40 MHz** |
 | Lattice Y0 ("CLK") | 7M or Q3 | U7 softswitch flip-flops | either meets the timing |
 | Lattice Y2 | 7M (slot pin 36), through a rework wire ([production changes](../02-board.md#production-changes)) | U7 bank-window flip-flops | 7M ([TN #68](../sources.md#s43)) |

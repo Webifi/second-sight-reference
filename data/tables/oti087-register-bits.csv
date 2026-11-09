@@ -9,7 +9,7 @@ $01,Oak's 87X Windows drivers refuse to load when bits 7-4 are 0 (an 087B); Oak'
 $01,Bits 3-0: no Oak program reads them; every reader masks with $F0,Oak DOS and Windows kits
 $02,"Bit 0 (read only) 0 = 286 bus, 1 = 386/486","OAK.TXT; Programmer's Guide, 1994"
 $02,Bits 2-1 memory size 0=256K 1=512K 2=1MB 3=2MB,Oak BIOS TEv1.02 and TBv1.01B; Oak's VESA extension OTIVBE.COM in the 87X DOS kit
-$03,"Bits 2-0 test mode: 000 ""Test CRTC"", 010 ""Test waveform RAM"", 101 ""Scan Test Attribute Controller""; 001, 011, 100, 110 and 111 reserved. Oak describes no procedure, output or read-back for 000 and 010, and no other source found does (every OTI-087 databook copy found, VGA Museum's two downloads included, is the same scan and lacks printed pp31-32)",OTI-087 p33
+$03,"Bits 2-0 test mode: 000 ""Test CRTC"", 010 ""Test waveform RAM"", 101 ""Scan Test Attribute Controller""; 001, 011, 100, 110 and 111 reserved. The procedure, output and read-back for 000 and 010 are unknown. All located OTI-087 databook copies, including VGA Museum's two downloads, use the same scan and lack printed pp31-32",OTI-087 p33
 $03,"Mode 101: in text mode the font data and the attribute data come from system data bits 15-8 and 7-0 instead of video memory; in graphics mode the pixel data comes from bits 15-8. On this card SD8-SD15 are open and SD0-SD7 are the Z180 data bus, so the font and pixel data come from unconnected pins",OTI-087 p33; netlist U28
 $03,"Bit 4: flush the write cache immediately after each write. Oak's BIOS writes $10 with bit 7 = 0 (TEv1.02 file offset $1E0E; again $00 then $10 at $1E20 and $1E28 when ext $07 bit 2 is 0), and so do Oak's OS/2 mode tables",OTI-087 p33; TEv1.02
 $03,"Bit 5 VSYNC test: ""This bit will cause the Vsync to toggle when it is changed from 1 to 0 or from 0 to 1""",OTI-087 p33
@@ -54,7 +54,7 @@ $13,Bit 7 16-bit memory,OTI-087 p39
 $14,Bit 0 VT bit 10,OTI-087 p39-40
 $14,Bit 1 VBS bit 10,OTI-087 p39-40
 $14,Bit 2 VRS bit 10,OTI-087 p39-40
-$14,"Bit 3 start address bit 16, the same bit as ext $17 bit 0 (the databook calls it ""High Order Start Address Bit 8"")",OTI-087 p39-40
+$14,"Bit 3 start address bit 16, the same bit as ext $17 bit 0 (""High Order Start Address Bit 8"" in the databook)",OTI-087 p39-40
 $14,Bit 7 interlace,OTI-087 p39-40
 $15,Odd-field vertical retrace start in interlace (character units),OTI-087 p40
 $16,Bits 7-0 not used on the OTI-087,OTI-087 p40

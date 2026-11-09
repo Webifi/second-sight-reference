@@ -2,12 +2,12 @@
 
 [Reference index](../README.md) | [Firmware versions](firmware-versions.md) | [Errata](reference/errata.md) | [08 Firmware](08-firmware.md)
 
-How firmware 1.5 and 2.0 fix each erratum. Each change is marked `CHANGE (En)` in their
-source, [`firmware/v1.5`](../firmware/v1.5/SecondSight_v1_5.asm) and
+Firmware 1.5 and 2.0 fix the errata described here. Each change is marked `CHANGE (En)` in
+their source, [`firmware/v1.5`](../firmware/v1.5/SecondSight_v1_5.asm) and
 [`firmware/v2.0`](../firmware/v2.0/SecondSight_v2_0.asm); ROM 1.4's source,
-[`firmware/v1.4`](../firmware/v1.4/ROM_BEEF.asm), marks the fault `BUG (En)`. Addresses are ROM 1.4's. One more
-change is not an erratum fix:
-[UploadData across 512 KB](#uploaddata-across-512-kb), marked `CHANGE (512 KB)`.
+[`firmware/v1.4`](../firmware/v1.4/ROM_BEEF.asm), marks the fault `BUG (En)`. Addresses
+are ROM 1.4's. One more change is not an erratum fix: [UploadData across 512
+KB](#uploaddata-across-512-kb), marked `CHANGE (512 KB)`.
 
 ## Contents
 
@@ -392,8 +392,8 @@ for $FA relies on its misc byte deciding.
 
 The fault: [E17](reference/errata.md#e17-the-true-color-mode-file-shows-palette-colors).
 
-Ext $21 = $06, the x3 timing of 24-bit color, does not by itself identify this record:
-any user record for 24-bit color sets it, with its own DAC setting and display width.
+Any user record for 24-bit color sets ext $21 = $06 for x3 timing. The record may have
+its own DAC setting and display width, so this value cannot identify the file.
 `user_mode_fixup` (see [E16](#e16-library-mode-files-run-at-the-wrong-clock)) compares
 the stored record with a copy of the 81 bytes of `M640X48016M` in free memory. Only on a
 match does it set the feature byte to $F0, so the Bt481 Command Register A gets $F0,
@@ -495,11 +495,10 @@ cannot switch the video half in the middle of a transfer, and the Z180's DMA wra
 address zero, over the firmware. It also says a later UploadData may split such a
 transfer itself. Source: [Firmware documentation](sources.md#s15) pp2-3, UploadData.
 
-What ROM 1.4 does with such a phase, from its source: one DMA runs from Z180 $FFFFF on to
-$00000, so the bytes past video $7FFFF land in card SRAM from $00000 and are missing from
-the picture. Up to 811 of them overwrite only the reset and boot code, which a reset copies
-back from the EPROM. More reach the debug hooks and the stack at $032B-$03FF, and the card
-crashes.
+In ROM 1.4, one DMA runs from Z180 $FFFFF to $00000. Bytes past video $7FFFF therefore
+land in card SRAM from $00000 instead of video memory. Up to 811 of them overwrite only
+the reset and boot code, which a reset copies back from the EPROM. More reach the debug
+hooks and the stack at $032B-$03FF, and the card crashes.
 
 Firmware 1.5 and 2.0 split the phase: up to video $7FFFF, then the rest from Z180 $80000
 with half 1, which is video $80000 and up. Past the end of the 1 MB, the rest wraps to
